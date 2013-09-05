@@ -1,0 +1,8 @@
+<ul>
+  <{foreach from=$block item=video}>
+    <li>
+      <span class="label label-success"><{$video.post_date}></span>
+      <a href="<{$xoops_url}>/modules/tad_player/play.php?psn=<{$video.psn}>"><{$video.title}></a>
+    </li>
+  <{/foreach}>
+</ul>

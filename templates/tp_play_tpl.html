@@ -1,0 +1,49 @@
+<{$bootstrap}>
+<{$jquery}>
+<{$toolbar}>
+<script type='text/javascript' src='<{$xoops_url}>/modules/tad_player/class/ajax.js'></script>
+<script type='text/javascript' src='<{$xoops_url}>/modules/tad_player/class/chained_selects.js'></script>
+
+
+<div align="right"><{$select}></div>
+<div id="path_bar"><{$path_bar}></div>
+<div style="clear:both;"></div>
+<table class="media">
+<tr><td valign="middle" class="media_file"><{$media}></td></tr>
+<{if $code}>
+<tr><td class="set_code"><{$code}></td></tr>
+<{/if}>
+<{if $content}>
+<tr><td><div class="media_content"><{$content}></div></td></tr>
+<{/if}>
+</table>
+<div style="clear:both;"></div>
+<{$push}>
+
+
+<!--star_rating-->
+<div style="float:right;margin:10px 4px;"><{$star_rating}></div>
+
+<{$facebook_comments}>
+
+
+<!--Tad Player play_tpl.html-->
+
+<p style="clear: both">
+<div style="text-align: center; padding: 3px; margin: 3px;">
+  <{$commentsnav}>
+  <{$lang_notice}>
+</div>
+
+<div style="margin: 3px; padding: 3px;">
+<!-- start comments loop -->
+<{if $comment_mode == "flat"}>
+  <{include file="db:system_comments_flat.html"}>
+<{elseif $comment_mode == "thread"}>
+  <{include file="db:system_comments_thread.html"}>
+<{elseif $comment_mode == "nest"}>
+  <{include file="db:system_comments_nest.html"}>
+<{/if}>
+<!-- end comments loop -->
+</div>
+</p>

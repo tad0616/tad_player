@@ -15,7 +15,7 @@ $sql="update ".$xoopsDB->prefix("tad_player_cate")." set `of_csn`='{$of_csn}' wh
 $xoopsDB->queryF($sql) or die("Reset Fail! (".date("Y-m-d H:i:s").")");
 
 
-echo "Reset OK! (".date("Y-m-d H:i:s").")";
+echo _MA_TREETABLE_MOVE_OK." (".date("Y-m-d H:i:s").")";
 
 //檢查目的地編號是否在其子目錄下
 function chk_cate_path($pcsn,$to_csn){

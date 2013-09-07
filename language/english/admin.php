@@ -45,10 +45,6 @@ define("_MA_TADPLAYER_SELECT_ALL","Select all");
 define("_MA_TADPLAYER_LINK_TO_CATE","Link to \"%s\"");
 define("_MA_TADPLAYER_VIDEO_AMOUNT","Video amount");
 
-define("_MA_TREETABLE_MOVE_PIC","Drag to the destination category.");
-define("_MA_TREETABLE_SORT_PIC","Drag up or down to set the sort of categories");
-define("_MA_TREETABLE_MOVE_ERROR1","Move fail! Source and destination category can not be the same.");
-define("_MA_TREETABLE_MOVE_ERROR2","Move fail! Destination category can not be under the source category.");
 
 //update
 define("_MA_TADPLAYER_AUTOUPDATE","Module update");

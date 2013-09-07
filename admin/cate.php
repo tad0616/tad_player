@@ -115,7 +115,7 @@ function insert_tad_player_cate(){
 
 //列出所有tad_player_cate資料
 function list_tad_player_cate($of_csn=1,$level=0,$modify_pcsn=''){
-	global $xoopsDB,$xoopsModule,$xoopsConfig;
+	global $xoopsDB,$xoopsConfig;
 	$old_level=$level;
 	$left=$level*12+4;
 	$level++;
@@ -171,7 +171,7 @@ function list_tad_player_cate($of_csn=1,$level=0,$modify_pcsn=''){
 		}
 		</script>
     <div id='save_msg' style='float:right;'></div>
-		<table id='treetbl' class='table table-striped table-bordered table-hover'>
+		<table id='treetbl' class='table table-striped table-bordered'>
 
     <tr><td colspan=5>$form</td></tr>
 		<tr>

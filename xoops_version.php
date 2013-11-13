@@ -1,9 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2008-02-28
-// $Id: xoops_version.php,v 1.2 2008/05/14 01:22:58 tad Exp $
-// ------------------------------------------------------------------------- //
 $modversion = array();
 
 //---模組基本資訊---//
@@ -22,7 +17,7 @@ $modversion['dirname'] = basename(dirname(__FILE__));
 $modversion['release_date'] = '2013/07/29';
 $modversion['module_website_url'] = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
-$modversion['module_status'] = 'RC1';
+$modversion['module_status'] = 'release';
 $modversion['author_website_url'] = 'http://tad0616.net/';
 $modversion['author_website_name'] = _MI_TAD_WEB;
 $modversion['min_php']=5.2;
@@ -134,31 +129,31 @@ $modversion['blocks'][5]['template'] = "tad_play_qrcode.html";
 
 //---模組設定---//
 $i=1;
-$modversion['config'][$i]['name']	= 'index_show_num';
-$modversion['config'][$i]['title']	= '_MI_TADPLAYER_SHOW_NUM';
-$modversion['config'][$i]['description']	= '_MI_TADPLAYER_SHOW_NUM_DESC';
-$modversion['config'][$i]['formtype']	= 'textbox';
-$modversion['config'][$i]['valuetype']	= 'int';
-$modversion['config'][$i]['default']	= '10';
+$modversion['config'][$i]['name'] = 'index_show_num';
+$modversion['config'][$i]['title']  = '_MI_TADPLAYER_SHOW_NUM';
+$modversion['config'][$i]['description']  = '_MI_TADPLAYER_SHOW_NUM_DESC';
+$modversion['config'][$i]['formtype'] = 'textbox';
+$modversion['config'][$i]['valuetype']  = 'int';
+$modversion['config'][$i]['default']  = '10';
 
 
 $i++;
-$modversion['config'][$i]['name']	= 'display';
-$modversion['config'][$i]['title']	= '_MI_TADPLAYER_DISPLAY';
-$modversion['config'][$i]['description']	= '_MI_TADPLAYER_DISPLAY_DESC';
-$modversion['config'][$i]['formtype']	= 'select';
-$modversion['config'][$i]['valuetype']	= 'text';
-$modversion['config'][$i]['default']	= 'bottom';
-$modversion['config'][$i]['options']	= array('_MI_TADPLAYER_DISPLAY_BOTTOM' => 'bottom','_MI_TADPLAYER_DISPLAY_RIGHT' => 'right');
+$modversion['config'][$i]['name'] = 'display';
+$modversion['config'][$i]['title']  = '_MI_TADPLAYER_DISPLAY';
+$modversion['config'][$i]['description']  = '_MI_TADPLAYER_DISPLAY_DESC';
+$modversion['config'][$i]['formtype'] = 'select';
+$modversion['config'][$i]['valuetype']  = 'text';
+$modversion['config'][$i]['default']  = 'bottom';
+$modversion['config'][$i]['options']  = array('_MI_TADPLAYER_DISPLAY_BOTTOM' => 'bottom','_MI_TADPLAYER_DISPLAY_RIGHT' => 'right');
 
 
 $i++;
-$modversion['config'][$i]['name']	= 'display_max';
-$modversion['config'][$i]['title']	= '_MI_TADPLAYER_DISPLAY_MAX';
-$modversion['config'][$i]['description']	= '_MI_TADPLAYER_DISPLAY_MAX_DESC';
-$modversion['config'][$i]['formtype']	= 'textbox';
-$modversion['config'][$i]['valuetype']	= 'int';
-$modversion['config'][$i]['default']	= 200;
+$modversion['config'][$i]['name'] = 'display_max';
+$modversion['config'][$i]['title']  = '_MI_TADPLAYER_DISPLAY_MAX';
+$modversion['config'][$i]['description']  = '_MI_TADPLAYER_DISPLAY_MAX_DESC';
+$modversion['config'][$i]['formtype'] = 'textbox';
+$modversion['config'][$i]['valuetype']  = 'int';
+$modversion['config'][$i]['default']  = 200;
 
 
 $i++;

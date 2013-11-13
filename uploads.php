@@ -18,7 +18,7 @@ if(sizeof($upload_powers) <= 0 or empty($xoopsUser)){
 
 function uploads_tabs($psn=""){
   global $xoopsTpl;
-  
+
   $op = (!isset($_REQUEST['op']))? "":$_REQUEST['op'];
   if($op=='to_batch_upload'){
     $xoopsTpl->assign( "show_to_batch_upload" , true);
@@ -34,7 +34,7 @@ function tad_player_form($psn=""){
 	global $xoopsDB,$xoopsModuleConfig,$xoopsTpl;
 	include_once(XOOPS_ROOT_PATH."/class/xoopsformloader.php");
 
-	
+
 	//抓取預設值
 	if(!empty($psn)){
 		$DBV=get_tad_player($psn);
@@ -57,7 +57,7 @@ function tad_player_form($psn=""){
 	$content=(!isset($DBV['content']))?"":$DBV['content'];
 	$youtube=(!isset($DBV['youtube']))?"":$DBV['youtube'];
 	$logo=(!isset($DBV['logo']))?"":$DBV['logo'];
-	
+
 	if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/ck.php")){
     redirect_header("index.php",3, _MD_NEED_TADTOOLS);
   }
@@ -68,19 +68,19 @@ function tad_player_form($psn=""){
   $editor=$ck->render();
 
   $cate_select=get_tad_player_cate_option(0,0,$pcsn,1,false,'upload');
-  
+
   $logo_col=false;
 
 
 	//可見群組
-	$SelectGroup_name = new XoopsFormSelectGroup("", "enable_group", false,$enable_group, 6, true);
+	$SelectGroup_name = new XoopsFormSelectGroup("", "enable_group", false,$enable_group, 4, true);
 	$SelectGroup_name->addOption("", _MD_TADPLAYER_ALL_OK, false);
 	$SelectGroup_name->setExtra("class='span12'");
 	$enable_group = $SelectGroup_name->render();
 
 	$op=(empty($psn))?"insert_tad_player":"update_tad_player";
 	//$op="replace_tad_player";
-	
+
   $selected_link=$selected_local=$selected_youtube=$selected_img_local=$selected_img_link="";
   if(substr($location,0,4)=='http'){
     $hide="$('#flv_youtube').hide();
@@ -135,9 +135,9 @@ function choice_logo($def_file=''){
     $selected=($file==$def_file)?"selected":"";
     $main.="<option value='{$file}' $selected>{$file}</option>";
   }
-  
+
   if(empty($main))return;
-  
+
   $all="
   <option value=''></option>
   $main";
@@ -150,7 +150,7 @@ function insert_tad_player(){
 	global $xoopsDB,$xoopsUser;
 
   $myts = MyTextSanitizer::getInstance();
-	
+
 	if(!empty($_POST['new_pcsn']) and $_POST['new_pcsn']!=_MD_TADPLAYER_NEW_PCSN){
     $pcsn=add_tad_player_cate();
 	}else{
@@ -159,7 +159,7 @@ function insert_tad_player(){
 
 	$uid=$xoopsUser->getVar('uid');
 	$enable_group=implode(",",$_POST['enable_group']);
-	
+
 	if($_POST['youtube']==_MD_TADPLAYER_YOUTUBE_LINK)$_POST['youtube']="";
 	if($_POST['image']==_MD_TADPLAYER_IMG_LINK)$_POST['image']="";
 	if($_POST['location']==_MD_TADPLAYER_FLV_LINK)$_POST['location']="";
@@ -171,7 +171,7 @@ function insert_tad_player(){
 		$location=$myts->addSlashes($_FILES['location']['name']);
 	}
 	$location=strtolower($location);
-	
+
 
 	if(!empty($_POST['image'])){
     $image=$myts->addSlashes($_POST['image']);
@@ -224,7 +224,7 @@ $thumbnail_url = http://i4.ytimg.com/vi/3B4fyi-xXzo/hqdefault.jpg;
 	if(!empty($_FILES['location']['name'])){
 		upload_flv($psn);
 	}
-	
+
 	//上傳圖檔
   if(!empty($_FILES['image']['name'])){
   	upload_pic($psn,$_POST['width']);
@@ -240,11 +240,11 @@ $thumbnail_url = http://i4.ytimg.com/vi/3B4fyi-xXzo/hqdefault.jpg;
  		$pic_s_file=_TAD_PLAYER_IMG_DIR."s_".$psn.".png";
     mk_video_thumbnail($_POST['image'],$pic_s_file,$type['mime'],"120");
 	}
-	
+
  	if(!empty($_FILES['logo']['name'])){
   	upload_logo($psn);
   }
-  
+
   mk_list_xml($pcsn);
 
 	return $psn;
@@ -259,13 +259,13 @@ function update_tad_player($psn=""){
 	if($_POST['youtube']==_MD_TADPLAYER_YOUTUBE_LINK)$_POST['youtube']="";
 	if($_POST['image']==_MD_TADPLAYER_IMG_LINK)$_POST['image']="";
 	if($_POST['location']==_MD_TADPLAYER_FLV_LINK)$_POST['location']="";
-  
+
   if(!empty($_POST['new_pcsn']) and $_POST['new_pcsn']!=_MD_TADPLAYER_NEW_PCSN){
     $pcsn=add_tad_player_cate();
 	}else{
 		$pcsn=$_POST['pcsn'];
 	}
-  
+
 	//上傳影片
 	if(!empty($_FILES['location']['name'])){
 		upload_flv($psn,true);
@@ -296,15 +296,15 @@ function update_tad_player($psn=""){
 	}else{
     $location_sql="";
 	}
-	
+
 	if(!empty($_POST['title'])){
     $title=$myts->addSlashes($_POST['title']);
 	}else{
 		$title=$myts->addSlashes(basename($location));
 	}
- 	
+
 	$enable_group=implode(",",$_POST['enable_group']);
-	
+
 	//$now=xoops_getUserTimestamp(time());
 	$now=date("Y-m-d H:i:s",xoops_getUserTimestamp(time()));
 	$sql = "update ".$xoopsDB->prefix("tad_player")." set  pcsn = '{$pcsn}', title = '{$title}', creator = '{$_POST['creator']}' {$location_sql} {$image_sql}, post_date = '{$now}', enable_group = '{$enable_group}', width = '{$_POST['width']}', height = '{$_POST['height']}' , content = '{$_POST['content']}', logo='{$_POST['logo_name']}' where psn='$psn'";
@@ -355,7 +355,7 @@ function upload_pic($psn="",$width=480,$update_sql=false){
   include_once XOOPS_ROOT_PATH."/modules/tadtools/upload/class.upload.php";
   set_time_limit(0);
   ini_set('memory_limit', '50M');
-  
+
   if(file_exists(_TAD_PLAYER_IMG_DIR."/{$psn}.png")){
 		unlink(_TAD_PLAYER_IMG_DIR."/{$psn}.png");
 	}
@@ -464,7 +464,7 @@ switch($op){
 	update_tad_player($psn);
 	header("location: play.php?psn=$psn");
 	break;
-	
+
 
 	default:
 	uploads_tabs($psn);

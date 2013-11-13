@@ -10,7 +10,7 @@
     <{if $show_to_batch_upload}>$tabs.tabs("select", last_tab);<{/if}>
   });
 </script>
-  
+
 <div id="tad_player_upload_tabs">
 
   <ul>
@@ -20,43 +20,43 @@
   </ul>
   <div id="fragment-1">
 
-	<script type="text/javascript">
-  	$(document).ready(function() {
-  		<{$hide}>
-  		<{$hide_img}>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      <{$hide}>
+      <{$hide_img}>
 
-  		$("#flv_where").change(function() {
-  			if ($("#flv_where").val()=="youtube") {
-  	       $("#flv_youtube").slideDown();
-  	       $("#flv_local").slideUp();
-  	       $("#flv_link").slideUp();
-  		     $("#thumb_config").hide();
-  			} else if ($("#flv_where").val()=="link"){
-  	       $("#flv_link").slideDown();
-  	       $("#flv_local").slideUp();
-  	       $("#flv_youtube").slideUp();
-  		     $("#thumb_config").show();
-  			}else{
-  	       $("#flv_local").fadeIn();
-  	       $("#flv_link").slideUp();
-  	       $("#flv_youtube").slideUp();
-  		     $("#thumb_config").show();
-  			}
-  		});
+      $("#flv_where").change(function() {
+        if ($("#flv_where").val()=="youtube") {
+           $("#flv_youtube").slideDown();
+           $("#flv_local").slideUp();
+           $("#flv_link").slideUp();
+           $("#thumb_config").hide();
+        } else if ($("#flv_where").val()=="link"){
+           $("#flv_link").slideDown();
+           $("#flv_local").slideUp();
+           $("#flv_youtube").slideUp();
+           $("#thumb_config").show();
+        }else{
+           $("#flv_local").fadeIn();
+           $("#flv_link").slideUp();
+           $("#flv_youtube").slideUp();
+           $("#thumb_config").show();
+        }
+      });
 
 
-  		$("#img_where").change(function() {
-  			if ($("#img_where").val()=="link"){
-  	       $("#img_link").slideDown();
-  	       $("#img_local").hide();
-  			}else{
-  	       $("#img_local").slideDown();
-  	       $("#img_link").hide();
-  			}
-  		});
-  		
-  		
-  	$('#youtube').change(function() {
+      $("#img_where").change(function() {
+        if ($("#img_where").val()=="link"){
+           $("#img_link").slideDown();
+           $("#img_local").hide();
+        }else{
+           $("#img_local").slideDown();
+           $("#img_link").hide();
+        }
+      });
+
+
+    $('#youtube').change(function() {
       $('#title').val($('#youtube').val());
       $.post("link_ajax.php", { url: $('#youtube').val()},
        function(data) {
@@ -78,39 +78,50 @@
        });
     });
 
-  	});
-  	</script>
+    });
+    </script>
     <form action="uploads.php" method="post" id="myForm" enctype="multipart/form-data">
     <div class="row-fluid">
       <div class="span9">
-        <div class="controls controls-row">
-          <select id="flv_where" class="span3">
-          	<option value="youtube" <{$selected_youtube}>><{$smarty.const._MD_TADPLAYER_YOUTUBE_FLV}></option>
-          	<option value="local" <{$selected_local}>><{$smarty.const._MD_TADPLAYER_UPLOAD_FLV}></option>
-          	<option value="link" <{$selected_link}>><{$smarty.const._MD_TADPLAYER_LINK_FLV}></option>
-          </select>
-
-          <div id="flv_local">
-            <input type="file" name="location" id="location" class="span9" value="<{$location}>">
+        <div class="row-fluid">
+          <div class="span3">
+            <select id="flv_where" class="span12">
+              <option value="youtube" <{$selected_youtube}>><{$smarty.const._MD_TADPLAYER_YOUTUBE_FLV}></option>
+              <option value="local" <{$selected_local}>><{$smarty.const._MD_TADPLAYER_UPLOAD_FLV}></option>
+              <option value="link" <{$selected_link}>><{$smarty.const._MD_TADPLAYER_LINK_FLV}></option>
+            </select>
           </div>
 
-          <div id="flv_link">
-            <input type="text" name="location" id="location" class="span9" value="<{$location}>" placeholder="<{$smarty.const._MD_TADPLAYER_FLV_LINK}>">
+          <div class="span9">
+            <div id="flv_local">
+              <input type="file" name="location" id="location" class="span12" value="<{$location}>">
+            </div>
+
+            <div id="flv_link">
+              <input type="text" name="location" id="location" class="span12" value="<{$location}>" placeholder="<{$smarty.const._MD_TADPLAYER_FLV_LINK}>">
+            </div>
+
+            <div id="flv_youtube">
+              <div class="row-fluid">
+                <div class="span8">
+                  <input type="text" name="youtube" id="youtube" class="span12" value="<{$youtube}>" placeholder="<{$smarty.const._MD_TADPLAYER_YOUTUBE_LINK}>">
+                </div>
+                <div class="span4">
+                  <button type="button" class="btn" id="LinkGet"><{$smarty.const._MD_TADPLAYER_AUTO_GET}></button>
+                </div>
+              </div>
+            </div>
           </div>
 
-          <div id="flv_youtube">
-            <input type="text" name="youtube" id="youtube" class="span7" value="<{$youtube}>" placeholder="<{$smarty.const._MD_TADPLAYER_YOUTUBE_LINK}>">
-        	 <button type="button" class="btn" id="LinkGet"><{$smarty.const._MD_TADPLAYER_AUTO_GET}></button>
-          </div>
         </div>
 
 
         <div class="controls controls-row">
           <div class="span2"><{$smarty.const._MD_TADPLAYER_OF_CSN}></div>
           <select name="pcsn" size=1 class="span3">
-        	<{$cate_select}>
-        	</select>
-        	<input type="text" name="new_pcsn" class="span7" placeholder="<{$smarty.const._MD_TADPLAYER_NEW_PCSN}>">
+          <{$cate_select}>
+          </select>
+          <input type="text" name="new_pcsn" class="span7" placeholder="<{$smarty.const._MD_TADPLAYER_NEW_PCSN}>">
         </div>
 
 
@@ -121,8 +132,8 @@
 
         <div class="controls controls-row" id="thumb_config">
           <select id="img_where" class="span3">
-          	<option value="local" <{$selected_img_local}>><{$smarty.const._MD_TADPLAYER_UPLOAD_IMG}></option>
-          	<option value="link" <{$selected_img_link}>><{$smarty.const._MD_TADPLAYER_LINK_IMG}></option>
+            <option value="local" <{$selected_img_local}>><{$smarty.const._MD_TADPLAYER_UPLOAD_IMG}></option>
+            <option value="link" <{$selected_img_link}>><{$smarty.const._MD_TADPLAYER_LINK_IMG}></option>
           </select>
 
           <div id="img_local"><input type="file" name="image" class="span3" value="<{$image}>"></div>
@@ -134,9 +145,9 @@
         <div class="controls controls-row">
           <div class="span2"><{$smarty.const._MD_TADPLAYER_UPLOAD_LOGO}></div>
           <select name="logo_name" size=1 class="span3">
-        	<{$choice_logo}>
-        	</select>
-        	<input type="file" name="logo"  class="span7">
+          <{$choice_logo}>
+          </select>
+          <input type="file" name="logo"  class="span7">
         </div>
         <{/if}>
       </div>
@@ -150,7 +161,7 @@
     <{$editor}>
     <div style="text-aling:center;">
     <input type="hidden" name="op" value="<{$next_op}>">
-  	<input type="hidden" name="psn" value="<{$psn}>">
+    <input type="hidden" name="psn" value="<{$psn}>">
     <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
     </div>
     </div>

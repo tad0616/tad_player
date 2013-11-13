@@ -89,7 +89,7 @@ function get_pcsn_path($pcsn="",$sub=false){
   }else{
     $home=array();
   }
-  
+
 	$sql = "select title,of_csn from ".$xoopsDB->prefix("tad_player_cate")." where pcsn='{$pcsn}'";
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	list($title,$of_csn)=$xoopsDB->fetchRow($result);
@@ -167,7 +167,7 @@ function mk_htaccess(){
 function add_tad_player_cate(){
 	global $xoopsDB,$xoopsModuleConfig;
 	if(empty($_POST['new_pcsn']))return;
-	
+
 	$enable_group=implode(",",$_POST['enable_group']);
 	$sql = "insert into ".$xoopsDB->prefix("tad_player_cate")." (of_csn,title,enable_group,sort) values('{$_POST['pcsn']}','{$_POST['new_pcsn']}','','0')";
 	$xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
@@ -232,6 +232,8 @@ function delete_tad_player($psn=""){
 	global $xoopsDB;
 	//§R°£ÀÉ®×
 	$file=get_tad_player($psn);
+  $file['location']=tad_charset($file['location'],false);
+  $file['image']=tad_charset($file['location'],image);
 	unlink(_TAD_PLAYER_FLV_DIR."{$psn}_{$file['location']}");
 	unlink(_TAD_PLAYER_IMG_DIR."s_{$psn}.png");
 	unlink(_TAD_PLAYER_IMG_DIR."{$psn}_{$file['image']}");
@@ -304,7 +306,7 @@ function chk_cate_power($kind=""){
     $user_array=array(3);
     $isAdmin=0;
 	}
-	
+
   $col=($kind=="upload")?"enable_upload_group":"enable_group";
 
 	$sql = "select pcsn,$col from ".$xoopsDB->prefix("tad_player_cate")."";
@@ -333,13 +335,13 @@ function get_tad_player_cate_option($of_csn=0,$level=0,$v="",$show_dot='1',$optg
 	global $xoopsDB;
 	$dot=($show_dot=='1')?str_repeat(_MD_TADPLAYER_BLANK,$level):"";
 	$level+=1;
-	
+
 	$sql = "select count(*),pcsn from ".$xoopsDB->prefix("tad_player")." group by pcsn";
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 	while(list($count,$pcsn)=$xoopsDB->fetchRow($result)){
 	  $cate_count[$pcsn]=$count;
 	}
-	
+
 	$option=($of_csn)?"":"<option value='0'>"._MD_TADPLAYER_CATE_SELECT."</option>";
 	$sql = "select pcsn,title from ".$xoopsDB->prefix("tad_player_cate")." where of_csn='{$of_csn}' order by sort";
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
@@ -347,13 +349,13 @@ function get_tad_player_cate_option($of_csn=0,$level=0,$v="",$show_dot='1',$optg
 
   if($kind)$ok_cat=chk_cate_power($kind);
 	while(list($pcsn,$title)=$xoopsDB->fetchRow($result)){
-	
+
 	  if($kind){
 			if(!in_array($pcsn,$ok_cat)){
 			  continue;
 			}
 		}
-	
+
 		$selected=($v==$pcsn)?"selected":"";
 	  if(empty($cate_count[$pcsn]) and $optgroup){
 			$option.="<optgroup label='{$title}' style='font-style: normal;color:black;'>".get_tad_player_cate_option($pcsn,$level,$v,"0")."</optgroup>";
@@ -362,9 +364,9 @@ function get_tad_player_cate_option($of_csn=0,$level=0,$v="",$show_dot='1',$optg
       $option.="<option value='{$pcsn}' $selected >{$dot}{$title} ($counter)</option>";
       $option.=get_tad_player_cate_option($pcsn,$level,$v,$show_dot,$optgroup,$kind);
 		}
-	  
-		
-		
+
+
+
 	}
 	return $option;
 }
@@ -427,7 +429,7 @@ function add_counter($psn=""){
 function mk_list_xml($pcsn=""){
   global $xoopsDB,$xoopsModule,$upload_dir;
 
-  
+
 	$cate=get_tad_player_cate($pcsn);
 
 	$sql = "SELECT * FROM ".$xoopsDB->prefix("tad_player")." WHERE `pcsn`='{$pcsn}' order by sort";
@@ -446,17 +448,17 @@ function mk_list_xml($pcsn=""){
 
     $title=htmlspecialchars($title);
     $creator=htmlspecialchars($creator);
-    
+
     //$location=urlencode($location);
     if(substr($image,0,4)=="http"){
 	    $image=$image;
 		}else{
 	    $image=_TAD_PLAYER_IMG_URL.$image;
 		}
-	
+
     $image=(empty($image))?"":"<media:thumbnail url=\"{$image}\" />";
 
-    
+
     if(empty($location) and !empty($youtube)){
 	    $media=$youtube;
 		}elseif(substr($location,0,4)=='http'){
@@ -472,14 +474,14 @@ function mk_list_xml($pcsn=""){
 
     if(substr($post_date,0,2)=='20')$post_date=strtotime($post_date);
     $post_date=date("Y-m-d H:i:s",xoops_getUserTimestamp($post_date));
-    
+
     if(empty($info)){
       $info=xoops_substr(strip_tags($description), 0, 100);
     }
     if(empty($info)){
       $info=$creator." ".$post_date;
     }
-    
+
 		$main.="      <item>
         <title>{$title}</title>
         <link>".XOOPS_URL."</link>

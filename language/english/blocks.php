@@ -20,6 +20,7 @@ define("_MB_TADPLAYER_REPEAT","Repeat play");
 define("_MB_TADPLAYER_DONT_REPEAT","No repeat play");
 define("_MB_TADPLAYER_LIST_REPEAT","Auto replay the entire list");
 define("_MB_TADPLAYER_RANDOM_PLAY","Randomly play");
-define("_MB_TADPLAYER_BLANK","¡@");
+define("_MB_TADPLAYER_BLANK","  ");
 define("_MB_TADPLAYER_CATE_SELECT","Not classified");
+define("_MB_TADPLAYER_NO_PLAYLIST","Please select a playlist.");
 ?>

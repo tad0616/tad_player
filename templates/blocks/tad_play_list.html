@@ -1,1 +1,7 @@
-<{$block}>
+<{if $block}>
+  <{$block}>
+<{else}>
+  <div class="hero-unit">
+    <{$smarty.const._MB_TADPLAYER_NO_PLAYLIST}>
+  </div>
+<{/if}>

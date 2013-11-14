@@ -126,7 +126,7 @@ function mime_type($filename) {
 
 
 //播放語法($mode=single or playlist)
-function play_code_jwplayer($id='tp' , $file="",$sn="",$mode="",$autostart=true,$ModuleConfig=array(),$skin="",$list_width="",$list_where="bottom"){
+function play_code_jwplayer($id='tp' , $file="",$sn="",$mode="",$autostart=false,$ModuleConfig=array(),$skin="",$list_width="",$list_where="bottom",$repeat=false){
 	global $xoopsModuleConfig;
 
 	if(empty($xoopsModuleConfig))$xoopsModuleConfig=$ModuleConfig;
@@ -181,8 +181,19 @@ function play_code_jwplayer($id='tp' , $file="",$sn="",$mode="",$autostart=true,
       redirect_header("index.php",3, _MD_NEED_TADTOOLS);
   }
   include_once XOOPS_ROOT_PATH."/modules/tadtools/jwplayer_new.php";
-  $jw=new JwPlayer($id.$mode.$sn , $media, $image, '100%', $rate, null, $mode, $display,null,null,null,null,$other_code);
-  //JwPlayer($id="",$file="",$image="",$width="",$height="",$skin="",$mode="",$display="",$backcolor="",$frontcolor="",$lightcolor="",$screencolor="",$other_code="")
+
+  if($mode=="")$mode=NULL;
+  if($display=="")$display=NULL;
+  if($autostart=="")$autostart=NULL;
+  if($repeat=="")$repeat=NULL;
+  if($other_code=="")$other_code=NULL;
+  if($display=="")$display=NULL;
+  if($autostart=="")$autostart=NULL;
+  if($repeat=="")$repeat=NULL;
+  if($other_code=="")$other_code=NULL;
+
+  $jw=new JwPlayer($id.$mode.$sn , $media, $image, '100%', $rate, NULL, $mode, $display,$autostart,$repeat,$other_code);
+  //JwPlayer($id="",$file="",$image="",$width="",$height="",$skin="",$mode="",$display="",$autostart=false,$repeat=false, $other_code="")
 
   $main=$jw->render();
 	return $main;

@@ -1,10 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2008-02-28
-// $Id: blocks.php,v 1.2 2008/05/14 01:22:58 tad Exp $
-// ------------------------------------------------------------------------- //
-
 define("_MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM0","請指定播放的項目");
 define("_MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM1","整體寬度");
 define("_MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM2","整體高度");
@@ -15,8 +9,10 @@ define("_MB_TADPLAYER_DISPLAY_HEIGHT","螢幕高度");
 define("_MB_TADPLAYER_LIST_HEIGHT","清單高度");
 
 define("_MB_TADPLAYER_TAD_NEW_MEDIA_EDIT_BITEM0","列出項目數");
+define("_MB_TADPLAYER_TAD_NEW_MEDIA_EDIT_BITEM1","是否顯示圖片？");
 
-define("_MB_TADPLAYER_TAD_TAD_HOT_MEDIA_EDIT_BITEM0","列出項目數");
+define("_MB_TADPLAYER_TAD_HOT_MEDIA_EDIT_BITEM0","列出項目數");
+define("_MB_TADPLAYER_TAD_HOT_MEDIA_EDIT_BITEM1","是否顯示圖片？");
 
 define("_MB_TADPLAYER_AUTOPLAY","自動播放");
 define("_MB_TADPLAYER_DONT_AUTOPLAY","不要自動播放");

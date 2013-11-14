@@ -103,7 +103,7 @@ $modversion['blocks'][2]['description'] = _MI_TADPLAYER_BDESC2;
 $modversion['blocks'][2]['show_func'] = "tad_new_media";
 $modversion['blocks'][2]['template'] = "tad_new_media.html";
 $modversion['blocks'][2]['edit_func'] = "tad_new_media_edit";
-$modversion['blocks'][2]['options'] = "10";
+$modversion['blocks'][2]['options'] = "10|1";
 
 $modversion['blocks'][3]['file'] = "tad_hot_media.php";
 $modversion['blocks'][3]['name'] = _MI_TADPLAYER_BNAME3;
@@ -111,7 +111,7 @@ $modversion['blocks'][3]['description'] = _MI_TADPLAYER_BDESC3;
 $modversion['blocks'][3]['show_func'] = "tad_player_b_show_3";
 $modversion['blocks'][3]['template'] = "tad_hot_media.html";
 $modversion['blocks'][3]['edit_func'] = "tad_tad_hot_media_edit";
-$modversion['blocks'][3]['options'] = "10";
+$modversion['blocks'][3]['options'] = "10|1";
 
 $modversion['blocks'][4]['file'] = "tad_play_list.php";
 $modversion['blocks'][4]['name'] = _MI_TADPLAYER_BNAME4;

@@ -20,7 +20,7 @@ function tad_player_b_show_3($options){
     $block[$i]['title']=$title;
     $block[$i]['location']=$location;
     $block[$i]['creator']=$creator;
-    $block[$i]['image']=$image;
+    $block[$i]['image']=$options[1]?$image:"";
     $block[$i]['info']=$info;
     $block[$i]['uid']=$uid;
     $block[$i]['post_date']=$post_date;
@@ -29,18 +29,23 @@ function tad_player_b_show_3($options){
     $i++;
   }
 
-  
+
 	return $block;
 
 }
 
 //°Ï¶ô½s¿è¨ç¦¡
 function tad_tad_hot_media_edit($options){
+  $checked1=$options[1]=='1'?"checked":"";
+  $checked0=$options[1]=='0'?"checked":"";
 
 	$form="
-	"._MB_TADPLAYER_TAD_TAD_HOT_MEDIA_EDIT_BITEM0."
-	<INPUT type='text' name='options[0]' value='{$options[0]}'>
-	";
+	"._MB_TADPLAYER_TAD_HOT_MEDIA_EDIT_BITEM0."
+	<INPUT type='text' name='options[0]' value='{$options[0]}'><br>
+
+  "._MB_TADPLAYER_TAD_HOT_MEDIA_EDIT_BITEM1."
+  <INPUT type='radio' name='options[1]' value='1' $checked1>"._YES."
+  <INPUT type='radio' name='options[1]' value='0' $checked0>"._NO."";
 	return $form;
 }
 

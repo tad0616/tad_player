@@ -229,7 +229,8 @@ function tad_player_chk_cate_have_sub($pcsn=0){
 
 //刪除tad_player某筆資料資料
 function delete_tad_player($psn=""){
-	global $xoopsDB;
+	global $xoopsDB,$isAdmin;
+  if(!$isAdmin)return;
 	//刪除檔案
 	$file=get_tad_player($psn);
   $file['location']=tad_charset($file['location'],false);
@@ -436,10 +437,8 @@ function mk_list_xml($pcsn=""){
 	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
 
-  $main="<rss version=\"2.0\" xmlns:media=\"http://search.yahoo.com/mrss/\">
-  <channel>
-    <title>{$cate['title']}</title>
-		<link>".XOOPS_URL."/modules/tad_player</link>\n";
+  $main="<rss version=\"2.0\" xmlns:jwplayer=\"http://rss.jwpcdn.com/\">
+  <channel>\n";
 
   while($midia=$xoopsDB->fetchArray($result)){
     foreach($midia as $k=>$v){
@@ -456,7 +455,7 @@ function mk_list_xml($pcsn=""){
 	    $image=_TAD_PLAYER_IMG_URL.$image;
 		}
 
-    $image=(empty($image))?"":"<media:thumbnail url=\"{$image}\" />";
+    $image=(empty($image))?"":"<jwplayer:image>{$image}</jwplayer:image>";
 
 
     if(empty($location) and !empty($youtube)){
@@ -482,18 +481,17 @@ function mk_list_xml($pcsn=""){
       $info=$creator." ".$post_date;
     }
 
-		$main.="      <item>
-        <title>{$title}</title>
-        <link>".XOOPS_URL."</link>
-  			<description>{$info}</description>
-  			<media:credit role=\"author\">{$creator}</media:credit>
-  			<media:content url=\"{$media}\" />
-  			$image
-      </item>\n\n";
+		$main.="
+    <item>
+      <title>{$title}</title>
+      <description>{$info}</description>
+      $image
+      <jwplayer:source file=\"{$media}\" />
+    </item>\n\n";
 
   }
-  $main.="  </channel>
-</rss>";
+  $main.="
+  </channel>\n</rss>";
 
 	$main=to_utf8($main);
 

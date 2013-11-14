@@ -27,7 +27,7 @@ $adminmenu[$i]['icon'] = "images/admin/new_folder.png";
 
 $i++;
 $adminmenu[$i]['title'] = _MI_TADPLAYER_ADMENU4;
-$adminmenu[$i]['link'] = "admin/index.php?op=mk_all_xml";
+$adminmenu[$i]['link'] = "admin/main.php?op=mk_all_xml";
 $adminmenu[$i]['desc'] = _MI_TADPLAYER_ADMENU4 ;
 $adminmenu[$i]['icon'] = "images/admin/downloads_folder.png";
 

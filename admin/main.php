@@ -1,9 +1,4 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2008-02-28
-// $Id: index.php,v 1.2 2008/05/14 01:22:58 tad Exp $
-// ------------------------------------------------------------------------- //
 
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = "tp_adm_main.html";
@@ -14,53 +9,53 @@ include_once "../function.php";
 /*-----------function區--------------*/
 //列出所有tad_player資料
 function list_tad_player($pcsn=""){
-	global $xoopsDB,$xoopsModule,$xoopsModuleConfig,$xoopsTpl;
-	
-	if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/jeditable.php")){
+  global $xoopsDB,$xoopsModule,$xoopsModuleConfig,$xoopsTpl;
+
+  if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/jeditable.php")){
    redirect_header("index.php",3, _MA_NEED_TADTOOLS);
   }
   include_once XOOPS_ROOT_PATH."/modules/tadtools/jeditable.php";
-	$cate_select=cate_select($pcsn);
+  $cate_select=cate_select($pcsn);
   $xoopsTpl->assign('cate_select',$cate_select);
-  
-	$cate=get_tad_player_cate($pcsn);
-	$xoopsTpl->assign('link_to_cate',sprintf(_MA_TADPLAYER_LINK_TO_CATE,$cate["title"]));
+
+  $cate=get_tad_player_cate($pcsn);
+  $xoopsTpl->assign('link_to_cate',sprintf(_MA_TADPLAYER_LINK_TO_CATE,$cate["title"]));
 
   $where_pcsn=!empty($pcsn)?"where pcsn='{$pcsn}' order by sort":"order by pcsn,sort";
-	
-	$sql = "select `psn` , `title` , `location` , `image` , `info` , `width` , `height` , `counter` , `enable_group` , `uid` , `post_date` from ".$xoopsDB->prefix("tad_player")." {$where_pcsn} ";
-	
-	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+
+  $sql = "select `psn` , `title` , `location` , `image` , `info` , `width` , `height` , `counter` , `enable_group` , `uid` , `post_date` from ".$xoopsDB->prefix("tad_player")." {$where_pcsn} ";
+
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
 
   $i=0;
 
   $save_file=XOOPS_URL."/modules/tad_player/admin/save.php";
   $data="";
-	while($all=$xoopsDB->fetchArray($result)){
+  while($all=$xoopsDB->fetchArray($result)){
     foreach($all as $k=>$v){
       $$k=$v;
     }
 
     $g_txt=txt_to_group_name($enable_group,_MA_TADPLAYER_ALL_OK, ', ');
-    
-		if(substr($image,0,4)=='http'){
+
+    if(substr($image,0,4)=='http'){
       $pic=$image;
-		}elseif(empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR."{$psn}.png")){
-			$ext=substr($location,-3);
-	    if($ext=="mp3"){
-	      $pic="mp3.png";
-			}else{
-	      $pic="flv.png";
-			}
-			$pic="../images/$pic";
-		}else{
+    }elseif(empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR."{$psn}.png")){
+      $ext=substr($location,-3);
+      if($ext=="mp3"){
+        $pic="mp3.png";
+      }else{
+        $pic="flv.png";
+      }
+      $pic="../images/$pic";
+    }else{
       $pic=_TAD_PLAYER_IMG_URL."{$psn}.png";
-		}
+    }
 
     $uid_name=XoopsUser::getUnameFromId($uid,1);
     $uid_name=(empty($uid_name))?XoopsUser::getUnameFromId($uid,0):$uid_name;
-    
+
     $post_date=substr($post_date,0,10);
 
     $data[$i]['psn']=$psn;
@@ -76,9 +71,9 @@ function list_tad_player($pcsn=""){
 
     $i++;
 
-	}
+  }
 
-  
+
   $option=get_tad_player_cate_option(0,0,$pcsn,1,false);
 
   $xoopsTpl->assign('option',$option);
@@ -88,35 +83,35 @@ function list_tad_player($pcsn=""){
   $xoopsTpl->assign('cate_height',$cate["height"]);
   $xoopsTpl->assign('jquery',get_jquery(true));
 
-  
+
 }
 
 
 
 //重新產生所有的XML
 function mk_all_xml($the_pcsn=""){
-	global $xoopsDB;
-	$sql = "select pcsn,title from ".$xoopsDB->prefix("tad_player_cate");
-	$result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  global $xoopsDB;
+  $sql = "select pcsn,title from ".$xoopsDB->prefix("tad_player_cate");
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
   $log="";
-	while(list($pcsn,$title)=$xoopsDB->fetchRow($result)){
-		mk_list_xml($pcsn);
-		$log.=sprintf(_MA_TADPLAYER_XML_OK,$title)."<br>";
-	}
-	$and_pcsn=(empty($the_pcsn))?"":"?pcsn=$the_pcsn";
-	redirect_header($_SERVER['PHP_SELF'].$and_pcsn,3, $log);
-	return;
+  while(list($pcsn,$title)=$xoopsDB->fetchRow($result)){
+    mk_list_xml($pcsn);
+    $log.=sprintf(_MA_TADPLAYER_XML_OK,$title)."<br>";
+  }
+  $and_pcsn=(empty($the_pcsn))?"":"?pcsn=$the_pcsn";
+  redirect_header($_SERVER['PHP_SELF'].$and_pcsn,3, $log);
+  return;
 }
 
 //儲存排序
 function save_sort(){
-	global $xoopsDB;
-	foreach($_POST['sort'] as $psn => $sort){
-		$sql = "update  ".$xoopsDB->prefix("tad_player")." set sort='{$sort}' where psn='{$psn}'";
-		$xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-	}
-	return;
+  global $xoopsDB;
+  foreach($_POST['sort'] as $psn => $sort){
+    $sql = "update  ".$xoopsDB->prefix("tad_player")." set sort='{$sort}' where psn='{$psn}'";
+    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+  }
+  return;
 
 }
 
@@ -173,29 +168,29 @@ $new_pcsn=(empty($_REQUEST['new_pcsn']))?"":intval($_REQUEST['new_pcsn']);
 
 switch($op){
 
-	//儲存排序
-	case "save_sort":
-	save_sort();
-	header("location: {$_SERVER['PHP_SELF']}?pcsn=$pcsn");
-	break;
+  //儲存排序
+  case "save_sort":
+  save_sort();
+  header("location: {$_SERVER['PHP_SELF']}?pcsn=$pcsn");
+  break;
 
-	//重新產生所有的XML
-	case "mk_all_xml":
-	$main=mk_all_xml();
-	break;
+  //重新產生所有的XML
+  case "mk_all_xml":
+  $main=mk_all_xml();
+  break;
 
 
   case "del":
   batch_del();
-	header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
+  header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
   break;
-  
+
 
   case "move":
   batch_move($new_pcsn);
   mk_list_xml($pcsn);
   mk_list_xml($new_pcsn);
-	header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
+  header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
   break;
 
   case "add_title":
@@ -210,18 +205,18 @@ switch($op){
   mk_list_xml($pcsn);
   header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
   break;
-  
+
   case "update_wh":
   update_wh();
   mk_list_xml($pcsn);
   header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
   break;
 
-  
-	//預設動作
-	default:
-	list_tad_player($pcsn);
-	break;
+
+  //預設動作
+  default:
+  list_tad_player($pcsn);
+  break;
 
 }
 

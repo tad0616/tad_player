@@ -89,6 +89,7 @@ function play($get_psn=""){
   $xoopsTpl->assign( "xoops_module_header" , $xoops_module_header);
   $xoopsTpl->assign( "xoops_pagetitle",$file['title']);
   $xoopsTpl->assign( "star_rating" , $star_rating) ;
+$xoopsTpl->assign( "pcsn" , $file['pcsn']) ;
 }
 
 
@@ -131,9 +132,13 @@ $xoopsTpl->assign( "bootstrap" , get_bootstrap()) ;
 $xoopsTpl->assign( "jquery" , get_jquery(true)) ;
 $xoopsTpl->assign( "isAdmin" , $isAdmin) ;
 $xoopsTpl->assign( "psn" , $psn) ;
-$xoopsTpl->assign( "pcsn" , $pcsn) ;
 
 switch($op){
+
+  case "delete_tad_player_file":
+  delete_tad_player($psn);
+  header("location:index.php?pcsn=$pcsn");
+  break;
 
   default:
   if(empty($psn))header("location:index.php");

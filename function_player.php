@@ -78,7 +78,7 @@ function list_tad_player_playlist($pcsn=""){
       $pic=_TAD_PLAYER_IMG_URL."s_{$psn}.png";
 		}
 
-		
+
 		if(empty($location) and !empty($youtube)){
 	    $media.= "{0:{src:'{$youtube}', type: 'video/youtube'}, config:{title: '$title', poster: '$creator'}},";
 		}elseif(substr($location,0,4)=='http'){
@@ -177,13 +177,13 @@ function play_code_jwplayer($id='tp' , $file="",$sn="",$mode="",$autostart=true,
   }else{
     $rate=(!empty($height) and !empty($width))?round($height/$width,2):0.6;
   }
-  if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/jwplayer.php")){
+  if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/jwplayer_new.php")){
       redirect_header("index.php",3, _MD_NEED_TADTOOLS);
   }
-  include_once XOOPS_ROOT_PATH."/modules/tadtools/jwplayer.php";
+  include_once XOOPS_ROOT_PATH."/modules/tadtools/jwplayer_new.php";
   $jw=new JwPlayer($id.$mode.$sn , $media, $image, '100%', $rate, null, $mode, $display,null,null,null,null,$other_code);
   //JwPlayer($id="",$file="",$image="",$width="",$height="",$skin="",$mode="",$display="",$backcolor="",$frontcolor="",$lightcolor="",$screencolor="",$other_code="")
-  
+
   $main=$jw->render();
 	return $main;
 }

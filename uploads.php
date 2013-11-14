@@ -227,7 +227,7 @@ $thumbnail_url = http://i4.ytimg.com/vi/3B4fyi-xXzo/hqdefault.jpg;
 
 	//上傳圖檔
   if(!empty($_FILES['image']['name'])){
-  	upload_pic($psn,$_POST['width']);
+  	upload_pic($psn);
   }elseif(!empty($_POST['youtube'])){
     $youtube_id=getYTid($_POST['youtube']);
     $image="http://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
@@ -273,7 +273,7 @@ function update_tad_player($psn=""){
 
   //上傳圖檔
   if(!empty($_FILES['image']['name'])){
-  	upload_pic($psn,$_POST['width'],true);
+  	upload_pic($psn,true);
   	$image_sql="";
   }elseif(!empty($_POST['youtube'])){
     $youtube_id=getYTid($_POST['youtube']);
@@ -350,7 +350,7 @@ function upload_flv($psn="",$update_sql=false){
 
 
 //上傳圖檔
-function upload_pic($psn="",$width=480,$update_sql=false){
+function upload_pic($psn="",$update_sql=false){
 	global $xoopsDB;
   include_once XOOPS_ROOT_PATH."/modules/tadtools/upload/class.upload.php";
   set_time_limit(0);
@@ -371,7 +371,7 @@ function upload_pic($psn="",$width=480,$update_sql=false){
       $img_handle->file_new_name_body   = "{$psn}";
       $img_handle->image_convert = 'png';
       $img_handle->image_resize         = true;
-      $img_handle->image_x              = $width;
+      $img_handle->image_x              = 1024;
       $img_handle->image_ratio_y        = true;
       $img_handle->process(_TAD_PLAYER_IMG_DIR);
 

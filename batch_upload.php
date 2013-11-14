@@ -28,13 +28,17 @@ function tad_player_batch_upload_form(){
 
   if ($dh = opendir(_TAD_PLAYER_BATCH_UPLOAD_DIR)) {
     while (($file = readdir($dh)) !== false) {
-      if(strlen($file)<=2)continue;
+      if(substr($file,0,1)=='.')continue;
 
       $file=tad_charset($file,true);
 
 			$f=explode(".",$file);
-			$filename=$f[0];
-      $ext=strtolower($f[1]);
+			//$filename=$f[0];
+      foreach($f as $ff){
+        $ext=strtolower($ff);
+      }
+      $end=(strlen($ext)+1)*-1;
+      $filename=substr($file,0,$end);
 
       if(in_array($ext,$ok_video_ext)){
         $flv_arr['flv'][$filename]=$file;

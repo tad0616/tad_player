@@ -9,7 +9,7 @@
 function delete_tad_player_file_func(psn){
   var sure = window.confirm('<{$smarty.const._TAD_DEL_CONFIRM}>');
   if (!sure)  return;
-  location.href="index.php?op=delete_tad_player_file&psn=" + psn;
+  location.href="play.php?op=delete_tad_player_file&pcsn=<{$pcsn}>&psn=" + psn;
 }
 </script>
 

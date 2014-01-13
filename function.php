@@ -14,14 +14,8 @@ include_once XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php";
 
 
 define("_TAD_PLAYER_UPLOAD_DIR",XOOPS_ROOT_PATH."/uploads/tad_player/");
-define("_TAD_PLAYER_UPLOAD_URL",XOOPS_URL."/uploads/tad_player/");
-
-
 define("_TAD_PLAYER_FLV_DIR",XOOPS_ROOT_PATH."/uploads/tad_player/flv/");
-define("_TAD_PLAYER_FLV_URL",XOOPS_URL."/uploads/tad_player/flv/");
-
 define("_TAD_PLAYER_IMG_DIR",XOOPS_ROOT_PATH."/uploads/tad_player/img/");
-define("_TAD_PLAYER_IMG_URL",XOOPS_URL."/uploads/tad_player/img/");
 
 $uid_dir=0;
 if($xoopsUser){

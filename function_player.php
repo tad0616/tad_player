@@ -1,5 +1,9 @@
 <?php
 
+define("_TAD_PLAYER_UPLOAD_URL",XOOPS_URL."/uploads/tad_player/");
+define("_TAD_PLAYER_FLV_URL",XOOPS_URL."/uploads/tad_player/flv/");
+define("_TAD_PLAYER_IMG_URL",XOOPS_URL."/uploads/tad_player/img/");
+
 //以流水號取得某筆tad_player資料
 function get_tad_player($psn=""){
 	global $xoopsDB;

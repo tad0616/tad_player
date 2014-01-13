@@ -1,11 +1,7 @@
 <?php
 define("_MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM0","Select playback items");
-define("_MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM1","Entire width");
-define("_MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM2","Entire height");
 define("_MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM3","Auto start?");
 define("_MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM4","Repeat play?");
-define("_MB_TADPLAYER_DISPLAY_WIDTH","Playback window width");
-define("_MB_TADPLAYER_DISPLAY_HEIGHT","Playback window height");
 define("_MB_TADPLAYER_LIST_HEIGHT","Playlist height");
 
 define("_MB_TADPLAYER_TAD_NEW_MEDIA_EDIT_BITEM0","Number of items to show in the list");

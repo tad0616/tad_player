@@ -1,7 +1,4 @@
 <?php
-define("_TAD_PLAYER_UPLOAD_URL",XOOPS_URL."/uploads/tad_player/");
-define("_TAD_PLAYER_FLV_URL",XOOPS_URL."/uploads/tad_player/flv/");
-define("_TAD_PLAYER_IMG_URL",XOOPS_URL."/uploads/tad_player/img/");
 
 //區塊主函式 (影音播放器區塊1說明)
 function tad_player($options){

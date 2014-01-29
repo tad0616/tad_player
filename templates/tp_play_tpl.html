@@ -23,10 +23,18 @@ function delete_tad_player_file_func(psn){
   </div>
 </div>
 
-<div class="row-fluid">
+<{if $title}>
+  <div class="row-fluid">
+    <h1><{$title}></h1>
+  </div>
+<{/if}>
 
-</div>
 
+<{if $content}>
+  <div class="alert alert-info">
+    <{$content}>
+  </div>
+<{/if}>
 
 <div class="row-fluid">
   <{$media}>
@@ -37,21 +45,21 @@ function delete_tad_player_file_func(psn){
   <div class="span7">
     <{$push}>
   </div>
+
   <div class="span2">
     <{$star_rating}>
   </div>
+
   <div class="span3 text-right">
     <{if $isAdmin}>
-      <a href="javascript:delete_tad_player_file_func(<{$psn}>);" class='btn btn-danger'><{$smarty.const._TAD_DEL}></a>
-      <a href="<{$xoops_url}>/modules/tad_player/uploads.php?psn=<{$psn}>#fragment-1" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
+      <a href="javascript:delete_tad_player_file_func(<{$psn}>);" class="btn btn-mini btn-danger"><{$smarty.const._TAD_DEL}></a>
+
+      <a href="<{$xoops_url}>/modules/tad_player/uploads.php?psn=<{$psn}>#fragment-1" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
     <{/if}>
   </div>
 
 </div>
 
-<{if $content}>
-<div class="well"><{$content}></div>
-<{/if}>
 
 <{if $code}>
   <div class="well"><{$code}></div>

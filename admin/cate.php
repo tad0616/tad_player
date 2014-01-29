@@ -80,9 +80,7 @@ function tad_player_cate_form($pcsn="",$show_border=true){
 
   </form>";
 
-  if($show_border){
-    $main=div_3d(_MA_INPUT_CATE_FORM,$main,"raised","display:inline;float:left;");
-  }
+
 
   return $main;
 }

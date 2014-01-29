@@ -25,8 +25,6 @@ function play($get_psn=""){
 
   add_counter($get_psn);
 
-  $h1_title="<a href='index.php?pcsn={$file['pcsn']}&op=playlist' style='color: rgb(51,102,255);'><img src='images/playlist.png' alt='playlist.png, 5.6kB' title='Playlist' border='0' height='48' width='48' align='absmiddle' hspace=3></a>";
-
 
   $play_code=play_code_jwplayer("file{$get_psn}",$file,$get_psn,"single");
   //play_code_jwplayer($id='tp' , $file="",$sn="",$mode="",$autostart=false,$ModuleConfig=array(),$skin="",$list_width="",$list_where="bottom",$repeat=false)
@@ -37,7 +35,7 @@ function play($get_psn=""){
   $info=$file['info'];
 
   if(empty($info)){
-    $info=xoops_substr(strip_tags($file['$description']), 0, 100);
+    $info=xoops_substr(strip_tags($file['content']), 0, 100);
   }
 
   if(empty($info)){
@@ -75,6 +73,7 @@ function play($get_psn=""){
 
 
 
+  $xoopsTpl->assign( "title" , $file['title']) ;
 
   $xoopsTpl->assign( "media" , $play_code) ;
   $xoopsTpl->assign( "content" , $file['content']) ;

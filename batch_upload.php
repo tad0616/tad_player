@@ -30,7 +30,7 @@ function tad_player_batch_upload_form(){
     while (($file = readdir($dh)) !== false) {
       if(substr($file,0,1)=='.')continue;
 
-      $file=tad_charset($file,true);
+      $file=auto_charset($file,true);
 
 			$f=explode(".",$file);
 			//$filename=$f[0];
@@ -114,7 +114,7 @@ function tad_player_batch_import(){
 		set_time_limit(0);
 		ini_set('memory_limit', '50M');
 
-    $flv=tad_charset($flv,false);
+    $flv=auto_charset($flv,false);
 
 		if(rename(_TAD_PLAYER_BATCH_UPLOAD_DIR.$flv,_TAD_PLAYER_FLV_DIR.$psn."_".$flv)){
 		  if(!empty($_POST['img'][$filename])){

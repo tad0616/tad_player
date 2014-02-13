@@ -202,9 +202,9 @@ function list_tad_player_cate($of_csn=1,$level=0,$modify_pcsn=''){
     }
 
     $class=(empty($of_csn))?"":"class='child-of-node-_{$of_csn}'";
-
+    $parent=empty($of_csn)?"":"data-tt-parent-id='$of_csn'";
     $data.="
-    <tr id='node-_{$pcsn}' $class style='letter-spacing: 0em;'>
+    <tr data-tt-id='{$pcsn}' $parent id='node-_{$pcsn}' $class style='letter-spacing: 0em;'>
     <td nowrap>
     <img src='".XOOPS_URL."/modules/tadtools/treeTable/images/move_s.png' class='folder' alt='"._MA_TREETABLE_MOVE_PIC."' title='"._MA_TREETABLE_MOVE_PIC."'>
     <a href='../index.php?pcsn=$pcsn' target='_blank'>{$title}</a>

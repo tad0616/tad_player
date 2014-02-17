@@ -117,42 +117,6 @@ function hot_media(){
 
 
 
-//製作防盜連設定
-function mk_htaccess(){
-  global $xoopsDB,$xoopsModule,$xoopsConfig,$xoopsModuleConfig;
-
-
-  $allow_hotlinking=explode(";",$xoopsModuleConfig['allow_hotlinking']);
-
-  $main="SetEnvIfNoCase Referer \"^".XOOPS_URL."(/|$)\" allowed=1
-";
-
-  foreach($allow_hotlinking as $url){
-    $main.="SetEnvIfNoCase Referer \"^{$url}(/|$)\" allowed=1
-";
-  }
-
-  $main.="SetEnvIfNoCase Referer \"^$\" allowed=1
-
-<FilesMatch \".(xml|XML|flv|FLV|mp3|MP3|mp4|MP4|m4v|M4V|swf|SWF|MOV|mov)\">　
- Order Allow,Deny
- Allow from env=allowed
-</FilesMatch>";
-
-
-  $filename =_TAD_PLAYER_UPLOAD_DIR.".htaccess";
-
-  if (!$handle = fopen($filename, 'w')) {
-    redirect_header($_SERVER['PHP_SELF'],3, sprintf(_MD_TADPLAYER_CANT_OPEN,$filename));
-  }
-
-  if (fwrite($handle, $main) === FALSE) {
-    redirect_header($_SERVER['PHP_SELF'],3, sprintf(_MD_TADPLAYER_CANT_WRITE,$filename));
-  }
-  fclose($handle);
-
-}
-
 //新增資料到tad_player_cate中
 function add_tad_player_cate(){
   global $xoopsDB,$xoopsModuleConfig;
@@ -219,7 +183,17 @@ function tad_player_chk_cate_have_sub($pcsn=0){
 
 //刪除tad_player某筆資料資料
 function delete_tad_player($psn=""){
-  global $xoopsDB,$isAdmin;
+  global $xoopsDB,$isAdmin,$xoopsUser,$xoopsModule;
+
+  if(!isset($isAdmin)){
+    if ($xoopsUser) {
+      $module_id = $xoopsModule->getVar('mid');
+      $isAdmin=$xoopsUser->isAdmin($module_id);
+    }else{
+      return;
+    }
+  }
+
   if(!$isAdmin)return;
   //刪除檔案
   $file=get_tad_player($psn);
@@ -394,7 +368,7 @@ function mk_list_xml($pcsn=""){
 
   $cate=get_tad_player_cate($pcsn);
 
-  $sql = "SELECT * FROM ".$xoopsDB->prefix("tad_player")." WHERE `pcsn`='{$pcsn}' order by sort";
+  $sql = "SELECT * FROM ".$xoopsDB->prefix("tad_player")." WHERE `pcsn`='{$pcsn}' and `enable_group`='' order by sort";
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
 
@@ -420,13 +394,15 @@ function mk_list_xml($pcsn=""){
 
 
     if(empty($location) and !empty($youtube)){
-      $media=$youtube;
+      $YTid=getYTid($youtube);
+      $media="http://youtu.be/{$YTid}";
     }elseif(substr($location,0,4)=='http'){
       $media=$location;
     }else{
       $media=_TAD_PLAYER_FLV_URL."{$psn}_{$location}";
     }
 
+    //$media=str_replace("&feature=youtu.be","",$media);
     //$media=str_replace("=","%3D",$media);
     //$media=str_replace("?","%3F",$media);
     //$media=str_replace("&","%26",$media);

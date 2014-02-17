@@ -2,17 +2,17 @@
 
 function xoops_module_update_tad_player(&$module, $old_version) {
     GLOBAL $xoopsDB;
-    
+
 		if(!chk_chk1()) go_update1();
 		if(!chk_chk2()) go_update2();
 		if(!chk_chk3()) go_update3();
 		if(!chk_chk4()) go_update4();
-		
+
 		$old_fckeditor=XOOPS_ROOT_PATH."/modules/tad_player/fckeditor";
 		if(is_dir($old_fckeditor)){
 			delete_directory($old_fckeditor);
 		}
-		
+
     return true;
 }
 
@@ -26,12 +26,12 @@ function chk_chk1(){
 function go_update1(){
     GLOBAL $xoopsDB;
     set_time_limit(0);
-    
+
     mk_dir(XOOPS_ROOT_PATH."/uploads/tad_player");
 		mk_dir(XOOPS_ROOT_PATH."/uploads/tad_player/img");
 		mk_dir(XOOPS_ROOT_PATH."/uploads/tad_player/flv");
 		mk_dir(XOOPS_ROOT_PATH."/uploads/tad_player_batch_uploads");
-		
+
 		$sql = "select psn,location,image,post_date from ".$xoopsDB->prefix("tad_player")." order by psn";
 		$result = $xoopsDB->query($sql) or die($sql);
 
@@ -59,16 +59,16 @@ function go_update1(){
 					$newimg=",`image`='{$psn}.png'";
 				}
 			}
-			
+
 			$sql2 = "update ".$xoopsDB->prefix("tad_player")." set $pdate $newimg where psn='$psn'";
 			$xoopsDB->queryF($sql2) or die($sql2);
-			
+
 			//·h²¾¼v¤ùÀÉ
 			if(!empty($location)){
 		  	rename_win(XOOPS_ROOT_PATH."/uploads/tad_player/{$psn}_{$location}",XOOPS_ROOT_PATH."/uploads/tad_player/flv/{$psn}_{$location}");
 		  }
 		}
-		
+
 		return true;
 }
 
@@ -229,4 +229,5 @@ function delete_directory($dirname) {
     rmdir($dirname);
     return true;
 }
+
 ?>

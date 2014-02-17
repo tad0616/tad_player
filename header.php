@@ -20,8 +20,8 @@ $interface_menu[_TAD_TO_MOD]="index.php";
 //判斷是否對該模組有管理權限
 $isAdmin=false;
 if ($xoopsUser) {
-    $module_id = $xoopsModule->getVar('mid');
-    $isAdmin=$xoopsUser->isAdmin($module_id);
+  $module_id = $xoopsModule->getVar('mid');
+  $isAdmin=$xoopsUser->isAdmin($module_id);
 }
 
 $upload_powers=chk_cate_power("upload");

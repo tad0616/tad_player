@@ -6,7 +6,7 @@ CREATE TABLE `tad_player` (
   `location` varchar(255) NOT NULL default '',
   `image` varchar(255) NOT NULL default '',
   `info` varchar(255) NOT NULL default '',
-  `uid` smallint(5) unsigned NOT NULL default '0',
+  `uid` mediumint(8) unsigned NOT NULL default '0',
   `post_date` varchar(255) NOT NULL default '',
   `enable_group` varchar(255) NOT NULL default '',
   `counter` smallint(5) unsigned NOT NULL default '0',
@@ -36,7 +36,7 @@ CREATE TABLE `tad_player_rank` (
   `col_name` varchar(255) NOT NULL,
   `col_sn` smallint(5) unsigned NOT NULL,
   `rank` tinyint(3) unsigned NOT NULL,
-  `uid` smallint(5) unsigned NOT NULL,
+  `uid` mediumint(8) unsigned NOT NULL,
   `rank_date` datetime NOT NULL,
   PRIMARY KEY (`col_name`,`col_sn`,`uid`)
 ) ENGINE = MYISAM ;

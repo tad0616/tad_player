@@ -7,6 +7,7 @@ function xoops_module_update_tad_player(&$module, $old_version) {
 		if(!chk_chk2()) go_update2();
 		if(!chk_chk3()) go_update3();
 		if(!chk_chk4()) go_update4();
+    if(chk_uid()) go_update_uid();
 
 		$old_fckeditor=XOOPS_ROOT_PATH."/modules/tad_player/fckeditor";
 		if(is_dir($old_fckeditor)){
@@ -127,6 +128,27 @@ function go_update4(){
 	$xoopsDB->queryF($sql);
 }
 
+//修正uid欄位
+function chk_uid(){
+  global $xoopsDB;
+  $sql="SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE table_name = '".$xoopsDB->prefix("tad_player")."' AND COLUMN_NAME = 'uid'";
+  $result=$xoopsDB->query($sql);
+  list($type)=$xoopsDB->fetchRow($result);
+  if($type=='smallint')return true;
+  return false;
+}
+
+//執行更新
+function go_update_uid(){
+  global $xoopsDB;
+  $sql="ALTER TABLE `".$xoopsDB->prefix("tad_player")."` CHANGE `uid` `uid` mediumint(8) unsigned NOT NULL default 0";
+  $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL,3,  mysql_error());
+
+  $sql="ALTER TABLE `".$xoopsDB->prefix("tad_player_rank")."` CHANGE `uid` `uid` mediumint(8) unsigned NOT NULL default 0";
+  $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL,3,  mysql_error());
+  return true;
+}
 
 
 //建立目錄

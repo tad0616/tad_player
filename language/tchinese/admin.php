@@ -1,6 +1,6 @@
 <?php
 include_once "../../tadtools/language/{$xoopsConfig['language']}/admin_common.php";
-define("_TAD_NEED_TADTOOLS","Need modules/tadtools. You can download tadtools from <a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad's web</a>.");
+define("_TAD_NEED_TADTOOLS"," 需要 tadtools 模組，可至<a href='http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50' target='_blank'>Tad教材網</a>下載。");
 
 define("_MA_INPUT_CATE_FORM","分類設定表單");
 define("_MA_TADPLAYER_TITLE","標題");

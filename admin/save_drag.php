@@ -29,4 +29,3 @@ function chk_cate_path($pcsn,$to_csn){
    }
    return false;
 }
-?>

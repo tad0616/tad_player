@@ -27,4 +27,3 @@ define("_MI_TADPLAYER_DISPLAY_MAX_DESC", "Valid only when playlist is located at
 define("_MI_TADPLAYER_SHOW_NUM", "<b>Number of videos to show per page</b>");
 define("_MI_TADPLAYER_SHOW_NUM_DESC", "Number of videos to show in home page video list");
 
-?>

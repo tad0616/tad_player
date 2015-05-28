@@ -1,5 +1,5 @@
 <?php
-//¤Þ¤JTadToolsªº¨ç¦¡®w
+//å¼•å…¥TadToolsçš„å‡½å¼åº«
 if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php")){
  redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50",3, _TAD_NEED_TADTOOLS);
 }
@@ -26,10 +26,10 @@ $ok_image_ext=array("jpg","png","gif");
 include_once "function_player.php";
 
 
-//©³¤U¼v¤ù¼Æ
+//åº•ä¸‹å½±ç‰‡æ•¸
 function count_video_num($pcsn="0"){
   global $xoopsDB,$xoopsModule;
-  //¨ä©³¤U©Ò¦³¤l¥Ø¿ýªº¼v¤ù¼Æ
+  //å…¶åº•ä¸‹æ‰€æœ‰å­ç›®éŒ„çš„å½±ç‰‡æ•¸
   $sql = "select pcsn from ".$xoopsDB->prefix("tad_player_cate")." where of_csn='{$pcsn}'";
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
   $sub_count=0;
@@ -40,7 +40,7 @@ function count_video_num($pcsn="0"){
 
   $pic="";
 
-  //¸Ó¥Ø¿ý¼v¤ù¼Æ
+  //è©²ç›®éŒ„å½±ç‰‡æ•¸
   $sql = "select psn,image,location from ".$xoopsDB->prefix("tad_player")." where pcsn = '$pcsn' order by rand()";
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
   $count=$xoopsDB->getRowsNum($result);
@@ -70,7 +70,7 @@ function count_video_num($pcsn="0"){
 
 
 
-//¨ú±o¸ô®|
+//å–å¾—è·¯å¾‘
 function get_pcsn_path($pcsn="",$sub=false){
   global $xoopsDB;
 
@@ -99,7 +99,7 @@ function get_pcsn_path($pcsn="",$sub=false){
   return $path;
 }
 
-//¼öªù¼v¤ù
+//ç†±é–€å½±ç‰‡
 function hot_media(){
   global $xoopsDB,$xoopsModule,$xoopsModuleConfig;
 
@@ -117,7 +117,7 @@ function hot_media(){
 
 
 
-//·s¼W¸ê®Æ¨ìtad_player_cate¤¤
+//æ–°å¢žè³‡æ–™åˆ°tad_player_cateä¸­
 function add_tad_player_cate(){
   global $xoopsDB,$xoopsModuleConfig;
   if(empty($_POST['new_pcsn']))return;
@@ -125,12 +125,12 @@ function add_tad_player_cate(){
   $enable_group=implode(",",$_POST['enable_group']);
   $sql = "insert into ".$xoopsDB->prefix("tad_player_cate")." (of_csn,title,enable_group,sort) values('{$_POST['pcsn']}','{$_POST['new_pcsn']}','','0')";
   $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  //¨ú±o³Ì«á·s¼W¸ê®Æªº¬y¤ô½s¸¹
+  //å–å¾—æœ€å¾Œæ–°å¢žè³‡æ–™çš„æµæ°´ç·¨è™Ÿ
   $pcsn=$xoopsDB->getInsertId();
   return $pcsn;
 }
 
-//¤ÀÃþ¿ï³æ
+//åˆ†é¡žé¸å–®
 function cate_select($pcsn=0,$size=20){
   $cate_select=get_tad_player_cate_option(0,0,$pcsn);
 
@@ -145,7 +145,7 @@ function cate_select($pcsn=0,$size=20){
 
 
 
-//¨ú±o©Ò¦³Ãþ§O¼ÐÃD
+//å–å¾—æ‰€æœ‰é¡žåˆ¥æ¨™é¡Œ
 function tad_player_get_all_news_cate($of_csn=0,$code="big5"){
   global $xoopsDB;
   $sql = "select pcsn,title,enable_group from ".$xoopsDB->prefix("tad_player_cate")." where of_csn='{$of_csn}' order by sort";
@@ -169,7 +169,7 @@ function tad_player_get_all_news_cate($of_csn=0,$code="big5"){
 }
 
 
-//ÀË¬d¦³µL¤l¿ï¶µ
+//æª¢æŸ¥æœ‰ç„¡å­é¸é …
 function tad_player_chk_cate_have_sub($pcsn=0){
   global $xoopsDB;
   $sql = "select pcsn from ".$xoopsDB->prefix("tad_player_cate")." where of_csn='{$pcsn}'";
@@ -181,7 +181,7 @@ function tad_player_chk_cate_have_sub($pcsn=0){
 }
 
 
-//§R°£tad_player¬Yµ§¸ê®Æ¸ê®Æ
+//åˆªé™¤tad_playeræŸç­†è³‡æ–™è³‡æ–™
 function delete_tad_player($psn=""){
   global $xoopsDB,$isAdmin,$xoopsUser,$xoopsModule;
 
@@ -195,7 +195,7 @@ function delete_tad_player($psn=""){
   }
 
   if(!$isAdmin)return;
-  //§R°£ÀÉ®×
+  //åˆªé™¤æª”æ¡ˆ
   $file=get_tad_player($psn);
   $file['location']=auto_charset($file['location'],false);
   $file['image']=auto_charset($file['location'],image);
@@ -209,7 +209,7 @@ function delete_tad_player($psn=""){
 }
 
 
-//°µÁY¹Ï
+//åšç¸®åœ–
 function mk_video_thumbnail($filename="",$thumb_name="",$type="image/jpeg",$width="100"){
 
   ini_set('memory_limit', '50M');
@@ -257,7 +257,7 @@ function mk_video_thumbnail($filename="",$thumb_name="",$type="image/jpeg",$widt
 
 
 
-//§PÂ_¬Y¤H¦b­þ¨ÇÃþ§O¤¤¦³Æ[¬Ý©Îµoªí(upload)ªºÅv§Q
+//åˆ¤æ–·æŸäººåœ¨å“ªäº›é¡žåˆ¥ä¸­æœ‰è§€çœ‹æˆ–ç™¼è¡¨(upload)çš„æ¬Šåˆ©
 function chk_cate_power($kind=""){
   global $xoopsDB,$xoopsUser,$xoopsModule;
   if(!empty($xoopsUser)){
@@ -295,7 +295,7 @@ function chk_cate_power($kind=""){
 }
 
 
-//¨ú±o¤ÀÃþ¤U©Ô¿ï³æ
+//å–å¾—åˆ†é¡žä¸‹æ‹‰é¸å–®
 function get_tad_player_cate_option($of_csn=0,$level=0,$v="",$show_dot='1',$optgroup=true,$kind='view'){
   global $xoopsDB;
   $dot=($show_dot=='1')?str_repeat(_MD_TADPLAYER_BLANK,$level):"";
@@ -338,7 +338,7 @@ function get_tad_player_cate_option($of_csn=0,$level=0,$v="",$show_dot='1',$optg
 
 
 
-//¨ú±otad_player_cate©Ò¦³¸ê®Æ°}¦C
+//å–å¾—tad_player_cateæ‰€æœ‰è³‡æ–™é™£åˆ—
 function get_tad_player_cate_all(){
   global $xoopsDB;
   $sql = "select pcsn,title from ".$xoopsDB->prefix("tad_player_cate");
@@ -352,7 +352,7 @@ function get_tad_player_cate_all(){
 
 
 
-//­p¼Æ¾¹
+//è¨ˆæ•¸å™¨
 function add_counter($psn=""){
   global $xoopsDB;
   $sql = "update ".$xoopsDB->prefix("tad_player")." set `counter` = `counter` + 1 where psn='{$psn}'";
@@ -361,7 +361,7 @@ function add_counter($psn=""){
 
 
 
-//»s§@¼½©ñ²M³æ
+//è£½ä½œæ’­æ”¾æ¸…å–®
 function mk_list_xml($pcsn=""){
   global $xoopsDB,$xoopsModule,$upload_dir;
 
@@ -443,9 +443,3 @@ function mk_list_xml($pcsn=""){
   }
   fclose($handle);
 }
-
-
-/********************* ¹w³]¨ç¼Æ *********************/
-
-
-?>

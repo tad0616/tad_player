@@ -143,6 +143,3 @@ function tad_player_batch_import(){
 
 	return $pcsn;
 }
-
-
-?>

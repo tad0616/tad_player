@@ -2,10 +2,10 @@
 function xoops_module_uninstall_tad_player(&$module) {
   GLOBAL $xoopsDB;
 	$date=date("Ymd");
-	
+
  	rename(XOOPS_ROOT_PATH."/uploads/tad_player",XOOPS_ROOT_PATH."/uploads/tad_player_bak_{$date}");
 
-	
+
 	return true;
 }
 
@@ -51,4 +51,4 @@ function full_copy( $source="", $target=""){
 		copy( $source, $target );
 	}
 }
-?>
+

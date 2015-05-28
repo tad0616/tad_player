@@ -1,6 +1,6 @@
 <?php
 
-//°Ï¶ô¥D¨ç¦¡ (¼v­µ¼½©ñ¾¹°Ï¶ô1»¡©ú)
+//å€å¡Šä¸»å‡½å¼ (å½±éŸ³æ’­æ”¾å™¨å€å¡Š1èªªæ˜Ž)
 function tad_player($options){
   global $xoopsDB;
   include_once XOOPS_ROOT_PATH."/modules/tad_player/function_player.php";
@@ -30,7 +30,7 @@ function tad_player($options){
   return $block;
 }
 
-//°Ï¶ô½s¿è¨ç¦¡
+//å€å¡Šç·¨è¼¯å‡½å¼
 function tad_player_edit($options){
   global $xoopsDB;
   $seled0_0=($options[0]=="")?"selected":"";
@@ -70,4 +70,3 @@ function tad_player_edit($options){
   return $form;
 }
 
-?>

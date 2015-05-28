@@ -1,11 +1,11 @@
 <?php
-/*-----------¤Þ¤JÀÉ®×°Ï--------------*/
+/*-----------å¼•å…¥æª”æ¡ˆå€--------------*/
 include "header.php";
-$xoopsOption['template_main'] = "tp_play_tpl.html";
+$xoopsOption['template_main'] = "tad_player_play.html";
 include XOOPS_ROOT_PATH."/header.php";
-/*-----------function°Ï--------------*/
+/*-----------functionå€--------------*/
 
-//¼½©ñ
+//æ’­æ”¾
 function play($get_psn=""){
   global $xoopsDB,$xoopsModuleConfig,$xoopsUser,$xoopsTpl,$xoTheme;
 
@@ -93,7 +93,7 @@ $xoopsTpl->assign( "pcsn" , $file['pcsn']) ;
 }
 
 
-//§ä¥X¿ï³æ
+//æ‰¾å‡ºé¸å–®
 function get_cate_play($get_psn="",$size=1){
   global $xoopsDB,$xoopsModuleConfig;
   $file=get_tad_player($get_psn);
@@ -122,7 +122,7 @@ function get_cate_play($get_psn="",$size=1){
   return $select;
 }
 
-/*-----------°õ¦æ°Ê§@§PÂ_°Ï----------*/
+/*-----------åŸ·è¡Œå‹•ä½œåˆ¤æ–·å€----------*/
 $op=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
 $psn=(empty($_REQUEST['psn']))?"":intval($_REQUEST['psn']);
 $pcsn=(empty($_REQUEST['pcsn']))?"":intval($_REQUEST['pcsn']);
@@ -146,7 +146,7 @@ switch($op){
   break;
 }
 
-/*-----------¨q¥Xµ²ªG°Ï--------------*/
+/*-----------ç§€å‡ºçµæžœå€--------------*/
 
 $xoopsTpl->assign( "select" , get_cate_play($psn)) ;
 $xoopsTpl->assign( "push" , push_url($xoopsModuleConfig['use_social_tools']));
@@ -158,4 +158,3 @@ $xoopsTpl->assign( "facebook_comments" , $facebook_comments);
 include_once XOOPS_ROOT_PATH.'/include/comment_view.php';
 include_once XOOPS_ROOT_PATH.'/footer.php';
 
-?>

@@ -27,4 +27,3 @@ define("_MI_TADPLAYER_DISPLAY_MAX_DESC", "僅對播放清單放在螢幕下方�
 define("_MI_TADPLAYER_SHOW_NUM", "<b>每頁顯示的影片數</b>");
 define("_MI_TADPLAYER_SHOW_NUM_DESC", "在首頁列表每頁要秀出多少影片？");
 
-?>

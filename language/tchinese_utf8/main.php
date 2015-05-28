@@ -34,5 +34,3 @@ define("_MD_TADPLAYER_UPLOAD_IMG","直接上傳縮圖");
 define("_MD_TADPLAYER_LINK_IMG","貼上縮圖連結");
 define("_MD_TADPLAYER_UPLOAD_LOGO","選擇或上傳浮水印：");
 define("_MD_TADPLAYER_AUTO_GET","自動擷取");
-
-?>

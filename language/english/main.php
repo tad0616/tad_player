@@ -34,4 +34,3 @@ define("_MD_TADPLAYER_UPLOAD_IMG","Upload image");
 define("_MD_TADPLAYER_LINK_IMG","Link to image");
 define("_MD_TADPLAYER_UPLOAD_LOGO","Please choice or upload a logo:");
 define("_MD_TADPLAYER_AUTO_GET","Get info");
-?>

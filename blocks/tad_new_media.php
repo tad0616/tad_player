@@ -1,11 +1,6 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// ¥»¼Ò²Õ¥Ñ tad »s§@
-// »s§@¤é´Á¡G2008-02-28
-// $Id: tad_new_media.php,v 1.1 2008/05/05 03:24:03 tad Exp $
-// ------------------------------------------------------------------------- //
 
-//°Ï¶ô¥D¨ç¦¡ (¼v­µ¼½©ñ¾¹°Ï¶ô2»¡©ú)
+//å€å¡Šä¸»å‡½å¼ (å½±éŸ³æ’­æ”¾å™¨å€å¡Š2èªªæ˜Ž)
 function tad_new_media($options){
 	global $xoopsDB;
 
@@ -32,7 +27,7 @@ function tad_new_media($options){
 	return $block;
 }
 
-//°Ï¶ô½s¿è¨ç¦¡
+//å€å¡Šç·¨è¼¯å‡½å¼
 function tad_new_media_edit($options){
   $checked1=$options[1]=='1'?"checked":"";
   $checked0=$options[1]=='0'?"checked":"";
@@ -46,4 +41,3 @@ function tad_new_media_edit($options){
 	return $form;
 }
 
-?>

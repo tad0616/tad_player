@@ -1,8 +1,3 @@
-<link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/bootstrap/css/bootstrap-responsive.css" />
-<link rel="stylesheet" type="text/css" media="screen" href="<{$xoops_url}>/modules/tadtools/css/xoops_adm.css" />
-<{$jquery}>
-
 <script language="JavaScript">
 $().ready(function(){
 	$("div#all_videos").sortable({ opacity: 0.6, cursor: "move", update: function() {
@@ -28,52 +23,52 @@ function check_one(id_name,change){
 
 </script>
 
-  
+
 
   <div class="container-fluid">
     <div class="row-fluid">
       <div class="span2">
         <{$cate_select}>
       </div>
-      
+
       <{if $data}>
       <div class="span10">
       <!--Body content-->
 
         <div class="row-fluid">
           <label class="checkbox inline">
-            <input type="checkbox" id="u<{$pcsn}>" onClick="$('input:checkbox.p<{$pcsn}>').attr('checked',$('#u<{$pcsn}>').attr('checked'));"> <{$smarty.const._MA_TADPLAYER_SELECT_ALL}>
+            <input type="checkbox" id="u<{$pcsn}>" onClick="$('input:checkbox.p<{$pcsn}>').attr('checked',$('#u<{$pcsn}>').attr('checked'));" onfocus="$('input:checkbox.p<{$pcsn}>').attr('checked',$('#u<{$pcsn}>').attr('checked'));"> <{$smarty.const._MA_TADPLAYER_SELECT_ALL}>
           </label>
-          
+
           <{if $pcsn!=""}>
             <a href="../index.php?pcsn=<{$pcsn}>" class="btn btn-mini btn-primary"><{$link_to_cate}></a>
           <{/if}>
           <span id="save_msg"></span>
         </div>
-        
 
-              
+
+
       	<form action="main.php" method="post">
 
       	<div class="row-fluid" id="all_videos">
           <{foreach item=video from=$data}>
 
-            <div class="thumbnail" id="recordsArray_<{$video.psn}>" onClick="check_one('p<{$video.psn}>',true);" style="width:156px;float:left;margin:8px;">
+            <div class="thumbnail" id="recordsArray_<{$video.psn}>" onClick="check_one('p<{$video.psn}>',true);" onfocus="check_one('p<{$video.psn}>',true);" style="width:156px;float:left;margin:8px;">
               <div class="thumb_height" style="background-color:black;position:relative;height:120px;overflow:hidden;">
                 <img src="<{$video.pic}>" alt="<{$video.title}>" style="z-index:1;">
                 <div id="pt<{$video.psn}>" style="font-size:12px;font-weight:normal;color:#ffffff;position:absolute;bottom:2px;left:10px;z-index:2;text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0px -1px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 1px 0px 0 #000;">
-                  
+
                   <{$video.title}></div>
               </div>
 
               <div>
-                <input type="checkbox" id="p<{$video.psn}>" name="video[]" value="<{$video.psn}>" class="p<{$video.pcsn}>" onClick="check_one('p<{$video.psn}>',true);">
+                <input type="checkbox" id="p<{$video.psn}>" name="video[]" value="<{$video.psn}>" class="p<{$video.pcsn}>" onClick="check_one('p<{$video.psn}>',true);" onfocus="check_one('p<{$video.psn}>',true);">
                 <a href="../uploads.php?psn=<{$video.psn}>#fragment-1" target="_blank" class="btn btn-mini btn-warning"><{$smarty.const._TAD_EDIT}></a>
                 <a href="../play.php?psn=<{$video.psn}>" target="_blank" class="btn btn-mini btn-info"><{$smarty.const._MA_TADPLAYER_VIEW}></a>
                 <{$smarty.const._MA_TADPLAYER_COUNTER}>:<{$video.counter}>
               </div>
-                
-                
+
+
               <div class="caption">
                 <div>
                   <{$video.uid_name}> / <{$video.post_date}>
@@ -86,7 +81,7 @@ function check_one(id_name,change){
           </div>
 
           <div class="clearfix"></div>
-          
+
 
           <h2><{$smarty.const._MA_TADPLAYER_THE_ACT_IS}></h2>
 
@@ -104,23 +99,23 @@ function check_one(id_name,change){
                 </label>
                 <select name="new_pcsn" onChange="check_one('move',false)" class="span8"><{$option}></select>
               </div>
-              
+
               <div class="controls controls-row">
                 <label class="radio inline span4">
                   <input type="radio" name="op" value="add_title" id="add_title"><{$smarty.const._MA_TADPLAYER_ADD_TITLE}>
                 </label>
-                <input type="text" name="add_title" class="span7" onClick="check_one('add_title',false)">
+                <input type="text" name="add_title" class="span7" onClick="check_one('add_title',false)" onfocus="check_one('add_title',false)">
               </div>
 
             </div>
-            
+
             <div class="span6">
               <div class="controls controls-row">
 
                 <label class="radio inline span4">
                   <input type="radio" name="op" value="add_info" id="add_info"><{$smarty.const._MA_TADPLAYER_ADD_INFO}>
                 </label>
-                <textarea name="add_info" clasa="span8" onClick="check_one('add_info',false)"></textarea>
+                <textarea name="add_info" clasa="span8" onClick="check_one('add_info',false)" onfocus="check_one('add_info',false)"></textarea>
 
               	<input type="hidden" name="pcsn" value="{$pcsn}">
               	<button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
@@ -130,13 +125,12 @@ function check_one(id_name,change){
           </div>
 
       	</form>
-      
-      
-      
+
+
+
       </div>
-      
+
       <{/if}>
     </div>
   </div>
-  
-  
+

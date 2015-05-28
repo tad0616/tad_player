@@ -1,7 +1,7 @@
 <?php
 function tad_player_search($queryarray, $andor, $limit, $offset, $userid){
 	global $xoopsDB;
-	//³B²z³\¥\»\
+	//è™•ç†è¨±åŠŸè“‹
 	if(get_magic_quotes_gpc()){
 		if(is_array($queryarray)){
 			foreach($queryarray as $k=>$v){
@@ -40,7 +40,7 @@ function tad_player_search($queryarray, $andor, $limit, $offset, $userid){
 	return $ret;
 }
 
-//Âà´«¦¨®É¶¡ÂW°O
+//è½‰æ›æˆæ™‚é–“æˆ³è¨˜
 function tadplayer_tnsday2ts($day=""){
     $dd=explode(" ",$day);
     $d=explode("-",$dd[0]);

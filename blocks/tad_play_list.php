@@ -1,6 +1,6 @@
 <?php
 
-//°Ï¶ô¥D¨ç¦¡ (¼v­µ¼½©ñ¾¹°Ï¶ô1»¡©ú)
+//å€å¡Šä¸»å‡½å¼ (å½±éŸ³æ’­æ”¾å™¨å€å¡Š1èªªæ˜Ž)
 function tad_player_play_list($options){
   global $xoopsDB;
   include_once XOOPS_ROOT_PATH."/modules/tad_player/function_player.php";
@@ -20,7 +20,7 @@ function tad_player_play_list($options){
   return $block;
 }
 
-//°Ï¶ô½s¿è¨ç¦¡
+//å€å¡Šç·¨è¼¯å‡½å¼
 function tad_player_play_list_edit($options){
   global $xoopsDB;
   $select=tp_block_cate_select($options[0]);
@@ -48,7 +48,7 @@ function tad_player_play_list_edit($options){
 
 
 
-//¤ÀÃþ¿ï³æ
+//åˆ†é¡žé¸å–®
 function tp_block_cate_select($pcsn=0){
   $cate_select=tp_block_get_tad_player_cate_option(0,0,$pcsn);
   $select="<select name='options[0]' size='6'>
@@ -59,7 +59,7 @@ function tp_block_cate_select($pcsn=0){
 }
 
 
-//¨ú±o¤ÀÃþ¤U©Ô¿ï³æ
+//å–å¾—åˆ†é¡žä¸‹æ‹‰é¸å–®
 function tp_block_get_tad_player_cate_option($of_csn=0,$level=0,$v="",$show_dot='1',$optgroup=true,$chk_view='1'){
   global $xoopsDB;
   $dot=($show_dot=='1')?str_repeat(_MB_TADPLAYER_BLANK,$level):"";
@@ -91,5 +91,3 @@ function tp_block_get_tad_player_cate_option($of_csn=0,$level=0,$v="",$show_dot=
   }
   return $option;
 }
-
-?>

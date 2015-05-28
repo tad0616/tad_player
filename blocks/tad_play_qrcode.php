@@ -1,5 +1,5 @@
 <?php
-//°Ï¶ô¥D¨ç¦¡ (QR Code)
+//å€å¡Šä¸»å‡½å¼ (QR Code)
 function tad_play_qrcode_show($options){
   if(preg_match("/tad_player\/index.php\?pcsn=/i", $_SERVER['REQUEST_URI'])){
     $url=str_replace("index.php","pda.php",$_SERVER['REQUEST_URI']);
@@ -11,7 +11,7 @@ function tad_play_qrcode_show($options){
     return ;
   }
 
-  //°ª«G«×»yªk
+  //é«˜äº®åº¦èªžæ³•
   if(!file_exists(TADTOOLS_PATH."/qrcode.php")){
    redirect_header("index.php",3, _MA_NEED_TADTOOLS);
   }
@@ -20,4 +20,3 @@ function tad_play_qrcode_show($options){
   $block=$qrcode->render($url);
 	return $block;
 }
-?>

@@ -19,4 +19,3 @@ define("_MB_TADPLAYER_RANDOM_PLAY","隨機挑選");
 define("_MB_TADPLAYER_BLANK","　");
 define("_MB_TADPLAYER_CATE_SELECT","不分類");
 define("_MB_TADPLAYER_NO_PLAYLIST","未選擇欲播放的播放清單");
-?>

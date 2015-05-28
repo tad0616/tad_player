@@ -1,11 +1,6 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// ¥»¼Ò²Õ¥Ñ tad »s§@
-// »s§@¤é´Á¡G2008-02-28
-// $Id: tad_hot_media.php,v 1.1 2008/05/05 03:24:03 tad Exp $
-// ------------------------------------------------------------------------- //
 
-//°Ï¶ô¥D¨ç¦¡ (¨Ì¤H®ð­È¬D¥X¼öªù¼v¤ù)
+//å€å¡Šä¸»å‡½å¼ (ä¾äººæ°£å€¼æŒ‘å‡ºç†±é–€å½±ç‰‡)
 function tad_player_b_show_3($options){
 	global $xoopsDB;
 
@@ -34,7 +29,7 @@ function tad_player_b_show_3($options){
 
 }
 
-//°Ï¶ô½s¿è¨ç¦¡
+//å€å¡Šç·¨è¼¯å‡½å¼
 function tad_tad_hot_media_edit($options){
   $checked1=$options[1]=='1'?"checked":"";
   $checked0=$options[1]=='0'?"checked":"";
@@ -48,5 +43,3 @@ function tad_tad_hot_media_edit($options){
   <INPUT type='radio' name='options[1]' value='0' $checked0>"._NO."";
 	return $form;
 }
-
-?>

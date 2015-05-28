@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name'] = _MI_TADPLAYER_NAME;
-$modversion['version'] = 3.2;
+$modversion['version'] = 3.3;
 $modversion['description'] = _MI_TADPLAYER_DESC;
 $modversion['author'] = _MI_TADPLAYER_AUTHOR;
 $modversion['credits'] = _MI_TADPLAYER_CREDITS;
@@ -11,7 +11,7 @@ $modversion['help'] = 'page=help';
 $modversion['license'] = 'GNU GPL 2.0';
 $modversion['license_url'] = 'www.gnu.org/licenses/gpl-2.0.html/';
 $modversion['image'] = "images/logo_{$xoopsConfig['language']}.png";
-$modversion['dirname'] = basename(dirname(__FILE__));
+$modversion['dirname'] = basename( __DIR__ );
 
 //---模組狀態資訊---//
 $modversion['release_date'] = '2014/07/04';
@@ -68,24 +68,44 @@ $modversion['search']['func'] = "tad_player_search";
 //---樣板設定---//
 $modversion['templates'] = array();
 $i=1;
-$modversion['templates'][$i]['file'] = 'tp_adm_main.html';
-$modversion['templates'][$i]['description'] = 'tp_adm_main.html';
+$modversion['templates'][$i]['file'] = 'tad_player_adm_main.html';
+$modversion['templates'][$i]['description'] = 'tad_player_adm_main.html';
 
 $i++;
-$modversion['templates'][$i]['file'] = 'tp_adm_cate.html';
-$modversion['templates'][$i]['description'] = 'tp_adm_cate.html';
+$modversion['templates'][$i]['file'] = 'tad_player_adm_cate_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_player_adm_cate_b3.html';
 
 $i++;
-$modversion['templates'][$i]['file'] = 'tp_main_tpl.html';
-$modversion['templates'][$i]['description'] = 'tp_main_tpl.html';
+$modversion['templates'][$i]['file'] = 'tad_player_adm_cate.html';
+$modversion['templates'][$i]['description'] = 'tad_player_adm_cate.html';
 
 $i++;
-$modversion['templates'][$i]['file'] = 'tp_play_tpl.html';
-$modversion['templates'][$i]['description'] = 'tp_play_tpl.html';
+$modversion['templates'][$i]['file'] = 'tad_player_adm_cate_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_player_adm_cate_b3.html';
 
 $i++;
-$modversion['templates'][$i]['file'] = 'tp_upload_tpl.html';
-$modversion['templates'][$i]['description'] = 'tp_upload_tpl.html';
+$modversion['templates'][$i]['file'] = 'tad_player_index.html';
+$modversion['templates'][$i]['description'] = 'tad_player_index.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tad_player_index_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_player_index_b3.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tad_player_play.html';
+$modversion['templates'][$i]['description'] = 'tad_player_play.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tad_player_play_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_player_play_b3.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tad_player_upload.html';
+$modversion['templates'][$i]['description'] = 'tad_player_upload.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tad_player_upload_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_player_upload_b3.html';
 
 
 //---區塊設定---//
@@ -189,4 +209,3 @@ $modversion['config'][$i]['description'] = '_MI_STAR_RATING_DESC';
 $modversion['config'][$i]['formtype'] = 'yesno';
 $modversion['config'][$i]['valuetype'] = 'int';
 $modversion['config'][$i]['default'] = '1';
-?>

@@ -1,13 +1,12 @@
 <?php
-
-/*-----------¤Þ¤JÀÉ®×°Ï--------------*/
-$xoopsOption['template_main'] = "tp_adm_main.html";
+/*-----------å¼•å…¥æª”æ¡ˆå€--------------*/
+$xoopsOption['template_main'] = "tad_player_adm_main.html";
 include_once "header.php";
 include_once "../function.php";
 
 
-/*-----------function°Ï--------------*/
-//¦C¥X©Ò¦³tad_player¸ê®Æ
+/*-----------functionå€--------------*/
+//åˆ—å‡ºæ‰€æœ‰tad_playerè³‡æ–™
 function list_tad_player($pcsn=""){
   global $xoopsDB,$xoopsModule,$xoopsModuleConfig,$xoopsTpl;
 
@@ -88,7 +87,7 @@ function list_tad_player($pcsn=""){
 
 
 
-//­«·s²£¥Í©Ò¦³ªºXML
+//é‡æ–°ç”¢ç”Ÿæ‰€æœ‰çš„XML
 function mk_all_xml($the_pcsn=""){
   global $xoopsDB;
   $sql = "select pcsn,title from ".$xoopsDB->prefix("tad_player_cate");
@@ -104,7 +103,7 @@ function mk_all_xml($the_pcsn=""){
   return;
 }
 
-//Àx¦s±Æ§Ç
+//å„²å­˜æŽ’åº
 function save_sort(){
   global $xoopsDB;
   foreach($_POST['sort'] as $psn => $sort){
@@ -116,14 +115,14 @@ function save_sort(){
 }
 
 
-//§å¦¸§R°£
+//æ‰¹æ¬¡åˆªé™¤
 function batch_del(){
   foreach($_POST['video'] as $psn){
     delete_tad_player($psn);
   }
 }
 
-//§å¦¸·h²¾
+//æ‰¹æ¬¡æ¬ç§»
 function batch_move($new_pcsn=""){
   global $xoopsDB;
   $videos=implode(",",$_POST['video']);
@@ -133,7 +132,7 @@ function batch_move($new_pcsn=""){
 }
 
 
-//§å¦¸·s¼W¼ÐÃD
+//æ‰¹æ¬¡æ–°å¢žæ¨™é¡Œ
 function batch_add_title(){
   global $xoopsDB;
   $videos=implode(",",$_POST['video']);
@@ -142,7 +141,7 @@ function batch_add_title(){
 }
 
 
-//§å¦¸·s¼W»¡©ú
+//æ‰¹æ¬¡æ–°å¢žèªªæ˜Ž
 function batch_add_info(){
   global $xoopsDB;
   $videos=implode(",",$_POST['video']);
@@ -151,7 +150,7 @@ function batch_add_info(){
   return $sn;
 }
 
-//§å¦¸§ó·s¼e»P°ª
+//æ‰¹æ¬¡æ›´æ–°å¯¬èˆ‡é«˜
 function update_wh(){
   global $xoopsDB;
   $videos=implode(",",$_POST['video']);
@@ -159,7 +158,7 @@ function update_wh(){
   $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error()."<br>$sql");
   return $sn;
 }
-/*-----------°õ¦æ°Ê§@§PÂ_°Ï----------*/
+/*-----------åŸ·è¡Œå‹•ä½œåˆ¤æ–·å€----------*/
 $op = (!isset($_REQUEST['op']))? "":$_REQUEST['op'];
 $psn=(empty($_REQUEST['psn']))?"":intval($_REQUEST['psn']);
 $pcsn=(empty($_REQUEST['pcsn']))?"":intval($_REQUEST['pcsn']);
@@ -168,13 +167,13 @@ $new_pcsn=(empty($_REQUEST['new_pcsn']))?"":intval($_REQUEST['new_pcsn']);
 
 switch($op){
 
-  //Àx¦s±Æ§Ç
+  //å„²å­˜æŽ’åº
   case "save_sort":
   save_sort();
   header("location: {$_SERVER['PHP_SELF']}?pcsn=$pcsn");
   break;
 
-  //­«·s²£¥Í©Ò¦³ªºXML
+  //é‡æ–°ç”¢ç”Ÿæ‰€æœ‰çš„XML
   case "mk_all_xml":
   $main=mk_all_xml();
   break;
@@ -213,13 +212,12 @@ switch($op){
   break;
 
 
-  //¹w³]°Ê§@
+  //é è¨­å‹•ä½œ
   default:
   list_tad_player($pcsn);
   break;
 
 }
 
-/*-----------¨q¥Xµ²ªG°Ï--------------*/
+/*-----------ç§€å‡ºçµæžœå€--------------*/
 include_once 'footer.php';
-?>

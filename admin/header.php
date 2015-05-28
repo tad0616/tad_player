@@ -33,6 +33,10 @@ if (!isset($xoopsTpl) || !is_object($xoopsTpl)) {
     $xoopsTpl = new XoopsTpl() ;
 }
 
+if(file_exists(XOOPS_ROOT_PATH."/modules/tadtools/include/beforeheader.php")){
+  include_once XOOPS_ROOT_PATH."/modules/tadtools/include/beforeheader.php";
+  $xoopsOption['template_main']=set_bootstrap() ;
+}
 xoops_cp_header();
 
 // Define Stylesheet and JScript
@@ -40,4 +44,3 @@ $xoTheme->addStylesheet( XOOPS_URL . "/modules/" . $xoopsModule->getVar('dirname
 //$xoTheme->addScript("browse.php?Frameworks/jquery/jquery.js");
 //$xoTheme->addScript("browse.php?modules/" . $xoopsModule->getVar("dirname") . "/js/admin.js");
 
-?>

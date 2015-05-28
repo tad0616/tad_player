@@ -213,5 +213,3 @@ function getYTid($ytURL=""){
     return $params['v'];
  }
 }
-
-?>

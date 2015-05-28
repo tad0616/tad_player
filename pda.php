@@ -58,12 +58,12 @@ function show_cate($pcsn,$passwd){
 		}
 
     $data.="
-    <div class='PhotoCate' style='background-image:url($pic);background-repeat:no-repeat;background-position:center center;background-size:cover' onClick=\"location.href='{$_SERVER['PHP_SELF']}?psn={$psn}';\">
+    <div class='PhotoCate' style='background-image:url($pic);background-repeat:no-repeat;background-position:center center;background-size:cover' onClick=\"location.href='{$_SERVER['PHP_SELF']}?psn={$psn}';\" onfocus=\"location.href='{$_SERVER['PHP_SELF']}?psn={$psn}';\">
     <div style='color:#D0D0D0;' class='text_shadow'>{$title}</div>
     </div>
     ";
   }
-  
+
   $main="
   <div id='main'>
     <p>{$data}</p>
@@ -121,7 +121,7 @@ function view_media($psn=""){
     $title=xoops_substr($pnp['next']['title'], 0, 30);
     $next_news="<a href='{$_SERVER['PHP_SELF']}?psn={$pnp['next']['psn']}' class='nav'>&#x21E8; {$title}</a>";
   }
-  
+
 
 
   $home="<a href='{$_SERVER['PHP_SELF']}?pcsn=$pcsn' class='nav'>&#x21E7;"._TAD_BACK_PAGE."</a>";
@@ -132,7 +132,7 @@ function view_media($psn=""){
    <div>$next_news</div>
    </p>
    <div style='clear:both;'></div>";
-   
+
   $data="
   <table id='main' style='width:100%;'>
   <tr><td align='center'><a name='video_top'>{$play_code}</a></td></tr>
@@ -173,7 +173,7 @@ function get_pre_next($pcsn="",$now_sn=""){
   $main['back']['title']=$pre_title;
   $main['next']['psn']=$next;
   $main['next']['title']=$next_title;
-  
+
   return $main;
 }
 
@@ -228,7 +228,7 @@ echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>
       text-decoration:none;
       border:none;
     }
-    
+
     .nav{
       color:#FFFF99;
     }

@@ -11,4 +11,3 @@ foreach ($updateRecordsArray as $recordIDValue) {
 }
 
 echo "Save Sort OK! (".date("Y-m-d H:i:s").")";
-?>

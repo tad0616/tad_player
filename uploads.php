@@ -1,13 +1,7 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2008-02-28
-// $Id: uploads.php,v 1.1 2008/05/05 03:23:49 tad Exp $
-// ------------------------------------------------------------------------- //
-
 /*-----------引入檔案區--------------*/
 include_once "header.php";
-$xoopsOption['template_main'] = "tp_upload_tpl.html";
+$xoopsOption['template_main'] = "tad_player_upload.html";
 include XOOPS_ROOT_PATH."/header.php";
 
 if(sizeof($upload_powers) <= 0 or empty($xoopsUser)){

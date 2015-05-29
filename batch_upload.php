@@ -2,8 +2,10 @@
 include_once "header.php";
 include_once "language/{$xoopsConfig['language']}/batch.php";
 
-$op=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
-$pcsn=(isset($_REQUEST['pcsn']))?intval($_REQUEST['pcsn']) : 0;
+
+include_once $GLOBALS['xoops']->path( '/modules/system/include/functions.php' );
+$op=system_CleanVars( $_REQUEST, 'op', '', 'string' );
+$pcsn=system_CleanVars( $_REQUEST, 'pcsn', 0, 'int' );
 
 switch($op){
 	case "import":

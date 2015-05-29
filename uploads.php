@@ -1,11 +1,11 @@
 <?php
 /*-----------引入檔案區--------------*/
 include_once "header.php";
-$xoopsOption['template_main'] = "tad_player_upload.html";
-include XOOPS_ROOT_PATH."/header.php";
+$xoopsOption['template_main'] = set_bootstrap("tad_player_uploads.html");
+include_once XOOPS_ROOT_PATH."/header.php";
 
 if(sizeof($upload_powers) <= 0 or empty($xoopsUser)){
-  redirect_header(XOOPS_URL."/user.php",3, _TADPLAYER_NO_UPLOAD_POWER);
+  redirect_header(XOOPS_URL."/user.php",3, _MD_TADPLAYER_NO_UPLOAD_POWER);
 }
 /*-----------function區--------------*/
 
@@ -67,10 +67,16 @@ function tad_player_form($psn=""){
 
 
   //可見群組
-  $SelectGroup_name = new XoopsFormSelectGroup("", "enable_group", false,$enable_group, 4, true);
-  $SelectGroup_name->addOption("", _MD_TADPLAYER_ALL_OK, false);
-  $SelectGroup_name->setExtra("class='span12'");
-  $enable_group = $SelectGroup_name->render();
+  $member_handler = &xoops_gethandler('member');
+  $group_arr=$member_handler->getGroupList();
+  $xoopsTpl->assign('group_arr' , $group_arr);
+  $xoopsTpl->assign('enable_group' , $enable_group);
+  //die(var_export($enable_group));
+
+  // $SelectGroup_name = new XoopsFormSelectGroup("", "enable_group", false,$enable_group, 4, true);
+  // $SelectGroup_name->addOption("", _MD_TADPLAYER_ALL_OK, false);
+  // $SelectGroup_name->setExtra("class='span12'");
+  // $enable_group = $SelectGroup_name->render();
 
   $op=(empty($psn))?"insert_tad_player":"update_tad_player";
   //$op="replace_tad_player";
@@ -121,22 +127,22 @@ function tad_player_form($psn=""){
 
 }
 
-function choice_logo($def_file=''){
-  $dh=opendir(XOOPS_ROOT_PATH."/uploads/tad_player/logo/");
-  $main="";
-  while($file=readdir($dh)){
-    if($file=="." or $file==".." or empty($file))continue;
-    $selected=($file==$def_file)?"selected":"";
-    $main.="<option value='{$file}' $selected>{$file}</option>";
-  }
+// function choice_logo($def_file=''){
+//   $dh=opendir(XOOPS_ROOT_PATH."/uploads/tad_player/logo/");
+//   $main="";
+//   while($file=readdir($dh)){
+//     if($file=="." or $file==".." or empty($file))continue;
+//     $selected=($file==$def_file)?"selected":"";
+//     $main.="<option value='{$file}' $selected>{$file}</option>";
+//   }
 
-  if(empty($main))return;
+//   if(empty($main))return;
 
-  $all="
-  <option value=''></option>
-  $main";
-  return $all;
-}
+//   $all="
+//   <option value=''></option>
+//   $main";
+//   return $all;
+// }
 
 
 //新增資料到tad_player中
@@ -177,21 +183,21 @@ function insert_tad_player(){
     $contents = utf8_encode($contents);
     //$ytb = json_decode($contents,false);
     $ytb = get_object_vars(json_decode($contents));
-/*
-$thumbnail_width = 480;
-$title = 王心凌 Cyndi Wang 變成陌生人 官方HD MV;
-$type = video;
-$provider_name = YouTube;
-$provider_url = http://www.youtube.com/;
-$thumbnail_height = 360;
-$width = 480;
-$height = 270;
-$html = <iframe width="480" height="270" src="http://www.youtube.com/embed/3B4fyi-xXzo?feature=oembed" frameborder="0" allowfullscreen></iframe>;
-$author_name = universaltwn;
-$version = 1.0;
-$author_url = http://www.youtube.com/user/universaltwn;
-$thumbnail_url = http://i4.ytimg.com/vi/3B4fyi-xXzo/hqdefault.jpg;
-*/
+    /*
+    $thumbnail_width = 480;
+    $title = 王心凌 Cyndi Wang 變成陌生人 官方HD MV;
+    $type = video;
+    $provider_name = YouTube;
+    $provider_url = http://www.youtube.com/;
+    $thumbnail_height = 360;
+    $width = 480;
+    $height = 270;
+    $html = <iframe width="480" height="270" src="http://www.youtube.com/embed/3B4fyi-xXzo?feature=oembed" frameborder="0" allowfullscreen></iframe>;
+    $author_name = universaltwn;
+    $version = 1.0;
+    $author_url = http://www.youtube.com/user/universaltwn;
+    $thumbnail_url = http://i4.ytimg.com/vi/3B4fyi-xXzo/hqdefault.jpg;
+    */
     $_POST['height']=round(($ytb['height']/$ytb['width']) * $_POST['width']);
     $image=$ytb['thumbnail_url'];
     if(empty($_POST['title']))$_POST['title']=$ytb['title'];
@@ -370,36 +376,36 @@ function upload_pic($psn="",$update_sql=false){
 
   $img_handle = new upload($_FILES['image'],"zh_TW");
   if ($img_handle->uploaded) {
-      //$name=substr($_FILES['image']['name'],0,-4);
-      $img_handle->file_safe_name = false;
-      $img_handle->file_new_name_body   = "{$psn}";
-      $img_handle->image_convert = 'png';
-      $img_handle->image_resize         = true;
-      $img_handle->image_x              = 1024;
-      $img_handle->image_ratio_y        = true;
-      $img_handle->process(_TAD_PLAYER_IMG_DIR);
+    //$name=substr($_FILES['image']['name'],0,-4);
+    $img_handle->file_safe_name = false;
+    $img_handle->file_new_name_body   = "{$psn}";
+    $img_handle->image_convert = 'png';
+    $img_handle->image_resize         = true;
+    $img_handle->image_x              = 1024;
+    $img_handle->image_ratio_y        = true;
+    $img_handle->process(_TAD_PLAYER_IMG_DIR);
 
-      //製作縮圖
-      $img_handle->file_safe_name = false;
-      $img_handle->file_new_name_body   = "s_{$psn}";
-      $img_handle->image_convert = 'png';
-      $img_handle->image_resize         = true;
-      $img_handle->image_x              = 120;
-      $img_handle->image_ratio_y        = true;
-      $img_handle->process(_TAD_PLAYER_IMG_DIR);
-      $img_handle->auto_create_dir = true;
-      if ($img_handle->processed) {
-          if($update_sql){
-            $sql = "update ".$xoopsDB->prefix("tad_player")." set `image`='{$psn}.png' where `psn`='$psn'";
-            $result=$xoopsDB->queryF($sql) or die(mysql_error());
+    //製作縮圖
+    $img_handle->file_safe_name = false;
+    $img_handle->file_new_name_body   = "s_{$psn}";
+    $img_handle->image_convert = 'png';
+    $img_handle->image_resize         = true;
+    $img_handle->image_x              = 120;
+    $img_handle->image_ratio_y        = true;
+    $img_handle->process(_TAD_PLAYER_IMG_DIR);
+    $img_handle->auto_create_dir = true;
+    if ($img_handle->processed) {
+      if($update_sql){
+        $sql = "update ".$xoopsDB->prefix("tad_player")." set `image`='{$psn}.png' where `psn`='$psn'";
+        $result=$xoopsDB->queryF($sql) or die(mysql_error());
 
-          }
-
-          $img_handle->clean();
-          return true;
-      } else {
-          redirect_header($_SERVER['PHP_SELF'],3, "Error:".$img_handle->error);
       }
+
+      $img_handle->clean();
+      return true;
+    } else {
+      redirect_header($_SERVER['PHP_SELF'],3, "Error:".$img_handle->error);
+    }
   }
 }
 
@@ -420,32 +426,32 @@ function upload_logo($psn=""){
 
   $img_handle = new upload($_FILES['logo'],"zh_TW");
   if ($img_handle->uploaded) {
-      //$name=substr($_FILES['image']['name'],0,-4);
-      $img_handle->file_safe_name = false;
-      $img_handle->file_new_name_body   = "{$psn}";
-      $img_handle->image_convert = 'png';
-      $img_handle->process(XOOPS_ROOT_PATH."/uploads/tad_player/logo");
-      $img_handle->auto_create_dir = true;
-      if ($img_handle->processed) {
+    //$name=substr($_FILES['image']['name'],0,-4);
+    $img_handle->file_safe_name = false;
+    $img_handle->file_new_name_body   = "{$psn}";
+    $img_handle->image_convert = 'png';
+    $img_handle->process(XOOPS_ROOT_PATH."/uploads/tad_player/logo");
+    $img_handle->auto_create_dir = true;
+    if ($img_handle->processed) {
 
-          $sql = "update ".$xoopsDB->prefix("tad_player")." set `logo`='{$psn}.png' where `psn`='$psn'";
-          $result=$xoopsDB->queryF($sql) or die(mysql_error());
+      $sql = "update ".$xoopsDB->prefix("tad_player")." set `logo`='{$psn}.png' where `psn`='$psn'";
+      $result=$xoopsDB->queryF($sql) or die(mysql_error());
 
 
-          $img_handle->clean();
-          return true;
-      } else {
-          redirect_header($_SERVER['PHP_SELF'],3, "Error:".$img_handle->error);
-      }
+      $img_handle->clean();
+      return true;
+    } else {
+      redirect_header($_SERVER['PHP_SELF'],3, "Error:".$img_handle->error);
+    }
   }
 }
 /*-----------執行動作判斷區----------*/
-$op = (!isset($_REQUEST['op']))? "":$_REQUEST['op'];
-$psn = (!isset($_REQUEST['psn']))? "":$_REQUEST['psn'];
-$pcsn = (!isset($_REQUEST['pcsn']))? "":$_REQUEST['pcsn'];
+include_once $GLOBALS['xoops']->path( '/modules/system/include/functions.php' );
+$op=system_CleanVars( $_REQUEST, 'op', '', 'string' );
+$psn=system_CleanVars( $_REQUEST, 'psn', 0, 'int' );
+$pcsn=system_CleanVars( $_REQUEST, 'pcsn', 0, 'int' );
 
 $xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;
-$xoopsTpl->assign( "bootstrap" , get_bootstrap()) ;
 $xoopsTpl->assign( "jquery" , get_jquery(true)) ;
 
 
@@ -477,8 +483,4 @@ switch($op){
 }
 
 /*-----------秀出結果區--------------*/
-
 include_once XOOPS_ROOT_PATH.'/footer.php';
-
-
-?>

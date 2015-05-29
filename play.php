@@ -1,8 +1,8 @@
 <?php
 /*-----------引入檔案區--------------*/
-include "header.php";
-$xoopsOption['template_main'] = "tad_player_play.html";
-include XOOPS_ROOT_PATH."/header.php";
+include_once "header.php";
+$xoopsOption['template_main'] = set_bootstrap("tad_player_play.html");
+include_once XOOPS_ROOT_PATH."/header.php";
 /*-----------function區--------------*/
 
 //播放
@@ -43,15 +43,6 @@ function play($get_psn=""){
   }
 
 
-  $arr=get_pcsn_path($file['pcsn']);
-  if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/jBreadCrumb.php")){
-    redirect_header("index.php",3, _MD_NEED_TADTOOLS);
-  }
-  include_once XOOPS_ROOT_PATH."/modules/tadtools/jBreadCrumb.php";
-  $jBreadCrumb=new jBreadCrumb($arr,false);
-  $path=$jBreadCrumb->render();
-
-
   $jquery_path=get_jquery(true);
 
   $xoops_module_header="
@@ -77,7 +68,6 @@ function play($get_psn=""){
 
   $xoopsTpl->assign( "media" , $play_code) ;
   $xoopsTpl->assign( "content" , $file['content']) ;
-  $xoopsTpl->assign( "path_bar" , $path);
   if (is_object($xoTheme)) {
     $xoTheme->addMeta( 'meta', 'keywords', $file['title']);
     $xoTheme->addMeta( 'meta', 'description', $info) ;
@@ -95,7 +85,7 @@ $xoopsTpl->assign( "pcsn" , $file['pcsn']) ;
 
 //找出選單
 function get_cate_play($get_psn="",$size=1){
-  global $xoopsDB,$xoopsModuleConfig;
+  global $xoopsDB,$xoopsTpl;
   $file=get_tad_player($get_psn);
 
   $sql = "select a.psn,a.title,b.title from ".$xoopsDB->prefix("tad_player")." as a left join ".$xoopsDB->prefix("tad_player_cate")." as b on a.pcsn=b.pcsn where a.pcsn='{$file['pcsn']}' order by a.sort, a.post_date desc";
@@ -107,7 +97,11 @@ function get_cate_play($get_psn="",$size=1){
     $option.="<option value='{$psn}' $selected>$title</option>\n";
   }
 
+  //$cate_arr=get_tad_player_cate_path($file['pcsn']);
   $cate_select=get_tad_player_cate_option(0,0,$file['pcsn']);
+  $xoopsTpl->assign('cate_select',$cate_select);
+
+
   $select="
   <form action='' method='post'>
   <select id='main_opt' name='main_opt' onchange='getList(this)' style='width:150px;'>
@@ -123,9 +117,10 @@ function get_cate_play($get_psn="",$size=1){
 }
 
 /*-----------執行動作判斷區----------*/
-$op=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
-$psn=(empty($_REQUEST['psn']))?"":intval($_REQUEST['psn']);
-$pcsn=(empty($_REQUEST['pcsn']))?"":intval($_REQUEST['pcsn']);
+include_once $GLOBALS['xoops']->path( '/modules/system/include/functions.php' );
+$op=system_CleanVars( $_REQUEST, 'op', '', 'string' );
+$psn=system_CleanVars( $_REQUEST, 'psn', 0, 'int' );
+$pcsn=system_CleanVars( $_REQUEST, 'pcsn', 0, 'int' );
 
 $xoopsTpl->assign( "toolbar" , toolbar_bootstrap($interface_menu)) ;
 $xoopsTpl->assign( "bootstrap" , get_bootstrap()) ;

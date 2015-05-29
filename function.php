@@ -1,29 +1,102 @@
 <?php
-//引入TadTools的函式庫
-if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php")){
- redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50",3, _TAD_NEED_TADTOOLS);
-}
-include_once XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php";
-
-
-
-define("_TAD_PLAYER_UPLOAD_DIR",XOOPS_ROOT_PATH."/uploads/tad_player/");
-define("_TAD_PLAYER_FLV_DIR",XOOPS_ROOT_PATH."/uploads/tad_player/flv/");
-define("_TAD_PLAYER_IMG_DIR",XOOPS_ROOT_PATH."/uploads/tad_player/img/");
-
 $uid_dir=0;
 if($xoopsUser){
   $uid_dir=$xoopsUser->getVar('uid');
 }
-
-define("_TAD_PLAYER_BATCH_UPLOAD_DIR",XOOPS_ROOT_PATH."/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
-mk_dir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
-define("_TAD_PLAYER_BATCH_UPLOAD_URL",XOOPS_URL."/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
-
 $ok_video_ext=array("flv","mp4","m4v","f4v","mov","mp3","webm","ogv","ogg","swf","3gp","3g2","aac","m4a");
 $ok_image_ext=array("jpg","png","gif");
 
 include_once "function_player.php";
+
+//路徑導覽
+function tad_player_breadcrumb($pcsn='0',$array=array()){
+  $divider=$_SESSION['bootstrap']=='3'?"":" <span class='divider'>/</span>";
+  $item="";
+  if(is_array($array)){
+    foreach($array as $cate){
+      $url=($pcsn==$cate['pcsn'])?"<a href='index.php?pcsn={$cate['pcsn']}' style='color: gray;'>{$cate['title']}</a>":"<a href='index.php?pcsn={$cate['pcsn']}'>{$cate['title']}</a>";
+      $active=($pcsn==$cate['pcsn'])?" class='active'":"";
+
+      if(!empty($cate['sub']) and is_array($cate['sub']) and ($pcsn!=$cate['pcsn'] or $pcsn==0)){
+        $item.="
+        <li class='dropdown'>
+          <a class='dropdown-toggle' data-toggle='dropdown' href='index.php?pcsn={$cate['pcsn']}'>
+            {$cate['title']} <span class='caret'></span>
+          </a>
+          <ul class='dropdown-menu' role='menu'>";
+        foreach($cate['sub'] as $sub_pcsn=>$sub_title){
+          $item.="<li><a href='index.php?pcsn={$sub_pcsn}'>{$sub_title}</a></li>\n";
+        }
+        $item.="
+          </ul>
+          {$divider}
+        </li>";
+      }else{
+        $item.="<li{$active}>{$url} {$divider}</li>";
+      }
+    }
+  }
+
+  $main="
+  <ul class='breadcrumb'>
+    $item
+  </ul>
+  ";
+  return $main;
+}
+
+
+//取得路徑
+function get_tad_player_cate_path($the_pcsn=""){
+  global $xoopsDB;
+
+  $arr[0]['pcsn']="0";
+  $arr[0]['title']="<i class='fa fa-home'></i>";
+  $arr[0]['sub']=get_tad_player_sub_cate(0);
+
+  if(!empty($the_pcsn)){
+
+    $tbl=$xoopsDB->prefix("tad_player_cate");
+    $sql="SELECT t1.pcsn AS lev1, t2.pcsn as lev2, t3.pcsn as lev3, t4.pcsn as lev4, t5.pcsn as lev5, t6.pcsn as lev6, t7.pcsn as lev7
+    FROM `{$tbl}` t1
+    LEFT JOIN `{$tbl}` t2 ON t2.of_csn = t1.pcsn
+    LEFT JOIN `{$tbl}` t3 ON t3.of_csn = t2.pcsn
+    LEFT JOIN `{$tbl}` t4 ON t4.of_csn = t3.pcsn
+    LEFT JOIN `{$tbl}` t5 ON t5.of_csn = t4.pcsn
+    LEFT JOIN `{$tbl}` t6 ON t6.of_csn = t5.pcsn
+    LEFT JOIN `{$tbl}` t7 ON t7.of_csn = t6.pcsn
+    WHERE t1.of_csn = '0'";
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+    while($all=$xoopsDB->fetchArray($result)){
+      if(in_array($the_ppcsn,$all)){
+        //$main.="-";
+        foreach ($all as $pcsn) {
+          if(!empty($pcsn)){
+            $arr[$pcsn]=get_tad_player_cate($pcsn);
+            $arr[$pcsn]['sub']=get_tad_player_sub_cate($pcsn);
+            if($pcsn==$the_pcsn){
+              break;
+            }
+          }
+        }
+        //$main.="<br>";
+        break;
+      }
+    }
+  }
+  return $arr;
+}
+
+function get_tad_player_sub_cate($pcsn="0"){
+  global $xoopsDB;
+  $sql = "select pcsn,title from ".$xoopsDB->prefix("tad_player_cate")." where of_csn='{$pcsn}'";
+  $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error()."<br>$sql");
+  $pcsn_arr="";
+  while(list($pcsn,$title)=$xoopsDB->fetchRow($result)){
+    $pcsn_arr[$pcsn]=$title;
+  }
+  return $pcsn_arr;
+}
 
 
 //底下影片數
@@ -38,7 +111,7 @@ function count_video_num($pcsn="0"){
     $sub_count+=$sub['num'];
   }
 
-  $pic="";
+  $pic='';
 
   //該目錄影片數
   $sql = "select psn,image,location from ".$xoopsDB->prefix("tad_player")." where pcsn = '$pcsn' order by rand()";
@@ -64,39 +137,29 @@ function count_video_num($pcsn="0"){
   }
   $counter['num']=$count + $sub_count;
   $counter['rel_num']=$count;
-  $counter['img']=$pic;
+  $counter['img']=empty($pic)?get_cate_image($pcsn):$pic;
   return $counter;
 }
 
 
-
-//取得路徑
-function get_pcsn_path($pcsn="",$sub=false){
+//隨機取得底下影片的縮圖
+function get_cate_image($pcsn="0"){
   global $xoopsDB;
-
-  if(!$sub){
-    $home[_TAD_TO_MOD]=XOOPS_URL."/modules/tad_player/index.php";
-  }else{
-    $home=array();
-  }
-
-  $sql = "select title,of_csn from ".$xoopsDB->prefix("tad_player_cate")." where pcsn='{$pcsn}'";
+  $sql = "select psn,image from ".$xoopsDB->prefix("tad_player")." where pcsn = '$pcsn' and image!='' order by rand() limit 0,1";
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
-  list($title,$of_csn)=$xoopsDB->fetchRow($result);
-
-  $opt_sub=(!empty($of_csn))?get_pcsn_path($of_csn,true):"";
-  $opt='';
-  if(!empty($title)){
-    $opt[$title]=XOOPS_URL."/modules/tad_player/index.php?pcsn=$pcsn";
-  }
-  if(is_array($opt_sub)){
-    $path=array_merge($home,$opt_sub,$opt);
-  }elseif(is_array($opt)){
-    $path=array_merge($home,$opt);
+  list($psn,$image)=$xoopsDB->fetchRow($result);
+  if(empty($image)){
+    $sql = "select pcsn from ".$xoopsDB->prefix("tad_player_cate")." where of_csn = '$pcsn' order by rand()";
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
+    while(list($pcsn)=$xoopsDB->fetchRow($result)){
+      $image=get_cate_image($pcsn);
+      if($image){
+        return $image;
+      }
+    }
   }else{
-    $path=$home;
+    return $image;
   }
-  return $path;
 }
 
 //熱門影片
@@ -130,18 +193,6 @@ function add_tad_player_cate(){
   return $pcsn;
 }
 
-//分類選單
-function cate_select($pcsn=0,$size=20){
-  $cate_select=get_tad_player_cate_option(0,0,$pcsn);
-
-  $PHP_SELF=basename($_SERVER['PHP_SELF']);
-  $select="
-  <select name='pcsn' class='span12' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
-  $cate_select
-  </select>";
-
-  return $select;
-}
 
 
 

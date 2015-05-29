@@ -72,8 +72,8 @@ $modversion['templates'][$i]['file'] = 'tad_player_adm_main.html';
 $modversion['templates'][$i]['description'] = 'tad_player_adm_main.html';
 
 $i++;
-$modversion['templates'][$i]['file'] = 'tad_player_adm_cate_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_player_adm_cate_b3.html';
+$modversion['templates'][$i]['file'] = 'tad_player_adm_main_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_player_adm_main_b3.html';
 
 $i++;
 $modversion['templates'][$i]['file'] = 'tad_player_adm_cate.html';
@@ -100,12 +100,20 @@ $modversion['templates'][$i]['file'] = 'tad_player_play_b3.html';
 $modversion['templates'][$i]['description'] = 'tad_player_play_b3.html';
 
 $i++;
-$modversion['templates'][$i]['file'] = 'tad_player_upload.html';
-$modversion['templates'][$i]['description'] = 'tad_player_upload.html';
+$modversion['templates'][$i]['file'] = 'tad_player_uploads.html';
+$modversion['templates'][$i]['description'] = 'tad_player_uploads.html';
 
 $i++;
-$modversion['templates'][$i]['file'] = 'tad_player_upload_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_player_upload_b3.html';
+$modversion['templates'][$i]['file'] = 'tad_player_uploads_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_player_uploads_b3.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tad_player_playlist.html';
+$modversion['templates'][$i]['description'] = 'tad_player_playlist.html';
+
+$i++;
+$modversion['templates'][$i]['file'] = 'tad_player_playlist_b3.html';
+$modversion['templates'][$i]['description'] = 'tad_player_playlist_b3.html';
 
 
 //---區塊設定---//

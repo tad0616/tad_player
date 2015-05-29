@@ -12,7 +12,6 @@ if($xoopsModuleConfig['use_pda']=='1' and strpos($_SESSION['theme_kind'], 'boots
 
 $interface_menu[_TAD_TO_MOD]="index.php";
 
-//判斷是否對該模組有管理權限
 $isAdmin=false;
 if ($xoopsUser) {
   $module_id = $xoopsModule->getVar('mid');
@@ -28,7 +27,7 @@ if(sizeof($upload_powers) > 0 and $xoopsUser){
 
 if(!empty($_REQUEST['pcsn'])){
   $pcsn=intval($_REQUEST['pcsn']);
-  $interface_menu[_MD_TADPLAYER_LIST]="index.php?op=playlist&pcsn={$pcsn}";
+  $interface_menu[_MD_TADPLAYER_LIST]="playlist.php?pcsn={$pcsn}";
   $ptool="?pcsn={$pcsn}";
 }
 

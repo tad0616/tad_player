@@ -87,6 +87,20 @@ function list_tad_player($pcsn=""){
 
 
 
+//分類選單
+function cate_select($pcsn=0,$size=20){
+  $cate_select=get_tad_player_cate_option(0,0,$pcsn);
+
+  $PHP_SELF=basename($_SERVER['PHP_SELF']);
+  $select="
+  <select name='pcsn' class='span12' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
+  $cate_select
+  </select>";
+
+  return $select;
+}
+
+
 //重新產生所有的XML
 function mk_all_xml($the_pcsn=""){
   global $xoopsDB;

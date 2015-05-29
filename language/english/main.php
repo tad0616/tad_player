@@ -4,6 +4,7 @@ define("_MD_TADPLAYER_TITLE","Title");
 define("_MD_TADPLAYER_CREATOR","Provider");
 define("_MD_TADPLAYER_OF_CSN","Category");
 define("_MD_TADPLAYER_ENABLE_GROUP","Authorized Group");
+define("_MD_TADPLAYER_ENABLE_GROUP_DESC","If not checked, which means that anyone can watch this video.");
 define("_MD_TADPLAYER_ALL_OK","All groups");
 define("_MD_TADPLAYER_CATE_SELECT","Not classified");
 define("_MD_TADPLAYER_BLANK"," ");
@@ -17,12 +18,11 @@ define("_MD_TADPLAYER_CATE_VIDEO_NUM","%s videos");
 define("_MD_TADPLAYER_CATE_NUM","%s categories");
 
 define("_MD_TADPLAYER_UPLOAD", "Upload video");
-define("_TADPLAYER_NO_UPLOAD_POWER","You are not authorized to upload videos!");
+define("_MD_TADPLAYER_NO_UPLOAD_POWER","You are not authorized to upload videos!");
 
 //uploads.php
 define("_MD_INPUT_FORM","Upload video");
-define("_MI_TADPLAYER_BATCH_UPLOAD", "Batch upload");
-define("_MI_TADPLAYER_JAVA_UPLOAD", "large upload");
+define("_MD_TADPLAYER_BATCH_UPLOAD", "Batch upload");
 define("_MD_TADPLAYER_NEW_PCSN","Creat a new sub-category from the category on left side");
 define("_MD_TADPLAYER_FLV_LINK","Please paste the URL of flv");
 define("_MD_TADPLAYER_YOUTUBE_LINK","Please paste the YouTube URL");

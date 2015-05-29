@@ -1,8 +1,23 @@
 <?php
+//引入TadTools的函式庫
+if(!file_exists(XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php")){
+ redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50",3, _TAD_NEED_TADTOOLS);
+}
+include_once XOOPS_ROOT_PATH."/modules/tadtools/tad_function.php";
+
+define("_TAD_PLAYER_UPLOAD_DIR",XOOPS_ROOT_PATH."/uploads/tad_player/");
+define("_TAD_PLAYER_FLV_DIR",XOOPS_ROOT_PATH."/uploads/tad_player/flv/");
+define("_TAD_PLAYER_IMG_DIR",XOOPS_ROOT_PATH."/uploads/tad_player/img/");
 
 define("_TAD_PLAYER_UPLOAD_URL",XOOPS_URL."/uploads/tad_player/");
 define("_TAD_PLAYER_FLV_URL",XOOPS_URL."/uploads/tad_player/flv/");
 define("_TAD_PLAYER_IMG_URL",XOOPS_URL."/uploads/tad_player/img/");
+
+define("_TAD_PLAYER_BATCH_UPLOAD_DIR",XOOPS_ROOT_PATH."/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
+mk_dir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
+define("_TAD_PLAYER_BATCH_UPLOAD_URL",XOOPS_URL."/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
+
+
 
 //以流水號取得某筆tad_player資料
 function get_tad_player($psn=""){

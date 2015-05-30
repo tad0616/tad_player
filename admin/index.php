@@ -32,6 +32,5 @@ $index_admin->addLineConfigLabel(_AM_XDIR_CONFIG_XOOPS, $xoopsModule->getInfo("m
 echo $index_admin->addNavigation('index.php');
 echo $index_admin->renderIndex();
 
-
 include __DIR__ . '/footer.php';
 xoops_cp_footer();

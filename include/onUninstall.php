@@ -29,7 +29,7 @@ function delete_directory($dirname) {
     return true;
 }
 
-//«þ¨©¥Ø¿ý
+//Â«Ã¾Â¨Â©Â¥Ã˜Â¿Ã½
 function full_copy( $source="", $target=""){
 	if ( is_dir( $source ) ){
 		@mkdir( $target );

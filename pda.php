@@ -1,18 +1,18 @@
 <?php
 //  ------------------------------------------------------------------------ //
-// ¥»¼Ò²Õ¥Ñ tad »s§@
-// »s§@¤é´Á¡G2008-03-23
+// æœ¬æ¨¡çµ„ç”± tad è£½ä½œ
+// è£½ä½œæ—¥æœŸï¼š2008-03-23
 // $Id: index.php,v 1.5 2008/05/10 11:46:50 tad Exp $
 // ------------------------------------------------------------------------- //
 
-/*-----------¤Ş¤JÀÉ®×°Ï--------------*/
+/*-----------å¼•å…¥æª”æ¡ˆå€--------------*/
 if(file_exists("mainfile.php")){
   include_once "mainfile.php";
 }elseif("../../mainfile.php"){
   include_once "../../mainfile.php";
 }
 include_once "function.php";
-/*-----------function°Ï--------------*/
+/*-----------functionå€--------------*/
 
 
 function show_cate($pcsn,$passwd){
@@ -22,16 +22,16 @@ function show_cate($pcsn,$passwd){
 
   $jquery=get_jquery();
 
-  //¥H¬y¤ô¸¹¨ú±o¬Yµ§tad_player_cate¸ê®Æ
+  //ä»¥æµæ°´è™Ÿå–å¾—æŸç­†tad_player_cateè³‡æ–™
   $cate=get_tad_player_cate($pcsn);
 
-  //¥iÆ[¬İ¬ÛÃ¯
+  //å¯è§€çœ‹ç›¸ç°¿
   $ok_cat=chk_cate_power();
 
-  //§e²{¸ê®Æ¹w³]­È
+  //å‘ˆç¾è³‡æ–™é è¨­å€¼
   $data="";
 
-  //§ä¥X¤ÀÃş¤U©Ò¦³¼v­µÀÉ
+  //æ‰¾å‡ºåˆ†é¡ä¸‹æ‰€æœ‰å½±éŸ³æª”
   $sql = "select * from ".$xoopsDB->prefix("tad_player")." where pcsn='{$pcsn}' order by sort , post_date";
   $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'],3, mysql_error());
 
@@ -44,7 +44,7 @@ function show_cate($pcsn,$passwd){
     	$image = basename($image);
 		}
 
-		//¾ã²z¼v¤ù¹ÏÀÉ
+		//æ•´ç†å½±ç‰‡åœ–æª”
 		if(empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR."s_{$psn}.png")){
 			$ext=substr($location,-3);
 	    if($ext=="mp3"){
@@ -74,11 +74,11 @@ function show_cate($pcsn,$passwd){
 
 
 
-//Æ[¬İ¬Y¦h´CÅéÀÉ®×
+//è§€çœ‹æŸå¤šåª’é«”æª”æ¡ˆ
 function view_media($psn=""){
 	global $xoopsDB,$xoopsUser,$xoopsModule,$xoopsModuleConfig,$isAdmin;
 
-	//©Ò¦³¤ÀÃş¦WºÙ
+	//æ‰€æœ‰åˆ†é¡åç¨±
 	$cate_all=get_tad_player_cate_all();
 
 	$all=get_tad_player($psn);
@@ -93,17 +93,17 @@ function view_media($psn=""){
 		}
 	}
 
-	//§ä¥X¤W¤@±i©Î¤U¤@±i
+	//æ‰¾å‡ºä¸Šä¸€å¼µæˆ–ä¸‹ä¸€å¼µ
   $pnp=get_pre_next($pcsn,$psn);
 
-  //­p¼Æ¾¹
+  //è¨ˆæ•¸å™¨
 	add_counter($psn);
 
 	$play_code=play_code_jwplayer("pda{$psn}",$all,$psn,"pda");
 
 	$back_news="";
 	if(!empty($pnp['back']['psn'])){
-	 //¤ä´©xlanguage
+	 //æ”¯æ´xlanguage
     if(function_exists('xlanguage_ml')){
       $pnp['back']['title']=xlanguage_ml($pnp['back']['title']);
     }
@@ -113,7 +113,7 @@ function view_media($psn=""){
 
 	$next_news="";
 	if(!empty($pnp['next']['psn'])){
-	      //¤ä´©xlanguage
+	      //æ”¯æ´xlanguage
       if(function_exists('xlanguage_ml')){
         $pnp['next']['title']=xlanguage_ml($pnp['next']['title']);
       }
@@ -148,7 +148,7 @@ function view_media($psn=""){
 
 
 
-//§ä¥X¤W¤@±i©Î¤U¤@±i
+//æ‰¾å‡ºä¸Šä¸€å¼µæˆ–ä¸‹ä¸€å¼µ
 function get_pre_next($pcsn="",$now_sn=""){
   global $xoopsDB;
   $sql = "select psn,title from ".$xoopsDB->prefix("tad_player")." where pcsn='{$pcsn}' order by sort , post_date";
@@ -178,11 +178,11 @@ function get_pre_next($pcsn="",$now_sn=""){
 }
 
 
-/*-----------°õ¦æ°Ê§@§PÂ_°Ï----------*/
+/*-----------åŸ·è¡Œå‹•ä½œåˆ¤æ–·å€----------*/
 $_REQUEST['op']=(empty($_REQUEST['op']))?"":$_REQUEST['op'];
 
-$psn=(isset($_REQUEST['psn']))?intval($_REQUEST['psn']) : 0;
-$pcsn=(isset($_REQUEST['pcsn']))?intval($_REQUEST['pcsn']) : 0;
+$psn=(isset($_REQUEST['psn']))?(int)($_REQUEST['psn']) : 0;
+$pcsn=(isset($_REQUEST['pcsn']))?(int)($_REQUEST['pcsn']) : 0;
 
 
 $jquery=get_jquery();
@@ -201,11 +201,11 @@ switch($_REQUEST['op']){
 	break;
 }
 
-//¤ÀÃş¤U©Ô¿ï³æ
+//åˆ†é¡ä¸‹æ‹‰é¸å–®
 $cate_option=get_tad_player_cate_option(0,0,$pcsn);
 
 $jquery=get_jquery();
-/*-----------¨q¥Xµ²ªG°Ï--------------*/
+/*-----------ç§€å‡ºçµæœå€--------------*/
 echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>
 <html>
   <head>

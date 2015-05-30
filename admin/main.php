@@ -174,9 +174,9 @@ function update_wh(){
 }
 /*-----------執行動作判斷區----------*/
 $op = (!isset($_REQUEST['op']))? "":$_REQUEST['op'];
-$psn=(empty($_REQUEST['psn']))?"":intval($_REQUEST['psn']);
-$pcsn=(empty($_REQUEST['pcsn']))?"":intval($_REQUEST['pcsn']);
-$new_pcsn=(empty($_REQUEST['new_pcsn']))?"":intval($_REQUEST['new_pcsn']);
+$psn=(empty($_REQUEST['psn']))?"":(int)($_REQUEST['psn']);
+$pcsn=(empty($_REQUEST['pcsn']))?"":(int)($_REQUEST['pcsn']);
+$new_pcsn=(empty($_REQUEST['new_pcsn']))?"":(int)($_REQUEST['new_pcsn']);
 
 
 switch($op){

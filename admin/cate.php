@@ -302,7 +302,7 @@ function auto_get_csn_sort($pcsn=""){
 }
 /*-----------執行動作判斷區----------*/
 $op = (!isset($_REQUEST['op']))? "":$_REQUEST['op'];
-$pcsn = (!isset($_REQUEST['pcsn'])) ? 0 : intval($_REQUEST['pcsn']);
+$pcsn = (!isset($_REQUEST['pcsn'])) ? 0 : (int)($_REQUEST['pcsn']);
 
 switch($op){
 

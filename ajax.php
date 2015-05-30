@@ -26,4 +26,3 @@ function get_cate_options($pcsn="",$def_psn=""){
   }
   return $main;
 }
-?>

@@ -251,5 +251,3 @@ function delete_directory($dirname) {
   rmdir($dirname);
   return true;
 }
-
-?>

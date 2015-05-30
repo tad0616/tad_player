@@ -1,71 +1,71 @@
-   Tad Player3.2 正式版修正項目（2014-07-04釋出）
-   ===================================================
-   1.修正頁籤不正常的問題。
-   2.修正uid欄位
+Tad Player3.2 official version amended project (2014-07-04 release)
+   ================================================== =
+   1. Correction tab is not working properly.
+   2. Fixed uid field
 
-   Tad Player3.1 正式版修正項目（2014-02-17釋出）
-   ===================================================
-   1.修正描述中若有單引號無法寫入的問題。
-   2.精簡語系。
-   3.修正常數重複的情形
-   4.精簡共用函數（需tadtools 2.06以上）
-   5.修正無法顯示影片說明的bug
-   6.修正後台分類管理，樹狀表格無法拖曳和展開縮放的bug
-   7.修正播放清單中因「&」符號導致清單無法正確讀取的問題
-   8.修正後台影片無法刪除的bug
-   9.修正若影片分類只限制某群組可以看，但影音播放清單區塊卻可以繞過此限制的bug（代價是凡是有限定觀看群組之影片，均不會出現在清單中）
-
-
-   Tad Player3.0 正式版修正項目（2013-11-14釋出）
-   ===================================================
-   1.修正批次匯入的語系
-   2.優化播放畫面
-   3.修正上傳圖片不正常的問題
-   4.加強匯入時，檔名的正確性判斷，並有條件的支援中文檔名
-   5.修正「重新產生播放清單」功能無法正確執行的bug
-   6.使用JW Player 6.7播放器
-   7.修正播放清單無法使用的問題
-   8.XML格式改為JQPlayer專屬XML格式
-   9.最新影片及熱門影片區塊加入是否顯示圖片設定
-   10.修正播放清單區塊部份參數無作用的問題
+   Tad Player3.1 official version amended project (2014-02-17 release)
+   ================================================== =
+   1. Fix the problem description if single quote can not be written.
+   2. streamline languages.
+   3. Fix the constant repetition of the situation
+   4. streamline shared functions (need tadtools 2.06 above)
+   5. Fixed the bug can not display video description
+   6. Fixed background classification management, tree form can not drag and expand the scaling bug
+   7. Fixed a problem due to playlist "&" symbol can not read the correct result list
+   8. Fixed bug backstage movie can not be deleted
+   9. If the film classification correction is limited only to a group can see, but audio and video playlists block but can bypass this limitation bug (at the expense of those who have watched the movie a group of qualified, will not appear in the list)
 
 
-   Tad Player3.0 RC1修正項目（2013-07-29釋出）
-   ===================================================
-   1.將模組改為 XOOPS 2.5格式
-   2.套入 bootstrap
-   3.修正上傳權限判斷不夠精確的問題
-   4.移除projekktor播放器（因其不再支援youtube）
-   5.大幅簡化設定項，寬度高度一律自動偵測。
+   Tad Player3.0 official version amended project (2013-11-14 release)
+   ================================================== =
+   1. Fixed batch import of Languages
+   2. Optimize playback screen
+   3. Fixed upload pictures is not working properly
+   4. To strengthen import, the file name of the correctness of the judgment, and the conditional support of the document name
+   5. Fixed "regenerate Playlist" function can not be executed properly bug
+   6. JW Player 6.7 player
+   Question 7. Fixed playlist can not be used
+   8.XML JQPlayer proprietary format to XML format
+   9. The latest videos and popular videos to show images set to join the block
+   10. Fixed playlist parameter block part of the problem no effect
 
 
-   Tad Player 2.0 RC3 版修正項目（2011-11-28釋出）
-   ===================================================
-   1.上傳權限判斷不夠精確
-   2.加強分類管理分類拉動重設所屬分類及拖曳排序功能，避免拉一拉分類消失的窘境。
-   3.加入手持裝置頁面
-   4.加入QR Code區塊
-   5.youtube連結改為自動抓圖
-   6.解決上傳檔名若有大寫可能會抓不到檔案的問題。
-   7.新增支援ipad等iOS裝置。
-   8.修正後台批次刪除檔案時最後沒有自動轉向的問題
+   Tad Player3.0 RC1 amend item (2013-07-29 release)
+   ================================================== =
+   1. The module instead XOOPS 2.5 format
+   2. sets the bootstrap
+   3. Fixed upload permission is not precise enough to judge issues
+   4. Remove projekktor player (because longer supported youtube)
+   5. greatly simplify setting item width height will be automatically detected.
 
 
-   Tad Player 2.0 RC2 版修正項目（2011-03-27釋出）
-   ===================================================
-   1.加入FaceBook留言界面
-   2.改變分類管理方式
-   3.影片可直接拖拉排序
-   4.新增java上傳方式，可上傳大的影片檔
+   Tad Player version 2.0 RC3 amend item (2011-11-28 release)
+   ================================================== =
+   1. Upload Permissions determine precise enough
+   2. Strengthen category management classification pulling reset category and drag the sort function to avoid pull it classified disappear dilemma.
+   3. Add the handheld device page
+   4. Add QR Code Block
+   5.youtube link to automatic capture
+   6. Resolve Upload file names if capital can catch file problems.
+   7. Added support for ipad and other iOS devices.
+   Question 8. Fixed the background last batch file does not automatically delete steering
 
 
-   Tad Player 1.1 版修正項目（2008-10-20 釋出）
-   ===================================================
-   1.修正時區問題
-   2.新增 Youtube 支援，直接把該影片網址（如：http://tw.youtube.com/watch?v=xEswd6Bj-oU）輸入即可。
-   3.修正後台分類管理無法建立子分類的問題。
-   4.區塊中新增「是否重複播放」的設定。
-   5.偏好設定中新增顏色調整設定。
-   6.新增影片排序功能。
-   7.簡化播放語法，本來要一大串，現在只要一行。
-   8.修正清單播放區塊在XOOPS 2.0.x 無法正確設定的問題。
+   Tad Player version 2.0 RC2 amended project (release 2011-03-27)
+   ================================================== =
+   1. Add FaceBook Message interface
+   2. Change Category management
+   3. The film can be directly drag sorting
+   4. New java uploads can upload large video files
+
+
+   Tad Player version 1.1 Bug Fixes (2008-10-20 release)
+   ================================================== =
+   1. Fixed Time Zone Problems
+   2. New Youtube support directly to the video URL (eg: http: //tw.youtube.com/watch v = xEswd6Bj-oU?) Can be imported.
+   3. Fixed the background classification management can not create sub-classification problem.
+   The new block "whether to repeat" setting.
+   5. preferences in the new color adjustment settings.
+   6. Add Videos sorting function.
+   7. Play simplify grammar, was to have a long list, now just one line.
+   8. Fixed playlists block in XOOPS 2.0.x can not correct the problem set.

@@ -9,12 +9,12 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  *
- * @copyright    The XOOPS Project http://sourceforge.net/projects/xoops/
+ * @copyright           The XOOPS Project http://sourceforge.net/projects/xoops/
  * @license             http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package    Marquee
- * @since        2.5.0
- * @author     Mage, Mamba
- * @version    $Id $
+ * @package             Tad_Player
+ * @since               1.0
+ * @author              Tad
+ * @version             $Id $
  **/
 
 include '../../../include/cp_header.php';

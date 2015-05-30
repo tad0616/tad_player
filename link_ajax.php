@@ -1,5 +1,5 @@
 <?php
-include_once "header.php";
+include_once __DIR__ . '/header.php';
 //$_POST['url']="https://www.youtube.com/watch?v=6i7RcP39NB0";
 $date['metaTags']['description']['value'] = $date['title'] = '';
 if (!empty($_POST['url'])) {

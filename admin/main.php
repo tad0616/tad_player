@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = "tad_player_adm_main.html";
-include_once "header.php";
+include_once __DIR__ . '/header.php';
 include_once "../function.php";
 
 /*-----------function區--------------*/
@@ -222,4 +222,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-include_once 'footer.php';
+include_once __DIR__ . '/footer.php';

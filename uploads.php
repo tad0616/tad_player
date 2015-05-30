@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-include_once "header.php";
+include_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = set_bootstrap("tad_player_uploads.html");
 include_once XOOPS_ROOT_PATH . "/header.php";
 

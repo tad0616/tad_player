@@ -1,7 +1,8 @@
 <?php
 
 //區塊主函式 (依人氣值挑出熱門影片)
-function tad_player_b_show_3($options) {
+function tad_player_b_show_3($options)
+{
     global $xoopsDB;
 
     $sql = "SELECT `psn`, `title`, `creator`, `location`, `image`, `info`, `uid`, `post_date`, `enable_group`, `counter` FROM " . $xoopsDB->prefix("tad_player") . " order by counter desc limit 0,{$options[0]}";
@@ -10,16 +11,16 @@ function tad_player_b_show_3($options) {
     $i = 0;
 
     while (list($psn, $title, $creator, $location, $image, $info, $uid, $post_date, $enable_group, $counter) = $xoopsDB->fetchRow($result)) {
-        $block[$i]['psn']          = $psn;
-        $block[$i]['title']        = $title;
-        $block[$i]['location']     = $location;
-        $block[$i]['creator']      = $creator;
-        $block[$i]['image']        = $options[1] ? $image : "";
-        $block[$i]['info']         = $info;
-        $block[$i]['uid']          = $uid;
-        $block[$i]['post_date']    = $post_date;
+        $block[$i]['psn'] = $psn;
+        $block[$i]['title'] = $title;
+        $block[$i]['location'] = $location;
+        $block[$i]['creator'] = $creator;
+        $block[$i]['image'] = $options[1] ? $image : "";
+        $block[$i]['info'] = $info;
+        $block[$i]['uid'] = $uid;
+        $block[$i]['post_date'] = $post_date;
         $block[$i]['enable_group'] = $enable_group;
-        $block[$i]['counter']      = $counter;
+        $block[$i]['counter'] = $counter;
         $i++;
     }
 
@@ -27,7 +28,8 @@ function tad_player_b_show_3($options) {
 }
 
 //區塊編輯函式
-function tad_tad_hot_media_edit($options) {
+function tad_tad_hot_media_edit($options)
+{
     $checked1 = $options[1] == '1' ? "checked" : "";
     $checked0 = $options[1] == '0' ? "checked" : "";
 

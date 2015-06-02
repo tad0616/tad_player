@@ -1,5 +1,6 @@
 <?php
-function xoops_module_install_tad_player(&$module) {
+function xoops_module_install_tad_player(&$module)
+{
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player");
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player/file");
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player/image");
@@ -12,7 +13,8 @@ function xoops_module_install_tad_player(&$module) {
 }
 
 //建立目錄
-function mk_dir($dir = "") {
+function mk_dir($dir = "")
+{
     //若無目錄名稱秀出警告訊息
     if (empty($dir)) {
         return;

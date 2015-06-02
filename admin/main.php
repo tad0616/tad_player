@@ -6,7 +6,8 @@ include_once "../function.php";
 
 /*-----------function區--------------*/
 //列出所有tad_player資料
-function list_tad_player($pcsn = "") {
+function list_tad_player($pcsn = "")
+{
     global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl;
 
     if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/jeditable.php")) {
@@ -28,7 +29,7 @@ function list_tad_player($pcsn = "") {
     $i = 0;
 
     $save_file = XOOPS_URL . "/modules/tad_player/admin/save.php";
-    $data      = "";
+    $data = "";
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -55,16 +56,16 @@ function list_tad_player($pcsn = "") {
 
         $post_date = substr($post_date, 0, 10);
 
-        $data[$i]['psn']       = $psn;
-        $data[$i]['pic']       = $pic;
-        $data[$i]['title']     = $title;
-        $data[$i]['pcsn']      = $pcsn;
-        $data[$i]['uid_name']  = $uid_name;
-        $data[$i]['counter']   = $counter;
-        $data[$i]['width']     = $height;
+        $data[$i]['psn'] = $psn;
+        $data[$i]['pic'] = $pic;
+        $data[$i]['title'] = $title;
+        $data[$i]['pcsn'] = $pcsn;
+        $data[$i]['uid_name'] = $uid_name;
+        $data[$i]['counter'] = $counter;
+        $data[$i]['width'] = $height;
         $data[$i]['post_date'] = $post_date;
-        $data[$i]['g_txt']     = $g_txt;
-        $data[$i]['info']      = $info;
+        $data[$i]['g_txt'] = $g_txt;
+        $data[$i]['info'] = $info;
 
         $i++;
     }
@@ -80,11 +81,12 @@ function list_tad_player($pcsn = "") {
 }
 
 //分類選單
-function cate_select($pcsn = 0, $size = 20) {
+function cate_select($pcsn = 0, $size = 20)
+{
     $cate_select = get_tad_player_cate_option(0, 0, $pcsn);
 
     $PHP_SELF = basename($_SERVER['PHP_SELF']);
-    $select   = "
+    $select = "
   <select name='pcsn' class='span12' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
   $cate_select
   </select>";
@@ -93,7 +95,8 @@ function cate_select($pcsn = 0, $size = 20) {
 }
 
 //重新產生所有的XML
-function mk_all_xml($the_pcsn = "") {
+function mk_all_xml($the_pcsn = "")
+{
     global $xoopsDB;
     $sql = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate");
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
@@ -110,7 +113,8 @@ function mk_all_xml($the_pcsn = "") {
 }
 
 //儲存排序
-function save_sort() {
+function save_sort()
+{
     global $xoopsDB;
     foreach ($_POST['sort'] as $psn => $sort) {
         $sql = "update  " . $xoopsDB->prefix("tad_player") . " set sort='{$sort}' where psn='{$psn}'";
@@ -121,55 +125,60 @@ function save_sort() {
 }
 
 //批次刪除
-function batch_del() {
+function batch_del()
+{
     foreach ($_POST['video'] as $psn) {
         delete_tad_player($psn);
     }
 }
 
 //批次搬移
-function batch_move($new_pcsn = "") {
+function batch_move($new_pcsn = "")
+{
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
-    $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `pcsn` = '{$new_pcsn}' where psn in($videos)";
+    $sql = "update " . $xoopsDB->prefix("tad_player") . " set `pcsn` = '{$new_pcsn}' where psn in($videos)";
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
 
     return $sn;
 }
 
 //批次新增標題
-function batch_add_title() {
+function batch_add_title()
+{
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
-    $sql    = "update " . $xoopsDB->prefix("tad_player") . " set  `title` = '{$_POST['add_title']}' where psn in($videos)";
+    $sql = "update " . $xoopsDB->prefix("tad_player") . " set  `title` = '{$_POST['add_title']}' where psn in($videos)";
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 }
 
 //批次新增說明
-function batch_add_info() {
+function batch_add_info()
+{
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
-    $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `info` = '{$_POST['add_info']}' where psn in($videos)";
+    $sql = "update " . $xoopsDB->prefix("tad_player") . " set `info` = '{$_POST['add_info']}' where psn in($videos)";
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
 
     return $sn;
 }
 
 //批次更新寬與高
-function update_wh() {
+function update_wh()
+{
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
-    $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `width` = '{$_POST['width']}' , `height` = '{$_POST['height']}' where psn in($videos)";
+    $sql = "update " . $xoopsDB->prefix("tad_player") . " set `width` = '{$_POST['width']}' , `height` = '{$_POST['height']}' where psn in($videos)";
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
 
     return $sn;
 }
 
 /*-----------執行動作判斷區----------*/
-$op       = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$psn      = (empty($_REQUEST['psn'])) ? "" : (int)($_REQUEST['psn']);
-$pcsn     = (empty($_REQUEST['pcsn'])) ? "" : (int)($_REQUEST['pcsn']);
-$new_pcsn = (empty($_REQUEST['new_pcsn'])) ? "" : (int)($_REQUEST['new_pcsn']);
+$op = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
+$psn = (empty($_REQUEST['psn'])) ? "" : (int) ($_REQUEST['psn']);
+$pcsn = (empty($_REQUEST['pcsn'])) ? "" : (int) ($_REQUEST['pcsn']);
+$new_pcsn = (empty($_REQUEST['new_pcsn'])) ? "" : (int) ($_REQUEST['new_pcsn']);
 
 switch ($op) {
 

@@ -5,25 +5,26 @@ $date['metaTags']['description']['value'] = $date['title'] = '';
 if (!empty($_POST['url'])) {
     $date = getUrlData($_POST['url']);
     //die(var_export($date));
-    $web['title']       = $date['title'];
+    $web['title'] = $date['title'];
     $web['description'] = $date['metaTags']['description']['value'];
 
     $youtube_id = getYTid($_POST['url']);
 
-    $url           = "http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
-    $contents      = file_get_contents($url);
-    $contents      = utf8_encode($contents);
-    $ytb           = get_object_vars(json_decode($contents));
+    $url = "http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
+    $contents = file_get_contents($url);
+    $contents = utf8_encode($contents);
+    $ytb = get_object_vars(json_decode($contents));
     $web['author'] = $ytb['author_name'];
 
     echo json_encode($web);
 }
 
-function getUrlData($url) {
-    $result   = false;
+function getUrlData($url)
+{
+    $result = false;
     $contents = getUrlContents($url);
     if (isset($contents) && is_string($contents)) {
-        $title    = null;
+        $title = null;
         $metaTags = null;
         preg_match('/<title>([^>]*)<\/title>/si', $contents, $match);
         if (isset($match) && is_array($match) && count($match) > 0) {
@@ -32,29 +33,30 @@ function getUrlData($url) {
         preg_match_all('/<[\s]*meta[\s]*name="?' . '([^>"]*)"?[\s]*' . 'content="?([^>"]*)"?[\s]*[\/]?[\s]*>/si', $contents, $match);
         if (isset($match) && is_array($match) && count($match) == 3) {
             $originals = $match[0];
-            $names     = $match[1];
-            $values    = $match[2];
+            $names = $match[1];
+            $values = $match[2];
             if (count($originals) == count($names) && count($names) == count($values)) {
                 $metaTags = array();
                 for ($i = 0, $limiti = count($names); $i < $limiti; $i++) {
                     $metaTags[$names[$i]] = array(
-                        'html'  => htmlentities($originals[$i]),
-                        'value' => $values[$i]
+                        'html' => htmlentities($originals[$i]),
+                        'value' => $values[$i],
                     );
                 }
             }
         }
         $result = array(
-            'title'    => $title,
-            'metaTags' => $metaTags
+            'title' => $title,
+            'metaTags' => $metaTags,
         );
     }
 
     return $result;
 }
 
-function getUrlContents($url, $maximumRedirections = null, $currentRedirection = 0) {
-    $result   = false;
+function getUrlContents($url, $maximumRedirections = null, $currentRedirection = 0)
+{
+    $result = false;
     $contents = @file_get_contents($url);
     // Check if we need to go somewhere else
     if (isset($contents) && is_string($contents)) {
@@ -73,7 +75,8 @@ function getUrlContents($url, $maximumRedirections = null, $currentRedirection =
 }
 
 //檢查必要函數
-function chk_function() {
+function chk_function()
+{
     $main = "";
     if (!function_exists('curl_init')) {
         $main .= "<div style='color:red;'>" . sprintf(_MI_TADLINK_NO_FUNCTION, 'curl_init') . "</div>";
@@ -91,7 +94,8 @@ function chk_function() {
 }
 
 if (!function_exists('json_encode')) {
-    function json_encode($a = false) {
+    function json_encode($a = false)
+    {
         if (is_null($a)) {
             return 'null';
         }
@@ -104,7 +108,7 @@ if (!function_exists('json_encode')) {
         if (is_scalar($a)) {
             if (is_float($a)) {
                 // Always use "." for floats.
-                return (float)(str_replace(",", ".", (string)($a)));
+                return (float) (str_replace(",", ".", (string) ($a)));
             }
 
             if (is_string($a)) {

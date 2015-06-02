@@ -34,3 +34,4 @@ define('_MD_TADPLAYER_UPLOAD_IMG', 'Upload image');
 define('_MD_TADPLAYER_LINK_IMG', 'Link to image');
 define('_MD_TADPLAYER_UPLOAD_LOGO', 'Please select or upload a logo:');
 define('_MD_TADPLAYER_AUTO_GET', 'Get info');
+define('_MD_TADPLAYER_PICK_A_VIDEO', 'Please select the video which you want to watch');

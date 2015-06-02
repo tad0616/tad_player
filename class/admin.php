@@ -14,36 +14,40 @@
  * @license     GNU GPL 2 (http://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
  * @author      Gregory Mage (Aka Mage)
  */
-class ModuleAdmin {
+class ModuleAdmin
+{
 
-    public $_itemButton          = array();
-    public $_itemLabel           = array();
-    public $_itemLineLabel       = array();
-    public $_itemConfigLabel     = '';
+    public $_itemButton = array();
+    public $_itemLabel = array();
+    public $_itemLineLabel = array();
+    public $_itemConfigLabel = '';
     public $_itemLineConfigLabel = array();
-    public $_itemChangelogLabel  = '';
-    public $_obj                 = array();
+    public $_itemChangelogLabel = '';
+    public $_obj = array();
 
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct()
+    {
         global $xoopsModule;
-        $this->_obj =& $xoopsModule;
+        $this->_obj = &$xoopsModule;
         echo "<style type=\"text/css\" media=\"screen\">@import \"" . XOOPS_URL . "/modules/" . $xoopsModule->getVar('dirname', 'e') . "/css/admin.css\";</style>";
     }
 
-    public function addItemButton($title, $link, $icon = 'add', $extra = '') {
-        $ret['title']        = $title;
-        $ret['link']         = $link;
-        $ret['icon']         = $icon . '.png';
-        $ret['extra']        = $extra;
+    public function addItemButton($title, $link, $icon = 'add', $extra = '')
+    {
+        $ret['title'] = $title;
+        $ret['link'] = $link;
+        $ret['icon'] = $icon . '.png';
+        $ret['extra'] = $extra;
         $this->_itemButton[] = $ret;
 
         return true;
     }
 
-    public function renderButton($position = "right", $delimeter = "&nbsp;") {
+    public function renderButton($position = "right", $delimeter = "&nbsp;")
+    {
         $path = XOOPS_URL . "/modules/" . $this->_obj->getVar('dirname') . "/images/admin/";
         switch ($position) {
             default:
@@ -71,16 +75,18 @@ class ModuleAdmin {
         return $ret;
     }
 
-    public function addLabel($title) {
-        $ret['title']       = $title;
+    public function addLabel($title)
+    {
+        $ret['title'] = $title;
         $this->_itemLabel[] = $ret;
 
         return true;
     }
 
-    public function addLineLabel($label, $text, $value = '', $color = 'none', $type = 'default') {
+    public function addLineLabel($label, $text, $value = '', $color = 'none', $type = 'default')
+    {
         $ret['label'] = $label;
-        $line         = "";
+        $line = "";
         switch ($type) {
             default:
             case "default":
@@ -88,7 +94,7 @@ class ModuleAdmin {
                 break;
 
             case "module":
-                $date         = explode('/', $this->_obj->getInfo('release_date'));
+                $date = explode('/', $this->_obj->getInfo('release_date'));
                 $release_date = formatTimestamp(mktime(0, 0, 0, $date[1], $date[2], $date[0]), 's');
                 $line .= "<table>\n<tr>\n<td width=\"100px\">\n";
                 $line .= "<img src='" . XOOPS_URL . "/modules/" . $this->_obj->getVar('dirname') . "/" . $this->_obj->getInfo('image') . "' alt='" . $this->_obj->getVar('name') . "' style='float: left; margin-right: 10px;' />\n";
@@ -118,10 +124,10 @@ class ModuleAdmin {
                 if ($value != '') {
                     $line .= '<form action="https://www.paypal.com/cgi-bin/webscr" method="post">
                               <input type="hidden" name="cmd" value="_s-xclick">
-                              <input type="hidden" name="hosted_button_id" value="' . $value . '">
+                              <input type="hidden" name="hosted_button_id" value="'     . $value . '">
                               <input type="image" src="https://www.paypal.com/en_US/i/btn/btn_donate_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!">
                               <img alt="" border="0" src="https://www.paypal.com/fr_FR/i/scr/pixel.gif" width="1" height="1">
-                              </form>';
+                              </form>'    ;
                 }
                 $line .= "</div>\n";
                 $line .= "</td>\n</tr>\n</table>\n";
@@ -131,13 +137,14 @@ class ModuleAdmin {
                 $line .= $text;
                 break;
         }
-        $ret['line']            = $line;
+        $ret['line'] = $line;
         $this->_itemLineLabel[] = $ret;
 
         return true;
     }
 
-    public function renderLabel() {
+    public function renderLabel()
+    {
         $ret = "";
         foreach (array_keys($this->_itemLabel) as $i) {
             $ret .= "<fieldset><legend class=\"label\">";
@@ -156,13 +163,15 @@ class ModuleAdmin {
         return $ret;
     }
 
-    public function addConfigLabel($title) {
+    public function addConfigLabel($title)
+    {
         $this->_itemConfigLabel = $title;
 
         return true;
     }
 
-    public function addLineConfigLabel($text, $value = '', $type = 'default') {
+    public function addLineConfigLabel($text, $value = '', $type = 'default')
+    {
         $line = "";
         $path = XOOPS_URL . "/modules/" . $this->_obj->getVar('dirname') . "/images/icons/";
         switch ($type) {
@@ -210,7 +219,8 @@ class ModuleAdmin {
         return true;
     }
 
-    public function addChangelogLabel($title) {
+    public function addChangelogLabel($title)
+    {
         $line = "<fieldset><legend class=\"label\">\n";
         $line .= $title;
         $line .= "</legend><br/>\n";
@@ -220,7 +230,7 @@ class ModuleAdmin {
             $language = 'english';
         }
         $language = empty($language) ? $GLOBALS['xoopsConfig']['language'] : $language;
-        $file     = XOOPS_ROOT_PATH . "/modules/" . $this->_obj->getVar("dirname") . "/language/" . $language . "/changelog.txt";
+        $file = XOOPS_ROOT_PATH . "/modules/" . $this->_obj->getVar("dirname") . "/language/" . $language . "/changelog.txt";
         if (is_readable($file)) {
             $line .= implode("<br />", file($file)) . "\n";
         }
@@ -231,8 +241,9 @@ class ModuleAdmin {
         return true;
     }
 
-    public function addNavigation($menu = '') {
-        $ret  = "";
+    public function addNavigation($menu = '')
+    {
+        $ret = "";
         $path = XOOPS_URL . "/modules/" . $this->_obj->getVar('dirname') . "/";
         $this->_obj->loadAdminMenu();
         foreach (array_keys($this->_obj->adminmenu) as $i) {
@@ -245,8 +256,9 @@ class ModuleAdmin {
         return $ret;
     }
 
-    public function renderMenuIndex() {
-        $path       = XOOPS_URL . "/modules/" . $this->_obj->getVar('dirname') . "/";
+    public function renderMenuIndex()
+    {
+        $path = XOOPS_URL . "/modules/" . $this->_obj->getVar('dirname') . "/";
         $pathsystem = XOOPS_URL . "/modules/system/";
         $this->_obj->loadAdminMenu();
         $ret = "<div class=\"rmmenuicon\">\n";
@@ -254,10 +266,10 @@ class ModuleAdmin {
             if ($this->_obj->adminmenu[$i]['link'] != 'admin/index.php') {
                 if (isset($this->_obj->adminmenu[$i]['menu'])) {
                     $ret .= "<a href=\"../" . $this->_obj->adminmenu[$i]['link'] . "\" title=\"" . $this->_obj->adminmenu[$i]['title'] . "\">" .
-                            "<img src=\"" . $path . $this->_obj->adminmenu[$i]['menu'] . "\" alt=\"" . $this->_obj->adminmenu[$i]['title'] . "\" />";
+                    "<img src=\"" . $path . $this->_obj->adminmenu[$i]['menu'] . "\" alt=\"" . $this->_obj->adminmenu[$i]['title'] . "\" />";
                 } else {
                     $ret .= "<a href=\"../" . $this->_obj->adminmenu[$i]['link'] . "\" title=\"" . $this->_obj->adminmenu[$i]['title'] . "\">" .
-                            "<img src=\"" . $path . $this->_obj->adminmenu[$i]['icon'] . "\" alt=\"" . $this->_obj->adminmenu[$i]['title'] . "\" />";
+                    "<img src=\"" . $path . $this->_obj->adminmenu[$i]['icon'] . "\" alt=\"" . $this->_obj->adminmenu[$i]['title'] . "\" />";
                 }
                 $ret .= "<span>" . $this->_obj->adminmenu[$i]['title'] . "</span>";
                 $ret .= "</a>";
@@ -265,7 +277,7 @@ class ModuleAdmin {
         }
         if ($this->_obj->getInfo('help')) {
             $ret .= "<a href=\"" . $pathsystem . "help.php?mid=" . $this->_obj->getVar('mid', 's') . "&amp;" . $this->_obj->getInfo('help') . "\" title=\"" . _AM_SYSTEM_HELP . "\">" .
-                    "<img width=\"32px\" src=\"" . $path . "images/admin/help.png\" alt=\"" . _AM_SYSTEM_HELP . "\" /> ";
+            "<img width=\"32px\" src=\"" . $path . "images/admin/help.png\" alt=\"" . _AM_SYSTEM_HELP . "\" /> ";
             $ret .= "<span>" . _AM_SYSTEM_HELP . "</span>";
             $ret .= "</a>";
         }
@@ -274,9 +286,10 @@ class ModuleAdmin {
         return $ret;
     }
 
-    public function renderIndex() {
+    public function renderIndex()
+    {
         $path = XOOPS_URL . "/modules/" . $this->_obj->getVar('dirname') . "/images/admin/";
-        $ret  = "<table>\n<tr>\n";
+        $ret = "<table>\n<tr>\n";
         $ret .= "<td width=\"40%\">\n";
         $ret .= $this->renderMenuIndex();
         $ret .= "</td>\n";
@@ -308,9 +321,10 @@ class ModuleAdmin {
         return $ret;
     }
 
-    public function renderAbout($type = 'default') {
+    public function renderAbout($type = 'default')
+    {
         $path = XOOPS_URL . "/modules/" . $this->_obj->getVar('dirname') . "/images/admin/";
-        $ret  = "<table>\n<tr>\n";
+        $ret = "<table>\n<tr>\n";
         $ret .= "<td width=\"50%\">\n";
         $ret .= $this->renderLabel();
         if ($type == 'line') {

@@ -9,7 +9,8 @@ $ok_image_ext = array("jpg", "png", "gif");
 include_once "function_player.php";
 
 //路徑導覽
-function tad_player_breadcrumb($pcsn = '0', $array = array()) {
+function tad_player_breadcrumb($pcsn = '0', $array = array())
+{
     $divider = $_SESSION['bootstrap'] == '3' ? "" : " <span class='divider'>/</span>";
     $item    = "";
     if (is_array($array)) {
@@ -47,7 +48,8 @@ function tad_player_breadcrumb($pcsn = '0', $array = array()) {
 }
 
 //取得路徑
-function get_tad_player_cate_path($the_pcsn = "") {
+function get_tad_player_cate_path($the_pcsn = "")
+{
     global $xoopsDB;
 
     $arr[0]['pcsn']  = "0";
@@ -87,10 +89,11 @@ function get_tad_player_cate_path($the_pcsn = "") {
     return $arr;
 }
 
-function get_tad_player_sub_cate($pcsn = "0") {
+function get_tad_player_sub_cate($pcsn = "0")
+{
     global $xoopsDB;
-    $sql = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
+    $sql      = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
+    $result   = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
     $pcsn_arr = "";
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         $pcsn_arr[$pcsn] = $title;
@@ -100,11 +103,12 @@ function get_tad_player_sub_cate($pcsn = "0") {
 }
 
 //底下影片數
-function count_video_num($pcsn = "0") {
+function count_video_num($pcsn = "0")
+{
     global $xoopsDB, $xoopsModule;
     //其底下所有子目錄的影片數
-    $sql = "select pcsn from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql       = "select pcsn from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
+    $result    = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
     $sub_count = 0;
     while (list($sub_pcsn) = $xoopsDB->fetchRow($result)) {
         $sub = count_video_num($sub_pcsn);
@@ -114,9 +118,9 @@ function count_video_num($pcsn = "0") {
     $pic = '';
 
     //該目錄影片數
-    $sql = "select psn,image,location from " . $xoopsDB->prefix("tad_player") . " where pcsn = '$pcsn' order by rand()";
+    $sql    = "select psn,image,location from " . $xoopsDB->prefix("tad_player") . " where pcsn = '$pcsn' order by rand()";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-    $count = $xoopsDB->getRowsNum($result);
+    $count  = $xoopsDB->getRowsNum($result);
     while (list($psn, $image, $location) = $xoopsDB->fetchRow($result)) {
         if (substr($image, 0, 4) == 'http') {
             $pic = $image;
@@ -143,13 +147,14 @@ function count_video_num($pcsn = "0") {
 }
 
 //隨機取得底下影片的縮圖
-function get_cate_image($pcsn = "0") {
+function get_cate_image($pcsn = "0")
+{
     global $xoopsDB;
-    $sql = "select psn,image from " . $xoopsDB->prefix("tad_player") . " where pcsn = '$pcsn' and image!='' order by rand() limit 0,1";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql               = "select psn,image from " . $xoopsDB->prefix("tad_player") . " where pcsn = '$pcsn' and image!='' order by rand() limit 0,1";
+    $result            = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
     list($psn, $image) = $xoopsDB->fetchRow($result);
     if (empty($image)) {
-        $sql = "select pcsn from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn = '$pcsn' order by rand()";
+        $sql    = "select pcsn from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn = '$pcsn' order by rand()";
         $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
         while (list($pcsn) = $xoopsDB->fetchRow($result)) {
             $image = get_cate_image($pcsn);
@@ -163,12 +168,13 @@ function get_cate_image($pcsn = "0") {
 }
 
 //熱門影片
-function hot_media() {
+function hot_media()
+{
     global $xoopsDB, $xoopsModule, $xoopsModuleConfig;
 
-    $sql = "select a.psn,a.pcsn,a.title,a.counter,b.title from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn order by a.counter desc limit 0,10";
+    $sql    = "select a.psn,a.pcsn,a.title,a.counter,b.title from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn order by a.counter desc limit 0,10";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-    $i = 0;
+    $i      = 0;
     while (list($psn, $pcsn, $title, $counter, $cate_title) = $xoopsDB->fetchRow($result)) {
         $hot_media[$i]['psn']     = $psn;
         $hot_media[$i]['title']   = $title;
@@ -180,7 +186,8 @@ function hot_media() {
 }
 
 //新增資料到tad_player_cate中
-function add_tad_player_cate() {
+function add_tad_player_cate()
+{
     global $xoopsDB, $xoopsModuleConfig;
     if (empty($_POST['new_pcsn'])) {
         return;
@@ -196,9 +203,10 @@ function add_tad_player_cate() {
 }
 
 //取得所有類別標題
-function tad_player_get_all_news_cate($of_csn = 0, $code = "big5") {
+function tad_player_get_all_news_cate($of_csn = 0, $code = "big5")
+{
     global $xoopsDB;
-    $sql = "select pcsn,title,enable_group from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$of_csn}' order by sort";
+    $sql    = "select pcsn,title,enable_group from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$of_csn}' order by sort";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 
     $option = "";
@@ -220,9 +228,10 @@ function tad_player_get_all_news_cate($of_csn = 0, $code = "big5") {
 }
 
 //檢查有無子選項
-function tad_player_chk_cate_have_sub($pcsn = 0) {
+function tad_player_chk_cate_have_sub($pcsn = 0)
+{
     global $xoopsDB;
-    $sql = "select pcsn from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
+    $sql    = "select pcsn from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADNEW_DB_SELECT_ERROR1);
     while (list($sub_pcsn) = $xoopsDB->fetchRow($result)) {
         if (!empty($sub_pcsn)) {
@@ -234,7 +243,8 @@ function tad_player_chk_cate_have_sub($pcsn = 0) {
 }
 
 //刪除tad_player某筆資料資料
-function delete_tad_player($psn = "") {
+function delete_tad_player($psn = "")
+{
     global $xoopsDB, $isAdmin, $xoopsUser, $xoopsModule;
 
     if (!isset($isAdmin)) {
@@ -262,7 +272,8 @@ function delete_tad_player($psn = "") {
 }
 
 //做縮圖
-function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "100") {
+function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "100")
+{
     ini_set('memory_limit', '50M');
     // Get new sizes
     list($old_width, $old_height) = getimagesize($filename);
@@ -292,24 +303,25 @@ function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpe
     imagepng($thumb, $thumb_name);
 
     /*
-      // Content type
-      header("Content-type: ".$type);
-      // Output
-      if($type=="image/jpeg" or $type=="image/jpg" or $type=="image/pjpg" or $type=="image/pjpeg"){
-        imagejpeg($thumb,$thumb_name,90);
-      }elseif($type=="image/png"){
-        imagepng($thumb,$thumb_name);
-      }elseif($type=="image/gif"){
-        imagegif($thumb,$thumb_name);
-      }
-    */
+    // Content type
+    header("Content-type: ".$type);
+    // Output
+    if($type=="image/jpeg" or $type=="image/jpg" or $type=="image/pjpg" or $type=="image/pjpeg"){
+    imagejpeg($thumb,$thumb_name,90);
+    }elseif($type=="image/png"){
+    imagepng($thumb,$thumb_name);
+    }elseif($type=="image/gif"){
+    imagegif($thumb,$thumb_name);
+    }
+     */
 
     return;
     exit;
 }
 
 //判斷某人在哪些類別中有觀看或發表(upload)的權利
-function chk_cate_power($kind = "") {
+function chk_cate_power($kind = "")
+{
     global $xoopsDB, $xoopsUser, $xoopsModule;
     if (!empty($xoopsUser)) {
         $module_id = $xoopsModule->getVar('mid');
@@ -325,7 +337,7 @@ function chk_cate_power($kind = "") {
 
     $col = ($kind == "upload") ? "enable_upload_group" : "enable_group";
 
-    $sql = "select pcsn,$col from " . $xoopsDB->prefix("tad_player_cate") . "";
+    $sql    = "select pcsn,$col from " . $xoopsDB->prefix("tad_player_cate") . "";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 
     while (list($pcsn, $power) = $xoopsDB->fetchRow($result)) {
@@ -346,12 +358,13 @@ function chk_cate_power($kind = "") {
 }
 
 //取得分類下拉選單
-function get_tad_player_cate_option($of_csn = 0, $level = 0, $v = "", $show_dot = '1', $optgroup = true, $kind = 'view') {
+function get_tad_player_cate_option($of_csn = 0, $level = 0, $v = "", $show_dot = '1', $optgroup = true, $kind = 'view')
+{
     global $xoopsDB;
     $dot = ($show_dot == '1') ? str_repeat(_MD_TADPLAYER_BLANK, $level) : "";
     $level += 1;
 
-    $sql = "select count(*),pcsn from " . $xoopsDB->prefix("tad_player") . " group by pcsn";
+    $sql    = "select count(*),pcsn from " . $xoopsDB->prefix("tad_player") . " group by pcsn";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
@@ -385,11 +398,12 @@ function get_tad_player_cate_option($of_csn = 0, $level = 0, $v = "", $show_dot 
 }
 
 //取得tad_player_cate所有資料陣列
-function get_tad_player_cate_all() {
+function get_tad_player_cate_all()
+{
     global $xoopsDB;
-    $sql = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate");
+    $sql    = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate");
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-    $data = "";
+    $data   = "";
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         $data[$pcsn] = $title;
     }
@@ -398,19 +412,21 @@ function get_tad_player_cate_all() {
 }
 
 //計數器
-function add_counter($psn = "") {
+function add_counter($psn = "")
+{
     global $xoopsDB;
     $sql = "update " . $xoopsDB->prefix("tad_player") . " set `counter` = `counter` + 1 where psn='{$psn}'";
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 }
 
 //製作播放清單
-function mk_list_xml($pcsn = "") {
+function mk_list_xml($pcsn = "")
+{
     global $xoopsDB, $xoopsModule, $upload_dir;
 
     $cate = get_tad_player_cate($pcsn);
 
-    $sql = "SELECT * FROM " . $xoopsDB->prefix("tad_player") . " WHERE `pcsn`='{$pcsn}' and `enable_group`='' order by sort";
+    $sql    = "SELECT * FROM " . $xoopsDB->prefix("tad_player") . " WHERE `pcsn`='{$pcsn}' and `enable_group`='' order by sort";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 
     $main = "<rss version=\"2.0\" xmlns:jwplayer=\"http://rss.jwpcdn.com/\">
@@ -446,7 +462,6 @@ function mk_list_xml($pcsn = "") {
         //$media=str_replace("=","%3D",$media);
         //$media=str_replace("?","%3F",$media);
         //$media=str_replace("&","%26",$media);
-
 
         if (substr($post_date, 0, 2) == '20') {
             $post_date = strtotime($post_date);

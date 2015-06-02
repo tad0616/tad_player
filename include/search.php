@@ -1,5 +1,6 @@
 <?php
-function tad_player_search($queryarray, $andor, $limit, $offset, $userid) {
+function tad_player_search($queryarray, $andor, $limit, $offset, $userid)
+{
     global $xoopsDB;
     //處理許功蓋
     if (get_magic_quotes_gpc()) {
@@ -27,14 +28,14 @@ function tad_player_search($queryarray, $andor, $limit, $offset, $userid) {
     $sql .= "ORDER BY post_date DESC";
     //die($sql);
     $result = $xoopsDB->query($sql, $limit, $offset);
-    $ret    = array();
-    $i      = 0;
+    $ret = array();
+    $i = 0;
     while ($myrow = $xoopsDB->fetchArray($result)) {
         $ret[$i]['image'] = "images/video.png";
-        $ret[$i]['link']  = "play.php?psn=" . $myrow['psn'];
+        $ret[$i]['link'] = "play.php?psn=" . $myrow['psn'];
         $ret[$i]['title'] = $myrow['title'];
-        $ret[$i]['time']  = tadplayer_tnsday2ts($myrow['post_date']);
-        $ret[$i]['uid']   = $myrow['uid'];
+        $ret[$i]['time'] = tadplayer_tnsday2ts($myrow['post_date']);
+        $ret[$i]['uid'] = $myrow['uid'];
         $i++;
     }
 
@@ -42,10 +43,11 @@ function tad_player_search($queryarray, $andor, $limit, $offset, $userid) {
 }
 
 //轉換成時間戳記
-function tadplayer_tnsday2ts($day = "") {
+function tadplayer_tnsday2ts($day = "")
+{
     $dd = explode(" ", $day);
-    $d  = explode("-", $dd[0]);
-    $t  = explode(":", $dd[1]);
+    $d = explode("-", $dd[0]);
+    $t = explode(":", $dd[1]);
     $ts = mktime($t[0], $t[1], $t[2], $d['1'], $d['2'], $d['0']);
 
     return $ts;

@@ -78,6 +78,7 @@
     </script>
 
     <form action="uploads.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
+
       <div class="alert alert-success">
         <div class="control-group">
           <div class="span4 controls">
@@ -89,7 +90,7 @@
           </div>
           <div class="span8 controls">
             <div id="flv_local">
-              <input type="file" name="location" id="location" value="<{$location}>" class="span12">
+              <input type="file" name="location" id="location" value="<{$location}>">
             </div>
 
             <div id="flv_link">
@@ -98,10 +99,10 @@
 
             <div id="flv_youtube">
               <div class="row-fluid">
-                <div class="span9">
+                <div class="span9 controls">
                   <input type="text" name="youtube" id="youtube" class="span12" value="<{$youtube}>" placeholder="<{$smarty.const._MD_TADPLAYER_YOUTUBE_LINK}>">
                 </div>
-                <div class="span3">
+                <div class="span3 controls">
                   <button type="button" class="btn btn-default" id="LinkGet"><{$smarty.const._MD_TADPLAYER_AUTO_GET}></button>
                 </div>
               </div>
@@ -118,7 +119,7 @@
           </div>
           <div class="span8 controls">
             <div id="img_local">
-              <input type="file" name="image" value="<{$image}>" class="span12">
+              <input type="file" name="image" value="<{$image}>">
             </div>
             <div id="img_link">
               <input type="text" name="image" class="span12" value="<{$image}>" placeholder="<{$smarty.const._MD_TADPLAYER_IMG_LINK}>">
@@ -126,6 +127,7 @@
           </div>
         </div>
       </div>
+
       <div class="control-group">
         <label class="span1 control-label">
           <{$smarty.const._MD_TADPLAYER_OF_CSN}>
@@ -167,7 +169,7 @@
           <{$smarty.const._MD_TADPLAYER_ENABLE_GROUP}>
         </label>
 
-        <div class="span10 controls">
+        <div class="span10">
           <{foreach from=$group_arr key=group_id item=group_name}>
             <label class="checkbox inline">
               <input type="checkbox" name="enable_group[]" value="<{$group_id}>" <{if $group_id|in_array:$enable_group}>checked<{/if}>> <{$group_name}>

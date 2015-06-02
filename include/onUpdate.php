@@ -1,6 +1,7 @@
 <?php
 
-function xoops_module_update_tad_player(&$module, $old_version) {
+function xoops_module_update_tad_player(&$module, $old_version)
+{
     global $xoopsDB;
 
     if (!chk_chk1()) {
@@ -19,6 +20,8 @@ function xoops_module_update_tad_player(&$module, $old_version) {
         go_update_uid();
     }
 
+    chk_tad_player_block();
+
     $old_fckeditor = XOOPS_ROOT_PATH . "/modules/tad_player/fckeditor";
     if (is_dir($old_fckeditor)) {
         delete_directory($old_fckeditor);
@@ -27,7 +30,8 @@ function xoops_module_update_tad_player(&$module, $old_version) {
     return true;
 }
 
-function chk_chk1() {
+function chk_chk1()
+{
     if (is_dir(XOOPS_ROOT_PATH . "/uploads/tad_player/img")) {
         return true;
     }
@@ -35,7 +39,8 @@ function chk_chk1() {
     return false;
 }
 
-function go_update1() {
+function go_update1()
+{
     global $xoopsDB;
     set_time_limit(0);
 
@@ -52,7 +57,7 @@ function go_update1() {
         if (substr($post_date, 0, 2) == '20') {
             //$now=xoops_getUserTimestamp(strtotime($post_date));
 
-            $now   = date("Y-m-d H:i:s", xoops_getUserTimestamp(time()));
+            $now = date("Y-m-d H:i:s", xoops_getUserTimestamp(time()));
             $pdate = "`post_date`='{$now}'";
         } else {
             $pdate = "`post_date`=`post_date`";
@@ -62,7 +67,7 @@ function go_update1() {
         if (!empty($image)) {
             $filename = XOOPS_ROOT_PATH . "/uploads/tad_player/{$psn}_{$image}";
             if (file_exists($filename)) {
-                $type         = getimagesize($filename);
+                $type = getimagesize($filename);
                 $thumb_b_name = XOOPS_ROOT_PATH . "/uploads/tad_player/img/{$psn}.png";
                 $thumb_s_name = XOOPS_ROOT_PATH . "/uploads/tad_player/img/s_{$psn}.png";
                 mk_video_thumbnail($filename, $thumb_b_name, $type['mime'], "480");
@@ -85,9 +90,10 @@ function go_update1() {
 }
 
 //新增排序欄位
-function chk_chk2() {
+function chk_chk2()
+{
     global $xoopsDB;
-    $sql    = "select count(`enable_upload_group`) from " . $xoopsDB->prefix("tad_player_cate");
+    $sql = "select count(`enable_upload_group`) from " . $xoopsDB->prefix("tad_player_cate");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -96,16 +102,18 @@ function chk_chk2() {
     return true;
 }
 
-function go_update2() {
+function go_update2()
+{
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_player_cate") . " ADD `enable_upload_group` varchar(255) NOT NULL  default '' after `enable_group`";
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
 }
 
 //新增logo欄位
-function chk_chk3() {
+function chk_chk3()
+{
     global $xoopsDB;
-    $sql    = "select count(`logo`) from " . $xoopsDB->prefix("tad_player");
+    $sql = "select count(`logo`) from " . $xoopsDB->prefix("tad_player");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -114,7 +122,8 @@ function chk_chk3() {
     return true;
 }
 
-function go_update3() {
+function go_update3()
+{
     global $xoopsDB;
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player/logo");
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_player") . " ADD `logo` varchar(255) NOT NULL  default ''";
@@ -122,9 +131,10 @@ function go_update3() {
 }
 
 //新增評分表格
-function chk_chk4() {
+function chk_chk4()
+{
     global $xoopsDB;
-    $sql    = "select count(*) from " . $xoopsDB->prefix("tad_player_rank");
+    $sql = "select count(*) from " . $xoopsDB->prefix("tad_player_rank");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -133,24 +143,26 @@ function chk_chk4() {
     return true;
 }
 
-function go_update4() {
+function go_update4()
+{
     global $xoopsDB;
     $sql = "CREATE TABLE " . $xoopsDB->prefix("tad_player_rank") . " (
-  `col_name` varchar(255) NOT NULL,
-  `col_sn` smallint(5) unsigned NOT NULL,
-  `rank` tinyint(3) unsigned NOT NULL,
-  `uid` smallint(5) unsigned NOT NULL,
-  `rank_date` datetime NOT NULL,
-  PRIMARY KEY (`col_name`,`col_sn`,`uid`)
-  )";
+    `col_name` varchar(255) NOT NULL,
+    `col_sn` smallint(5) unsigned NOT NULL,
+    `rank` tinyint(3) unsigned NOT NULL,
+    `uid` smallint(5) unsigned NOT NULL,
+    `rank_date` datetime NOT NULL,
+    PRIMARY KEY (`col_name`,`col_sn`,`uid`)
+    )";
     $xoopsDB->queryF($sql);
 }
 
 //修正uid欄位
-function chk_uid() {
+function chk_uid()
+{
     global $xoopsDB;
-    $sql    = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
-  WHERE table_name = '" . $xoopsDB->prefix("tad_player") . "' AND COLUMN_NAME = 'uid'";
+    $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE table_name = '" . $xoopsDB->prefix("tad_player") . "' AND COLUMN_NAME = 'uid'";
     $result = $xoopsDB->query($sql);
     list($type) = $xoopsDB->fetchRow($result);
     if ($type == 'smallint') {
@@ -161,7 +173,8 @@ function chk_uid() {
 }
 
 //執行更新
-function go_update_uid() {
+function go_update_uid()
+{
     global $xoopsDB;
     $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_player") . "` CHANGE `uid` `uid` mediumint(8) unsigned NOT NULL default 0";
     $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
@@ -172,8 +185,48 @@ function go_update_uid() {
     return true;
 }
 
+//刪除錯誤的重複欄位及樣板檔
+function chk_tad_player_block()
+{
+    global $xoopsDB;
+    //die(var_export($xoopsConfig));
+    include XOOPS_ROOT_PATH . '/modules/tad_player/xoops_version.php';
+
+    //先找出該有的區塊以及對應樣板
+    foreach ($modversion['blocks'] as $i => $block) {
+        $show_func = $block['show_func'];
+        $tpl_file_arr[$show_func] = $block['template'];
+        $tpl_desc_arr[$show_func] = $block['description'];
+    }
+
+    //找出目前所有的樣板檔
+    $sql = "SELECT bid,name,visible,show_func,template FROM `" . $xoopsDB->prefix("newblocks") . "`
+    WHERE `dirname` = 'tad_player' ORDER BY `func_num`";
+    $result = $xoopsDB->query($sql);
+    while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
+        //假如現有的區塊和樣板對不上就刪掉
+        if ($template != $tpl_file_arr[$show_func]) {
+            $sql = "delete from " . $xoopsDB->prefix("newblocks") . " where bid='{$bid}'";
+            $xoopsDB->queryF($sql);
+
+            //連同樣板以及樣板實體檔案也要刪掉
+            $sql = "delete from " . $xoopsDB->prefix("tplfile") . " as a
+            left join " . $xoopsDB->prefix("tplsource") . "  as b on a.tpl_id=b.tpl_id
+            where a.tpl_refid='$bid' and a.tpl_module='tad_player' and a.tpl_type='block'";
+            $xoopsDB->queryF($sql);
+        } else {
+            $sql = "update " . $xoopsDB->prefix("tplfile") . "
+            set tpl_file='{$template}' , tpl_desc='{$tpl_desc_arr[$show_func]}'
+            where tpl_refid='{$bid}'";
+            $xoopsDB->queryF($sql);
+        }
+    }
+
+}
+
 //建立目錄
-function mk_dir($dir = "") {
+function mk_dir($dir = "")
+{
     //若無目錄名稱秀出警告訊息
     if (empty($dir)) {
         return;
@@ -187,7 +240,8 @@ function mk_dir($dir = "") {
 }
 
 //拷貝目錄
-function full_copy($source = "", $target = "") {
+function full_copy($source = "", $target = "")
+{
     if (is_dir($source)) {
         @mkdir($target);
         $d = dir($source);
@@ -209,7 +263,8 @@ function full_copy($source = "", $target = "") {
     }
 }
 
-function rename_win($oldfile, $newfile) {
+function rename_win($oldfile, $newfile)
+{
     if (!rename($oldfile, $newfile)) {
         if (copy($oldfile, $newfile)) {
             unlink($oldfile);
@@ -224,27 +279,28 @@ function rename_win($oldfile, $newfile) {
 }
 
 //做縮圖
-function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "120") {
+function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "120")
+{
     ini_set('memory_limit', '50M');
     // Get new sizes
     list($old_width, $old_height) = getimagesize($filename);
 
     $percent = ($old_width > $old_height) ? round($width / $old_width, 2) : round($width / $old_height, 2);
 
-    $newwidth  = ($old_width > $old_height) ? $width : $old_width * $percent;
+    $newwidth = ($old_width > $old_height) ? $width : $old_width * $percent;
     $newheight = ($old_width > $old_height) ? $old_height * $percent : $width;
 
     // Load
     $thumb = imagecreatetruecolor($newwidth, $newheight);
     if ($type == "image/jpeg" or $type == "image/jpg" or $type == "image/pjpg" or $type == "image/pjpeg") {
         $source = imagecreatefromjpeg($filename);
-        $type   = "image/jpeg";
+        $type = "image/jpeg";
     } elseif ($type == "image/png") {
         $source = imagecreatefrompng($filename);
-        $type   = "image/png";
+        $type = "image/png";
     } elseif ($type == "image/gif") {
         $source = imagecreatefromgif($filename);
-        $type   = "image/gif";
+        $type = "image/gif";
     }
 
     // Resize
@@ -257,7 +313,8 @@ function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpe
     exit;
 }
 
-function delete_directory($dirname) {
+function delete_directory($dirname)
+{
     if (is_dir($dirname)) {
         $dir_handle = opendir($dirname);
     }

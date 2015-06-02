@@ -1,13 +1,14 @@
 <?php
 /*-----------引入檔案區--------------*/
-include_once __DIR__ . '/header.php';
+include_once "header.php";
 $xoopsOption['template_main'] = set_bootstrap("tad_player_index.html");
 include_once XOOPS_ROOT_PATH . "/header.php";
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/star_rating.php";
 /*-----------function區--------------*/
 
 //列出所有tad_player資料
-function list_tad_player($pcsn = "") {
+function list_tad_player($pcsn = "")
+{
     global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsUser, $xoopsTpl;
 
     //先找出底下分類
@@ -28,6 +29,10 @@ function list_tad_player($pcsn = "") {
     $PageBar = getPageBar($sql, $xoopsModuleConfig['index_show_num'], 10);
     $bar     = $PageBar['bar'];
     $sql     = $PageBar['sql'];
+    $total   = $PageBar['total'];
+    if (empty($total)) {
+        $bar = "";
+    }
 
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 
@@ -48,6 +53,7 @@ function list_tad_player($pcsn = "") {
     $data = $no_power = '';
     $i    = 0;
     while (list($psn, $new_pcsn, $location, $title, $image, $info, $creator, $post_date, $counter, $enable_group, $cate_title, $of_csn) = $xoopsDB->fetchRow($result)) {
+
         if (!empty($new_pcsn) and !in_array($new_pcsn, $ok_cat)) {
             $no_power[] = $psn;
             //continue;
@@ -85,6 +91,7 @@ function list_tad_player($pcsn = "") {
         if (substr($post_date, 0, 2) == '20') {
             $post_date = strtotime($post_date);
         }
+
         $post_date   = date("Y-m-d H:i:s", xoops_getUserTimestamp($post_date));
         $creator_col = (empty($creator)) ? "" : _MD_TADPLAYER_CREATOR . ": $creator";
         if ($xoopsModuleConfig['use_star_rating']) {
@@ -111,10 +118,10 @@ function list_tad_player($pcsn = "") {
 
     if (!empty($pcsn)) {
         $xoops_module_header = "
-    <meta proprery=\"og:title\" content=\"{$cate[$pcsn]}\" />
-    <meta proprery=\"og:description\" content=\"{$info}\" />
-    <meta property=\"og:image\" content=\"{$pic}\" />
-    <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/index.php?pcsn=$pcsn\"/>
+        <meta proprery=\"og:title\" content=\"{$cate[$pcsn]}\" />
+        <meta proprery=\"og:description\" content=\"{$info}\" />
+        <meta property=\"og:image\" content=\"{$pic}\" />
+        <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/index.php?pcsn=$pcsn\"/>
     ";
     } else {
         $xoops_module_header = "";
@@ -130,10 +137,11 @@ function list_tad_player($pcsn = "") {
 }
 
 //底下分類數
-function count_cate_num($pcsn = "0") {
+function count_cate_num($pcsn = "0")
+{
     global $xoopsDB, $xoopsModule;
-    $sql = "select count(*) from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql         = "select count(*) from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
+    $result      = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
     list($count) = $xoopsDB->fetchRow($result);
     if (empty($count)) {
         $count = 0;
@@ -143,7 +151,8 @@ function count_cate_num($pcsn = "0") {
 }
 
 //列出分類
-function list_tad_player_cate($pcsn = '0') {
+function list_tad_player_cate($pcsn = '0')
+{
     global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsConfig;
 
     //目前使用者所屬群組
@@ -152,7 +161,7 @@ function list_tad_player_cate($pcsn = '0') {
         $user_group = $xoopsUser->getGroups();
     }
 
-    $sql = "select * from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}' order by sort";
+    $sql    = "select * from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}' order by sort";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 
     $data = "";
@@ -182,32 +191,7 @@ function list_tad_player_cate($pcsn = '0') {
     }
 
     return $data;
-}
 
-//清單播放
-function playlist($pcsn = "0") {
-    global $xoopsModuleConfig, $xoopsUser, $xoopsTpl;
-    if (empty($pcsn)) {
-        $pcsn = 0;
-    }
-    $cate   = get_tad_player_cate($pcsn);
-    $ok_cat = chk_cate_power();
-
-    $user_group = array();
-    if ($xoopsUser) {
-        $user_group = $xoopsUser->getGroups();
-    }
-    if (!empty($pcsn) and !in_array($pcsn, $ok_cat)) {
-        redirect_header("index.php", 3, sprintf(_MD_TADPLAYER_NO_POWER, $cate['title']));
-    }
-
-    $playcode = play_code_jwplayer("list{$pcsn}", $cate, $pcsn, "playlist", false, null, null, $xoopsModuleConfig['display_max'], $xoopsModuleConfig['display']);
-
-    $title = (empty($cate[$pcsn])) ? "" : $cate[$pcsn];
-
-    $xoopsTpl->assign("mode", "list");
-    $xoopsTpl->assign("title", $title);
-    $xoopsTpl->assign("playcode", $playcode);
 }
 
 /*-----------執行動作判斷區----------*/
@@ -220,10 +204,6 @@ $xoops_module_header = "";
 get_jquery(true);
 
 switch ($op) {
-
-    case "playlist":
-        playlist($pcsn);
-        break;
 
     //預設動作
     default:
@@ -240,8 +220,10 @@ $xoopsTpl->assign("push", push_url($xoopsModuleConfig['use_social_tools']));
 $xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign("psn", $psn);
 $xoopsTpl->assign("pcsn", $pcsn);
+$xoopsTpl->assign("font_color", $xoopsModuleConfig['font_color']);
+$xoopsTpl->assign("border_color", $xoopsModuleConfig['border_color']);
 
-$cate_select = get_tad_player_cate_option(0, 0, $pcsn);
+$cate_select = get_tad_player_cate_option(0, 0, $pcsn, false, false);
 $xoopsTpl->assign('cate_select', $cate_select);
 
 if (isset($title) and !empty($title)) {

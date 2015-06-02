@@ -1,19 +1,20 @@
 <?php
 
 //區塊主函式 (影音播放器區塊1說明)
-function tad_player($options) {
+function tad_player($options)
+{
     global $xoopsDB;
     include_once XOOPS_ROOT_PATH . "/modules/tad_player/function_player.php";
 
-    $modhandler        = &xoops_gethandler('module');
-    $xoopsModule       = &$modhandler->getByDirname("tad_player");
-    $config_handler    =& xoops_gethandler('config');
-    $xoopsModuleConfig =& $config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
+    $modhandler = &xoops_gethandler('module');
+    $xoopsModule = &$modhandler->getByDirname("tad_player");
+    $config_handler = &xoops_gethandler('config');
+    $xoopsModuleConfig = &$config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
     if (empty($options[0])) {
         $sql = "select * from " . $xoopsDB->prefix("tad_player") . " order by rand() limit 0,1";
     } elseif (substr($options[0], 0, 4) == "pcsn") {
-        $sn  = explode("_", $options[0]);
+        $sn = explode("_", $options[0]);
         $sql = "select * from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$sn[1]}' order by rand() limit 0,1";
     } else {
         $psn = $options[0];
@@ -23,7 +24,7 @@ function tad_player($options) {
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
     $file = $xoopsDB->fetchArray($result);
 
-    $file  = get_tad_player($file['psn']);
+    $file = get_tad_player($file['psn']);
     $block = play_code_jwplayer("block{$file['psn']}", $file, $file['psn'], "single", $options[1], $xoopsModuleConfig, null, null, null, $options[2]);
 
     //play_code_jwplayer($id='tp' , $file="",$sn="",$mode="",$autostart=false,$ModuleConfig=array(),$skin="",$list_width="",$list_where="bottom",$repeat=false)
@@ -31,7 +32,8 @@ function tad_player($options) {
 }
 
 //區塊編輯函式
-function tad_player_edit($options) {
+function tad_player_edit($options)
+{
     global $xoopsDB;
     $seled0_0 = ($options[0] == "") ? "selected" : "";
     $chked3_0 = ($options[1] == "0") ? "checked" : "";
@@ -42,7 +44,7 @@ function tad_player_edit($options) {
     $sql = "select a.psn,a.pcsn,a.title,b.title from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn order by a.post_date desc";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 
-    $select   = "<select name='options[0]'>
+    $select = "<select name='options[0]'>
   <option value='0'>" . _MB_TADPLAYER_RANDOM_PLAY . "</option>";
     $old_pcsn = 0;
     while (list($psn, $pcsn, $title, $cate_title) = $xoopsDB->fetchRow($result)) {

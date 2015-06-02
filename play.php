@@ -6,10 +6,11 @@ include_once XOOPS_ROOT_PATH . "/header.php";
 /*-----------function區--------------*/
 
 //播放
-function play($get_psn = "") {
+function play($get_psn = "")
+{
     global $xoopsDB, $xoopsModuleConfig, $xoopsUser, $xoopsTpl, $xoTheme;
 
-    $file   = get_tad_player($get_psn);
+    $file = get_tad_player($get_psn);
     $ok_cat = chk_cate_power();
 
     $user_group = array();
@@ -18,7 +19,7 @@ function play($get_psn = "") {
     }
 
     $enable_group_arr = explode(",", $file['enable_group']);
-    $same             = array_intersect($enable_group_arr, $user_group);
+    $same = array_intersect($enable_group_arr, $user_group);
     if ((!empty($file['pcsn']) and !in_array($file['pcsn'], $ok_cat)) or (!empty($file['enable_group']) and empty($same))) {
         redirect_header("index.php", 3, sprintf(_MD_TADPLAYER_NO_POWER, $file['title']));
     }
@@ -27,7 +28,6 @@ function play($get_psn = "") {
 
     $play_code = play_code_jwplayer("file{$get_psn}", $file, $get_psn, "single");
     //play_code_jwplayer($id='tp' , $file="",$sn="",$mode="",$autostart=false,$ModuleConfig=array(),$skin="",$list_width="",$list_where="bottom",$repeat=false)
-
 
     $all['pcsn'] = $file['pcsn'];
 
@@ -79,7 +79,8 @@ function play($get_psn = "") {
 }
 
 //找出選單
-function get_cate_play($get_psn = "", $size = 1) {
+function get_cate_play($get_psn = "", $size = 1)
+{
     global $xoopsDB, $xoopsTpl;
     $file = get_tad_player($get_psn);
 
@@ -111,8 +112,8 @@ function get_cate_play($get_psn = "", $size = 1) {
 
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op   = system_CleanVars($_REQUEST, 'op', '', 'string');
-$psn  = system_CleanVars($_REQUEST, 'psn', 0, 'int');
+$op = system_CleanVars($_REQUEST, 'op', '', 'string');
+$psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 
 $xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));

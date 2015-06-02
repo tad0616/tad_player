@@ -26,9 +26,15 @@ define('_MI_TADPLAYER_DISPLAY_MAX_DESC', 'Valid only when playlist is located at
 define('_MI_TADPLAYER_SHOW_NUM', '<span style="font-weight: bold;">Number of videos to show per page</span>');
 define('_MI_TADPLAYER_SHOW_NUM_DESC', 'Number of videos to show in home page video list');
 
+define('_MI_TADPLAYER_FONT_COLOR', '<b>Text color</b>');
+define('_MI_TADPLAYER_FONT_COLOR_DESC', 'Set the color for text on thumbnail.');
+
+define('_MI_TADPLAYER_BORDER_COLOR', '<b>Border color</b>');
+define('_MI_TADPLAYER_BORDER_COLOR_DESC', 'Set the border color for text on thumbnail.');
+
 define('_MI_TADPLAYER_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_TADPLAYER_HELP_HEADER', __DIR__.'/help/helpheader.html');
-define('_MI_TADPLAYER_BACK_2_ADMIN','Back to Administration of ');
+define('_MI_TADPLAYER_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADPLAYER_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help
-define('_MI_TADPLAYER_HELP_OVERVIEW','Overview');
+define('_MI_TADPLAYER_HELP_OVERVIEW', 'Overview');

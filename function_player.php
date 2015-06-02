@@ -18,7 +18,8 @@ mk_dir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
 define("_TAD_PLAYER_BATCH_UPLOAD_URL", XOOPS_URL . "/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
 
 //以流水號取得某筆tad_player資料
-function get_tad_player($psn = "") {
+function get_tad_player($psn = "")
+{
     global $xoopsDB;
     if (empty($psn)) {
         return;
@@ -26,26 +27,28 @@ function get_tad_player($psn = "") {
     $sql = "select * from " . $xoopsDB->prefix("tad_player") . " where psn='$psn'";
 
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-    $data = $xoopsDB->fetchArray($result);
+    $data   = $xoopsDB->fetchArray($result);
 
     return $data;
 }
 
 //以流水號取得某筆tad_player_cate資料
-function get_tad_player_cate($pcsn = "") {
+function get_tad_player_cate($pcsn = "")
+{
     global $xoopsDB;
     if (empty($pcsn)) {
         return;
     }
-    $sql = "select * from " . $xoopsDB->prefix("tad_player_cate") . " where pcsn='$pcsn'";
+    $sql    = "select * from " . $xoopsDB->prefix("tad_player_cate") . " where pcsn='$pcsn'";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-    $data = $xoopsDB->fetchArray($result);
+    $data   = $xoopsDB->fetchArray($result);
 
     return $data;
 }
 
 //列出所有tad_player資料
-function list_tad_player_playlist($pcsn = "") {
+function list_tad_player_playlist($pcsn = "")
+{
     global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsUser;
 
     //取得所有分類名稱
@@ -55,7 +58,7 @@ function list_tad_player_playlist($pcsn = "") {
     //$order_by_sort=(empty($pcsn))?"":"a.sort ,";
     $order_by_sort = "a.sort ,";
 
-    $sql = "select a.psn,a.pcsn,a.location,a.title,a.image,a.info,a.creator,a.post_date,a.counter,a.enable_group,a.youtube,b.title,b.of_csn from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn where a.pcsn='{$pcsn}' order by $order_by_sort a.post_date desc";
+    $sql    = "select a.psn,a.pcsn,a.location,a.title,a.image,a.info,a.creator,a.post_date,a.counter,a.enable_group,a.youtube,b.title,b.of_csn from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn where a.pcsn='{$pcsn}' order by $order_by_sort a.post_date desc";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 
     //檢查權限
@@ -115,7 +118,8 @@ function list_tad_player_playlist($pcsn = "") {
     return $media;
 }
 
-function mime_type($filename) {
+function mime_type($filename)
+{
     $mime_types = array(
 
         // audio/video
@@ -143,7 +147,8 @@ function mime_type($filename) {
 }
 
 //播放語法($mode=single or playlist)
-function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autostart = false, $ModuleConfig = array(), $skin = "", $list_width = "", $list_where = "bottom", $repeat = false) {
+function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autostart = false, $ModuleConfig = array(), $skin = "", $list_width = "", $list_where = "bottom", $repeat = false)
+{
     global $xoopsModuleConfig;
 
     if (empty($xoopsModuleConfig)) {
@@ -233,7 +238,8 @@ function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autos
 }
 
 //抓取 Youtube ID
-function getYTid($ytURL = "") {
+function getYTid($ytURL = "")
+{
     if (substr($ytURL, 0, 16) == 'http://youtu.be/') {
         return substr($ytURL, 16);
     } else {

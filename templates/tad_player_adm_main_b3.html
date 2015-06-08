@@ -10,6 +10,20 @@
 
     var hh = $('div.thumb_height').width() * 0.75;
     $('div.thumb_height').css('height',hh);
+
+    $("#clickAll").click(function() {
+      var x = document.getElementById("clickAll").checked;
+      if(x){
+        $(".video").each(function() {
+          $(this).attr("checked", true);
+        });
+      }else{
+       $(".video").each(function() {
+           $(this).attr("checked", false);
+       });
+      }
+    });
+
   });
 
 
@@ -24,17 +38,72 @@
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-2">
-      <{$cate_select}>
+    <div class="col-md-3">
+      <div style="max-height: 300px; overflow: auto;">
+        <{$ztree_code}>
+      </div>
+
+      <h2><{$smarty.const._MA_TADPLAYER_THE_ACT_IS}></h2>
+      <form action="" method="post" class="form-horizontal" role="form">
+        <div class="form-group">
+          <div class="col-md-12">
+            <label class="radio-inline">
+              <input type="radio" name="op" value="del" id="del">
+              <{$smarty.const._TAD_DEL}>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-4">
+            <label class="radio-inline">
+              <input type="radio" name="op" value="move" id="move">
+              <{$smarty.const._MA_TADPLAYER_MOVE_TO}>
+            </label>
+          </div>
+          <div class="col-md-8">
+            <select name="new_pcsn" onChange="check_one('move',false)" class="form-control"><{$option}></select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-4">
+            <label class="radio-inline">
+               <input type="radio" name="op" value="add_title" id="add_title">
+               <{$smarty.const._MA_TADPLAYER_ADD_TITLE}>
+            </label>
+          </div>
+          <div class="col-md-8">
+            <input type="text" name="add_title" class="form-control" onClick="check_one('add_title',false)" onkeypress="check_one('add_title',false)">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="col-md-4">
+            <label class="radio-inline">
+               <input type="radio" name="op" value="add_info" id="add_info">
+               <{$smarty.const._MA_TADPLAYER_ADD_INFO}>
+            </label>
+          </div>
+          <div class="col-md-8">
+            <textarea name="add_info" class="form-control" onClick="check_one('add_info',false)" onkeypress="check_one('add_info',false)"></textarea>
+          </div>
+        </div>
+
+        <div class="text-center">
+          <input type="hidden" name="pcsn" value="{$pcsn}">
+          <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+        </div>
+      </form>
     </div>
 
     <{if $data}>
-    <div class="col-md-10">
+    <div class="col-md-9">
     <!--Body content-->
 
       <div class="row">
-        <label class="checkbox inline">
-          <input type="checkbox" id="u<{$pcsn}>" onClick="$('input:checkbox.p<{$pcsn}>').attr('checked',$('#u<{$pcsn}>').attr('checked'));" onkeypress="$('input:checkbox.p<{$pcsn}>').attr('checked',$('#u<{$pcsn}>').attr('checked'));"> <{$smarty.const._MA_TADPLAYER_SELECT_ALL}>
+        <label class="checkbox-inline">
+          <input type="checkbox" id="clickAll"> <{$smarty.const._MA_TADPLAYER_SELECT_ALL}>
         </label>
 
         <{if $pcsn!=""}>
@@ -47,84 +116,36 @@
 
     	<form action="main.php" method="post">
 
-    	<div class="row" id="all_videos">
-        <{foreach item=video from=$data}>
+    	  <div class="row" id="all_videos">
+          <{foreach item=video from=$data}>
 
-          <div class="thumbnail" id="recordsArray_<{$video.psn}>" onClick="check_one('p<{$video.psn}>',true);" onkeypress="check_one('p<{$video.psn}>',true);" style="width:156px;float:left;margin:8px;">
-            <div class="thumb_height" style="background-color:black;position:relative;height:120px;overflow:hidden;">
-              <img src="<{$video.pic}>" alt="<{$video.title}>" style="z-index:1;">
-              <div id="pt<{$video.psn}>" style="font-size:12px;font-weight:normal;color:#ffffff;position:absolute;bottom:2px;left:10px;z-index:2;text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0px -1px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 1px 0px 0 #000;">
+            <div class="thumbnail" id="recordsArray_<{$video.psn}>" onClick="check_one('p<{$video.psn}>',true);" onkeypress="check_one('p<{$video.psn}>',true);" style="width:156px;float:left;margin:8px;">
+              <div class="thumb_height" style="background-color:black;position:relative;height:120px;overflow:hidden;">
+                <img src="<{$video.pic}>" alt="<{$video.title}>" style="z-index:1; width: 100%;">
+                <div id="pt<{$video.psn}>" style="font-size:12px;font-weight:normal;color:#ffffff;position:absolute;bottom:2px;left:10px;z-index:2;text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0px -1px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 1px 0px 0 #000;">
 
-                <{$video.title}></div>
-            </div>
-
-            <div>
-              <input type="checkbox" id="p<{$video.psn}>" name="video[]" value="<{$video.psn}>" class="p<{$video.pcsn}>" onClick="check_one('p<{$video.psn}>',true);" onkeypress="check_one('p<{$video.psn}>',true);">
-              <a href="../uploads.php?psn=<{$video.psn}>#fragment-1" target="_blank" class="btn btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
-              <a href="../play.php?psn=<{$video.psn}>" target="_blank" class="btn btn-xs btn-info"><{$smarty.const._MA_TADPLAYER_VIEW}></a>
-              <{$smarty.const._MA_TADPLAYER_COUNTER}>:<{$video.counter}>
-            </div>
-
-
-            <div class="caption">
-              <div>
-                <{$video.uid_name}> / <{$video.post_date}>
+                  <{$video.title}></div>
               </div>
-              <div style="height:40px;overflow:auto;"><{$video.g_txt}></div>
-            </div>
-          </div>
 
-        <{/foreach}>
+              <div>
+                <input type="checkbox" id="p<{$video.psn}>" name="video[]" value="<{$video.psn}>" class="video" onClick="check_one('p<{$video.psn}>',true);" onkeypress="check_one('p<{$video.psn}>',true);">
+                <a href="../uploads.php?psn=<{$video.psn}>#fragment-1" target="_blank" class="btn btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
+                <a href="../play.php?psn=<{$video.psn}>" target="_blank" class="btn btn-xs btn-info"><{$smarty.const._MA_TADPLAYER_VIEW}></a>
+                <{$smarty.const._MA_TADPLAYER_COUNTER}>:<{$video.counter}>
+              </div>
+
+
+              <div class="caption">
+                <div>
+                  <{$video.uid_name}> / <{$video.post_date}>
+                </div>
+                <div style="height:40px;overflow:auto;"><{$video.g_txt}></div>
+              </div>
+            </div>
+
+          <{/foreach}>
         </div>
-
-        <div class="clearfix"></div>
-
-
-        <h2><{$smarty.const._MA_TADPLAYER_THE_ACT_IS}></h2>
-
-      	<div class="row">
-          <div class="col-md-6">
-            <div class="controls controls-row">
-              <label class="radio inline">
-                <input type="radio" name="op" value="del" id="del"><{$smarty.const._TAD_DEL}>
-              </label>
-            </div>
-
-            <div class="controls controls-row">
-              <label class="radio inline col-md-4">
-                <input type="radio" name="op" value="move" id="move"><{$smarty.const._MA_TADPLAYER_MOVE_TO}>
-              </label>
-              <select name="new_pcsn" onChange="check_one('move',false)" class="col-md-8"><{$option}></select>
-            </div>
-
-            <div class="controls controls-row">
-              <label class="radio inline col-md-4">
-                <input type="radio" name="op" value="add_title" id="add_title"><{$smarty.const._MA_TADPLAYER_ADD_TITLE}>
-              </label>
-              <input type="text" name="add_title" class="col-md-7" onClick="check_one('add_title',false)" onkeypress="check_one('add_title',false)">
-            </div>
-
-          </div>
-
-          <div class="col-md-6">
-            <div class="controls controls-row">
-
-              <label class="radio inline col-md-4">
-                <input type="radio" name="op" value="add_info" id="add_info"><{$smarty.const._MA_TADPLAYER_ADD_INFO}>
-              </label>
-              <textarea name="add_info" clasa="col-md-8" onClick="check_one('add_info',false)" onkeypress="check_one('add_info',false)"></textarea>
-
-            	<input type="hidden" name="pcsn" value="{$pcsn}">
-            	<button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
-            </div>
-          </div>
-
-        </div>
-
     	</form>
-
-
-
     </div>
 
     <{/if}>

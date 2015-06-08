@@ -19,3 +19,4 @@ define('_MA_TADPLAYER_SELECT_ALL', 'Select all');
 define('_MA_TADPLAYER_LINK_TO_CATE', 'Link to "%s"');
 define('_MA_TADPLAYER_VIDEO_AMOUNT', 'Video amount');
 define('_MA_TADPLAYER_VIEW', 'View');
+define('_MA_TADPLAYER_ADD_CATE', 'Add category');

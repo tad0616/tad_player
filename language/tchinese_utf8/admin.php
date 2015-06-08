@@ -19,3 +19,4 @@ define('_MA_TADPLAYER_SELECT_ALL', '全選');
 define('_MA_TADPLAYER_LINK_TO_CATE', '觀看「%s」分類的影片');
 define('_MA_TADPLAYER_VIDEO_AMOUNT', '影片數');
 define('_MA_TADPLAYER_VIEW', '檢視');
+define('_MA_TADPLAYER_ADD_CATE', '新增分類');

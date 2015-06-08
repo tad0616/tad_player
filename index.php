@@ -223,7 +223,8 @@ $xoopsTpl->assign("pcsn", $pcsn);
 $xoopsTpl->assign("font_color", $xoopsModuleConfig['font_color']);
 $xoopsTpl->assign("border_color", $xoopsModuleConfig['border_color']);
 
-$cate_select = get_tad_player_cate_option(0, 0, $pcsn, false, false);
+$cate_select = get_tad_player_cate_option(0, 0, $pcsn, 1, false);
+
 $xoopsTpl->assign('cate_select', $cate_select);
 
 if (isset($title) and !empty($title)) {

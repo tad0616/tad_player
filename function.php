@@ -48,7 +48,7 @@ function tad_player_breadcrumb($pcsn = '0', $array = array())
 }
 
 //取得路徑
-function get_tad_player_cate_path($the_pcsn = "")
+function get_tad_player_cate_path($the_pcsn = "", $include_self = true)
 {
     global $xoopsDB;
 
@@ -59,20 +59,23 @@ function get_tad_player_cate_path($the_pcsn = "")
     if (!empty($the_pcsn)) {
         $tbl = $xoopsDB->prefix("tad_player_cate");
         $sql = "SELECT t1.pcsn AS lev1, t2.pcsn as lev2, t3.pcsn as lev3, t4.pcsn as lev4, t5.pcsn as lev5, t6.pcsn as lev6, t7.pcsn as lev7
-    FROM `{$tbl}` t1
-    LEFT JOIN `{$tbl}` t2 ON t2.of_csn = t1.pcsn
-    LEFT JOIN `{$tbl}` t3 ON t3.of_csn = t2.pcsn
-    LEFT JOIN `{$tbl}` t4 ON t4.of_csn = t3.pcsn
-    LEFT JOIN `{$tbl}` t5 ON t5.of_csn = t4.pcsn
-    LEFT JOIN `{$tbl}` t6 ON t6.of_csn = t5.pcsn
-    LEFT JOIN `{$tbl}` t7 ON t7.of_csn = t6.pcsn
-    WHERE t1.of_csn = '0'";
+            FROM `{$tbl}` t1
+            LEFT JOIN `{$tbl}` t2 ON t2.of_csn = t1.pcsn
+            LEFT JOIN `{$tbl}` t3 ON t3.of_csn = t2.pcsn
+            LEFT JOIN `{$tbl}` t4 ON t4.of_csn = t3.pcsn
+            LEFT JOIN `{$tbl}` t5 ON t5.of_csn = t4.pcsn
+            LEFT JOIN `{$tbl}` t6 ON t6.of_csn = t5.pcsn
+            LEFT JOIN `{$tbl}` t7 ON t7.of_csn = t6.pcsn
+            WHERE t1.of_csn = '0'";
         $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
         while ($all = $xoopsDB->fetchArray($result)) {
-            if (in_array($the_ppcsn, $all)) {
+            if (in_array($the_pcsn, $all)) {
                 //$main.="-";
                 foreach ($all as $pcsn) {
                     if (!empty($pcsn)) {
+                        if (!$include_self and $pcsn == $the_pcsn) {
+                            break;
+                        }
                         $arr[$pcsn]        = get_tad_player_cate($pcsn);
                         $arr[$pcsn]['sub'] = get_tad_player_sub_cate($pcsn);
                         if ($pcsn == $the_pcsn) {

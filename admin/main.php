@@ -29,7 +29,7 @@ function list_tad_player($pcsn = "")
     $i = 0;
 
     $save_file = XOOPS_URL . "/modules/tad_player/admin/save.php";
-    $data = "";
+    $data      = "";
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -56,21 +56,22 @@ function list_tad_player($pcsn = "")
 
         $post_date = substr($post_date, 0, 10);
 
-        $data[$i]['psn'] = $psn;
-        $data[$i]['pic'] = $pic;
-        $data[$i]['title'] = $title;
-        $data[$i]['pcsn'] = $pcsn;
-        $data[$i]['uid_name'] = $uid_name;
-        $data[$i]['counter'] = $counter;
-        $data[$i]['width'] = $height;
+        $data[$i]['psn']       = $psn;
+        $data[$i]['pic']       = $pic;
+        $data[$i]['title']     = $title;
+        $data[$i]['pcsn']      = $pcsn;
+        $data[$i]['uid_name']  = $uid_name;
+        $data[$i]['counter']   = $counter;
+        $data[$i]['width']     = $height;
         $data[$i]['post_date'] = $post_date;
-        $data[$i]['g_txt'] = $g_txt;
-        $data[$i]['info'] = $info;
+        $data[$i]['g_txt']     = $g_txt;
+        $data[$i]['info']      = $info;
 
         $i++;
     }
 
     $option = get_tad_player_cate_option(0, 0, $pcsn, 1, false);
+    list_tad_player_cate_tree($pcsn);
 
     $xoopsTpl->assign('option', $option);
     $xoopsTpl->assign('pcsn', $pcsn);
@@ -80,13 +81,48 @@ function list_tad_player($pcsn = "")
     $xoopsTpl->assign('jquery', get_jquery(true));
 }
 
+//列出所有tad_player_cate資料
+function list_tad_player_cate_tree($def_pcsn = "")
+{
+    global $xoopsDB, $xoopsTpl;
+
+    $sql    = "select count(*),pcsn from " . $xoopsDB->prefix("tad_player") . " group by pcsn";
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
+        $cate_count[$pcsn] = $count;
+    }
+
+    $path     = get_tad_player_cate_path($def_pcsn);
+    $path_arr = array_keys($path);
+
+    $sql    = "select pcsn,of_csn,title from " . $xoopsDB->prefix("tad_player_cate") . " order by sort";
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    while (list($pcsn, $of_csn, $title) = $xoopsDB->fetchRow($result)) {
+        $font_style      = $def_pcsn == $pcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
+        $open            = in_array($pcsn, $path_arr) ? 'true' : 'false';
+        $display_counter = empty($cate_count[$pcsn]) ? "" : " ({$cate_count[$pcsn]})";
+        $data[]          = "{ id:{$pcsn}, pId:{$of_csn}, name:'{$title}{$display_counter}', url:'main.php?pcsn={$pcsn}', open: {$open} ,target:'_self' {$font_style}}";
+    }
+
+    $json = implode(",\n", $data);
+
+    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/ztree.php")) {
+        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    }
+    include_once XOOPS_ROOT_PATH . "/modules/tadtools/ztree.php";
+    $ztree      = new ztree("cate_tree", $json, '', '', "of_csn", "pcsn");
+    $ztree_code = $ztree->render();
+    $xoopsTpl->assign('ztree_code', $ztree_code);
+
+    return $data;
+}
 //分類選單
 function cate_select($pcsn = 0, $size = 20)
 {
     $cate_select = get_tad_player_cate_option(0, 0, $pcsn);
 
     $PHP_SELF = basename($_SERVER['PHP_SELF']);
-    $select = "
+    $select   = "
   <select name='pcsn' class='span12' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
   $cate_select
   </select>";
@@ -98,7 +134,7 @@ function cate_select($pcsn = 0, $size = 20)
 function mk_all_xml($the_pcsn = "")
 {
     global $xoopsDB;
-    $sql = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate");
+    $sql    = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate");
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 
     $log = "";
@@ -137,7 +173,7 @@ function batch_move($new_pcsn = "")
 {
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
-    $sql = "update " . $xoopsDB->prefix("tad_player") . " set `pcsn` = '{$new_pcsn}' where psn in($videos)";
+    $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `pcsn` = '{$new_pcsn}' where psn in($videos)";
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
 
     return $sn;
@@ -148,7 +184,7 @@ function batch_add_title()
 {
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
-    $sql = "update " . $xoopsDB->prefix("tad_player") . " set  `title` = '{$_POST['add_title']}' where psn in($videos)";
+    $sql    = "update " . $xoopsDB->prefix("tad_player") . " set  `title` = '{$_POST['add_title']}' where psn in($videos)";
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 }
 
@@ -157,7 +193,7 @@ function batch_add_info()
 {
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
-    $sql = "update " . $xoopsDB->prefix("tad_player") . " set `info` = '{$_POST['add_info']}' where psn in($videos)";
+    $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `info` = '{$_POST['add_info']}' where psn in($videos)";
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
 
     return $sn;
@@ -168,16 +204,16 @@ function update_wh()
 {
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
-    $sql = "update " . $xoopsDB->prefix("tad_player") . " set `width` = '{$_POST['width']}' , `height` = '{$_POST['height']}' where psn in($videos)";
+    $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `width` = '{$_POST['width']}' , `height` = '{$_POST['height']}' where psn in($videos)";
     $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
 
     return $sn;
 }
 
 /*-----------執行動作判斷區----------*/
-$op = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$psn = (empty($_REQUEST['psn'])) ? "" : (int) ($_REQUEST['psn']);
-$pcsn = (empty($_REQUEST['pcsn'])) ? "" : (int) ($_REQUEST['pcsn']);
+$op       = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
+$psn      = (empty($_REQUEST['psn'])) ? "" : (int) ($_REQUEST['psn']);
+$pcsn     = (empty($_REQUEST['pcsn'])) ? "" : (int) ($_REQUEST['pcsn']);
 $new_pcsn = (empty($_REQUEST['new_pcsn'])) ? "" : (int) ($_REQUEST['new_pcsn']);
 
 switch ($op) {

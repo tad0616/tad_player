@@ -1,71 +1,82 @@
+Tad Player3.3 official version amended project (2015-06-07 release)
+====================================================
+1.When using the bootstrap , auto-hide pda.php
+2.Fixed PHP file format, and Big5-encoded file into UTF-8 encoding
+3.QR Code blocks removed
+4.Remove java upload
+5.The playlist as a separate file
+6.Path switching switch interlocking menu
+7.Layout Optimization
+
+
 Tad Player3.2 official version amended project (2014-07-04 release)
-   ================================================== =
-   1. Correction tab is not working properly.
-   2. Fixed uid field
+================================================== =
+1. Correction tab is not working properly.
+2. Fixed uid field
 
-   Tad Player3.1 official version amended project (2014-02-17 release)
-   ================================================== =
-   1. Fix the problem description if single quote can not be written.
-   2. streamline languages.
-   3. Fix the constant repetition of the situation
-   4. streamline shared functions (need tadtools 2.06 above)
-   5. Fixed the bug can not display video description
-   6. Fixed background classification management, tree form can not drag and expand the scaling bug
-   7. Fixed a problem due to playlist "&" symbol can not read the correct result list
-   8. Fixed bug backstage movie can not be deleted
-   9. If the film classification correction is limited only to a group can see, but audio and video playlists block but can bypass this limitation bug (at the expense of those who have watched the movie a group of qualified, will not appear in the list)
-
-
-   Tad Player3.0 official version amended project (2013-11-14 release)
-   ================================================== =
-   1. Fixed batch import of Languages
-   2. Optimize playback screen
-   3. Fixed upload pictures is not working properly
-   4. To strengthen import, the file name of the correctness of the judgment, and the conditional support of the document name
-   5. Fixed "regenerate Playlist" function can not be executed properly bug
-   6. JW Player 6.7 player
-   Question 7. Fixed playlist can not be used
-   8.XML JQPlayer proprietary format to XML format
-   9. The latest videos and popular videos to show images set to join the block
-   10. Fixed playlist parameter block part of the problem no effect
+Tad Player3.1 official version amended project (2014-02-17 release)
+================================================== =
+1. Fix the problem description if single quote can not be written.
+2. streamline languages.
+3. Fix the constant repetition of the situation
+4. streamline shared functions (need tadtools 2.06 above)
+5. Fixed the bug can not display video description
+6. Fixed background classification management, tree form can not drag and expand the scaling bug
+7. Fixed a problem due to playlist "&" symbol can not read the correct result list
+8. Fixed bug backstage movie can not be deleted
+9. If the film classification correction is limited only to a group can see, but audio and video playlists block but can bypass this limitation bug (at the expense of those who have watched the movie a group of qualified, will not appear in the list)
 
 
-   Tad Player3.0 RC1 amend item (2013-07-29 release)
-   ================================================== =
-   1. The module instead XOOPS 2.5 format
-   2. sets the bootstrap
-   3. Fixed upload permission is not precise enough to judge issues
-   4. Remove projekktor player (because longer supported youtube)
-   5. greatly simplify setting item width height will be automatically detected.
+Tad Player3.0 official version amended project (2013-11-14 release)
+================================================== =
+1. Fixed batch import of Languages
+2. Optimize playback screen
+3. Fixed upload pictures is not working properly
+4. To strengthen import, the file name of the correctness of the judgment, and the conditional support of the document name
+5. Fixed "regenerate Playlist" function can not be executed properly bug
+6. JW Player 6.7 player
+Question 7. Fixed playlist can not be used
+8.XML JQPlayer proprietary format to XML format
+9. The latest videos and popular videos to show images set to join the block
+10. Fixed playlist parameter block part of the problem no effect
 
 
-   Tad Player version 2.0 RC3 amend item (2011-11-28 release)
-   ================================================== =
-   1. Upload Permissions determine precise enough
-   2. Strengthen category management classification pulling reset category and drag the sort function to avoid pull it classified disappear dilemma.
-   3. Add the handheld device page
-   4. Add QR Code Block
-   5.youtube link to automatic capture
-   6. Resolve Upload file names if capital can catch file problems.
-   7. Added support for ipad and other iOS devices.
-   Question 8. Fixed the background last batch file does not automatically delete steering
+Tad Player3.0 RC1 amend item (2013-07-29 release)
+================================================== =
+1. The module instead XOOPS 2.5 format
+2. sets the bootstrap
+3. Fixed upload permission is not precise enough to judge issues
+4. Remove projekktor player (because longer supported youtube)
+5. greatly simplify setting item width height will be automatically detected.
 
 
-   Tad Player version 2.0 RC2 amended project (release 2011-03-27)
-   ================================================== =
-   1. Add FaceBook Message interface
-   2. Change Category management
-   3. The film can be directly drag sorting
-   4. New java uploads can upload large video files
+Tad Player version 2.0 RC3 amend item (2011-11-28 release)
+================================================== =
+1. Upload Permissions determine precise enough
+2. Strengthen category management classification pulling reset category and drag the sort function to avoid pull it classified disappear dilemma.
+3. Add the handheld device page
+4. Add QR Code Block
+5.youtube link to automatic capture
+6. Resolve Upload file names if capital can catch file problems.
+7. Added support for ipad and other iOS devices.
+Question 8. Fixed the background last batch file does not automatically delete steering
 
 
-   Tad Player version 1.1 Bug Fixes (2008-10-20 release)
-   ================================================== =
-   1. Fixed Time Zone Problems
-   2. New Youtube support directly to the video URL (eg: http: //tw.youtube.com/watch v = xEswd6Bj-oU?) Can be imported.
-   3. Fixed the background classification management can not create sub-classification problem.
-   The new block "whether to repeat" setting.
-   5. preferences in the new color adjustment settings.
-   6. Add Videos sorting function.
-   7. Play simplify grammar, was to have a long list, now just one line.
-   8. Fixed playlists block in XOOPS 2.0.x can not correct the problem set.
+Tad Player version 2.0 RC2 amended project (release 2011-03-27)
+================================================== =
+1. Add FaceBook Message interface
+2. Change Category management
+3. The film can be directly drag sorting
+4. New java uploads can upload large video files
+
+
+Tad Player version 1.1 Bug Fixes (2008-10-20 release)
+================================================== =
+1. Fixed Time Zone Problems
+2. New Youtube support directly to the video URL (eg: http: //tw.youtube.com/watch v = xEswd6Bj-oU?) Can be imported.
+3. Fixed the background classification management can not create sub-classification problem.
+The new block "whether to repeat" setting.
+5. preferences in the new color adjustment settings.
+6. Add Videos sorting function.
+7. Play simplify grammar, was to have a long list, now just one line.
+8. Fixed playlists block in XOOPS 2.0.x can not correct the problem set.

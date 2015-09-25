@@ -429,7 +429,7 @@ function mk_list_xml($pcsn = "")
 
     $cate = get_tad_player_cate($pcsn);
 
-    $sql    = "SELECT * FROM " . $xoopsDB->prefix("tad_player") . " WHERE `pcsn`='{$pcsn}' and `enable_group`='' order by sort";
+    $sql    = "SELECT * FROM " . $xoopsDB->prefix("tad_player") . " WHERE `pcsn`='{$pcsn}' and `enable_group`='' order by psn desc";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
 
     $main = "<rss version=\"2.0\" xmlns:jwplayer=\"http://rss.jwpcdn.com/\">

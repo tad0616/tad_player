@@ -69,10 +69,6 @@ $modversion['templates'][$i]['file']        = 'tad_player_adm_main_b3.html';
 $modversion['templates'][$i]['description'] = 'tad_player_adm_main_b3.html';
 
 $i++;
-$modversion['templates'][$i]['file']        = 'tad_player_adm_cate_b3.html';
-$modversion['templates'][$i]['description'] = 'tad_player_adm_cate_b3.html';
-
-$i++;
 $modversion['templates'][$i]['file']        = 'tad_player_index_b3.html';
 $modversion['templates'][$i]['description'] = 'tad_player_index_b3.html';
 

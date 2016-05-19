@@ -69,16 +69,21 @@ function list_tad_player($pcsn = "")
 
         $i++;
     }
-
+    get_jquery(true);
     $option = get_tad_player_cate_option(0, 0, $pcsn, 1, false);
-    list_tad_player_cate_tree($pcsn);
 
     $xoopsTpl->assign('option', $option);
     $xoopsTpl->assign('pcsn', $pcsn);
     $xoopsTpl->assign('data', $data);
     $xoopsTpl->assign('cate_width', $cate["width"]);
     $xoopsTpl->assign('cate_height', $cate["height"]);
-    $xoopsTpl->assign('jquery', get_jquery(true));
+    $xoopsTpl->assign('cate', $cate);
+    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php")) {
+        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
+    }
+    include_once XOOPS_ROOT_PATH . "/modules/tadtools/sweet_alert.php";
+    $sweet_alert      = new sweet_alert();
+    $sweet_alert_code = $sweet_alert->render("delete_tad_player_cate_func", "main.php?op=delete_tad_player_cate&pcsn=", 'pcsn');
 }
 
 //列出所有tad_player_cate資料
@@ -94,6 +99,7 @@ function list_tad_player_cate_tree($def_pcsn = "")
 
     $path     = get_tad_player_cate_path($def_pcsn);
     $path_arr = array_keys($path);
+    $data[]   = "{ id:0, pId:0, name:'All', url:'main.php', target:'_self', open:true}";
 
     $sql    = "select pcsn,of_csn,title from " . $xoopsDB->prefix("tad_player_cate") . " order by sort";
     $result = $xoopsDB->query($sql) or web_error($sql);
@@ -110,9 +116,10 @@ function list_tad_player_cate_tree($def_pcsn = "")
         redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
     }
     include_once XOOPS_ROOT_PATH . "/modules/tadtools/ztree.php";
-    $ztree      = new ztree("cate_tree", $json, '', '', "of_csn", "pcsn");
+    $ztree      = new ztree("cate_tree", $json, "save_drag.php", "save_cate_sort.php", "of_csn", "pcsn");
     $ztree_code = $ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
+    $xoopsTpl->assign('cate_count', $cate_count);
 
     return $data;
 }
@@ -210,11 +217,187 @@ function update_wh()
     return $sn;
 }
 
+//tad_player_cate編輯表單
+function tad_player_cate_form($pcsn = "")
+{
+    global $xoopsDB, $xoopsModuleConfig, $xoopsTpl;
+    include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
+    $xoopsTpl->assign('now_op', 'tad_player_cate_form');
+
+    //抓取預設值
+    if (!empty($pcsn)) {
+        $DBV = get_tad_player_cate($pcsn);
+        $xoopsTpl->assign('cate', $DBV);
+    } else {
+        $DBV = array();
+    }
+
+    $span = ($_SESSION['bootstrap'] == '3') ? 'form-control' : 'span12';
+
+    //預設值設定
+
+    $pcsn                = (!isset($DBV['pcsn'])) ? $pcsn : $DBV['pcsn'];
+    $of_csn              = (!isset($DBV['of_csn'])) ? "" : $DBV['of_csn'];
+    $title               = (!isset($DBV['title'])) ? "" : $DBV['title'];
+    $enable_group        = (!isset($DBV['enable_group'])) ? "" : explode(",", $DBV['enable_group']);
+    $enable_upload_group = (!isset($DBV['enable_upload_group'])) ? array('1') : explode(",", $DBV['enable_upload_group']);
+    $sort                = (!isset($DBV['sort'])) ? auto_get_csn_sort() : $DBV['sort'];
+
+    $op = (empty($pcsn)) ? "insert_tad_player_cate" : "update_tad_player_cate";
+
+    $xoopsTpl->assign('op', $op);
+    $xoopsTpl->assign('pcsn', $pcsn);
+    $xoopsTpl->assign('of_csn', $of_csn);
+    $xoopsTpl->assign('title', $title);
+    $xoopsTpl->assign('sort', $sort);
+
+    //$cate_select = get_tad_player_cate_option(0, 0, $of_csn, 1, false);
+
+    //可見群組
+    $SelectGroup_name = new XoopsFormSelectGroup("", "enable_group", false, $enable_group, 5, true);
+    $SelectGroup_name->addOption("", _MA_TADPLAYER_ALL_OK, false);
+    $SelectGroup_name->setExtra("class='{$span}'");
+    $enable_group = $SelectGroup_name->render();
+    $xoopsTpl->assign('enable_group', $enable_group);
+
+    //可上傳群組
+    $SelectGroup_name = new XoopsFormSelectGroup("", "enable_upload_group", false, $enable_upload_group, 5, true);
+    $SelectGroup_name->setExtra("class='{$span}'");
+    $enable_upload_group = $SelectGroup_name->render();
+    $xoopsTpl->assign('enable_upload_group', $enable_upload_group);
+
+    $path    = get_tad_player_cate_path($pcsn, false);
+    $patharr = array_keys($path);
+    $i       = 0;
+    foreach ($patharr as $k => $of_csn) {
+        $j                       = $k + 1;
+        $path_arr[$i]['of_csn']  = $of_csn;
+        $path_arr[$i]['def_csn'] = isset($patharr[$j]) ? $patharr[$j] : '';
+        $i++;
+    }
+    $xoopsTpl->assign('path_arr', $path_arr);
+
+}
+
+//自動取得某分類下最大的排序
+function auto_get_csn_sort($pcsn = "")
+{
+    global $xoopsDB;
+    $sql            = "select max(`sort`) from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}' group by of_csn";
+    $result         = $xoopsDB->query($sql) or web_error($sql);
+    list($max_sort) = $xoopsDB->fetchRow($result);
+
+    return ++$max_sort;
+}
+
+//新增資料到tad_player_cate中
+function insert_tad_player_cate()
+{
+    global $xoopsDB;
+    if (empty($_POST['title'])) {
+        return;
+    }
+    if (empty($_POST['enable_group']) or in_array("", $_POST['enable_group'])) {
+        $enable_group = "";
+    } else {
+        $enable_group = implode(",", $_POST['enable_group']);
+    }
+
+    if (empty($_POST['enable_upload_group'])) {
+        $enable_upload_group = "1";
+    } else {
+        $enable_upload_group = implode(",", $_POST['enable_upload_group']);
+    }
+
+    $sql = "insert into " . $xoopsDB->prefix("tad_player_cate") . " (of_csn,title,enable_group,enable_upload_group,sort,width,height) values('{$_POST['of_csn']}','{$_POST['title']}','{$enable_group}','{$enable_upload_group}','{$_POST['sort']}','{$_POST['width']}','{$_POST['height']}')";
+    $xoopsDB->query($sql) or web_error($sql);
+    //取得最後新增資料的流水編號
+    $pcsn = $xoopsDB->getInsertId();
+    mk_list_xml($pcsn);
+
+    return $pcsn;
+}
+
+//更新tad_player_cate某一筆資料
+function update_tad_player_cate($pcsn = "")
+{
+    global $xoopsDB;
+    if (empty($_POST['enable_group']) or in_array("", $_POST['enable_group'])) {
+        $enable_group = "";
+    } else {
+        $enable_group = implode(",", $_POST['enable_group']);
+    }
+
+    if (empty($_POST['enable_upload_group'])) {
+        $enable_upload_group = "1";
+    } else {
+        $enable_upload_group = implode(",", $_POST['enable_upload_group']);
+    }
+    krsort($_POST['of_csn_menu']);
+    foreach ($_POST['of_csn_menu'] as $sn) {
+        if (empty($sn)) {
+            continue;
+        } else {
+            $of_csn = $sn;
+            break;
+        }
+    }
+    $sql = "update " . $xoopsDB->prefix("tad_player_cate") . " set  of_csn = '{$of_csn}', title = '{$_POST['title']}', enable_group = '{$enable_group}', enable_upload_group = '{$enable_upload_group}', sort = '{$_POST['sort']}', width = '{$_POST['width']}', height = '{$_POST['height']}' where pcsn='$pcsn'";
+    $xoopsDB->queryF($sql) or web_error($sql);
+    mk_list_xml($pcsn);
+    $log = "update $pcsn OK!";
+
+    return $log;
+}
+
+//刪除tad_player_cate某筆資料資料
+function delete_tad_player_cate($pcsn = "")
+{
+    global $xoopsDB;
+
+    //先找出底下所有影片
+    $sql = "select psn from " . $xoopsDB->prefix("tad_player") . " where pcsn='$pcsn'";
+    $xoopsDB->query($sql) or web_error($sql);
+    while (list($psn) = $xoopsDB->fetchRow($result)) {
+        delete_tad_player($psn);
+    }
+
+    //找出底下分類，並將分類的所屬分類清空
+    $sql = "update " . $xoopsDB->prefix("tad_player_cate") . " set  of_csn='' where of_csn='$pcsn'";
+    $xoopsDB->queryF($sql) or web_error($sql);
+
+    $sql = "delete from " . $xoopsDB->prefix("tad_player_cate") . " where pcsn='$pcsn'";
+    $xoopsDB->queryF($sql) or web_error($sql);
+
+    unlink(_TAD_PLAYER_UPLOAD_DIR . "{$psn}_list.xml");
+}
+
+//重作縮圖
+function mk_thumb($pcsn = "")
+{
+    global $xoopsDB;
+    set_time_limit(0);
+    $sql    = "select `psn`,`image` from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort";
+    $result = $xoopsDB->query($sql) or web_error($sql);
+    while ($all = $xoopsDB->fetchArray($result)) {
+        foreach ($all as $k => $v) {
+            $$k = $v;
+        }
+        if (!file_exists(_TAD_PLAYER_IMG_DIR . "s_{$psn}.png")) {
+            $filename   = basename($image);
+            $type       = getimagesize($image);
+            $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
+            mk_video_thumbnail($image, $pic_s_file, $type['mime'], "120");
+        }
+    }
+}
+
 /*-----------執行動作判斷區----------*/
-$op       = (!isset($_REQUEST['op'])) ? "" : $_REQUEST['op'];
-$psn      = (empty($_REQUEST['psn'])) ? "" : (int) ($_REQUEST['psn']);
-$pcsn     = (empty($_REQUEST['pcsn'])) ? "" : (int) ($_REQUEST['pcsn']);
-$new_pcsn = (empty($_REQUEST['new_pcsn'])) ? "" : (int) ($_REQUEST['new_pcsn']);
+include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+$op       = system_CleanVars($_REQUEST, 'op', '', 'string');
+$psn      = system_CleanVars($_REQUEST, 'psn', 0, 'int');
+$pcsn     = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
+$new_pcsn = system_CleanVars($_REQUEST, 'new_pcsn', 0, 'int');
 
 switch ($op) {
 
@@ -222,6 +405,7 @@ switch ($op) {
     case "save_sort":
         save_sort();
         header("location: {$_SERVER['PHP_SELF']}?pcsn=$pcsn");
+        exit;
         break;
 
     //重新產生所有的XML
@@ -232,6 +416,7 @@ switch ($op) {
     case "del":
         batch_del();
         header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
+        exit;
         break;
 
     case "move":
@@ -239,28 +424,67 @@ switch ($op) {
         mk_list_xml($pcsn);
         mk_list_xml($new_pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
+        exit;
         break;
 
     case "add_title":
         batch_add_title();
         mk_list_xml($pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
+        exit;
         break;
 
     case "add_info":
         batch_add_info();
         mk_list_xml($pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
+        exit;
         break;
 
     case "update_wh":
         update_wh();
         mk_list_xml($pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
+        exit;
+        break;
+
+    //新增資料
+    case "tad_player_cate_form";
+        list_tad_player_cate_tree($pcsn);
+        tad_player_cate_form($pcsn);
+        break;
+
+    //新增資料
+    case "insert_tad_player_cate":
+        insert_tad_player_cate();
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+        break;
+
+    //刪除資料
+    case "delete_tad_player_cate";
+        delete_tad_player_cate($pcsn);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+        break;
+
+    //更新資料
+    case "update_tad_player_cate";
+        update_tad_player_cate($pcsn);
+        header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
+        exit;
+        break;
+
+    //重作縮圖
+    case "mk_thumb";
+        mk_thumb($pcsn);
+        header("location: {$_SERVER['PHP_SELF']}");
         break;
 
     //預設動作
     default:
+
+        list_tad_player_cate_tree($pcsn);
         list_tad_player($pcsn);
         break;
 

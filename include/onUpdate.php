@@ -49,7 +49,7 @@ function go_update1()
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player/flv");
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player_batch_uploads");
 
-    $sql = "select psn,location,image,post_date from " . $xoopsDB->prefix("tad_player") . " order by psn";
+    $sql    = "select psn,location,image,post_date from " . $xoopsDB->prefix("tad_player") . " order by psn";
     $result = $xoopsDB->query($sql) or die($sql);
 
     while (list($psn, $location, $image, $post_date) = $xoopsDB->fetchRow($result)) {
@@ -57,7 +57,7 @@ function go_update1()
         if (substr($post_date, 0, 2) == '20') {
             //$now=xoops_getUserTimestamp(strtotime($post_date));
 
-            $now = date("Y-m-d H:i:s", xoops_getUserTimestamp(time()));
+            $now   = date("Y-m-d H:i:s", xoops_getUserTimestamp(time()));
             $pdate = "`post_date`='{$now}'";
         } else {
             $pdate = "`post_date`=`post_date`";
@@ -67,7 +67,7 @@ function go_update1()
         if (!empty($image)) {
             $filename = XOOPS_ROOT_PATH . "/uploads/tad_player/{$psn}_{$image}";
             if (file_exists($filename)) {
-                $type = getimagesize($filename);
+                $type         = getimagesize($filename);
                 $thumb_b_name = XOOPS_ROOT_PATH . "/uploads/tad_player/img/{$psn}.png";
                 $thumb_s_name = XOOPS_ROOT_PATH . "/uploads/tad_player/img/s_{$psn}.png";
                 mk_video_thumbnail($filename, $thumb_b_name, $type['mime'], "480");
@@ -93,7 +93,7 @@ function go_update1()
 function chk_chk2()
 {
     global $xoopsDB;
-    $sql = "select count(`enable_upload_group`) from " . $xoopsDB->prefix("tad_player_cate");
+    $sql    = "select count(`enable_upload_group`) from " . $xoopsDB->prefix("tad_player_cate");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -106,14 +106,14 @@ function go_update2()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_player_cate") . " ADD `enable_upload_group` varchar(255) NOT NULL  default '' after `enable_group`";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //新增logo欄位
 function chk_chk3()
 {
     global $xoopsDB;
-    $sql = "select count(`logo`) from " . $xoopsDB->prefix("tad_player");
+    $sql    = "select count(`logo`) from " . $xoopsDB->prefix("tad_player");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -127,14 +127,14 @@ function go_update3()
     global $xoopsDB;
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player/logo");
     $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_player") . " ADD `logo` varchar(255) NOT NULL  default ''";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
 }
 
 //新增評分表格
 function chk_chk4()
 {
     global $xoopsDB;
-    $sql = "select count(*) from " . $xoopsDB->prefix("tad_player_rank");
+    $sql    = "select count(*) from " . $xoopsDB->prefix("tad_player_rank");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -163,7 +163,7 @@ function chk_uid()
     global $xoopsDB;
     $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
     WHERE table_name = '" . $xoopsDB->prefix("tad_player") . "' AND COLUMN_NAME = 'uid'";
-    $result = $xoopsDB->query($sql);
+    $result     = $xoopsDB->query($sql);
     list($type) = $xoopsDB->fetchRow($result);
     if ($type == 'smallint') {
         return true;
@@ -177,10 +177,10 @@ function go_update_uid()
 {
     global $xoopsDB;
     $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_player") . "` CHANGE `uid` `uid` mediumint(8) unsigned NOT NULL default 0";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $xoopsDB->error());
 
     $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_player_rank") . "` CHANGE `uid` `uid` mediumint(8) unsigned NOT NULL default 0";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $xoopsDB->error());
 
     return true;
 }
@@ -194,7 +194,7 @@ function chk_tad_player_block()
 
     //先找出該有的區塊以及對應樣板
     foreach ($modversion['blocks'] as $i => $block) {
-        $show_func = $block['show_func'];
+        $show_func                = $block['show_func'];
         $tpl_file_arr[$show_func] = $block['template'];
         $tpl_desc_arr[$show_func] = $block['description'];
     }
@@ -287,20 +287,20 @@ function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpe
 
     $percent = ($old_width > $old_height) ? round($width / $old_width, 2) : round($width / $old_height, 2);
 
-    $newwidth = ($old_width > $old_height) ? $width : $old_width * $percent;
+    $newwidth  = ($old_width > $old_height) ? $width : $old_width * $percent;
     $newheight = ($old_width > $old_height) ? $old_height * $percent : $width;
 
     // Load
     $thumb = imagecreatetruecolor($newwidth, $newheight);
     if ($type == "image/jpeg" or $type == "image/jpg" or $type == "image/pjpg" or $type == "image/pjpeg") {
         $source = imagecreatefromjpeg($filename);
-        $type = "image/jpeg";
+        $type   = "image/jpeg";
     } elseif ($type == "image/png") {
         $source = imagecreatefrompng($filename);
-        $type = "image/png";
+        $type   = "image/png";
     } elseif ($type == "image/gif") {
         $source = imagecreatefromgif($filename);
-        $type = "image/gif";
+        $type   = "image/gif";
     }
 
     // Resize

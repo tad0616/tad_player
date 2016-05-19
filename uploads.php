@@ -37,19 +37,19 @@ function tad_player_form($psn = "")
 
     //預設值設定
 
-    $pcsn = (!isset($DBV['pcsn'])) ? "" : $DBV['pcsn'];
-    $title = (!isset($DBV['title'])) ? "" : $DBV['title'];
-    $creator = (!isset($DBV['creator'])) ? "" : $DBV['creator'];
-    $location = (!isset($DBV['location'])) ? "" : $DBV['location'];
-    $image = (!isset($DBV['image'])) ? "" : $DBV['image'];
-    $info = (!isset($DBV['info'])) ? "" : $DBV['info'];
-    $uid = (!isset($DBV['uid'])) ? "" : $DBV['uid'];
-    $post_date = (!isset($DBV['post_date'])) ? "" : $DBV['post_date'];
+    $pcsn         = (!isset($DBV['pcsn'])) ? "" : $DBV['pcsn'];
+    $title        = (!isset($DBV['title'])) ? "" : $DBV['title'];
+    $creator      = (!isset($DBV['creator'])) ? "" : $DBV['creator'];
+    $location     = (!isset($DBV['location'])) ? "" : $DBV['location'];
+    $image        = (!isset($DBV['image'])) ? "" : $DBV['image'];
+    $info         = (!isset($DBV['info'])) ? "" : $DBV['info'];
+    $uid          = (!isset($DBV['uid'])) ? "" : $DBV['uid'];
+    $post_date    = (!isset($DBV['post_date'])) ? "" : $DBV['post_date'];
     $enable_group = (!isset($DBV['enable_group'])) ? "" : explode(",", $DBV['enable_group']);
-    $counter = (!isset($DBV['counter'])) ? "" : $DBV['counter'];
-    $content = (!isset($DBV['content'])) ? "" : $DBV['content'];
-    $youtube = (!isset($DBV['youtube'])) ? "" : $DBV['youtube'];
-    $logo = (!isset($DBV['logo'])) ? "" : $DBV['logo'];
+    $counter      = (!isset($DBV['counter'])) ? "" : $DBV['counter'];
+    $content      = (!isset($DBV['content'])) ? "" : $DBV['content'];
+    $youtube      = (!isset($DBV['youtube'])) ? "" : $DBV['youtube'];
+    $logo         = (!isset($DBV['logo'])) ? "" : $DBV['logo'];
 
     if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/ck.php")) {
         redirect_header("index.php", 3, _MD_NEED_TADTOOLS);
@@ -65,8 +65,8 @@ function tad_player_form($psn = "")
     $logo_col = false;
 
     //可見群組
-    $member_handler = &xoops_gethandler('member');
-    $group_arr = $member_handler->getGroupList();
+    $member_handler = xoops_gethandler('member');
+    $group_arr      = $member_handler->getGroupList();
     $xoopsTpl->assign('group_arr', $group_arr);
     $xoopsTpl->assign('enable_group', $enable_group);
     //die(var_export($enable_group));
@@ -97,10 +97,10 @@ function tad_player_form($psn = "")
     }
 
     if (substr($image, 0, 4) == 'http') {
-        $hide_img = "$('#img_local').hide();";
+        $hide_img          = "$('#img_local').hide();";
         $selected_img_link = "selected";
     } else {
-        $hide_img = "$('#img_link').hide();";
+        $hide_img           = "$('#img_link').hide();";
         $selected_img_local = "selected";
     }
 
@@ -138,7 +138,7 @@ function insert_tad_player()
         $pcsn = $_POST['pcsn'];
     }
 
-    $uid = $xoopsUser->getVar('uid');
+    $uid          = $xoopsUser->getVar('uid');
     $enable_group = implode(",", $_POST['enable_group']);
 
     if ($_POST['youtube'] == _MD_TADPLAYER_YOUTUBE_LINK) {
@@ -167,7 +167,7 @@ function insert_tad_player()
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = getYTid($_POST['youtube']);
 
-        $url = "http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
+        $url      = "http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
         $contents = file_get_contents($url);
         $contents = utf8_encode($contents);
         //$ytb = json_decode($contents,false);
@@ -188,7 +188,7 @@ function insert_tad_player()
         $thumbnail_url = http://i4.ytimg.com/vi/3B4fyi-xXzo/hqdefault.jpg;
          */
         $_POST['height'] = round(($ytb['height'] / $ytb['width']) * $_POST['width']);
-        $image = $ytb['thumbnail_url'];
+        $image           = $ytb['thumbnail_url'];
         if (empty($_POST['title'])) {
             $_POST['title'] = $ytb['title'];
         }
@@ -207,16 +207,16 @@ function insert_tad_player()
         $title = $myts->addSlashes(basename($location));
     }
 
-    $_POST['creator'] = $myts->addSlashes($_POST['creator']);
-    $_POST['content'] = $myts->addSlashes($_POST['content']);
-    $_POST['youtube'] = $myts->addSlashes($_POST['youtube']);
+    $_POST['creator']   = $myts->addSlashes($_POST['creator']);
+    $_POST['content']   = $myts->addSlashes($_POST['content']);
+    $_POST['youtube']   = $myts->addSlashes($_POST['youtube']);
     $_POST['logo_name'] = $myts->addSlashes($_POST['logo_name']);
 
     $now = date("Y-m-d H:i:s", xoops_getUserTimestamp(time()));
 
     $sql = "insert into " . $xoopsDB->prefix("tad_player") . " (pcsn,title,creator,location,image,info,uid,post_date,enable_group,counter,content,youtube,logo) values('{$pcsn}','{$title}','{$_POST['creator']}','{$location}','{$image}','{$location}','{$uid}','{$now}','{$enable_group}','0','{$_POST['content']}','{$_POST['youtube']}','{$_POST['logo_name']}')";
     //die($sql);
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
     //取得最後新增資料的流水編號
     $psn = $xoopsDB->getInsertId();
 
@@ -230,13 +230,13 @@ function insert_tad_player()
         upload_pic($psn);
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = getYTid($_POST['youtube']);
-        $image = "http://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
-        $type = getimagesize($image);
+        $image      = "http://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
+        $type       = getimagesize($image);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
         mk_video_thumbnail($image, $pic_s_file, $type['mime'], "120");
     } elseif (!empty($_POST['image'])) {
-        $filename = basename($_POST['image']);
-        $type = getimagesize($_POST['image']);
+        $filename   = basename($_POST['image']);
+        $type       = getimagesize($_POST['image']);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
         mk_video_thumbnail($_POST['image'], $pic_s_file, $type['mime'], "120");
     }
@@ -286,14 +286,14 @@ function update_tad_player($psn = "")
         $image_sql = "";
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = getYTid($_POST['youtube']);
-        $image = "http://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
-        $type = getimagesize($image);
+        $image      = "http://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
+        $type       = getimagesize($image);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
         mk_video_thumbnail($image, $pic_s_file, $type['mime'], "120");
         $image_sql = ", image = '{$image}'";
     } elseif (!empty($_POST['image'])) {
-        $filename = basename($_POST['image']);
-        $type = getimagesize($_POST['image']);
+        $filename   = basename($_POST['image']);
+        $type       = getimagesize($_POST['image']);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
         mk_video_thumbnail($_POST['image'], $pic_s_file, $type['mime'], "120");
         $image_sql = ", image = '{$_POST['image']}'";
@@ -314,15 +314,15 @@ function update_tad_player($psn = "")
 
     $enable_group = implode(",", $_POST['enable_group']);
 
-    $_POST['creator'] = $myts->addSlashes($_POST['creator']);
-    $_POST['content'] = $myts->addSlashes($_POST['content']);
-    $_POST['youtube'] = $myts->addSlashes($_POST['youtube']);
+    $_POST['creator']   = $myts->addSlashes($_POST['creator']);
+    $_POST['content']   = $myts->addSlashes($_POST['content']);
+    $_POST['youtube']   = $myts->addSlashes($_POST['youtube']);
     $_POST['logo_name'] = $myts->addSlashes($_POST['logo_name']);
 
     //$now=xoops_getUserTimestamp(time());
     $now = date("Y-m-d H:i:s", xoops_getUserTimestamp(time()));
     $sql = "update " . $xoopsDB->prefix("tad_player") . " set  pcsn = '{$pcsn}', title = '{$title}', creator = '{$_POST['creator']}' {$location_sql} {$image_sql}, post_date = '{$now}', enable_group = '{$enable_group}', width = '{$_POST['width']}', height = '{$_POST['height']}' , content = '{$_POST['content']}', logo='{$_POST['logo_name']}' where psn='$psn'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 
     if (!empty($_FILES['logo']['name'])) {
         upload_logo($psn);
@@ -341,21 +341,21 @@ function upload_flv($psn = "", $update_sql = false)
     ini_set('memory_limit', '50M');
     $flv_handle = new upload($_FILES['location'], "zh_TW");
     if ($flv_handle->uploaded) {
-        $name = substr($_FILES['location']['name'], 0, -4);
-        $flv_handle->file_safe_name = false;
-        $flv_handle->auto_create_dir = true;
+        $name                           = substr($_FILES['location']['name'], 0, -4);
+        $flv_handle->file_safe_name     = false;
+        $flv_handle->auto_create_dir    = true;
         $flv_handle->file_new_name_body = strtolower("{$psn}_{$name}");
         $flv_handle->process(_TAD_PLAYER_FLV_DIR);
         if ($flv_handle->processed) {
             $flv_handle->clean();
             if ($update_sql) {
                 $sql = "update " . $xoopsDB->prefix("tad_player") . " set image='{$_FILES['location']['name']}' where psn='$psn'";
-                $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+                $xoopsDB->queryF($sql) or web_error($sql);
             }
             return true;
         } else {
             $sql = "delete from " . $xoopsDB->prefix("tad_player") . " where psn='{$psn}'";
-            $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+            $xoopsDB->query($sql) or web_error($sql);
             redirect_header($_SERVER['PHP_SELF'], 3, "Error:" . $flv_handle->error);
         }
     }
@@ -380,27 +380,27 @@ function upload_pic($psn = "", $update_sql = false)
     $img_handle = new upload($_FILES['image'], "zh_TW");
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
-        $img_handle->file_safe_name = false;
+        $img_handle->file_safe_name     = false;
         $img_handle->file_new_name_body = "{$psn}";
-        $img_handle->image_convert = 'png';
-        $img_handle->image_resize = true;
-        $img_handle->image_x = 1024;
-        $img_handle->image_ratio_y = true;
+        $img_handle->image_convert      = 'png';
+        $img_handle->image_resize       = true;
+        $img_handle->image_x            = 1024;
+        $img_handle->image_ratio_y      = true;
         $img_handle->process(_TAD_PLAYER_IMG_DIR);
 
         //製作縮圖
-        $img_handle->file_safe_name = false;
+        $img_handle->file_safe_name     = false;
         $img_handle->file_new_name_body = "s_{$psn}";
-        $img_handle->image_convert = 'png';
-        $img_handle->image_resize = true;
-        $img_handle->image_x = 120;
-        $img_handle->image_ratio_y = true;
+        $img_handle->image_convert      = 'png';
+        $img_handle->image_resize       = true;
+        $img_handle->image_x            = 120;
+        $img_handle->image_ratio_y      = true;
         $img_handle->process(_TAD_PLAYER_IMG_DIR);
         $img_handle->auto_create_dir = true;
         if ($img_handle->processed) {
             if ($update_sql) {
-                $sql = "update " . $xoopsDB->prefix("tad_player") . " set `image`='{$psn}.png' where `psn`='$psn'";
-                $result = $xoopsDB->queryF($sql) or die(mysql_error());
+                $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `image`='{$psn}.png' where `psn`='$psn'";
+                $result = $xoopsDB->queryF($sql) or web_error($sql);
 
             }
 
@@ -427,15 +427,15 @@ function upload_logo($psn = "")
     $img_handle = new upload($_FILES['logo'], "zh_TW");
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
-        $img_handle->file_safe_name = false;
+        $img_handle->file_safe_name     = false;
         $img_handle->file_new_name_body = "{$psn}";
-        $img_handle->image_convert = 'png';
+        $img_handle->image_convert      = 'png';
         $img_handle->process(XOOPS_ROOT_PATH . "/uploads/tad_player/logo");
         $img_handle->auto_create_dir = true;
         if ($img_handle->processed) {
 
-            $sql = "update " . $xoopsDB->prefix("tad_player") . " set `logo`='{$psn}.png' where `psn`='$psn'";
-            $result = $xoopsDB->queryF($sql) or die(mysql_error());
+            $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `logo`='{$psn}.png' where `psn`='$psn'";
+            $result = $xoopsDB->queryF($sql) or web_error($sql);
 
             $img_handle->clean();
             return true;
@@ -446,8 +446,8 @@ function upload_logo($psn = "")
 }
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
+$op   = system_CleanVars($_REQUEST, 'op', '', 'string');
+$psn  = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 
 $xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));

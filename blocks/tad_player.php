@@ -6,25 +6,25 @@ function tad_player($options)
     global $xoopsDB;
     include_once XOOPS_ROOT_PATH . "/modules/tad_player/function_player.php";
 
-    $modhandler = &xoops_gethandler('module');
-    $xoopsModule = &$modhandler->getByDirname("tad_player");
-    $config_handler = &xoops_gethandler('config');
-    $xoopsModuleConfig = &$config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
+    $modhandler        = xoops_gethandler('module');
+    $xoopsModule       = $modhandler->getByDirname("tad_player");
+    $config_handler    = xoops_gethandler('config');
+    $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
     if (empty($options[0])) {
         $sql = "select * from " . $xoopsDB->prefix("tad_player") . " order by rand() limit 0,1";
     } elseif (substr($options[0], 0, 4) == "pcsn") {
-        $sn = explode("_", $options[0]);
+        $sn  = explode("_", $options[0]);
         $sql = "select * from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$sn[1]}' order by rand() limit 0,1";
     } else {
         $psn = $options[0];
         $sql = "select * from " . $xoopsDB->prefix("tad_player") . " where psn='$psn'";
     }
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-    $file = $xoopsDB->fetchArray($result);
+    $result = $xoopsDB->query($sql) or web_error($sql);
+    $file   = $xoopsDB->fetchArray($result);
 
-    $file = get_tad_player($file['psn']);
+    $file  = get_tad_player($file['psn']);
     $block = play_code_jwplayer("block{$file['psn']}", $file, $file['psn'], "single", $options[1], $xoopsModuleConfig, null, null, null, $options[2]);
 
     //play_code_jwplayer($id='tp' , $file="",$sn="",$mode="",$autostart=false,$ModuleConfig=array(),$skin="",$list_width="",$list_where="bottom",$repeat=false)
@@ -41,8 +41,8 @@ function tad_player_edit($options)
     $chked4_0 = ($options[2] == "false") ? "checked" : "";
     $chked4_1 = ($options[2] == "true") ? "checked" : "";
 
-    $sql = "select a.psn,a.pcsn,a.title,b.title from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn order by a.post_date desc";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql    = "select a.psn,a.pcsn,a.title,b.title from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn order by a.post_date desc";
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $select = "<select name='options[0]'>
   <option value='0'>" . _MB_TADPLAYER_RANDOM_PLAY . "</option>";

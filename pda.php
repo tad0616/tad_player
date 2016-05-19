@@ -30,8 +30,8 @@ function show_cate($pcsn, $passwd)
     $data = "";
 
     //找出分類下所有影音檔
-    $sql = "select * from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort , post_date";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql    = "select * from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort , post_date";
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
@@ -105,7 +105,7 @@ function view_media($psn = "")
         if (function_exists('xlanguage_ml')) {
             $pnp['back']['title'] = xlanguage_ml($pnp['back']['title']);
         }
-        $title = xoops_substr($pnp['back']['title'], 0, 30);
+        $title     = xoops_substr($pnp['back']['title'], 0, 30);
         $back_news = "<a href='{$_SERVER['PHP_SELF']}?psn={$pnp['back']['psn']}' class='nav'>&#x21E6; {$title}</a>";
     }
 
@@ -116,7 +116,7 @@ function view_media($psn = "")
             $pnp['next']['title'] = xlanguage_ml($pnp['next']['title']);
         }
 
-        $title = xoops_substr($pnp['next']['title'], 0, 30);
+        $title     = xoops_substr($pnp['next']['title'], 0, 30);
         $next_news = "<a href='{$_SERVER['PHP_SELF']}?psn={$pnp['next']['psn']}' class='nav'>&#x21E8; {$title}</a>";
     }
 
@@ -145,27 +145,27 @@ function view_media($psn = "")
 function get_pre_next($pcsn = "", $now_sn = "")
 {
     global $xoopsDB;
-    $sql = "select psn,title from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort , post_date";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
-    $stop = false;
-    $pre = 0;
+    $sql    = "select psn,title from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort , post_date";
+    $result = $xoopsDB->query($sql) or web_error($sql);
+    $stop   = false;
+    $pre    = 0;
     while (list($psn, $title) = $xoopsDB->fetchRow($result)) {
         if ($stop) {
-            $next = $psn;
+            $next       = $psn;
             $next_title = $title;
             break;
         }
         if ($psn == $now_sn) {
-            $now = $psn;
+            $now  = $psn;
             $stop = true;
         } else {
-            $pre = $psn;
+            $pre       = $psn;
             $pre_title = $title;
         }
     }
-    $main['back']['psn'] = $pre;
+    $main['back']['psn']   = $pre;
     $main['back']['title'] = $pre_title;
-    $main['next']['psn'] = $next;
+    $main['next']['psn']   = $next;
     $main['next']['title'] = $next_title;
 
     return $main;
@@ -174,7 +174,7 @@ function get_pre_next($pcsn = "", $now_sn = "")
 /*-----------執行動作判斷區----------*/
 $_REQUEST['op'] = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
 
-$psn = (isset($_REQUEST['psn'])) ? (int) ($_REQUEST['psn']) : 0;
+$psn  = (isset($_REQUEST['psn'])) ? (int) ($_REQUEST['psn']) : 0;
 $pcsn = (isset($_REQUEST['pcsn'])) ? (int) ($_REQUEST['pcsn']) : 0;
 
 $jquery = get_jquery();

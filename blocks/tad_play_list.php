@@ -10,14 +10,14 @@ function tad_player_play_list($options)
         retrun;
     }
 
-    $modhandler = &xoops_gethandler('module');
-    $xoopsModule = &$modhandler->getByDirname("tad_player");
-    $config_handler = &xoops_gethandler('config');
-    $xoopsModuleConfig = &$config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
+    $modhandler        = xoops_gethandler('module');
+    $xoopsModule       = $modhandler->getByDirname("tad_player");
+    $config_handler    = xoops_gethandler('config');
+    $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
     $autoplay = ($options[1] == 1) ? "true" : "false";
-    $cate = get_tad_player_cate($options[0]);
-    $block = play_code_jwplayer("block_cate{$options[0]}", $cate, $options[0], "playlist", $autoplay, $xoopsModuleConfig, "", $options[2], "bottom", $options[3]);
+    $cate     = get_tad_player_cate($options[0]);
+    $block    = play_code_jwplayer("block_cate{$options[0]}", $cate, $options[0], "playlist", $autoplay, $xoopsModuleConfig, "", $options[2], "bottom", $options[3]);
 
     //play_code_jwplayer($id='tp' , $file="",$sn="",$mode="",$autostart=false,$ModuleConfig=array(),$skin="",$list_width="",$list_where="bottom",$repeat=false)
 
@@ -56,7 +56,7 @@ function tad_player_play_list_edit($options)
 function tp_block_cate_select($pcsn = 0)
 {
     $cate_select = tp_block_get_tad_player_cate_option(0, 0, $pcsn);
-    $select = "<select name='options[0]' size='6'>
+    $select      = "<select name='options[0]' size='6'>
   $cate_select
   </select>";
 
@@ -70,14 +70,14 @@ function tp_block_get_tad_player_cate_option($of_csn = 0, $level = 0, $v = "", $
     $dot = ($show_dot == '1') ? str_repeat(_MB_TADPLAYER_BLANK, $level) : "";
     $level += 1;
 
-    $sql = "select count(*),pcsn from " . $xoopsDB->prefix("tad_player") . " group by pcsn";
+    $sql    = "select count(*),pcsn from " . $xoopsDB->prefix("tad_player") . " group by pcsn";
     $result = $xoopsDB->query($sql);
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
 
     $option = ($of_csn) ? "" : "<option value='0'>" . _MB_TADPLAYER_CATE_SELECT . "</option>";
-    $sql = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$of_csn}' order by sort";
+    $sql    = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$of_csn}' order by sort";
     $result = $xoopsDB->query($sql);
 
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {

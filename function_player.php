@@ -1,7 +1,7 @@
 <?php
 //引入TadTools的函式庫
 if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php")) {
-    redirect_header("http://www.tad0616.net/modules/tad_uploader/index.php?of_cat_sn=50", 3, _TAD_NEED_TADTOOLS);
+    redirect_header("http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1", 3, _TAD_NEED_TADTOOLS);
 }
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/tad_function.php";
 
@@ -12,7 +12,10 @@ define("_TAD_PLAYER_IMG_DIR", XOOPS_ROOT_PATH . "/uploads/tad_player/img/");
 define("_TAD_PLAYER_UPLOAD_URL", XOOPS_URL . "/uploads/tad_player/");
 define("_TAD_PLAYER_FLV_URL", XOOPS_URL . "/uploads/tad_player/flv/");
 define("_TAD_PLAYER_IMG_URL", XOOPS_URL . "/uploads/tad_player/img/");
-
+$uid_dir = 0;
+if ($xoopsUser) {
+    $uid_dir = $xoopsUser->getVar('uid');
+}
 define("_TAD_PLAYER_BATCH_UPLOAD_DIR", XOOPS_ROOT_PATH . "/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
 mk_dir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
 define("_TAD_PLAYER_BATCH_UPLOAD_URL", XOOPS_URL . "/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
@@ -26,7 +29,7 @@ function get_tad_player($psn = "")
     }
     $sql = "select * from " . $xoopsDB->prefix("tad_player") . " where psn='$psn'";
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     $data   = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -40,7 +43,7 @@ function get_tad_player_cate($pcsn = "")
         return;
     }
     $sql    = "select * from " . $xoopsDB->prefix("tad_player_cate") . " where pcsn='$pcsn'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     $data   = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -59,7 +62,7 @@ function list_tad_player_playlist($pcsn = "")
     $order_by_sort = "a.sort ,";
 
     $sql    = "select a.psn,a.pcsn,a.location,a.title,a.image,a.info,a.creator,a.post_date,a.counter,a.enable_group,a.youtube,b.title,b.of_csn from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn where a.pcsn='{$pcsn}' order by $order_by_sort a.post_date desc";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     //檢查權限
     $ok_cat = chk_cate_power();
@@ -167,6 +170,7 @@ function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autos
             $contents   = file_get_contents($url);
             $contents   = utf8_encode($contents);
             $results    = json_decode($contents, false);
+            // die(var_export($results));
             foreach ($results as $k => $v) {
                 $$k = htmlspecialchars($v);
             }

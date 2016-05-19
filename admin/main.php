@@ -24,7 +24,7 @@ function list_tad_player($pcsn = "")
 
     $sql = "select `psn` , `title` , `location` , `image` , `info` , `width` , `height` , `counter` , `enable_group` , `uid` , `post_date` from " . $xoopsDB->prefix("tad_player") . " {$where_pcsn} ";
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $i = 0;
 
@@ -87,7 +87,7 @@ function list_tad_player_cate_tree($def_pcsn = "")
     global $xoopsDB, $xoopsTpl;
 
     $sql    = "select count(*),pcsn from " . $xoopsDB->prefix("tad_player") . " group by pcsn";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
@@ -96,7 +96,7 @@ function list_tad_player_cate_tree($def_pcsn = "")
     $path_arr = array_keys($path);
 
     $sql    = "select pcsn,of_csn,title from " . $xoopsDB->prefix("tad_player_cate") . " order by sort";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($pcsn, $of_csn, $title) = $xoopsDB->fetchRow($result)) {
         $font_style      = $def_pcsn == $pcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
         $open            = in_array($pcsn, $path_arr) ? 'true' : 'false';
@@ -135,7 +135,7 @@ function mk_all_xml($the_pcsn = "")
 {
     global $xoopsDB;
     $sql    = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate");
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $log = "";
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
@@ -154,7 +154,7 @@ function save_sort()
     global $xoopsDB;
     foreach ($_POST['sort'] as $psn => $sort) {
         $sql = "update  " . $xoopsDB->prefix("tad_player") . " set sort='{$sort}' where psn='{$psn}'";
-        $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $xoopsDB->queryF($sql) or web_error($sql);
     }
 
     return;
@@ -174,7 +174,7 @@ function batch_move($new_pcsn = "")
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
     $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `pcsn` = '{$new_pcsn}' where psn in($videos)";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
+    $xoopsDB->queryF($sql) or web_error($sql);
 
     return $sn;
 }
@@ -185,7 +185,7 @@ function batch_add_title()
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
     $sql    = "update " . $xoopsDB->prefix("tad_player") . " set  `title` = '{$_POST['add_title']}' where psn in($videos)";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 }
 
 //批次新增說明
@@ -194,7 +194,7 @@ function batch_add_info()
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
     $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `info` = '{$_POST['add_info']}' where psn in($videos)";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
+    $xoopsDB->queryF($sql) or web_error($sql);
 
     return $sn;
 }
@@ -205,7 +205,7 @@ function update_wh()
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
     $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `width` = '{$_POST['width']}' , `height` = '{$_POST['height']}' where psn in($videos)";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error() . "<br>$sql");
+    $xoopsDB->queryF($sql) or web_error($sql);
 
     return $sn;
 }

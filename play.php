@@ -10,7 +10,7 @@ function play($get_psn = "")
 {
     global $xoopsDB, $xoopsModuleConfig, $xoopsUser, $xoopsTpl, $xoTheme;
 
-    $file = get_tad_player($get_psn);
+    $file   = get_tad_player($get_psn);
     $ok_cat = chk_cate_power();
 
     $user_group = array();
@@ -19,7 +19,7 @@ function play($get_psn = "")
     }
 
     $enable_group_arr = explode(",", $file['enable_group']);
-    $same = array_intersect($enable_group_arr, $user_group);
+    $same             = array_intersect($enable_group_arr, $user_group);
     if ((!empty($file['pcsn']) and !in_array($file['pcsn'], $ok_cat)) or (!empty($file['enable_group']) and empty($same))) {
         redirect_header("index.php", 3, sprintf(_MD_TADPLAYER_NO_POWER, $file['title']));
     }
@@ -84,8 +84,8 @@ function get_cate_play($get_psn = "", $size = 1)
     global $xoopsDB, $xoopsTpl;
     $file = get_tad_player($get_psn);
 
-    $sql = "select a.psn,a.title,b.title from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn where a.pcsn='{$file['pcsn']}' order by a.sort, a.post_date desc";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql    = "select a.psn,a.title,b.title from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn where a.pcsn='{$file['pcsn']}' order by a.sort, a.post_date desc";
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     $option = "";
     while (list($psn, $title, $cate_title) = $xoopsDB->fetchRow($result)) {
@@ -112,8 +112,8 @@ function get_cate_play($get_psn = "", $size = 1)
 
 /*-----------執行動作判斷區----------*/
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
+$op   = system_CleanVars($_REQUEST, 'op', '', 'string');
+$psn  = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 
 $xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));

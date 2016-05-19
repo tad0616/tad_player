@@ -3,7 +3,7 @@ include_once __DIR__ . '/header.php';
 include_once "language/{$xoopsConfig['language']}/batch.php";
 
 include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
+$op   = system_CleanVars($_REQUEST, 'op', '', 'string');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 
 switch ($op) {
@@ -24,7 +24,7 @@ function tad_player_batch_upload_form()
     global $xoopsDB, $xoopsModuleConfig, $ok_video_ext, $ok_image_ext;
 
     $cate_select = get_tad_player_cate_option(0, 0, $pcsn, 1, false);
-    $i = 0;
+    $i           = 0;
 
     if ($dh = opendir(_TAD_PLAYER_BATCH_UPLOAD_DIR)) {
         while (($file = readdir($dh)) !== false) {
@@ -39,7 +39,7 @@ function tad_player_batch_upload_form()
             foreach ($f as $ff) {
                 $ext = strtolower($ff);
             }
-            $end = (strlen($ext) + 1) * -1;
+            $end      = (strlen($ext) + 1) * -1;
             $filename = substr($file, 0, $end);
 
             if (in_array($ext, $ok_video_ext)) {
@@ -52,7 +52,7 @@ function tad_player_batch_upload_form()
 
         foreach ($flv_arr['flv'] as $filename => $file) {
             if (!empty($flv_arr['img'][$filename])) {
-                $image = $flv_arr['img'][$filename];
+                $image      = $flv_arr['img'][$filename];
                 $image_form = "<input type='hidden' name='img[$filename]' value='{$image}'>";
             } else {
                 $image = $image_form = "";
@@ -98,7 +98,7 @@ function tad_player_batch_import()
         $pcsn = $_POST['pcsn'];
     }
 
-    $uid = $xoopsUser->getVar('uid');
+    $uid      = $xoopsUser->getVar('uid');
     $uid_name = XoopsUser::getUnameFromId($uid, 1);
     //$now=xoops_getUserTimestamp(time());
 
@@ -108,12 +108,12 @@ function tad_player_batch_import()
             continue;
         }
         $sql = "insert into " . $xoopsDB->prefix("tad_player") . " (pcsn,title,creator,location,image,info,uid,post_date,enable_group,counter) values('{$pcsn}','{$flv}','{$uid_name}','{$flv}','','{$flv}','{$uid}','{$now}','','0')";
-        $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $xoopsDB->query($sql) or web_error($sql);
         //取得最後新增資料的流水編號
         $psn = $xoopsDB->getInsertId();
 
         $sql = "update " . $xoopsDB->prefix("tad_player") . " set image='{$psn}.png' where psn='$psn'";
-        $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $xoopsDB->queryF($sql) or web_error($sql);
 
         set_time_limit(0);
         ini_set('memory_limit', '50M');
@@ -122,7 +122,7 @@ function tad_player_batch_import()
 
         if (rename(_TAD_PLAYER_BATCH_UPLOAD_DIR . $flv, _TAD_PLAYER_FLV_DIR . $psn . "_" . $flv)) {
             if (!empty($_POST['img'][$filename])) {
-                $pic_file = _TAD_PLAYER_BATCH_UPLOAD_DIR . $_POST['img'][$filename];
+                $pic_file   = _TAD_PLAYER_BATCH_UPLOAD_DIR . $_POST['img'][$filename];
                 $pic_b_file = _TAD_PLAYER_IMG_DIR . $psn . ".png";
                 $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
 

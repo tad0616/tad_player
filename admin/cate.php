@@ -85,7 +85,7 @@ function insert_tad_player_cate()
     }
 
     $sql = "insert into " . $xoopsDB->prefix("tad_player_cate") . " (of_csn,title,enable_group,enable_upload_group,sort,width,height) values('{$_POST['of_csn']}','{$_POST['title']}','{$enable_group}','{$enable_upload_group}','{$_POST['sort']}','{$_POST['width']}','{$_POST['height']}')";
-    $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->query($sql) or web_error($sql);
     //取得最後新增資料的流水編號
     $pcsn = $xoopsDB->getInsertId();
     mk_list_xml($pcsn);
@@ -103,7 +103,7 @@ function list_tad_player_cate($of_csn = 1, $level = 0, $modify_pcsn = '')
 
     $sql = "select * from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$of_csn}' order by sort";
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
 
     if ($old_level == 0) {
         $form = tad_player_cate_form($modify_pcsn);
@@ -116,7 +116,7 @@ function list_tad_player_cate($of_csn = 1, $level = 0, $modify_pcsn = '')
         $bubblepopup = new bubblepopup(false);
 
         $sql_cover    = "select pcsn from " . $xoopsDB->prefix("tad_player_cate") . " order by sort";
-        $result_cover = $xoopsDB->query($sql_cover) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+        $result_cover = $xoopsDB->query($sql_cover) or web_error($sql_cover);
         while (list($pcsn) = $xoopsDB->fetchRow($result_cover)) {
 
             //底下影片數
@@ -218,7 +218,7 @@ function mk_thumb($pcsn = "")
     global $xoopsDB;
     set_time_limit(0);
     $sql    = "select `psn`,`image` from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -257,7 +257,7 @@ function update_tad_player_cate($pcsn = "")
         }
     }
     $sql = "update " . $xoopsDB->prefix("tad_player_cate") . " set  of_csn = '{$of_csn}', title = '{$_POST['title']}', enable_group = '{$enable_group}', enable_upload_group = '{$enable_upload_group}', sort = '{$_POST['sort']}', width = '{$_POST['width']}', height = '{$_POST['height']}' where pcsn='$pcsn'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
     mk_list_xml($pcsn);
     $log = "update $pcsn OK!";
 
@@ -271,17 +271,17 @@ function delete_tad_player_cate($pcsn = "")
 
     //先找出底下所有影片
     $sql = "select psn from " . $xoopsDB->prefix("tad_player") . " where pcsn='$pcsn'";
-    $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->query($sql) or web_error($sql);
     while (list($psn) = $xoopsDB->fetchRow($result)) {
         delete_tad_player($psn);
     }
 
     //找出底下分類，並將分類的所屬分類清空
     $sql = "update " . $xoopsDB->prefix("tad_player_cate") . " set  of_csn='' where of_csn='$pcsn'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 
     $sql = "delete from " . $xoopsDB->prefix("tad_player_cate") . " where pcsn='$pcsn'";
-    $xoopsDB->queryF($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $xoopsDB->queryF($sql) or web_error($sql);
 
     unlink(_TAD_PLAYER_UPLOAD_DIR . "{$psn}_list.xml");
 }
@@ -291,7 +291,7 @@ function auto_get_csn_sort($pcsn = "")
 {
     global $xoopsDB;
     $sql            = "select max(`sort`) from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}' group by of_csn";
-    $result         = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result         = $xoopsDB->query($sql) or web_error($sql);
     list($max_sort) = $xoopsDB->fetchRow($result);
 
     return ++$max_sort;
@@ -303,7 +303,7 @@ function list_tad_player_cate_tree($def_csn = "")
     global $xoopsDB, $xoopsTpl;
 
     $sql    = "select count(*),pcsn from " . $xoopsDB->prefix("tad_player") . " group by pcsn";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
@@ -312,7 +312,7 @@ function list_tad_player_cate_tree($def_csn = "")
     $path_arr = array_keys($path);
 
     $sql    = "select pcsn,of_csn,title from " . $xoopsDB->prefix("tad_player_cate") . " order by sort";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($pcsn, $of_csn, $title) = $xoopsDB->fetchRow($result)) {
 
         $font_style      = $def_csn == $pcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';

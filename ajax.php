@@ -15,7 +15,7 @@ function get_cate_options($pcsn = "", $def_psn = "")
     $sql = "select `psn` , `title` from `" . $xoopsDB->prefix("tad_player") . "`
     where `pcsn` = '$pcsn' order by `sort`";
 
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $result = $xoopsDB->query($sql) or web_error($sql);
     $total  = $xoopsDB->getRowsNum($result);
     $main   = (empty($def_psn) and !empty($total)) ? "<option value=''>" . _MD_TADPLAYER_PICK_A_VIDEO . "</option>" : "";
     $sort   = 1;

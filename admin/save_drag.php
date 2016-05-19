@@ -3,7 +3,7 @@
 include "../../../include/cp_header.php";
 
 $of_csn = (int) (str_replace("node-_", "", $_POST['of_csn']));
-$pcsn = (int) (str_replace("node-_", "", $_POST['pcsn']));
+$pcsn   = (int) (str_replace("node-_", "", $_POST['pcsn']));
 
 if ($of_csn == $pcsn) {
     die(_MA_TREETABLE_MOVE_ERROR1 . "(" . date("Y-m-d H:i:s") . ")");
@@ -21,8 +21,8 @@ function chk_cate_path($pcsn, $to_csn)
 {
     global $xoopsDB;
     //抓出子目錄的編號
-    $sql = "select pcsn from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, mysql_error());
+    $sql    = "select pcsn from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
+    $result = $xoopsDB->query($sql) or web_error($sql);
     while (list($sub_csn) = $xoopsDB->fetchRow($result)) {
         if (chk_cate_path($sub_csn, $to_csn)) {
             return true;

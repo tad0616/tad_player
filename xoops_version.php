@@ -14,7 +14,7 @@ $modversion['image']       = 'images/logo_' . $xoopsConfig['language'] . '.png';
 $modversion['dirname']     = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2016/05/19';
+$modversion['release_date']        = '2016/05/20';
 $modversion['module_website_url']  = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';
@@ -125,23 +125,6 @@ $modversion['config'][$i]['description'] = '_MI_TADPLAYER_SHOW_NUM_DESC';
 $modversion['config'][$i]['formtype']    = 'textbox';
 $modversion['config'][$i]['valuetype']   = 'int';
 $modversion['config'][$i]['default']     = '10';
-
-$i++;
-$modversion['config'][$i]['name']        = 'display';
-$modversion['config'][$i]['title']       = '_MI_TADPLAYER_DISPLAY';
-$modversion['config'][$i]['description'] = '_MI_TADPLAYER_DISPLAY_DESC';
-$modversion['config'][$i]['formtype']    = 'select';
-$modversion['config'][$i]['valuetype']   = 'text';
-$modversion['config'][$i]['default']     = 'bottom';
-$modversion['config'][$i]['options']     = array('_MI_TADPLAYER_DISPLAY_BOTTOM' => 'bottom', '_MI_TADPLAYER_DISPLAY_RIGHT' => 'right');
-
-$i++;
-$modversion['config'][$i]['name']        = 'display_max';
-$modversion['config'][$i]['title']       = '_MI_TADPLAYER_DISPLAY_MAX';
-$modversion['config'][$i]['description'] = '_MI_TADPLAYER_DISPLAY_MAX_DESC';
-$modversion['config'][$i]['formtype']    = 'textbox';
-$modversion['config'][$i]['valuetype']   = 'int';
-$modversion['config'][$i]['default']     = 200;
 
 $i++;
 $modversion['config'][$i]['name']        = 'facebook_comments_width';

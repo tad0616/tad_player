@@ -10,6 +10,6 @@ foreach ($updateRecordsArray as $recordIDValue) {
     $xoopsDB->queryF($sql) or die("Save Sort Fail! (" . date("Y-m-d H:i:s") . ")");
     $sort++;
 }
-mk_list_xml($_GET['pcsn']);
+mk_list_json($_GET['pcsn']);
 
 echo "Save Sort OK! (" . date("Y-m-d H:i:s") . ")";

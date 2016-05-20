@@ -1,3 +1,11 @@
+Tad Player3.4official version amended project (2016-05-20 release)
+====================================================
+1. Support PHP7
+2. Remove bootstrap 2
+3. Fixed problems with video that cannot be managed
+4. Integration admin interface
+5. playlist instead json format
+
 Tad Player3.3 official version amended project (2015-06-07 release)
 ====================================================
 1.When using the bootstrap , auto-hide pda.php

@@ -10,10 +10,6 @@ function list_tad_player($pcsn = "")
 {
     global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsTpl;
 
-    if (!file_exists(XOOPS_ROOT_PATH . "/modules/tadtools/jeditable.php")) {
-        redirect_header("index.php", 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . "/modules/tadtools/jeditable.php";
     $cate_select = cate_select($pcsn);
     $xoopsTpl->assign('cate_select', $cate_select);
 
@@ -28,8 +24,7 @@ function list_tad_player($pcsn = "")
 
     $i = 0;
 
-    $save_file = XOOPS_URL . "/modules/tad_player/admin/save.php";
-    $data      = "";
+    $data = "";
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
             $$k = $v;
@@ -146,7 +141,7 @@ function mk_all_xml($the_pcsn = "")
 
     $log = "";
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
-        mk_list_xml($pcsn);
+        mk_list_json($pcsn);
         $log .= sprintf(_MA_TADPLAYER_XML_OK, $title) . "<br>";
     }
     $and_pcsn = (empty($the_pcsn)) ? "" : "?pcsn=$the_pcsn";
@@ -313,7 +308,7 @@ function insert_tad_player_cate()
     $xoopsDB->query($sql) or web_error($sql);
     //取得最後新增資料的流水編號
     $pcsn = $xoopsDB->getInsertId();
-    mk_list_xml($pcsn);
+    mk_list_json($pcsn);
 
     return $pcsn;
 }
@@ -344,7 +339,7 @@ function update_tad_player_cate($pcsn = "")
     }
     $sql = "update " . $xoopsDB->prefix("tad_player_cate") . " set  of_csn = '{$of_csn}', title = '{$_POST['title']}', enable_group = '{$enable_group}', enable_upload_group = '{$enable_upload_group}', sort = '{$_POST['sort']}', width = '{$_POST['width']}', height = '{$_POST['height']}' where pcsn='$pcsn'";
     $xoopsDB->queryF($sql) or web_error($sql);
-    mk_list_xml($pcsn);
+    mk_list_json($pcsn);
     $log = "update $pcsn OK!";
 
     return $log;
@@ -401,6 +396,12 @@ $new_pcsn = system_CleanVars($_REQUEST, 'new_pcsn', 0, 'int');
 
 switch ($op) {
 
+    //重作清單
+    case "mk_list_json":
+        mk_list_json($pcsn);
+        redirect_header($_SERVER['PHP_SELF'] . "?pcsn=$pcsn", 3, _MA_TADPLAYER_JSON_OK);
+        break;
+
     //儲存排序
     case "save_sort":
         save_sort();
@@ -421,29 +422,29 @@ switch ($op) {
 
     case "move":
         batch_move($new_pcsn);
-        mk_list_xml($pcsn);
-        mk_list_xml($new_pcsn);
+        mk_list_json($pcsn);
+        mk_list_json($new_pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
         exit;
         break;
 
     case "add_title":
         batch_add_title();
-        mk_list_xml($pcsn);
+        mk_list_json($pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
         exit;
         break;
 
     case "add_info":
         batch_add_info();
-        mk_list_xml($pcsn);
+        mk_list_json($pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
         exit;
         break;
 
     case "update_wh":
         update_wh();
-        mk_list_xml($pcsn);
+        mk_list_json($pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
         exit;
         break;
@@ -478,7 +479,8 @@ switch ($op) {
     //重作縮圖
     case "mk_thumb";
         mk_thumb($pcsn);
-        header("location: {$_SERVER['PHP_SELF']}");
+        header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
+        exit;
         break;
 
     //預設動作

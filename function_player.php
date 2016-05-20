@@ -159,9 +159,9 @@ function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autos
     }
     $display = $other_code = "";
     if ($mode == "playlist") {
-        $display    = (!empty($list_where)) ? $list_where : $xoopsModuleConfig['display'];
         $other_code = "";
-        $media      = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.xml";
+        // $media      = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.xml";
+        $media = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.json";
     } else {
         if (empty($file['location']) and !empty($file['youtube'])) {
             $media      = $file['youtube'];

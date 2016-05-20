@@ -266,7 +266,7 @@ function delete_tad_player($psn = "")
     unlink(_TAD_PLAYER_FLV_DIR . "{$psn}_{$file['location']}");
     unlink(_TAD_PLAYER_IMG_DIR . "s_{$psn}.png");
     unlink(_TAD_PLAYER_IMG_DIR . "{$psn}_{$file['image']}");
-    mk_list_xml($file['pcsn']);
+    mk_list_json($file['pcsn']);
     $sql = "delete from " . $xoopsDB->prefix("tad_player") . " where psn='$psn'";
     $xoopsDB->queryF($sql) or web_error($sql);
 }
@@ -420,6 +420,69 @@ function add_counter($psn = "")
 }
 
 //製作播放清單
+function mk_list_json($pcsn = "")
+{
+    global $xoopsDB, $xoopsModule, $upload_dir;
+
+    $cate = get_tad_player_cate($pcsn);
+
+    $sql    = "SELECT * FROM " . $xoopsDB->prefix("tad_player") . " WHERE `pcsn`='{$pcsn}' and `enable_group`='' order by sort";
+    $result = $xoopsDB->query($sql) or web_error($sql);
+    $i      = 0;
+    while ($midia = $xoopsDB->fetchArray($result)) {
+        foreach ($midia as $k => $v) {
+            $$k = $v;
+        }
+
+        $title = htmlspecialchars($title);
+
+        //$location=urlencode($location);
+        if (substr($image, 0, 4) == "http") {
+            $image = $image;
+        } else {
+            $image = _TAD_PLAYER_IMG_URL . $image;
+        }
+
+        if (empty($location) and !empty($youtube)) {
+            $YTid  = getYTid($youtube);
+            $media = "http://youtu.be/{$YTid}";
+        } elseif (substr($location, 0, 4) == 'http') {
+            $media = $location;
+        } else {
+            $media = _TAD_PLAYER_FLV_URL . "{$psn}_{$location}";
+        }
+
+        $json[$i]['file']    = $media;
+        $json[$i]['image']   = $image;
+        $json[$i]['title']   = $title;
+        $json[$i]['mediaid'] = $psn;
+        $i++;
+    }
+
+    // if (PHP_VERSION_ID >= 50400) {
+    //     $content = json_encode($json, JSON_UNESCAPED_UNICODE);
+    // } else {
+    $content = json_encode($json);
+    // }
+    $main = to_utf8($content);
+
+    $main = str_replace("\\/", "/", $main);
+
+    // $main = str_replace('"', '\\\\"', $main);
+
+    $filename = _TAD_PLAYER_UPLOAD_DIR . "{$pcsn}_list.json";
+
+    if (!$handle = fopen($filename, 'w')) {
+        redirect_header($_SERVER['PHP_SELF'], 3, sprintf(_MD_TADPLAYER_CANT_OPEN, $filename));
+    }
+
+    if (fwrite($handle, $main) === false) {
+        redirect_header($_SERVER['PHP_SELF'], 3, sprintf(_MD_TADPLAYER_CANT_WRITE, $filename));
+    }
+    fclose($handle);
+}
+
+//製作播放清單
 function mk_list_xml($pcsn = "")
 {
     global $xoopsDB, $xoopsModule, $upload_dir;
@@ -429,7 +492,7 @@ function mk_list_xml($pcsn = "")
     $sql    = "SELECT * FROM " . $xoopsDB->prefix("tad_player") . " WHERE `pcsn`='{$pcsn}' and `enable_group`='' order by sort";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
-    $main = "<rss version=\"2.0\" xmlns:jwplayer=\"http://rss.jwpcdn.com/\">
+    $main = "<rss version=\"2.0\" xmlns:app=\"http://www.w3.org/2007/app\">
   <channel>\n";
 
     while ($midia = $xoopsDB->fetchArray($result)) {
@@ -447,7 +510,7 @@ function mk_list_xml($pcsn = "")
             $image = _TAD_PLAYER_IMG_URL . $image;
         }
 
-        $image = (empty($image)) ? "" : "<jwplayer:image>{$image}</jwplayer:image>";
+        $image = (empty($image)) ? "" : "<jwplayer:image file=\"{$image}\" />";
 
         if (empty($location) and !empty($youtube)) {
             $YTid  = getYTid($youtube);
@@ -476,12 +539,12 @@ function mk_list_xml($pcsn = "")
         }
 
         $main .= "
-    <item>
-      <title>{$title}</title>
-      <description>{$info}</description>
-      $image
-      <jwplayer:source file=\"{$media}\" />
-    </item>\n\n";
+        <item>
+            <guid isPermaLink=\"true\">" . XOOPS_URL . "/modules/tad_player/playlist.php?pcsn={$pcsn}</guid>
+            <title>{$title}</title>
+            <description>{$content}</description>
+            <jwplayer:source file=\"{$media}\" />
+        </item>\n\n";
     }
     $main .= "
   </channel>\n</rss>";

@@ -9,7 +9,7 @@ $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 switch ($op) {
     case "import":
         $pcsn = tad_player_batch_import();
-        mk_list_xml($pcsn);
+        mk_list_json($pcsn);
         header("location:index.php?pcsn=$pcsn");
         break;
 

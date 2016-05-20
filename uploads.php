@@ -245,7 +245,7 @@ function insert_tad_player()
         upload_logo($psn);
     }
 
-    mk_list_xml($pcsn);
+    mk_list_json($pcsn);
 
     return $psn;
 }
@@ -328,7 +328,7 @@ function update_tad_player($psn = "")
         upload_logo($psn);
     }
 
-    mk_list_xml($pcsn);
+    mk_list_json($pcsn);
     return $psn;
 }
 

@@ -8,8 +8,7 @@ include_once "function_player.php";
 //路徑導覽
 function tad_player_breadcrumb($pcsn = '0', $array = array())
 {
-    $divider = $_SESSION['bootstrap'] == '3' ? "" : " <span class='divider'>/</span>";
-    $item    = "";
+    $item = "";
     if (is_array($array)) {
         foreach ($array as $cate) {
             $url    = ($pcsn == $cate['pcsn']) ? "<a href='index.php?pcsn={$cate['pcsn']}' style='color: gray;'>{$cate['title']}</a>" : "<a href='index.php?pcsn={$cate['pcsn']}'>{$cate['title']}</a>";
@@ -27,10 +26,9 @@ function tad_player_breadcrumb($pcsn = '0', $array = array())
                 }
                 $item .= "
           </ul>
-          {$divider}
         </li>";
             } else {
-                $item .= "<li{$active}>{$url} {$divider}</li>";
+                $item .= "<li{$active}>{$url} </li>";
             }
         }
     }

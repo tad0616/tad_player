@@ -227,8 +227,6 @@ function tad_player_cate_form($pcsn = "")
         $DBV = array();
     }
 
-    $span = ($_SESSION['bootstrap'] == '3') ? 'form-control' : 'span12';
-
     //預設值設定
 
     $pcsn                = (!isset($DBV['pcsn'])) ? $pcsn : $DBV['pcsn'];
@@ -251,13 +249,13 @@ function tad_player_cate_form($pcsn = "")
     //可見群組
     $SelectGroup_name = new XoopsFormSelectGroup("", "enable_group", false, $enable_group, 5, true);
     $SelectGroup_name->addOption("", _MA_TADPLAYER_ALL_OK, false);
-    $SelectGroup_name->setExtra("class='{$span}'");
+    $SelectGroup_name->setExtra("class='form-control'");
     $enable_group = $SelectGroup_name->render();
     $xoopsTpl->assign('enable_group', $enable_group);
 
     //可上傳群組
     $SelectGroup_name = new XoopsFormSelectGroup("", "enable_upload_group", false, $enable_upload_group, 5, true);
-    $SelectGroup_name->setExtra("class='{$span}'");
+    $SelectGroup_name->setExtra("class='form-control'");
     $enable_upload_group = $SelectGroup_name->render();
     $xoopsTpl->assign('enable_upload_group', $enable_upload_group);
 

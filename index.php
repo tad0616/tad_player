@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
 include_once "header.php";
-$xoopsOption['template_main'] = set_bootstrap("tad_player_index.html");
+$xoopsOption['template_main'] = "tad_player_index.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/star_rating.php";
 /*-----------function區--------------*/

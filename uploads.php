@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
 include_once "header.php";
-$xoopsOption['template_main'] = set_bootstrap("tad_player_uploads.html");
+$xoopsOption['template_main'] = "tad_player_uploads.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 
 if (sizeof($upload_powers) <= 0 or empty($xoopsUser)) {

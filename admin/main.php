@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-$xoopsOption['template_main'] = "tad_player_adm_main.html";
+$xoopsOption['template_main'] = "tad_player_adm_main.tpl";
 include_once __DIR__ . '/header.php';
 include_once "../function.php";
 
@@ -16,9 +16,9 @@ function list_tad_player($pcsn = "")
     $cate = get_tad_player_cate($pcsn);
     $xoopsTpl->assign('link_to_cate', sprintf(_MA_TADPLAYER_LINK_TO_CATE, $cate["title"]));
 
-    $where_pcsn = !empty($pcsn) ? "where pcsn='{$pcsn}' order by sort" : "order by pcsn,sort";
+    // $where_pcsn = !empty($pcsn) ? "" : "order by pcsn,sort";
 
-    $sql = "select `psn` , `title` , `location` , `image` , `info` , `width` , `height` , `counter` , `enable_group` , `uid` , `post_date` from " . $xoopsDB->prefix("tad_player") . " {$where_pcsn} ";
+    $sql = "select `psn` , `title` , `location` , `image` , `info` , `width` , `height` , `counter` , `enable_group` , `uid` , `post_date` from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort ";
 
     $result = $xoopsDB->query($sql) or web_error($sql);
 
@@ -94,7 +94,7 @@ function list_tad_player_cate_tree($def_pcsn = "")
 
     $path     = get_tad_player_cate_path($def_pcsn);
     $path_arr = array_keys($path);
-    $data[]   = "{ id:0, pId:0, name:'All', url:'main.php', target:'_self', open:true}";
+    $data[]   = "{ id:0, pId:0, name:'" . _MA_TADPLAYER_CATE_SELECT . "', url:'main.php', target:'_self', open:true}";
 
     $sql    = "select pcsn,of_csn,title from " . $xoopsDB->prefix("tad_player_cate") . " order by sort";
     $result = $xoopsDB->query($sql) or web_error($sql);
@@ -491,4 +491,6 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/bootstrap3/css/bootstrap.css');
+$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/xoops_adm3.css');
 include_once __DIR__ . '/footer.php';

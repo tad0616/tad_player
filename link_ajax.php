@@ -1,30 +1,33 @@
 <?php
 include_once __DIR__ . '/header.php';
-//$_POST['url']="https://www.youtube.com/watch?v=6i7RcP39NB0";
+if (!isset($_POST['url'])) {
+    $_POST['url'] = "https://www.youtube.com/watch?v=WbnG6-SmcXA";
+}
+
 $date['metaTags']['description']['value'] = $date['title'] = '';
 if (!empty($_POST['url'])) {
-    $date = getUrlData($_POST['url']);
-    //die(var_export($date));
-    $web['title'] = $date['title'];
+    $date               = getUrlData($_POST['url']);
     $web['description'] = $date['metaTags']['description']['value'];
 
     $youtube_id = getYTid($_POST['url']);
 
-    $url = "http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
+    $url      = "http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
     $contents = file_get_contents($url);
     $contents = utf8_encode($contents);
-    $ytb = get_object_vars(json_decode($contents));
+    $ytb      = json_decode($contents, true);
+    // die(var_export($ytb));
     $web['author'] = $ytb['author_name'];
+    $web['title']  = $ytb['title'];
 
     echo json_encode($web);
 }
 
 function getUrlData($url)
 {
-    $result = false;
+    $result   = false;
     $contents = getUrlContents($url);
     if (isset($contents) && is_string($contents)) {
-        $title = null;
+        $title    = null;
         $metaTags = null;
         preg_match('/<title>([^>]*)<\/title>/si', $contents, $match);
         if (isset($match) && is_array($match) && count($match) > 0) {
@@ -33,20 +36,20 @@ function getUrlData($url)
         preg_match_all('/<[\s]*meta[\s]*name="?' . '([^>"]*)"?[\s]*' . 'content="?([^>"]*)"?[\s]*[\/]?[\s]*>/si', $contents, $match);
         if (isset($match) && is_array($match) && count($match) == 3) {
             $originals = $match[0];
-            $names = $match[1];
-            $values = $match[2];
+            $names     = $match[1];
+            $values    = $match[2];
             if (count($originals) == count($names) && count($names) == count($values)) {
                 $metaTags = array();
                 for ($i = 0, $limiti = count($names); $i < $limiti; $i++) {
                     $metaTags[$names[$i]] = array(
-                        'html' => htmlentities($originals[$i]),
+                        'html'  => htmlentities($originals[$i]),
                         'value' => $values[$i],
                     );
                 }
             }
         }
         $result = array(
-            'title' => $title,
+            'title'    => $title,
             'metaTags' => $metaTags,
         );
     }
@@ -56,8 +59,9 @@ function getUrlData($url)
 
 function getUrlContents($url, $maximumRedirections = null, $currentRedirection = 0)
 {
-    $result = false;
-    $contents = @file_get_contents($url);
+    $result   = false;
+    $contents = vita_get_url_content($url);
+    // die(var_export($contents));
     // Check if we need to go somewhere else
     if (isset($contents) && is_string($contents)) {
         preg_match_all('/<[\s]*meta[\s]*http-equiv="?REFRESH"?' . '[\s]*content="?[0-9]*;[\s]*URL[\s]*=[\s]*([^>"]*)"?' . '[\s]*[\/]?[\s]*>/si', $contents, $match);
@@ -72,6 +76,28 @@ function getUrlContents($url, $maximumRedirections = null, $currentRedirection =
     }
 
     return $contents;
+}
+
+//遠端取得資料
+function vita_get_url_content($url)
+{
+    if (function_exists('curl_init')) {
+        $ch      = curl_init();
+        $timeout = 5;
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $file_contents = curl_exec($ch);
+        curl_close($ch);
+    } elseif (function_exists('file_get_contents')) {
+        $file_contents = file_get_contents($url);
+    }
+
+    return $file_contents;
 }
 
 //檢查必要函數

@@ -23,3 +23,4 @@ define('_MA_TADPLAYER_VIEW', '檢視');
 define('_MA_TADPLAYER_ADD_CATE', '新增分類');
 define('_MA_TADPLAYER_MK_THUMBS', '重做縮圖');
 define('_MA_TADPLAYER_MK_JSON', '重做播放清單');
+define('_MA_TADPLAYER_CATE_SELECT', '不分類');

@@ -23,3 +23,4 @@ define('_MA_TADPLAYER_VIEW', 'View');
 define('_MA_TADPLAYER_ADD_CATE', 'Add category');
 define('_MA_TADPLAYER_MK_THUMBS', 'Make Thumbs');
 define('_MA_TADPLAYER_MK_JSON', 'Make Playlist');
+define('_MA_TADPLAYER_CATE_SELECT', 'Not classified');

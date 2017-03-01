@@ -244,7 +244,7 @@ function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autos
 //抓取 Youtube ID
 function getYTid($ytURL = "")
 {
-    if (substr($ytURL, 0, 16) == 'http://youtu.be/') {
+    if (substr($ytURL, 0, 16) == 'https://youtu.be/') {
         return substr($ytURL, 16);
     } else {
         parse_str(parse_url($ytURL, PHP_URL_QUERY), $params);

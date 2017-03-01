@@ -3,7 +3,7 @@ $modversion = array();
 
 //---模組基本資訊---//
 $modversion['name']        = _MI_TADPLAYER_NAME;
-$modversion['version']     = 3.51;
+$modversion['version']     = 3.54;
 $modversion['description'] = _MI_TADPLAYER_DESC;
 $modversion['author']      = _MI_TADPLAYER_AUTHOR;
 $modversion['credits']     = _MI_TADPLAYER_CREDITS;
@@ -14,7 +14,7 @@ $modversion['image']       = 'images/logo_' . $xoopsConfig['language'] . '.png';
 $modversion['dirname']     = basename(__DIR__);
 
 //---模組狀態資訊---//
-$modversion['release_date']        = '2016/06/06';
+$modversion['release_date']        = '2017/01/07';
 $modversion['module_website_url']  = 'http://tad0616.net/';
 $modversion['module_website_name'] = _MI_TAD_WEB;
 $modversion['module_status']       = 'release';

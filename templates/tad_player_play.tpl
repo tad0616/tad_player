@@ -21,12 +21,12 @@
 
 <div class="alert alert-success">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-sm-4">
       <select id="menu1" class="form-control">
         <{$cate_select}>
       </select>
     </div>
-    <div class="col-md-8">
+    <div class="col-sm-8">
       <select id="menu2" class="form-control" onChange="location.href='play.php?psn='+this.value">
       </select>
     </div>
@@ -46,22 +46,22 @@
 <{/if}>
 
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-sm-12">
     <{$media}>
   </div>
 </div>
 
 
 <div class="row" style="margin: 20px auto;">
-  <div class="col-md-7">
+  <div class="col-sm-7">
     <{$push}>
   </div>
 
-  <div class="col-md-2">
+  <div class="col-sm-2">
     <{$star_rating}>
   </div>
 
-  <div class="col-md-3 text-right">
+  <div class="col-sm-3 text-right">
     <{if $isAdmin}>
       <a href="javascript:delete_tad_player_file_func(<{$psn}>);" class="btn btn-xs btn-danger"><{$smarty.const._TAD_DEL}></a>
 

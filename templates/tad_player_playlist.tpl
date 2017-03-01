@@ -10,7 +10,7 @@
 
 <div class="alert alert-success">
   <div class="row">
-    <div class="col-md-4">
+    <div class="col-sm-4">
       <select id="menu1" class="form-control">
         <{$cate_select}>
       </select>
@@ -19,7 +19,7 @@
 </div>
 
 <div class="row">
-  <div class="col-md-12">
+  <div class="col-sm-12">
     <{$title}>
     <{$playcode}>
   </div>

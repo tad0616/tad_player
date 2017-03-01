@@ -443,7 +443,7 @@ function mk_list_json($pcsn = "")
 
         if (empty($location) and !empty($youtube)) {
             $YTid  = getYTid($youtube);
-            $media = "http://youtu.be/{$YTid}";
+            $media = "https://youtu.be/{$YTid}";
         } elseif (substr($location, 0, 4) == 'http') {
             $media = $location;
         } else {
@@ -512,7 +512,7 @@ function mk_list_xml($pcsn = "")
 
         if (empty($location) and !empty($youtube)) {
             $YTid  = getYTid($youtube);
-            $media = "http://youtu.be/{$YTid}";
+            $media = "https://youtu.be/{$YTid}";
         } elseif (substr($location, 0, 4) == 'http') {
             $media = $location;
         } else {

@@ -1,3 +1,18 @@
+Tad Player 3.5.4 (2017-01-07 released)
+====================================================
+1.Change the col-md of boootstrap to col-sm
+
+
+Tad Player 3.5.3 (2016-12-16 released)
+====================================================
+1.Fixed an issue where the https://youtu.be data could not be retrieved
+
+
+Tad Player 3.5.2 (2016-10-28 released)
+====================================================
+1.Fix classification can not sort problem
+
+
 Tad Player 3.5.1 (2016-05-31 released)
 ====================================================
 1. Fixed block templates

@@ -9,7 +9,7 @@ if (sizeof($upload_powers) <= 0 or empty($xoopsUser)) {
 }
 
 /*-----------function區--------------*/
-function uploads_tabs($psn = "")
+function uploads_tabs($psn = "", $pcsn = "")
 {
     global $xoopsTpl;
 
@@ -19,11 +19,11 @@ function uploads_tabs($psn = "")
     } else {
         $xoopsTpl->assign("show_to_batch_upload", false);
     }
-    tad_player_form($psn);
+    tad_player_form($psn, $pcsn);
 }
 
 //tad_player編輯表單
-function tad_player_form($psn = "")
+function tad_player_form($psn = "", $pcsn = "")
 {
     global $xoopsDB, $xoopsModuleConfig, $xoopsTpl;
     include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
@@ -37,7 +37,7 @@ function tad_player_form($psn = "")
 
     //預設值設定
 
-    $pcsn         = (!isset($DBV['pcsn'])) ? "" : $DBV['pcsn'];
+    $pcsn         = (!isset($DBV['pcsn'])) ? $pcsn : $DBV['pcsn'];
     $title        = (!isset($DBV['title'])) ? "" : $DBV['title'];
     $creator      = (!isset($DBV['creator'])) ? "" : $DBV['creator'];
     $location     = (!isset($DBV['location'])) ? "" : $DBV['location'];
@@ -167,7 +167,7 @@ function insert_tad_player()
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = getYTid($_POST['youtube']);
 
-        $url      = "http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
+        $url      = "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={$youtube_id}&format=json";
         $contents = file_get_contents($url);
         $contents = utf8_encode($contents);
         //$ytb = json_decode($contents,false);
@@ -177,15 +177,15 @@ function insert_tad_player()
         $title = 王心凌 Cyndi Wang 變成陌生人 官方HD MV;
         $type = video;
         $provider_name = YouTube;
-        $provider_url = http://www.youtube.com/;
+        $provider_url = https://www.youtube.com/;
         $thumbnail_height = 360;
         $width = 480;
         $height = 270;
-        $html = <iframe width="480" height="270" src="http://www.youtube.com/embed/3B4fyi-xXzo?feature=oembed" frameborder="0" allowfullscreen></iframe>;
+        $html = <iframe width="480" height="270" src="https://www.youtube.com/embed/3B4fyi-xXzo?feature=oembed" frameborder="0" allowfullscreen></iframe>;
         $author_name = universaltwn;
         $version = 1.0;
-        $author_url = http://www.youtube.com/user/universaltwn;
-        $thumbnail_url = http://i4.ytimg.com/vi/3B4fyi-xXzo/hqdefault.jpg;
+        $author_url = https://www.youtube.com/user/universaltwn;
+        $thumbnail_url = https://i4.ytimg.com/vi/3B4fyi-xXzo/hqdefault.jpg;
          */
         $_POST['height'] = round(($ytb['height'] / $ytb['width']) * $_POST['width']);
         $image           = $ytb['thumbnail_url'];
@@ -230,7 +230,7 @@ function insert_tad_player()
         upload_pic($psn);
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = getYTid($_POST['youtube']);
-        $image      = "http://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
+        $image      = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
         $type       = getimagesize($image);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
         mk_video_thumbnail($image, $pic_s_file, $type['mime'], "120");
@@ -286,7 +286,7 @@ function update_tad_player($psn = "")
         $image_sql = "";
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = getYTid($_POST['youtube']);
-        $image      = "http://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
+        $image      = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
         $type       = getimagesize($image);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
         mk_video_thumbnail($image, $pic_s_file, $type['mime'], "120");
@@ -463,7 +463,7 @@ switch ($op) {
 
     //輸入表格
     case "tad_player_form":
-        $main = tad_player_form($psn);
+        $main = tad_player_form($psn, $pcsn);
         break;
 
     //更新資料
@@ -473,7 +473,7 @@ switch ($op) {
         break;
 
     default:
-        uploads_tabs($psn);
+        uploads_tabs($psn, $pcsn);
         break;
 
 }

@@ -87,7 +87,7 @@
 
     <div class="col-sm-3">
       <div class="thumbnail" style="margin: 20px 0px;">
-        <{if $video.url}><a href="<{$video.url}>" alt="<{$video.info}>" title="<{$video.info}>" style="color:white;"><{/if}>
+        <{if $video.url}><a href="<{$video.url}>" style="color:white;"><{/if}>
           <div class="thumb_height" style="background-color:black;position:relative;height:120px;overflow:hidden;">
           <img src="<{$video.pic}>" alt="<{$video.img_title}>" style="z-index:1; width :100%;">
           <{if $video.img_title}>
@@ -98,12 +98,6 @@
         <div class="caption">
           <{if $video.post_date}><div style="font-size: 11px; color: #666666;"><span class="badge badge-info pull-right"><{$video.counter}></span><{$video.post_date}></div><{/if}>
           <{if $rating_js}><div id="rating_psn_<{$video.psn}>"></div><{/if}>
-
-          <div>
-            <{if $video.url}><a href="<{$video.url}>" alt="<{$video.info}>" title="<{$video.info}>"><{/if}>
-
-            <{if $video.url}></a><{/if}>
-          </div>
         </div>
       </div>
     </div>

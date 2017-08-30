@@ -19,8 +19,6 @@ function tad_player_play_list($options)
     $cate     = get_tad_player_cate($options[0]);
     $block    = play_code_jwplayer("block_cate{$options[0]}", $cate, $options[0], "playlist", $autoplay, $xoopsModuleConfig, "", $options[2], "bottom", $options[3]);
 
-    //play_code_jwplayer($id='tp' , $file="",$sn="",$mode="",$autostart=false,$ModuleConfig=array(),$skin="",$list_width="",$list_where="bottom",$repeat=false)
-
     return $block;
 }
 

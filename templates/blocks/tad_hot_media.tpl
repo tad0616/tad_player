@@ -7,7 +7,11 @@
       </a>
     </div>
     <{/if}>
+    <{if $video.image}>
     <div class="col-sm-9">
+    <{else}>
+    <div class="col-sm-12">
+    <{/if}>
       <a href="<{$xoops_url}>/modules/tad_player/play.php?psn=<{$video.psn}>"><{$video.title}></a> (<{$video.counter}>)
     </div>
   </div>

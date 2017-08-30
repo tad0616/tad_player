@@ -162,6 +162,14 @@ function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autos
         $other_code = "";
         // $media      = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.xml";
         $media = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.json";
+        if (!file_exists(_TAD_PLAYER_UPLOAD_DIR . "{$sn}_list.json")) {
+            return;
+        } else {
+            $content = file_get_contents($media);
+            if (trim($content) == 'null') {
+                return;
+            }
+        }
     } else {
         if (empty($file['location']) and !empty($file['youtube'])) {
             $media      = $file['youtube'];
@@ -234,7 +242,6 @@ function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autos
     }
 
     $jw = new JwPlayer($id . $mode . $sn, $media, $image, '100%', $rate, null, $mode, $display, $autostart, $repeat, $other_code);
-    //JwPlayer($id="",$file="",$image="",$width="",$height="",$skin="",$mode="",$display="",$autostart=false,$repeat=false, $other_code="")
 
     $main = $jw->render();
 

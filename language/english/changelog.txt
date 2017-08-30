@@ -1,4 +1,9 @@
-Tad Player 3.5.4 (2017-01-07 released)
+Tad Player 3.5.5 (2017-06-16 released)
+====================================================
+1.Complete accessibility 2.0 A level detection
+
+
+TTad Player 3.5.4 (2017-01-07 released)
 ====================================================
 1.Change the col-md of boootstrap to col-sm
 

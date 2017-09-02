@@ -12,7 +12,7 @@ function tad_player($options)
     $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
     if (empty($options[0])) {
-        $sql = "select * from " . $xoopsDB->prefix("tad_player") . " order by rand() limit 0,1";
+        $sql = "SELECT * FROM " . $xoopsDB->prefix("tad_player") . " ORDER BY rand() LIMIT 0,1";
     } elseif (substr($options[0], 0, 4) == "pcsn") {
         $sn  = explode("_", $options[0]);
         $sql = "select * from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$sn[1]}' order by rand() limit 0,1";
@@ -41,7 +41,7 @@ function tad_player_edit($options)
     $chked4_0 = ($options[2] == "false") ? "checked" : "";
     $chked4_1 = ($options[2] == "true") ? "checked" : "";
 
-    $sql    = "select a.psn,a.pcsn,a.title,b.title from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn order by a.post_date desc";
+    $sql = "SELECT a.psn,a.pcsn,a.title,b.title FROM " . $xoopsDB->prefix("tad_player") . " AS a LEFT JOIN " . $xoopsDB->prefix("tad_player_cate") . " AS b ON a.pcsn=b.pcsn ORDER BY a.post_date DESC";
     $result = $xoopsDB->query($sql) or web_error($sql);
 
     $select = "<select name='options[0]'>

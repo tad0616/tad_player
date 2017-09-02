@@ -68,7 +68,7 @@ function tp_block_get_tad_player_cate_option($of_csn = 0, $level = 0, $v = "", $
     $dot = ($show_dot == '1') ? str_repeat(_MB_TADPLAYER_BLANK, $level) : "";
     $level += 1;
 
-    $sql    = "select count(*),pcsn from " . $xoopsDB->prefix("tad_player") . " group by pcsn";
+    $sql    = "SELECT count(*),pcsn FROM " . $xoopsDB->prefix("tad_player") . " GROUP BY pcsn";
     $result = $xoopsDB->query($sql);
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;

@@ -10,9 +10,9 @@ function tad_player_play_list($options)
         retrun;
     }
 
-    $modhandler        = xoops_gethandler('module');
+    $modhandler        = xoops_getHandler('module');
     $xoopsModule       = $modhandler->getByDirname("tad_player");
-    $config_handler    = xoops_gethandler('config');
+    $config_handler    = xoops_getHandler('config');
     $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
     $autoplay = ($options[1] == 1) ? "true" : "false";

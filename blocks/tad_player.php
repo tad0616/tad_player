@@ -6,9 +6,9 @@ function tad_player($options)
     global $xoopsDB;
     include_once XOOPS_ROOT_PATH . "/modules/tad_player/function_player.php";
 
-    $modhandler        = xoops_gethandler('module');
+    $modhandler        = xoops_getHandler('module');
     $xoopsModule       = $modhandler->getByDirname("tad_player");
-    $config_handler    = xoops_gethandler('config');
+    $config_handler    = xoops_getHandler('config');
     $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
     if (empty($options[0])) {

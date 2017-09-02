@@ -65,7 +65,7 @@ function tad_player_form($psn = "", $pcsn = "")
     $logo_col = false;
 
     //可見群組
-    $member_handler = xoops_gethandler('member');
+    $member_handler = xoops_getHandler('member');
     $group_arr      = $member_handler->getGroupList();
     $xoopsTpl->assign('group_arr', $group_arr);
     $xoopsTpl->assign('enable_group', $enable_group);

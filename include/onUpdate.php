@@ -49,7 +49,7 @@ function go_update1()
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player/flv");
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player_batch_uploads");
 
-    $sql    = "select psn,location,image,post_date from " . $xoopsDB->prefix("tad_player") . " order by psn";
+    $sql = "SELECT psn,location,image,post_date FROM " . $xoopsDB->prefix("tad_player") . " ORDER BY psn";
     $result = $xoopsDB->query($sql) or die($sql);
 
     while (list($psn, $location, $image, $post_date) = $xoopsDB->fetchRow($result)) {
@@ -93,7 +93,7 @@ function go_update1()
 function chk_chk2()
 {
     global $xoopsDB;
-    $sql    = "select count(`enable_upload_group`) from " . $xoopsDB->prefix("tad_player_cate");
+    $sql    = "SELECT count(`enable_upload_group`) FROM " . $xoopsDB->prefix("tad_player_cate");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -105,15 +105,15 @@ function chk_chk2()
 function go_update2()
 {
     global $xoopsDB;
-    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_player_cate") . " ADD `enable_upload_group` varchar(255) NOT NULL  default '' after `enable_group`";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_player_cate") . " ADD `enable_upload_group` VARCHAR(255) NOT NULL  DEFAULT '' AFTER `enable_group`";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
 }
 
 //新增logo欄位
 function chk_chk3()
 {
     global $xoopsDB;
-    $sql    = "select count(`logo`) from " . $xoopsDB->prefix("tad_player");
+    $sql    = "SELECT count(`logo`) FROM " . $xoopsDB->prefix("tad_player");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -126,15 +126,15 @@ function go_update3()
 {
     global $xoopsDB;
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player/logo");
-    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_player") . " ADD `logo` varchar(255) NOT NULL  default ''";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_player") . " ADD `logo` VARCHAR(255) NOT NULL  DEFAULT ''";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
 }
 
 //新增評分表格
 function chk_chk4()
 {
     global $xoopsDB;
-    $sql    = "select count(*) from " . $xoopsDB->prefix("tad_player_rank");
+    $sql    = "SELECT count(*) FROM " . $xoopsDB->prefix("tad_player_rank");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -147,11 +147,11 @@ function go_update4()
 {
     global $xoopsDB;
     $sql = "CREATE TABLE " . $xoopsDB->prefix("tad_player_rank") . " (
-    `col_name` varchar(255) NOT NULL,
-    `col_sn` smallint(5) unsigned NOT NULL,
-    `rank` tinyint(3) unsigned NOT NULL,
-    `uid` smallint(5) unsigned NOT NULL,
-    `rank_date` datetime NOT NULL,
+    `col_name` VARCHAR(255) NOT NULL,
+    `col_sn` SMALLINT(5) UNSIGNED NOT NULL,
+    `rank` TINYINT(3) UNSIGNED NOT NULL,
+    `uid` SMALLINT(5) UNSIGNED NOT NULL,
+    `rank_date` DATETIME NOT NULL,
     PRIMARY KEY (`col_name`,`col_sn`,`uid`)
     )";
     $xoopsDB->queryF($sql);
@@ -161,9 +161,9 @@ function go_update4()
 function chk_uid()
 {
     global $xoopsDB;
-    $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+    $sql    = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
     WHERE table_name = '" . $xoopsDB->prefix("tad_player") . "' AND COLUMN_NAME = 'uid'";
-    $result     = $xoopsDB->query($sql);
+    $result = $xoopsDB->query($sql);
     list($type) = $xoopsDB->fetchRow($result);
     if ($type == 'smallint') {
         return true;
@@ -176,11 +176,11 @@ function chk_uid()
 function go_update_uid()
 {
     global $xoopsDB;
-    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_player") . "` CHANGE `uid` `uid` mediumint(8) unsigned NOT NULL default 0";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $xoopsDB->error());
+    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_player") . "` CHANGE `uid` `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
 
-    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_player_rank") . "` CHANGE `uid` `uid` mediumint(8) unsigned NOT NULL default 0";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $xoopsDB->error());
+    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_player_rank") . "` CHANGE `uid` `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
 
     return true;
 }
@@ -200,7 +200,7 @@ function chk_tad_player_block()
     }
 
     //找出目前所有的樣板檔
-    $sql = "SELECT bid,name,visible,show_func,template FROM `" . $xoopsDB->prefix("newblocks") . "`
+    $sql    = "SELECT bid,name,visible,show_func,template FROM `" . $xoopsDB->prefix("newblocks") . "`
     WHERE `dirname` = 'tad_player' ORDER BY `func_num`";
     $result = $xoopsDB->query($sql);
     while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
@@ -221,7 +221,6 @@ function chk_tad_player_block()
             $xoopsDB->queryF($sql);
         }
     }
-
 }
 
 //建立目錄

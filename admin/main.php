@@ -24,7 +24,7 @@ function list_tad_player($pcsn = "")
 
     $i = 0;
 
-    $data = "";
+    $data = array();
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
             $$k = $v;

@@ -92,7 +92,7 @@ function get_tad_player_sub_cate($pcsn = "0")
     global $xoopsDB;
     $sql      = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
     $result   = $xoopsDB->query($sql) or web_error($sql);
-    $pcsn_arr = "";
+    $pcsn_arr = array();
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         $pcsn_arr[$pcsn] = $title;
     }
@@ -401,7 +401,7 @@ function get_tad_player_cate_all()
     global $xoopsDB;
     $sql    = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate");
     $result = $xoopsDB->query($sql) or web_error($sql);
-    $data   = "";
+    $data   = array();
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         $data[$pcsn] = $title;
     }

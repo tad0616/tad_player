@@ -174,7 +174,7 @@ function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autos
         if (empty($file['location']) and !empty($file['youtube'])) {
             $media      = $file['youtube'];
             $youtube_id = getYTid($file['youtube']);
-            $url        = "http://www.youtube.com/oembed?url=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D{$youtube_id}&format=json";
+            $url        = "https://www.youtube.com/oembed?url=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D{$youtube_id}&format=json";
             $contents   = file_get_contents($url);
             $contents   = utf8_encode($contents);
             $results    = json_decode($contents, false);

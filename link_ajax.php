@@ -11,7 +11,7 @@ if (!empty($_POST['url'])) {
 
     $youtube_id = getYTid($_POST['url']);
 
-    $url      = "http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
+    $url      = "https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
     $contents = file_get_contents($url);
     $contents = utf8_encode($contents);
     $ytb      = json_decode($contents, true);

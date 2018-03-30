@@ -86,8 +86,9 @@ function list_tad_player_cate_tree($def_pcsn = "")
 {
     global $xoopsDB, $xoopsTpl;
 
-    $sql    = "select count(*),pcsn from " . $xoopsDB->prefix("tad_player") . " group by pcsn";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $cate_count = array();
+    $sql        = "select count(*),pcsn from " . $xoopsDB->prefix("tad_player") . " group by pcsn";
+    $result     = $xoopsDB->query($sql) or web_error($sql);
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
@@ -232,7 +233,7 @@ function tad_player_cate_form($pcsn = "")
     $pcsn                = (!isset($DBV['pcsn'])) ? $pcsn : $DBV['pcsn'];
     $of_csn              = (!isset($DBV['of_csn'])) ? "" : $DBV['of_csn'];
     $title               = (!isset($DBV['title'])) ? "" : $DBV['title'];
-    $enable_group        = (!isset($DBV['enable_group'])) ? "" : explode(",", $DBV['enable_group']);
+    $enable_group        = (!isset($DBV['enable_group'])) ? array() : explode(",", $DBV['enable_group']);
     $enable_upload_group = (!isset($DBV['enable_upload_group'])) ? array('1') : explode(",", $DBV['enable_upload_group']);
     $sort                = (!isset($DBV['sort'])) ? auto_get_csn_sort() : $DBV['sort'];
 

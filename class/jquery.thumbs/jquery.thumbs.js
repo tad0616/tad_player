@@ -63,7 +63,7 @@ $.fn.thumbs = function(options) {
         }
 
         if (options.strip) {
-            strip = $thumb.is('img') ? $thumb.attr('alt') : $thumb.find('img').attr('alt');
+            strip = $thumb.is('img') ? $thumb.attr('alt') : $thumb.find('img').prop('alt');
             strip = strip != undefined ? strip : $thumb.attr('title');
             strip = strip != undefined ? strip : '';
         }

@@ -111,7 +111,7 @@
               });
 
               $('.'+menu_name).change(function(){
-              var menu_id= $(this).attr('id');
+              var menu_id= $(this).prop('id');
               var len=menu_id.length-1;
               var next_num = Number(menu_id.charAt(len))+1
                 var next_menu = menu_name + next_num;
@@ -197,11 +197,11 @@
                 var x = document.getElementById("clickAll").checked;
                 if(x){
                   $(".video").each(function() {
-                    $(this).attr("checked", true);
+                    $(this).prop("checked", true);
                   });
                 }else{
                  $(".video").each(function() {
-                     $(this).attr("checked", false);
+                     $(this).prop("checked", false);
                  });
                 }
               });

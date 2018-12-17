@@ -66,23 +66,27 @@ function tad_player_batch_upload_form()
         }
     }
 
-    //$cate_select=to_utf8($cate_select);
+    if ($tr) {
+        $main = "
+        <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
+        <input type='hidden' name='op' value='import'>
+        <table class='table table-striped table-bordered table-hover'>
+        <tr>
+            <td class='title' nowrap>" . _MD_TADPLAYER_BATCH_OF_CSN . "</td>
+            <td class='col' colspan=2><select name='pcsn' size=1>
+            $cate_select
+            </select>" . _MD_TADPLAYER_BATCH_NEW_PCSN . "<input type='text' name='new_pcsn' size='10'></td></tr>
+            $tr
+        <tr><td colspan=3 class='bar'><button type='submit' class='btn btn-primary'>" . _MD_BATCH_SAVE . "</button></td></tr>
+        </table>
+        </form>";
+    } else {
 
-    $main = "
-    <p>" . _MD_TADPLAYER_BATCH_UPLOAD_TO . "<span style='color:red;'>" . _TAD_PLAYER_BATCH_UPLOAD_DIR . "</span></p>
-  <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
-  <input type='hidden' name='op' value='import'>
-  <table class='table table-striped table-bordered table-hover'>
-  <tr><td class='title'>" . _MD_TADPLAYER_BATCH_OF_CSN . "</td>
-    <td class='col' colspan=2><select name='pcsn' size=1>
-    $cate_select
-    </select>" . _MD_TADPLAYER_BATCH_NEW_PCSN . "<input type='text' name='new_pcsn' size='10'></td></tr>
-    $tr
-  <tr><td colspan=3 class='bar'><button type='submit' class='btn btn-primary'>" . _MD_BATCH_SAVE . "</button></td></tr>
-  </table>
-  </form>";
-
-    //$main=div_3d(_MD_INPUT_FORM,$main);
+        $main = "
+        <div class='alert alert-info'>
+        " . _MD_TADPLAYER_BATCH_UPLOAD_TO . "<span style='color:red;'>" . _TAD_PLAYER_BATCH_UPLOAD_DIR . "</span>
+        </div>";
+    }
 
     return $main;
 }

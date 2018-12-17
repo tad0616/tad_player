@@ -11,7 +11,7 @@ if ($xoopsModuleConfig['use_pda'] == '1' and strpos($_SESSION['theme_kind'], 'bo
 
 $interface_menu[_TAD_TO_MOD] = "index.php";
 
-$isAdmin = false;
+$isAdmin = $isUploader = false;
 if ($xoopsUser) {
     $module_id = $xoopsModule->getVar('mid');
     $isAdmin   = $xoopsUser->isAdmin($module_id);
@@ -21,6 +21,7 @@ $upload_powers = chk_cate_power("upload");
 //die(var_export($upload_powers));
 
 if (sizeof($upload_powers) > 0 and $xoopsUser) {
+    $isUploader                           = true;
     $interface_menu[_MD_TADPLAYER_UPLOAD] = "uploads.php";
 }
 

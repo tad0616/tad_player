@@ -377,12 +377,13 @@ function mk_thumb($pcsn = "")
         foreach ($all as $k => $v) {
             $$k = $v;
         }
-        if (!file_exists(_TAD_PLAYER_IMG_DIR . "s_{$psn}.png")) {
-            $filename   = basename($image);
-            $type       = getimagesize($image);
-            $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
-            mk_video_thumbnail($image, $pic_s_file, $type['mime'], "120");
-        }
+
+        $filename   = basename($image);
+        $type       = getimagesize($image);
+        $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
+        // die("{$image}, {$pic_s_file}, {$type['mime']}");
+        mk_video_thumbnail($image, $pic_s_file, $type['mime'], "480");
+
     }
 }
 
@@ -406,7 +407,6 @@ switch ($op) {
         save_sort();
         header("location: {$_SERVER['PHP_SELF']}?pcsn=$pcsn");
         exit;
-        break;
 
     //重新產生所有的XML
     case "mk_all_xml":
@@ -417,7 +417,6 @@ switch ($op) {
         batch_del();
         header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
         exit;
-        break;
 
     case "move":
         batch_move($new_pcsn);
@@ -425,28 +424,24 @@ switch ($op) {
         mk_list_json($new_pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
         exit;
-        break;
 
     case "add_title":
         batch_add_title();
         mk_list_json($pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
         exit;
-        break;
 
     case "add_info":
         batch_add_info();
         mk_list_json($pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
         exit;
-        break;
 
     case "update_wh":
         update_wh();
         mk_list_json($pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
         exit;
-        break;
 
     //新增資料
     case "tad_player_cate_form";
@@ -459,28 +454,24 @@ switch ($op) {
         insert_tad_player_cate();
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //刪除資料
     case "delete_tad_player_cate";
         delete_tad_player_cate($pcsn);
         header("location: {$_SERVER['PHP_SELF']}");
         exit;
-        break;
 
     //更新資料
     case "update_tad_player_cate";
         update_tad_player_cate($pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
         exit;
-        break;
 
     //重作縮圖
     case "mk_thumb";
         mk_thumb($pcsn);
         header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
         exit;
-        break;
 
     //預設動作
     default:
@@ -492,6 +483,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/bootstrap3/css/bootstrap.css');
-$xoTheme->addStylesheet(XOOPS_URL . '/modules/tadtools/css/xoops_adm3.css');
 include_once __DIR__ . '/footer.php';

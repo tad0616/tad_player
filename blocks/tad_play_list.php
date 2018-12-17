@@ -34,18 +34,18 @@ function tad_player_play_list_edit($options)
     $chked5_1 = ($options[3] == "true") ? "checked" : "";
 
     $form = "
-  " . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM0 . "<br>
-  $select<br>
+    " . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM0 . "<br>
+    $select<br>
 
-  " . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM3 . "
-  <INPUT type='radio' $chked3_1 name='options[1]' value='1'>" . _MB_TADPLAYER_AUTOPLAY . "
-  <INPUT type='radio' $chked3_0 name='options[1]' value='0'>" . _MB_TADPLAYER_DONT_AUTOPLAY . "<br>
-  <INPUT type='hidden' name='options[2]' value='{$options[2]}'>
-  " . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM4 . "
-  <INPUT type='radio' $chked5_1 name='options[3]' value='true'>" . _MB_TADPLAYER_LIST_REPEAT . "
-  <INPUT type='radio' $chked5_0 name='options[3]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . "
+    " . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM3 . "
+    <INPUT type='radio' $chked3_1 name='options[1]' value='1'>" . _MB_TADPLAYER_AUTOPLAY . "
+    <INPUT type='radio' $chked3_0 name='options[1]' value='0'>" . _MB_TADPLAYER_DONT_AUTOPLAY . "<br>
+    <INPUT type='hidden' name='options[2]' value='{$options[2]}'>
+    " . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM4 . "
+    <INPUT type='radio' $chked5_1 name='options[3]' value='true'>" . _MB_TADPLAYER_LIST_REPEAT . "
+    <INPUT type='radio' $chked5_0 name='options[3]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . "
 
-  ";
+    ";
 
     return $form;
 }

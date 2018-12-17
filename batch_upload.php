@@ -123,7 +123,6 @@ function tad_player_batch_import()
         if (rename(_TAD_PLAYER_BATCH_UPLOAD_DIR . $flv, _TAD_PLAYER_FLV_DIR . $psn . "_" . $flv)) {
             if (!empty($_POST['img'][$filename])) {
                 $pic_file   = _TAD_PLAYER_BATCH_UPLOAD_DIR . $_POST['img'][$filename];
-                $pic_b_file = _TAD_PLAYER_IMG_DIR . $psn . ".png";
                 $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
 
                 $sub = strtolower(substr($_POST['img'][$filename], -3));
@@ -134,8 +133,7 @@ function tad_player_batch_import()
                 } elseif ($sub == "jpg" or $sub == "peg") {
                     $type = "image/jpeg";
                 }
-                mk_video_thumbnail($pic_file, $pic_b_file, $type, $xoopsModuleConfig['width']);
-                mk_video_thumbnail($pic_file, $pic_s_file, $type, "120");
+                mk_video_thumbnail($pic_file, $pic_s_file, $type, "480");
 
                 unlink($pic_file);
             }

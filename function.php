@@ -243,18 +243,18 @@ function tad_player_chk_cate_have_sub($pcsn = 0)
 //刪除tad_player某筆資料資料
 function delete_tad_player($psn = "")
 {
-    global $xoopsDB, $isAdmin, $xoopsUser, $xoopsModule;
+    global $xoopsDB, $isAdmin,$isUploader, $xoopsUser, $xoopsModule;
 
-    if (!isset($isAdmin)) {
-        if ($xoopsUser) {
-            $module_id = $xoopsModule->getVar('mid');
-            $isAdmin   = $xoopsUser->isAdmin($module_id);
-        } else {
-            return;
-        }
-    }
+    // if (!isset($isAdmin)) {
+    //     if ($xoopsUser) {
+    //         $module_id = $xoopsModule->getVar('mid');
+    //         $isAdmin   = $xoopsUser->isAdmin($module_id);
+    //     } else {
+    //         return;
+    //     }
+    // }
 
-    if (!$isAdmin) {
+    if (!$isAdmin and !$isUploader) {
         return;
     }
     //刪除檔案
@@ -298,23 +298,10 @@ function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpe
     imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
 
     header("Content-type: image/png");
+
     imagepng($thumb, $thumb_name);
 
-    /*
-    // Content type
-    header("Content-type: ".$type);
-    // Output
-    if($type=="image/jpeg" or $type=="image/jpg" or $type=="image/pjpg" or $type=="image/pjpeg"){
-    imagejpeg($thumb,$thumb_name,90);
-    }elseif($type=="image/png"){
-    imagepng($thumb,$thumb_name);
-    }elseif($type=="image/gif"){
-    imagegif($thumb,$thumb_name);
-    }
-     */
-
-    return;
-    exit;
+    imagedestroy($thumb);
 }
 
 //判斷某人在哪些類別中有觀看或發表(upload)的權利

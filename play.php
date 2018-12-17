@@ -120,6 +120,8 @@ $xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign("bootstrap", get_bootstrap());
 $xoopsTpl->assign("jquery", get_jquery(true));
 $xoopsTpl->assign("isAdmin", $isAdmin);
+$xoopsTpl->assign("isUploader", $isUploader);
+
 $xoopsTpl->assign("psn", $psn);
 
 switch ($op) {

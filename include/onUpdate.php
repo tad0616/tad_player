@@ -49,7 +49,7 @@ function go_update1()
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player/flv");
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player_batch_uploads");
 
-    $sql = "SELECT psn,location,image,post_date FROM " . $xoopsDB->prefix("tad_player") . " ORDER BY psn";
+    $sql    = "SELECT psn,location,image,post_date FROM " . $xoopsDB->prefix("tad_player") . " ORDER BY psn";
     $result = $xoopsDB->query($sql) or die($sql);
 
     while (list($psn, $location, $image, $post_date) = $xoopsDB->fetchRow($result)) {
@@ -68,10 +68,8 @@ function go_update1()
             $filename = XOOPS_ROOT_PATH . "/uploads/tad_player/{$psn}_{$image}";
             if (file_exists($filename)) {
                 $type         = getimagesize($filename);
-                $thumb_b_name = XOOPS_ROOT_PATH . "/uploads/tad_player/img/{$psn}.png";
                 $thumb_s_name = XOOPS_ROOT_PATH . "/uploads/tad_player/img/s_{$psn}.png";
-                mk_video_thumbnail($filename, $thumb_b_name, $type['mime'], "480");
-                mk_video_thumbnail($filename, $thumb_s_name, $type['mime'], "120");
+                mk_video_thumbnail($filename, $thumb_s_name, $type['mime'], "480");
                 //unlink($filename);
                 $newimg = ",`image`='{$psn}.png'";
             }
@@ -161,9 +159,9 @@ function go_update4()
 function chk_uid()
 {
     global $xoopsDB;
-    $sql    = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+    $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
     WHERE table_name = '" . $xoopsDB->prefix("tad_player") . "' AND COLUMN_NAME = 'uid'";
-    $result = $xoopsDB->query($sql);
+    $result     = $xoopsDB->query($sql);
     list($type) = $xoopsDB->fetchRow($result);
     if ($type == 'smallint') {
         return true;
@@ -200,7 +198,7 @@ function chk_tad_player_block()
     }
 
     //找出目前所有的樣板檔
-    $sql    = "SELECT bid,name,visible,show_func,template FROM `" . $xoopsDB->prefix("newblocks") . "`
+    $sql = "SELECT bid,name,visible,show_func,template FROM `" . $xoopsDB->prefix("newblocks") . "`
     WHERE `dirname` = 'tad_player' ORDER BY `func_num`";
     $result = $xoopsDB->query($sql);
     while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
@@ -278,7 +276,7 @@ function rename_win($oldfile, $newfile)
 }
 
 //做縮圖
-function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "120")
+function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "480")
 {
     ini_set('memory_limit', '50M');
     // Get new sizes
@@ -308,8 +306,7 @@ function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpe
     header("Content-type: image/png");
     imagepng($thumb, $thumb_name);
 
-    return;
-    exit;
+    imagedestroy($thumb);
 }
 
 function delete_directory($dirname)

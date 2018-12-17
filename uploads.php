@@ -233,12 +233,12 @@ function insert_tad_player()
         $image      = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
         $type       = getimagesize($image);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
-        mk_video_thumbnail($image, $pic_s_file, $type['mime'], "120");
+        mk_video_thumbnail($image, $pic_s_file, $type['mime'], "480");
     } elseif (!empty($_POST['image'])) {
         $filename   = basename($_POST['image']);
         $type       = getimagesize($_POST['image']);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
-        mk_video_thumbnail($_POST['image'], $pic_s_file, $type['mime'], "120");
+        mk_video_thumbnail($_POST['image'], $pic_s_file, $type['mime'], "480");
     }
 
     if (!empty($_FILES['logo']['name'])) {
@@ -289,13 +289,13 @@ function update_tad_player($psn = "")
         $image      = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
         $type       = getimagesize($image);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
-        mk_video_thumbnail($image, $pic_s_file, $type['mime'], "120");
+        mk_video_thumbnail($image, $pic_s_file, $type['mime'], "480");
         $image_sql = ", image = '{$image}'";
     } elseif (!empty($_POST['image'])) {
         $filename   = basename($_POST['image']);
         $type       = getimagesize($_POST['image']);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
-        mk_video_thumbnail($_POST['image'], $pic_s_file, $type['mime'], "120");
+        mk_video_thumbnail($_POST['image'], $pic_s_file, $type['mime'], "480");
         $image_sql = ", image = '{$_POST['image']}'";
     }
     if (!empty($_POST['location'])) {
@@ -318,10 +318,12 @@ function update_tad_player($psn = "")
     $_POST['content']   = $myts->addSlashes($_POST['content']);
     $_POST['youtube']   = $myts->addSlashes($_POST['youtube']);
     $_POST['logo_name'] = $myts->addSlashes($_POST['logo_name']);
+    $width              = (int) $_POST['width'];
+    $height             = (int) $_POST['height'];
 
     //$now=xoops_getUserTimestamp(time());
     $now = date("Y-m-d H:i:s", xoops_getUserTimestamp(time()));
-    $sql = "update " . $xoopsDB->prefix("tad_player") . " set  pcsn = '{$pcsn}', title = '{$title}', creator = '{$_POST['creator']}' {$location_sql} {$image_sql}, post_date = '{$now}', enable_group = '{$enable_group}', width = '{$_POST['width']}', height = '{$_POST['height']}' , content = '{$_POST['content']}', logo='{$_POST['logo_name']}' where psn='$psn'";
+    $sql = "update " . $xoopsDB->prefix("tad_player") . " set  pcsn = '{$pcsn}', title = '{$title}', creator = '{$_POST['creator']}' {$location_sql} {$image_sql}, post_date = '{$now}', enable_group = '{$enable_group}', width = '{$width}', height = '{$height}' , content = '{$_POST['content']}', logo='{$_POST['logo_name']}' where psn='$psn'";
     $xoopsDB->queryF($sql) or web_error($sql);
 
     if (!empty($_FILES['logo']['name'])) {
@@ -393,7 +395,7 @@ function upload_pic($psn = "", $update_sql = false)
         $img_handle->file_new_name_body = "s_{$psn}";
         $img_handle->image_convert      = 'png';
         $img_handle->image_resize       = true;
-        $img_handle->image_x            = 120;
+        $img_handle->image_x            = 480;
         $img_handle->image_ratio_y      = true;
         $img_handle->process(_TAD_PLAYER_IMG_DIR);
         $img_handle->auto_create_dir = true;

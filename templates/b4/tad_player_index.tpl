@@ -48,35 +48,24 @@
 
 
 <{if $sub_cate}>
-  <{foreach item=sub_cate from=$sub_cate}>
-    <{if $i==0}>
-    <div class="row">
-    <{/if}>
-
-    <div class="col-sm-3 d-flex align-items-stretch">
-
-      <div class="card my-1">
-        <a href="index.php?pcsn=<{$sub_cate.pcsn}>">
-          <img class="card-img-top" src="<{$sub_cate.pic}>" alt="<{$sub_cate.title}>">
-        </a>
-        <div class="card-body">
-          <h5 class="card-title"><{$sub_cate.title}></h5>
-          <p class="card-text">
-            <div style="font-size:13px; color:#666666; text-align:center;"><{$sub_cate.num}></div>
-            <{if $sub_cate.pcsn_num}><div style="font-size:13px;color:#666666;text-align:center;"><{$sub_cate.pcsn_num}></div><{/if}>
-          </p>
+  <div class="row">
+    <{foreach item=sub_cate from=$sub_cate}>
+      <div class="col-sm-3 d-flex align-items-stretch">
+        <div class="card my-1">
+          <a href="index.php?pcsn=<{$sub_cate.pcsn}>">
+            <img class="card-img-top" src="<{$sub_cate.pic}>" alt="<{$sub_cate.title}>">
+          </a>
+          <div class="card-body">
+            <h5 class="card-title"><{$sub_cate.title}></h5>
+            <p class="card-text">
+              <div style="font-size:13px; color:#666666; text-align:center;"><{$sub_cate.num}></div>
+              <{if $sub_cate.pcsn_num}><div style="font-size:13px;color:#666666;text-align:center;"><{$sub_cate.pcsn_num}></div><{/if}>
+            </p>
+          </div>
         </div>
       </div>
-        
-
-    </div>
-    <{assign var="i" value=$i+1}>
-    <{assign var="total" value=$total+1}>
-    <{if $i == 4 || $total==$count}>
-        </div>
-    <{/if}>
-    <{if $i == 4}><{assign var="i" value=0}><{/if}>
-  <{/foreach}>
+    <{/foreach}>
+  </div>
 <{/if}>
 
 <{if $content}>

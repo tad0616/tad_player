@@ -20,7 +20,7 @@ function list_tad_player($pcsn = "")
 
     $sql = "select `psn` , `title` , `location` , `image` , `info` , `width` , `height` , `counter` , `enable_group` , `uid` , `post_date` from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort ";
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     $i = 0;
 
@@ -88,7 +88,7 @@ function list_tad_player_cate_tree($def_pcsn = "")
 
     $cate_count = array();
     $sql        = "select count(*),pcsn from " . $xoopsDB->prefix("tad_player") . " group by pcsn";
-    $result     = $xoopsDB->query($sql) or web_error($sql);
+    $result     = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
@@ -98,7 +98,7 @@ function list_tad_player_cate_tree($def_pcsn = "")
     $data[]   = "{ id:0, pId:0, name:'" . _MA_TADPLAYER_CATE_SELECT . "', url:'main.php', target:'_self', open:true}";
 
     $sql    = "select pcsn,of_csn,title from " . $xoopsDB->prefix("tad_player_cate") . " order by sort";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     while (list($pcsn, $of_csn, $title) = $xoopsDB->fetchRow($result)) {
         $font_style      = $def_pcsn == $pcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
         $open            = in_array($pcsn, $path_arr) ? 'true' : 'false';
@@ -138,7 +138,7 @@ function mk_all_xml($the_pcsn = "")
 {
     global $xoopsDB;
     $sql    = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate");
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     $log = "";
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
@@ -157,7 +157,7 @@ function save_sort()
     global $xoopsDB;
     foreach ($_POST['sort'] as $psn => $sort) {
         $sql = "update  " . $xoopsDB->prefix("tad_player") . " set sort='{$sort}' where psn='{$psn}'";
-        $xoopsDB->queryF($sql) or web_error($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
     }
 
     return;
@@ -177,7 +177,7 @@ function batch_move($new_pcsn = "")
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
     $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `pcsn` = '{$new_pcsn}' where psn in($videos)";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
     return $sn;
 }
@@ -188,7 +188,7 @@ function batch_add_title()
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
     $sql    = "update " . $xoopsDB->prefix("tad_player") . " set  `title` = '{$_POST['add_title']}' where psn in($videos)";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 }
 
 //批次新增說明
@@ -197,7 +197,7 @@ function batch_add_info()
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
     $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `info` = '{$_POST['add_info']}' where psn in($videos)";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
     return $sn;
 }
@@ -208,7 +208,7 @@ function update_wh()
     global $xoopsDB;
     $videos = implode(",", $_POST['video']);
     $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `width` = '{$_POST['width']}' , `height` = '{$_POST['height']}' where psn in($videos)";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
     return $sn;
 }
@@ -278,7 +278,7 @@ function auto_get_csn_sort($pcsn = "")
 {
     global $xoopsDB;
     $sql            = "select max(`sort`) from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}' group by of_csn";
-    $result         = $xoopsDB->query($sql) or web_error($sql);
+    $result         = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     list($max_sort) = $xoopsDB->fetchRow($result);
 
     return ++$max_sort;
@@ -304,7 +304,7 @@ function insert_tad_player_cate()
     }
 
     $sql = "insert into " . $xoopsDB->prefix("tad_player_cate") . " (of_csn,title,enable_group,enable_upload_group,sort,width,height) values('{$_POST['of_csn']}','{$_POST['title']}','{$enable_group}','{$enable_upload_group}','{$_POST['sort']}','{$_POST['width']}','{$_POST['height']}')";
-    $xoopsDB->query($sql) or web_error($sql);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     //取得最後新增資料的流水編號
     $pcsn = $xoopsDB->getInsertId();
     mk_list_json($pcsn);
@@ -337,7 +337,7 @@ function update_tad_player_cate($pcsn = "")
         }
     }
     $sql = "update " . $xoopsDB->prefix("tad_player_cate") . " set  of_csn = '{$of_csn}', title = '{$_POST['title']}', enable_group = '{$enable_group}', enable_upload_group = '{$enable_upload_group}', sort = '{$_POST['sort']}', width = '{$_POST['width']}', height = '{$_POST['height']}' where pcsn='$pcsn'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
     mk_list_json($pcsn);
     $log = "update $pcsn OK!";
 
@@ -351,17 +351,17 @@ function delete_tad_player_cate($pcsn = "")
 
     //先找出底下所有影片
     $sql = "select psn from " . $xoopsDB->prefix("tad_player") . " where pcsn='$pcsn'";
-    $xoopsDB->query($sql) or web_error($sql);
+    $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     while (list($psn) = $xoopsDB->fetchRow($result)) {
         delete_tad_player($psn);
     }
 
     //找出底下分類，並將分類的所屬分類清空
     $sql = "update " . $xoopsDB->prefix("tad_player_cate") . " set  of_csn='' where of_csn='$pcsn'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
     $sql = "delete from " . $xoopsDB->prefix("tad_player_cate") . " where pcsn='$pcsn'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
     unlink(_TAD_PLAYER_UPLOAD_DIR . "{$psn}_list.xml");
 }
@@ -372,7 +372,7 @@ function mk_thumb($pcsn = "")
     global $xoopsDB;
     set_time_limit(0);
     $sql    = "select `psn`,`image` from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
             $$k = $v;

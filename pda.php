@@ -31,7 +31,7 @@ function show_cate($pcsn, $passwd)
 
     //找出分類下所有影音檔
     $sql    = "select * from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort , post_date";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     while ($all = $xoopsDB->fetchArray($result)) {
         foreach ($all as $k => $v) {
@@ -146,7 +146,7 @@ function get_pre_next($pcsn = "", $now_sn = "")
 {
     global $xoopsDB;
     $sql    = "select psn,title from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort , post_date";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
     $stop   = false;
     $pre    = 0;
     while (list($psn, $title) = $xoopsDB->fetchRow($result)) {

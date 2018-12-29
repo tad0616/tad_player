@@ -6,7 +6,7 @@ function tad_player_b_show_3($options)
     global $xoopsDB;
 
     $sql    = "SELECT `psn`, `title`, `creator`, `location`, `image`, `info`, `uid`, `post_date`, `enable_group`, `counter` FROM " . $xoopsDB->prefix("tad_player") . " order by counter desc limit 0,{$options[0]}";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
 
     $i = 0;
 

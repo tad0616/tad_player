@@ -112,12 +112,12 @@ function tad_player_batch_import()
             continue;
         }
         $sql = "insert into " . $xoopsDB->prefix("tad_player") . " (pcsn,title,creator,location,image,info,uid,post_date,enable_group,counter) values('{$pcsn}','{$flv}','{$uid_name}','{$flv}','','{$flv}','{$uid}','{$now}','','0')";
-        $xoopsDB->query($sql) or web_error($sql);
+        $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
         //取得最後新增資料的流水編號
         $psn = $xoopsDB->getInsertId();
 
         $sql = "update " . $xoopsDB->prefix("tad_player") . " set image='{$psn}.png' where psn='$psn'";
-        $xoopsDB->queryF($sql) or web_error($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
 
         set_time_limit(0);
         ini_set('memory_limit', '50M');

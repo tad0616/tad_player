@@ -288,6 +288,7 @@ function auto_get_csn_sort($pcsn = "")
 function insert_tad_player_cate()
 {
     global $xoopsDB;
+
     if (empty($_POST['title'])) {
         return;
     }
@@ -303,7 +304,18 @@ function insert_tad_player_cate()
         $enable_upload_group = implode(",", $_POST['enable_upload_group']);
     }
 
-    $sql = "insert into " . $xoopsDB->prefix("tad_player_cate") . " (of_csn,title,enable_group,enable_upload_group,sort,width,height) values('{$_POST['of_csn']}','{$_POST['title']}','{$enable_group}','{$enable_upload_group}','{$_POST['sort']}','{$_POST['width']}','{$_POST['height']}')";
+    $myts = MyTextSanitizer::getInstance();
+
+    $of_csn = (int) $_POST['of_csn'];
+    $sort   = (int) $_POST['sort'];
+    $width  = (int) $_POST['width'];
+    $height = (int) $_POST['height'];
+
+    $title               = $myts->addSlashes($_POST['title']);
+    $enable_group        = $myts->addSlashes($enable_group);
+    $enable_upload_group = $myts->addSlashes($enable_upload_group);
+
+    $sql = "insert into " . $xoopsDB->prefix("tad_player_cate") . " (of_csn,title,enable_group,enable_upload_group,sort,width,height) values('{$of_csn}','{$title}','{$enable_group}','{$enable_upload_group}','{$sort}','{$width}','{$height}')";
     $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $pcsn = $xoopsDB->getInsertId();
@@ -336,7 +348,20 @@ function update_tad_player_cate($pcsn = "")
             break;
         }
     }
-    $sql = "update " . $xoopsDB->prefix("tad_player_cate") . " set  of_csn = '{$of_csn}', title = '{$_POST['title']}', enable_group = '{$enable_group}', enable_upload_group = '{$enable_upload_group}', sort = '{$_POST['sort']}', width = '{$_POST['width']}', height = '{$_POST['height']}' where pcsn='$pcsn'";
+
+    $myts = MyTextSanitizer::getInstance();
+
+    $of_csn = (int) $of_csn;
+    $sort   = (int) $_POST['sort'];
+    $width  = (int) $_POST['width'];
+    $height = (int) $_POST['height'];
+    $pcsn   = (int) $pcsn;
+
+    $title               = $myts->addSlashes($_POST['title']);
+    $enable_group        = $myts->addSlashes($enable_group);
+    $enable_upload_group = $myts->addSlashes($enable_upload_group);
+
+    $sql = "update " . $xoopsDB->prefix("tad_player_cate") . " set  of_csn = '{$of_csn}', title = '{$title}', enable_group = '{$enable_group}', enable_upload_group = '{$enable_upload_group}', sort = '{$sort}', width = '{$width}', height = '{$height}' where pcsn='$pcsn'";
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     mk_list_json($pcsn);
     $log = "update $pcsn OK!";

@@ -1,6 +1,7 @@
 Tad Player 3.5.8 (2019-01-01 released)
 ====================================================
 1.Support BootStrap4
+2.Support PHP 7.3
 
 
 Tad Player 3.5.7 (2018-10-02 released)

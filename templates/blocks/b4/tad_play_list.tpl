@@ -1,7 +1,7 @@
 <{if $block}>
-  <{$block}>
+    <{$block}>
 <{else}>
-  <div class="jumbotron">
-    <{$smarty.const._MB_TADPLAYER_NO_PLAYLIST}>
-  </div>
+    <div class="alert alert-danger">
+        <{$smarty.const._MB_TADPLAYER_NO_PLAYLIST}>
+    </div>
 <{/if}>

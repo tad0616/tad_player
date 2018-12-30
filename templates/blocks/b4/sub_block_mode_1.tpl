@@ -6,7 +6,6 @@
     </div>
 
     <div class="col-sm-8">
-
         <a href="<{$xoops_url}>/modules/tad_player/play.php?psn=<{$video.psn}>"><{$video.title}></a> (<{$video.counter}>)
     </div>
 </div>

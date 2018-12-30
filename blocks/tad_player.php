@@ -41,11 +41,11 @@ function tad_player_edit($options)
     $chked4_0 = ($options[2] == "false") ? "checked" : "";
     $chked4_1 = ($options[2] == "true") ? "checked" : "";
 
-    $sql = "SELECT a.psn,a.pcsn,a.title,b.title FROM " . $xoopsDB->prefix("tad_player") . " AS a LEFT JOIN " . $xoopsDB->prefix("tad_player_cate") . " AS b ON a.pcsn=b.pcsn ORDER BY a.post_date DESC";
+    $sql    = "SELECT a.psn,a.pcsn,a.title,b.title FROM " . $xoopsDB->prefix("tad_player") . " AS a LEFT JOIN " . $xoopsDB->prefix("tad_player_cate") . " AS b ON a.pcsn=b.pcsn ORDER BY a.post_date DESC";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $select = "<select name='options[0]'>
-  <option value='0'>" . _MB_TADPLAYER_RANDOM_PLAY . "</option>";
+    $select = "<select name='options[0]' class='my-input'>
+    <option value='0'>" . _MB_TADPLAYER_RANDOM_PLAY . "</option>";
     $old_pcsn = 0;
     while (list($psn, $pcsn, $title, $cate_title) = $xoopsDB->fetchRow($result)) {
         $selected = ($options[0] == $psn) ? "selected" : "";
@@ -59,15 +59,28 @@ function tad_player_edit($options)
     $select .= "</select>";
 
     $form = "
-  " . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM0 . "
-  $select<br>
-  " . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM3 . "
-  <INPUT type='radio' $chked3_1 name='options[1]' value='1'>" . _MB_TADPLAYER_AUTOPLAY . "
-  <INPUT type='radio' $chked3_0 name='options[1]' value='0'>" . _MB_TADPLAYER_DONT_AUTOPLAY . "<br>
-  " . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM4 . "
-  <INPUT type='radio' $chked4_1 name='options[2]' value='true'>" . _MB_TADPLAYER_REPEAT . "
-  <INPUT type='radio' $chked4_0 name='options[2]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . "
-  ";
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM0 . "</lable>
+            <div class='my-content'>
+                $select
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM3 . "</lable>
+            <div class='my-content'>
+                <input type='radio' $chked3_1 name='options[1]' value='1'>" . _MB_TADPLAYER_AUTOPLAY . "
+                <input type='radio' $chked3_0 name='options[1]' value='0'>" . _MB_TADPLAYER_DONT_AUTOPLAY . "
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM4 . "</lable>
+            <div class='my-content'>
+                <input type='radio' $chked4_1 name='options[2]' value='true'>" . _MB_TADPLAYER_REPEAT . "
+                <input type='radio' $chked4_0 name='options[2]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . "
+            </div>
+        </li>
+    </ol> ";
 
     return $form;
 }

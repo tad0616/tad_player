@@ -35,15 +35,24 @@ function tad_new_media_edit($options)
     $selected2 = $options[1] == '2' ? "selected" : "";
 
     $form = "
-    " . _MB_TADPLAYER_DISPLAY_AMOUNT . "
-    <INPUT type='text' name='options[0]' value='{$options[0]}'><br>
-
-    " . _MB_TADPLAYER_DISPLAY_MODE . "
-    <select name='options[1]'>
-        <option value='0' $selected0>" . _MB_TADPLAYER_DISPLAY_MODE_0 . "</option>
-        <option value='1' $selected1>" . _MB_TADPLAYER_DISPLAY_MODE_1 . "</option>
-        <option value='2' $selected2>" . _MB_TADPLAYER_DISPLAY_MODE_2 . "</option>
-    </select>";
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADPLAYER_DISPLAY_AMOUNT . "</lable>
+            <div class='my-content'>
+                <input type='text' class='my-input' name='options[0]' value='{$options[0]}' size=6>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADPLAYER_DISPLAY_MODE . "</lable>
+            <div class='my-content'>
+                <select name='options[1]' class='my-input'>
+                    <option value='0' $selected0>" . _MB_TADPLAYER_DISPLAY_MODE_0 . "</option>
+                    <option value='1' $selected1>" . _MB_TADPLAYER_DISPLAY_MODE_1 . "</option>
+                    <option value='2' $selected2>" . _MB_TADPLAYER_DISPLAY_MODE_2 . "</option>
+                </select>
+            </div>
+        </li>
+    </ol>";
 
     return $form;
 }

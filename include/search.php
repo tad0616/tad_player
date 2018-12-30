@@ -27,7 +27,7 @@ function tad_player_search($queryarray, $andor, $limit, $offset, $userid)
     }
     $sql .= "ORDER BY post_date DESC";
     //die($sql);
-    $result = $xoopsDB->query($sql, $limit, $offset);
+    $result = $xoopsDB->query($sql, $limit, $offset) or web_error($sql, __FILE__, __LINE__);
     $ret    = array();
     $i      = 0;
     while ($myrow = $xoopsDB->fetchArray($result)) {

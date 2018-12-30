@@ -34,18 +34,29 @@ function tad_player_play_list_edit($options)
     $chked5_1 = ($options[3] == "true") ? "checked" : "";
 
     $form = "
-    " . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM0 . "<br>
-    $select<br>
-
-    " . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM3 . "
-    <INPUT type='radio' $chked3_1 name='options[1]' value='1'>" . _MB_TADPLAYER_AUTOPLAY . "
-    <INPUT type='radio' $chked3_0 name='options[1]' value='0'>" . _MB_TADPLAYER_DONT_AUTOPLAY . "<br>
-    <INPUT type='hidden' name='options[2]' value='{$options[2]}'>
-    " . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM4 . "
-    <INPUT type='radio' $chked5_1 name='options[3]' value='true'>" . _MB_TADPLAYER_LIST_REPEAT . "
-    <INPUT type='radio' $chked5_0 name='options[3]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . "
-
-    ";
+    <ol class='my-form'>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM0 . "</lable>
+            <div class='my-content'>
+                 $select
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM3 . "</lable>
+            <div class='my-content'>
+                <input type='radio' $chked3_1 name='options[1]' value='1'>" . _MB_TADPLAYER_AUTOPLAY . "
+                <input type='radio' $chked3_0 name='options[1]' value='0'>" . _MB_TADPLAYER_DONT_AUTOPLAY . "<br>
+                <input type='hidden' name='options[2]' value='{$options[2]}'>
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM4 . "</lable>
+            <div class='my-content'>
+                <input type='radio' $chked5_1 name='options[3]' value='true'>" . _MB_TADPLAYER_LIST_REPEAT . "
+                <input type='radio' $chked5_0 name='options[3]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . "
+            </div>
+        </li>
+    </ol>";
 
     return $form;
 }
@@ -54,9 +65,9 @@ function tad_player_play_list_edit($options)
 function tp_block_cate_select($pcsn = 0)
 {
     $cate_select = tp_block_get_tad_player_cate_option(0, 0, $pcsn);
-    $select      = "<select name='options[0]' size='6'>
-  $cate_select
-  </select>";
+    $select      = "<select name='options[0]' size='6' class='my-input'>
+    $cate_select
+    </select>";
 
     return $select;
 }
@@ -69,14 +80,14 @@ function tp_block_get_tad_player_cate_option($of_csn = 0, $level = 0, $v = "", $
     $level += 1;
 
     $sql    = "SELECT count(*),pcsn FROM " . $xoopsDB->prefix("tad_player") . " GROUP BY pcsn";
-    $result = $xoopsDB->query($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
 
     $option = ($of_csn) ? "" : "<option value='0'>" . _MB_TADPLAYER_CATE_SELECT . "</option>";
     $sql    = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$of_csn}' order by sort";
-    $result = $xoopsDB->query($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         $selected = ($v == $pcsn) ? "selected" : "";

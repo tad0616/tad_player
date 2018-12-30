@@ -216,7 +216,7 @@ function insert_tad_player()
 
     $sql = "insert into " . $xoopsDB->prefix("tad_player") . " (pcsn,title,creator,location,image,info,uid,post_date,enable_group,counter,content,youtube,logo) values('{$pcsn}','{$title}','{$_POST['creator']}','{$location}','{$image}','{$location}','{$uid}','{$now}','{$enable_group}','0','{$_POST['content']}','{$_POST['youtube']}','{$_POST['logo_name']}')";
     //die($sql);
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $psn = $xoopsDB->getInsertId();
 
@@ -324,7 +324,7 @@ function update_tad_player($psn = "")
     //$now=xoops_getUserTimestamp(time());
     $now = date("Y-m-d H:i:s", xoops_getUserTimestamp(time()));
     $sql = "update " . $xoopsDB->prefix("tad_player") . " set  pcsn = '{$pcsn}', title = '{$title}', creator = '{$_POST['creator']}' {$location_sql} {$image_sql}, post_date = '{$now}', enable_group = '{$enable_group}', width = '{$width}', height = '{$height}' , content = '{$_POST['content']}', logo='{$_POST['logo_name']}' where psn='$psn'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     if (!empty($_FILES['logo']['name'])) {
         upload_logo($psn);
@@ -352,12 +352,12 @@ function upload_flv($psn = "", $update_sql = false)
             $flv_handle->clean();
             if ($update_sql) {
                 $sql = "update " . $xoopsDB->prefix("tad_player") . " set image='{$_FILES['location']['name']}' where psn='$psn'";
-                $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+                $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
             }
             return true;
         } else {
             $sql = "delete from " . $xoopsDB->prefix("tad_player") . " where psn='{$psn}'";
-            $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+            $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
             redirect_header($_SERVER['PHP_SELF'], 3, "Error:" . $flv_handle->error);
         }
     }
@@ -402,7 +402,7 @@ function upload_pic($psn = "", $update_sql = false)
         if ($img_handle->processed) {
             if ($update_sql) {
                 $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `image`='{$psn}.png' where `psn`='$psn'";
-                $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+                $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
             }
 
@@ -437,7 +437,7 @@ function upload_logo($psn = "")
         if ($img_handle->processed) {
 
             $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `logo`='{$psn}.png' where `psn`='$psn'";
-            $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, _LINE__);
+            $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
             $img_handle->clean();
             return true;

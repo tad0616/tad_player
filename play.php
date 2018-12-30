@@ -85,7 +85,7 @@ function get_cate_play($get_psn = "", $size = 1)
     $file = get_tad_player($get_psn);
 
     $sql    = "select a.psn,a.title,b.title from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn where a.pcsn='{$file['pcsn']}' order by a.sort, a.post_date desc";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, _LINE__);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $option = "";
     while (list($psn, $title, $cate_title) = $xoopsDB->fetchRow($result)) {

@@ -152,17 +152,6 @@ function mk_all_xml($the_pcsn = "")
     return;
 }
 
-//儲存排序
-function save_sort()
-{
-    global $xoopsDB;
-    foreach ($_POST['sort'] as $psn => $sort) {
-        $sql = "update  " . $xoopsDB->prefix("tad_player") . " set sort='{$sort}' where psn='{$psn}'";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
-    }
-
-    return;
-}
 
 //批次刪除
 function batch_del()
@@ -429,11 +418,6 @@ switch ($op) {
         redirect_header($_SERVER['PHP_SELF'] . "?pcsn=$pcsn", 3, _MA_TADPLAYER_JSON_OK);
         break;
 
-    //儲存排序
-    case "save_sort":
-        save_sort();
-        header("location: {$_SERVER['PHP_SELF']}?pcsn=$pcsn");
-        exit;
 
     //重新產生所有的XML
     case "mk_all_xml":

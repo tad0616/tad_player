@@ -181,15 +181,15 @@
           </div>
         <{elseif $data}>
           <script language="JavaScript">
-            $().ready(function(){
-              $("div#all_videos").sortable({ opacity: 0.6, cursor: "move", update: function() {
-                var order = $(this).sortable("serialize") + "&action=updateRecordsListings";
-                $.post("save_sort.php?pcsn=<{$pcsn}>", order, function(theResponse){
-                  $("#save_msg").html(theResponse);
-                });
+            
+            $(document).ready(function(){
+              $('#all_videos').sortable({ opacity: 0.6, cursor: 'move', update: function() {
+                  var order = $(this).sortable('serialize');
+                  $.post('save_sort.php?pcsn=<{$pcsn}>', order, function(theResponse){
+                      $('#save_msg').html(theResponse);
+                  });
               }
               });
-
               var hh = $('div.thumb_height').width() * 0.75;
               $('div.thumb_height').css('height',hh);
 
@@ -232,7 +232,7 @@
           <div class="row" id="all_videos">
             <{foreach item=video from=$data}>
 
-              <div class="thumbnail" id="recordsArray_<{$video.psn}>" onClick="check_one('p<{$video.psn}>',true);" onkeypress="check_one('p<{$video.psn}>',true);" style="width:156px;float:left;margin:8px;">
+              <div class="thumbnail" id="psn_<{$video.psn}>" onClick="check_one('p_<{$video.psn}>',true);" onkeypress="check_one('p_<{$video.psn}>',true);" style="width:156px;float:left;margin:8px;">
                 <div class="thumb_height" style="background-color:black;position:relative;height:120px;overflow:hidden;">
                   <img src="<{$video.pic}>" alt="<{$video.title}>" style="z-index:1; width: 100%;">
                   <div id="pt<{$video.psn}>" style="font-size:12px;font-weight:normal;color:#ffffff;position:absolute;bottom:2px;left:10px;z-index:2;text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0px -1px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 1px 0px 0 #000;">
@@ -241,7 +241,7 @@
                 </div>
 
                 <div>
-                  <input type="checkbox" id="p<{$video.psn}>" name="video[]" value="<{$video.psn}>" class="video" onClick="check_one('p<{$video.psn}>',true);" onkeypress="check_one('p<{$video.psn}>',true);">
+                  <input type="checkbox" id="p_<{$video.psn}>" name="video[]" value="<{$video.psn}>" class="video" onClick="check_one('p_<{$video.psn}>',true);" onkeypress="check_one('p_<{$video.psn}>',true);">
                   <a href="../uploads.php?psn=<{$video.psn}>#fragment-1" target="_blank" class="btn btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
                   <a href="../play.php?psn=<{$video.psn}>" target="_blank" class="btn btn-xs btn-info"><{$smarty.const._MA_TADPLAYER_VIEW}></a>
                   <{$smarty.const._MA_TADPLAYER_COUNTER}>:<{$video.counter}>

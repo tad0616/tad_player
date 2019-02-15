@@ -180,15 +180,16 @@
                         </form>
                     </div>
                 <{elseif $data}>
-                    <script language="JavaScript">
-                        $().ready(function(){
-                            $("div#all_videos").sortable({ opacity: 0.6, cursor: "move", update: function() {
-                                var order = $(this).sortable("serialize") + "&action=updateRecordsListings";
-                                $.post("save_sort.php?pcsn=<{$pcsn}>", order, function(theResponse){
-                                $("#save_msg").html(theResponse);
+                    <script language="JavaScript">  
+                        $(document).ready(function(){
+                            $('#all_videos').sortable({ opacity: 0.6, cursor: 'move', update: function() {
+                                var order = $(this).sortable('serialize');
+                                $.post('save_sort.php?pcsn=<{$pcsn}>', order, function(theResponse){
+                                    $('#save_msg').html(theResponse);
                                 });
                             }
                             });
+                            
 
                             var hh = $('div.thumb_height').width() * 0.75;
                             $('div.thumb_height').css('height',hh);
@@ -231,15 +232,13 @@
 
                     <div class="row" id="all_videos">
                         <{foreach item=video from=$data}>
-                            <div class="col-sm-2 d-flex align-items-stretch">
-                                <div class="card my-1" id="recordsArray_<{$video.psn}>" onClick="check_one('p<{$video.psn}>',true);" onkeypress="check_one('p<{$video.psn}>',true);">
-                                    <a href="<{$video.url}>">
+                            <div class="col-sm-2 d-flex align-items-stretch" id="psn_<{$video.psn}>">
+                                <div class="card my-1" onClick="check_one('p_<{$video.psn}>',true);" onkeypress="check_one('p_<{$video.psn}>',true);">
                                     <img class="card-img-top" src="<{$video.pic}>" alt="<{$video.title}>">
-                                    </a>
                                     <div class="card-body">
                                         <div class="card-text">
                                             <div>
-                                                <input type="checkbox" id="p<{$video.psn}>" name="video[]" value="<{$video.psn}>" class="video" onClick="check_one('p<{$video.psn}>',true);" onkeypress="check_one('p<{$video.psn}>',true);">
+                                                <input type="checkbox" id="p_<{$video.psn}>" name="video[]" value="<{$video.psn}>" class="video" onClick="check_one('p_<{$video.psn}>',true);" onkeypress="check_one('p_<{$video.psn}>',true);">
                                                 <{$video.uid_name}> / <{$video.post_date}>
                                             </div>
                                             <div>                                                

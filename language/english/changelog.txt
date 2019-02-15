@@ -1,3 +1,8 @@
+Tad Player 3.5.9 (released from 2019-02-15)
+=========================================================== ==
+1. Fixed the problem that the background of the video playback could not be deleted.
+2. Fixed an issue where the video sorting was invalid.
+
 Tad Player 3.5.8 (2019-01-01 released)
 ====================================================
 1.Support BootStrap4

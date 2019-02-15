@@ -2,6 +2,7 @@
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = "tad_player_adm_main.tpl";
 include_once __DIR__ . '/header.php';
+$isAdmin = true;
 include_once "../function.php";
 
 /*-----------function區--------------*/
@@ -126,9 +127,9 @@ function cate_select($pcsn = 0, $size = 20)
 
     $PHP_SELF = basename($_SERVER['PHP_SELF']);
     $select   = "
-  <select name='pcsn' class='span12' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
-  $cate_select
-  </select>";
+    <select name='pcsn' class='span12' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
+    $cate_select
+    </select>";
 
     return $select;
 }
@@ -166,6 +167,7 @@ function save_sort()
 //批次刪除
 function batch_del()
 {
+    // die(var_dump($_POST['video']));
     foreach ($_POST['video'] as $psn) {
         delete_tad_player($psn);
     }

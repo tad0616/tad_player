@@ -245,18 +245,12 @@ function delete_tad_player($psn = "")
 {
     global $xoopsDB, $isAdmin,$isUploader, $xoopsUser, $xoopsModule;
 
-    // if (!isset($isAdmin)) {
-    //     if ($xoopsUser) {
-    //         $module_id = $xoopsModule->getVar('mid');
-    //         $isAdmin   = $xoopsUser->isAdmin($module_id);
-    //     } else {
-    //         return;
-    //     }
-    // }
 
     if (!$isAdmin and !$isUploader) {
-        return;
+        // die("{$isAdmin} - {$isUploader}");
+        redirect_header("index.php", 3, _TAD_PERMISSION_DENIED);
     }
+
     //刪除檔案
     $file             = get_tad_player($psn);
     $file['location'] = auto_charset($file['location'], false);
@@ -266,6 +260,7 @@ function delete_tad_player($psn = "")
     unlink(_TAD_PLAYER_IMG_DIR . "{$psn}_{$file['image']}");
     mk_list_json($file['pcsn']);
     $sql = "delete from " . $xoopsDB->prefix("tad_player") . " where psn='$psn'";
+    // die($sql);
     $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 }
 

@@ -27,7 +27,7 @@ define('_MI_TADPLAYER_BORDER_COLOR', '<b>Border color</b>');
 define('_MI_TADPLAYER_BORDER_COLOR_DESC', 'Set the border color for text on thumbnail.');
 
 define('_MI_TADPLAYER_DIRNAME', basename(dirname(dirname(__DIR__))));
-define('_MI_TADPLAYER_HELP_HEADER', __DIR__ . '/help/helpheader.html');
+define('_MI_TADPLAYER_HELP_HEADER', __DIR__ . '/help/helpheader.tpl');
 define('_MI_TADPLAYER_BACK_2_ADMIN', 'Back to Administration of ');
 
 //help

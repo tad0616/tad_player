@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
 include_once __DIR__ . '/header.php';
-$xoopsOption['template_main'] = set_bootstrap("tad_player_play.html");
+$xoopsOption['template_main'] = "tad_player_play.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 /*-----------function區--------------*/
 
@@ -85,7 +85,7 @@ function get_cate_play($get_psn = "", $size = 1)
     $file = get_tad_player($get_psn);
 
     $sql    = "select a.psn,a.title,b.title from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn where a.pcsn='{$file['pcsn']}' order by a.sort, a.post_date desc";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $option = "";
     while (list($psn, $title, $cate_title) = $xoopsDB->fetchRow($result)) {
@@ -120,6 +120,8 @@ $xoopsTpl->assign("toolbar", toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign("bootstrap", get_bootstrap());
 $xoopsTpl->assign("jquery", get_jquery(true));
 $xoopsTpl->assign("isAdmin", $isAdmin);
+$xoopsTpl->assign("isUploader", $isUploader);
+
 $xoopsTpl->assign("psn", $psn);
 
 switch ($op) {

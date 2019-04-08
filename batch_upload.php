@@ -66,23 +66,27 @@ function tad_player_batch_upload_form()
         }
     }
 
-    //$cate_select=to_utf8($cate_select);
+    if ($tr) {
+        $main = "
+        <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
+        <input type='hidden' name='op' value='import'>
+        <table class='table table-striped table-bordered table-hover'>
+        <tr>
+            <td class='title' nowrap>" . _MD_TADPLAYER_BATCH_OF_CSN . "</td>
+            <td class='col' colspan=2><select name='pcsn' size=1>
+            $cate_select
+            </select>" . _MD_TADPLAYER_BATCH_NEW_PCSN . "<input type='text' name='new_pcsn' size='10'></td></tr>
+            $tr
+        <tr><td colspan=3 class='bar'><button type='submit' class='btn btn-primary'>" . _MD_BATCH_SAVE . "</button></td></tr>
+        </table>
+        </form>";
+    } else {
 
-    $main = "
-    <p>" . _MD_TADPLAYER_BATCH_UPLOAD_TO . "<span style='color:red;'>" . _TAD_PLAYER_BATCH_UPLOAD_DIR . "</span></p>
-  <form action='{$_SERVER['PHP_SELF']}' method='post' id='myForm' enctype='multipart/form-data'>
-  <input type='hidden' name='op' value='import'>
-  <table class='table table-striped table-bordered table-hover'>
-  <tr><td class='title'>" . _MD_TADPLAYER_BATCH_OF_CSN . "</td>
-    <td class='col' colspan=2><select name='pcsn' size=1>
-    $cate_select
-    </select>" . _MD_TADPLAYER_BATCH_NEW_PCSN . "<input type='text' name='new_pcsn' size='10'></td></tr>
-    $tr
-  <tr><td colspan=3 class='bar'><button type='submit' class='btn btn-primary'>" . _MD_BATCH_SAVE . "</button></td></tr>
-  </table>
-  </form>";
-
-    //$main=div_3d(_MD_INPUT_FORM,$main);
+        $main = "
+        <div class='alert alert-info'>
+        " . _MD_TADPLAYER_BATCH_UPLOAD_TO . "<span style='color:red;'>" . _TAD_PLAYER_BATCH_UPLOAD_DIR . "</span>
+        </div>";
+    }
 
     return $main;
 }
@@ -108,12 +112,12 @@ function tad_player_batch_import()
             continue;
         }
         $sql = "insert into " . $xoopsDB->prefix("tad_player") . " (pcsn,title,creator,location,image,info,uid,post_date,enable_group,counter) values('{$pcsn}','{$flv}','{$uid_name}','{$flv}','','{$flv}','{$uid}','{$now}','','0')";
-        $xoopsDB->query($sql) or web_error($sql);
+        $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         //取得最後新增資料的流水編號
         $psn = $xoopsDB->getInsertId();
 
         $sql = "update " . $xoopsDB->prefix("tad_player") . " set image='{$psn}.png' where psn='$psn'";
-        $xoopsDB->queryF($sql) or web_error($sql);
+        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
         set_time_limit(0);
         ini_set('memory_limit', '50M');
@@ -123,7 +127,6 @@ function tad_player_batch_import()
         if (rename(_TAD_PLAYER_BATCH_UPLOAD_DIR . $flv, _TAD_PLAYER_FLV_DIR . $psn . "_" . $flv)) {
             if (!empty($_POST['img'][$filename])) {
                 $pic_file   = _TAD_PLAYER_BATCH_UPLOAD_DIR . $_POST['img'][$filename];
-                $pic_b_file = _TAD_PLAYER_IMG_DIR . $psn . ".png";
                 $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
 
                 $sub = strtolower(substr($_POST['img'][$filename], -3));
@@ -134,8 +137,7 @@ function tad_player_batch_import()
                 } elseif ($sub == "jpg" or $sub == "peg") {
                     $type = "image/jpeg";
                 }
-                mk_video_thumbnail($pic_file, $pic_b_file, $type, $xoopsModuleConfig['width']);
-                mk_video_thumbnail($pic_file, $pic_s_file, $type, "120");
+                mk_video_thumbnail($pic_file, $pic_s_file, $type, "480");
 
                 unlink($pic_file);
             }

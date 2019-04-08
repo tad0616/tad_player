@@ -49,7 +49,7 @@ function go_update1()
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player/flv");
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player_batch_uploads");
 
-    $sql    = "select psn,location,image,post_date from " . $xoopsDB->prefix("tad_player") . " order by psn";
+    $sql    = "SELECT psn,location,image,post_date FROM " . $xoopsDB->prefix("tad_player") . " ORDER BY psn";
     $result = $xoopsDB->query($sql) or die($sql);
 
     while (list($psn, $location, $image, $post_date) = $xoopsDB->fetchRow($result)) {
@@ -68,10 +68,8 @@ function go_update1()
             $filename = XOOPS_ROOT_PATH . "/uploads/tad_player/{$psn}_{$image}";
             if (file_exists($filename)) {
                 $type         = getimagesize($filename);
-                $thumb_b_name = XOOPS_ROOT_PATH . "/uploads/tad_player/img/{$psn}.png";
                 $thumb_s_name = XOOPS_ROOT_PATH . "/uploads/tad_player/img/s_{$psn}.png";
-                mk_video_thumbnail($filename, $thumb_b_name, $type['mime'], "480");
-                mk_video_thumbnail($filename, $thumb_s_name, $type['mime'], "120");
+                mk_video_thumbnail($filename, $thumb_s_name, $type['mime'], "480");
                 //unlink($filename);
                 $newimg = ",`image`='{$psn}.png'";
             }
@@ -93,7 +91,7 @@ function go_update1()
 function chk_chk2()
 {
     global $xoopsDB;
-    $sql    = "select count(`enable_upload_group`) from " . $xoopsDB->prefix("tad_player_cate");
+    $sql    = "SELECT count(`enable_upload_group`) FROM " . $xoopsDB->prefix("tad_player_cate");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -105,15 +103,15 @@ function chk_chk2()
 function go_update2()
 {
     global $xoopsDB;
-    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_player_cate") . " ADD `enable_upload_group` varchar(255) NOT NULL  default '' after `enable_group`";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_player_cate") . " ADD `enable_upload_group` VARCHAR(255) NOT NULL  DEFAULT '' AFTER `enable_group`";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
 }
 
 //新增logo欄位
 function chk_chk3()
 {
     global $xoopsDB;
-    $sql    = "select count(`logo`) from " . $xoopsDB->prefix("tad_player");
+    $sql    = "SELECT count(`logo`) FROM " . $xoopsDB->prefix("tad_player");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -126,15 +124,15 @@ function go_update3()
 {
     global $xoopsDB;
     mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player/logo");
-    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_player") . " ADD `logo` varchar(255) NOT NULL  default ''";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, $xoopsDB->error());
+    $sql = "ALTER TABLE " . $xoopsDB->prefix("tad_player") . " ADD `logo` VARCHAR(255) NOT NULL  DEFAULT ''";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . "/modules/system/admin.php?fct=modulesadmin", 30, mysql_error());
 }
 
 //新增評分表格
 function chk_chk4()
 {
     global $xoopsDB;
-    $sql    = "select count(*) from " . $xoopsDB->prefix("tad_player_rank");
+    $sql    = "SELECT count(*) FROM " . $xoopsDB->prefix("tad_player_rank");
     $result = $xoopsDB->query($sql);
     if (empty($result)) {
         return false;
@@ -147,11 +145,11 @@ function go_update4()
 {
     global $xoopsDB;
     $sql = "CREATE TABLE " . $xoopsDB->prefix("tad_player_rank") . " (
-    `col_name` varchar(255) NOT NULL,
-    `col_sn` smallint(5) unsigned NOT NULL,
-    `rank` tinyint(3) unsigned NOT NULL,
-    `uid` smallint(5) unsigned NOT NULL,
-    `rank_date` datetime NOT NULL,
+    `col_name` VARCHAR(255) NOT NULL,
+    `col_sn` SMALLINT(5) UNSIGNED NOT NULL,
+    `rank` TINYINT(3) UNSIGNED NOT NULL,
+    `uid` SMALLINT(5) UNSIGNED NOT NULL,
+    `rank_date` DATETIME NOT NULL,
     PRIMARY KEY (`col_name`,`col_sn`,`uid`)
     )";
     $xoopsDB->queryF($sql);
@@ -176,11 +174,11 @@ function chk_uid()
 function go_update_uid()
 {
     global $xoopsDB;
-    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_player") . "` CHANGE `uid` `uid` mediumint(8) unsigned NOT NULL default 0";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $xoopsDB->error());
+    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_player") . "` CHANGE `uid` `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
 
-    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_player_rank") . "` CHANGE `uid` `uid` mediumint(8) unsigned NOT NULL default 0";
-    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $xoopsDB->error());
+    $sql = "ALTER TABLE `" . $xoopsDB->prefix("tad_player_rank") . "` CHANGE `uid` `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0";
+    $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
 
     return true;
 }
@@ -221,65 +219,11 @@ function chk_tad_player_block()
             $xoopsDB->queryF($sql);
         }
     }
-
 }
 
-//建立目錄
-function mk_dir($dir = "")
-{
-    //若無目錄名稱秀出警告訊息
-    if (empty($dir)) {
-        return;
-    }
-    //若目錄不存在的話建立目錄
-    if (!is_dir($dir)) {
-        umask(000);
-        //若建立失敗秀出警告訊息
-        mkdir($dir, 0777);
-    }
-}
-
-//拷貝目錄
-function full_copy($source = "", $target = "")
-{
-    if (is_dir($source)) {
-        @mkdir($target);
-        $d = dir($source);
-        while (false !== ($entry = $d->read())) {
-            if ($entry == '.' || $entry == '..') {
-                continue;
-            }
-
-            $Entry = $source . '/' . $entry;
-            if (is_dir($Entry)) {
-                full_copy($Entry, $target . '/' . $entry);
-                continue;
-            }
-            copy($Entry, $target . '/' . $entry);
-        }
-        $d->close();
-    } else {
-        copy($source, $target);
-    }
-}
-
-function rename_win($oldfile, $newfile)
-{
-    if (!rename($oldfile, $newfile)) {
-        if (copy($oldfile, $newfile)) {
-            unlink($oldfile);
-
-            return true;
-        }
-
-        return false;
-    }
-
-    return true;
-}
 
 //做縮圖
-function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "120")
+function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpeg", $width = "480")
 {
     ini_set('memory_limit', '50M');
     // Get new sizes
@@ -309,29 +253,92 @@ function mk_video_thumbnail($filename = "", $thumb_name = "", $type = "image/jpe
     header("Content-type: image/png");
     imagepng($thumb, $thumb_name);
 
-    return;
-    exit;
+    imagedestroy($thumb);
 }
 
-function delete_directory($dirname)
-{
-    if (is_dir($dirname)) {
-        $dir_handle = opendir($dirname);
-    }
-    if (!$dir_handle) {
-        return false;
-    }
-    while ($file = readdir($dir_handle)) {
-        if ($file != "." && $file != "..") {
-            if (!is_dir($dirname . "/" . $file)) {
-                unlink($dirname . "/" . $file);
-            } else {
-                delete_directory($dirname . '/' . $file);
-            }
+
+
+
+//建立目錄
+if (!function_exists('mk_dir')) {
+    function mk_dir($dir = "")
+    {
+        //若無目錄名稱秀出警告訊息
+        if (empty($dir)) {
+            return;
+        }
+
+        //若目錄不存在的話建立目錄
+        if (!is_dir($dir)) {
+            umask(000);
+            //若建立失敗秀出警告訊息
+            mkdir($dir, 0777);
         }
     }
-    closedir($dir_handle);
-    rmdir($dirname);
+}
 
-    return true;
+//拷貝目錄
+if (!function_exists('full_copy')) {
+    function full_copy($source = "", $target = "")
+    {
+        if (is_dir($source)) {
+            @mkdir($target);
+            $d = dir($source);
+            while (false !== ($entry = $d->read())) {
+                if ($entry == '.' || $entry == '..') {
+                    continue;
+                }
+
+                $Entry = $source . '/' . $entry;
+                if (is_dir($Entry)) {
+                    full_copy($Entry, $target . '/' . $entry);
+                    continue;
+                }
+                copy($Entry, $target . '/' . $entry);
+            }
+            $d->close();
+        } else {
+            copy($source, $target);
+        }
+    }
+}
+
+if (!function_exists('rename_win')) {
+    function rename_win($oldfile, $newfile)
+    {
+        if (!rename($oldfile, $newfile)) {
+            if (copy($oldfile, $newfile)) {
+                unlink($oldfile);
+                return true;
+            }
+            return false;
+        }
+        return true;
+    }
+}
+
+if (!function_exists('delete_directory')) {
+    function delete_directory($dirname)
+    {
+        if (is_dir($dirname)) {
+            $dir_handle = opendir($dirname);
+        }
+
+        if (!$dir_handle) {
+            return false;
+        }
+
+        while ($file = readdir($dir_handle)) {
+            if ($file != "." && $file != "..") {
+                if (!is_dir($dirname . "/" . $file)) {
+                    unlink($dirname . "/" . $file);
+                } else {
+                    delete_directory($dirname . '/' . $file);
+                }
+            }
+        }
+        closedir($dir_handle);
+        rmdir($dirname);
+        return true;
+    }
 }

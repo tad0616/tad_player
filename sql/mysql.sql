@@ -17,7 +17,7 @@ CREATE TABLE `tad_player` (
   `youtube` varchar(255) NOT NULL default '',
   `logo` varchar(255) NOT NULL default '',
   PRIMARY KEY  (`psn`)
-)ENGINE=MyISAM;
+)ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 
 CREATE TABLE `tad_player_cate` (
@@ -30,7 +30,7 @@ CREATE TABLE `tad_player_cate` (
   `width` smallint(5) unsigned NOT NULL default '0',
   `height` smallint(5) unsigned NOT NULL default '0',
   PRIMARY KEY  (`pcsn`)
-)ENGINE=MyISAM;
+)ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tad_player_rank` (
   `col_name` varchar(255) NOT NULL,

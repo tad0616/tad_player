@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
-include_once "header.php";
-$xoopsOption['template_main'] = set_bootstrap("tad_player_uploads.html");
+include_once __DIR__ . '/header.php';
+$xoopsOption['template_main'] = "tad_player_uploads.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 
 if (sizeof($upload_powers) <= 0 or empty($xoopsUser)) {
@@ -9,7 +9,7 @@ if (sizeof($upload_powers) <= 0 or empty($xoopsUser)) {
 }
 
 /*-----------function區--------------*/
-function uploads_tabs($psn = "")
+function uploads_tabs($psn = "", $pcsn = "")
 {
     global $xoopsTpl;
 
@@ -19,11 +19,11 @@ function uploads_tabs($psn = "")
     } else {
         $xoopsTpl->assign("show_to_batch_upload", false);
     }
-    tad_player_form($psn);
+    tad_player_form($psn, $pcsn);
 }
 
 //tad_player編輯表單
-function tad_player_form($psn = "")
+function tad_player_form($psn = "", $pcsn = "")
 {
     global $xoopsDB, $xoopsModuleConfig, $xoopsTpl;
     include_once XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
@@ -37,7 +37,7 @@ function tad_player_form($psn = "")
 
     //預設值設定
 
-    $pcsn         = (!isset($DBV['pcsn'])) ? "" : $DBV['pcsn'];
+    $pcsn         = (!isset($DBV['pcsn'])) ? $pcsn : $DBV['pcsn'];
     $title        = (!isset($DBV['title'])) ? "" : $DBV['title'];
     $creator      = (!isset($DBV['creator'])) ? "" : $DBV['creator'];
     $location     = (!isset($DBV['location'])) ? "" : $DBV['location'];
@@ -45,7 +45,7 @@ function tad_player_form($psn = "")
     $info         = (!isset($DBV['info'])) ? "" : $DBV['info'];
     $uid          = (!isset($DBV['uid'])) ? "" : $DBV['uid'];
     $post_date    = (!isset($DBV['post_date'])) ? "" : $DBV['post_date'];
-    $enable_group = (!isset($DBV['enable_group'])) ? "" : explode(",", $DBV['enable_group']);
+    $enable_group = (!isset($DBV['enable_group'])) ? array() : explode(",", $DBV['enable_group']);
     $counter      = (!isset($DBV['counter'])) ? "" : $DBV['counter'];
     $content      = (!isset($DBV['content'])) ? "" : $DBV['content'];
     $youtube      = (!isset($DBV['youtube'])) ? "" : $DBV['youtube'];
@@ -65,7 +65,7 @@ function tad_player_form($psn = "")
     $logo_col = false;
 
     //可見群組
-    $member_handler = xoops_gethandler('member');
+    $member_handler = xoops_getHandler('member');
     $group_arr      = $member_handler->getGroupList();
     $xoopsTpl->assign('group_arr', $group_arr);
     $xoopsTpl->assign('enable_group', $enable_group);
@@ -167,7 +167,7 @@ function insert_tad_player()
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = getYTid($_POST['youtube']);
 
-        $url      = "http://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
+        $url      = "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={$youtube_id}&format=json";
         $contents = file_get_contents($url);
         $contents = utf8_encode($contents);
         //$ytb = json_decode($contents,false);
@@ -177,15 +177,15 @@ function insert_tad_player()
         $title = 王心凌 Cyndi Wang 變成陌生人 官方HD MV;
         $type = video;
         $provider_name = YouTube;
-        $provider_url = http://www.youtube.com/;
+        $provider_url = https://www.youtube.com/;
         $thumbnail_height = 360;
         $width = 480;
         $height = 270;
-        $html = <iframe width="480" height="270" src="http://www.youtube.com/embed/3B4fyi-xXzo?feature=oembed" frameborder="0" allowfullscreen></iframe>;
+        $html = <iframe width="480" height="270" src="https://www.youtube.com/embed/3B4fyi-xXzo?feature=oembed" frameborder="0" allowfullscreen></iframe>;
         $author_name = universaltwn;
         $version = 1.0;
-        $author_url = http://www.youtube.com/user/universaltwn;
-        $thumbnail_url = http://i4.ytimg.com/vi/3B4fyi-xXzo/hqdefault.jpg;
+        $author_url = https://www.youtube.com/user/universaltwn;
+        $thumbnail_url = https://i4.ytimg.com/vi/3B4fyi-xXzo/hqdefault.jpg;
          */
         $_POST['height'] = round(($ytb['height'] / $ytb['width']) * $_POST['width']);
         $image           = $ytb['thumbnail_url'];
@@ -216,7 +216,7 @@ function insert_tad_player()
 
     $sql = "insert into " . $xoopsDB->prefix("tad_player") . " (pcsn,title,creator,location,image,info,uid,post_date,enable_group,counter,content,youtube,logo) values('{$pcsn}','{$title}','{$_POST['creator']}','{$location}','{$image}','{$location}','{$uid}','{$now}','{$enable_group}','0','{$_POST['content']}','{$_POST['youtube']}','{$_POST['logo_name']}')";
     //die($sql);
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $psn = $xoopsDB->getInsertId();
 
@@ -230,15 +230,15 @@ function insert_tad_player()
         upload_pic($psn);
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = getYTid($_POST['youtube']);
-        $image      = "http://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
+        $image      = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
         $type       = getimagesize($image);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
-        mk_video_thumbnail($image, $pic_s_file, $type['mime'], "120");
+        mk_video_thumbnail($image, $pic_s_file, $type['mime'], "480");
     } elseif (!empty($_POST['image'])) {
         $filename   = basename($_POST['image']);
         $type       = getimagesize($_POST['image']);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
-        mk_video_thumbnail($_POST['image'], $pic_s_file, $type['mime'], "120");
+        mk_video_thumbnail($_POST['image'], $pic_s_file, $type['mime'], "480");
     }
 
     if (!empty($_FILES['logo']['name'])) {
@@ -255,7 +255,7 @@ function update_tad_player($psn = "")
 {
     global $xoopsDB;
 
-    $myts = &MyTextSanitizer::getInstance();
+    $myts = MyTextSanitizer::getInstance();
 
     if ($_POST['youtube'] == _MD_TADPLAYER_YOUTUBE_LINK) {
         $_POST['youtube'] = "";
@@ -286,16 +286,16 @@ function update_tad_player($psn = "")
         $image_sql = "";
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = getYTid($_POST['youtube']);
-        $image      = "http://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
+        $image      = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
         $type       = getimagesize($image);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
-        mk_video_thumbnail($image, $pic_s_file, $type['mime'], "120");
+        mk_video_thumbnail($image, $pic_s_file, $type['mime'], "480");
         $image_sql = ", image = '{$image}'";
     } elseif (!empty($_POST['image'])) {
         $filename   = basename($_POST['image']);
         $type       = getimagesize($_POST['image']);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . "s_" . $psn . ".png";
-        mk_video_thumbnail($_POST['image'], $pic_s_file, $type['mime'], "120");
+        mk_video_thumbnail($_POST['image'], $pic_s_file, $type['mime'], "480");
         $image_sql = ", image = '{$_POST['image']}'";
     }
     if (!empty($_POST['location'])) {
@@ -318,11 +318,13 @@ function update_tad_player($psn = "")
     $_POST['content']   = $myts->addSlashes($_POST['content']);
     $_POST['youtube']   = $myts->addSlashes($_POST['youtube']);
     $_POST['logo_name'] = $myts->addSlashes($_POST['logo_name']);
+    $width              = (int) $_POST['width'];
+    $height             = (int) $_POST['height'];
 
     //$now=xoops_getUserTimestamp(time());
     $now = date("Y-m-d H:i:s", xoops_getUserTimestamp(time()));
-    $sql = "update " . $xoopsDB->prefix("tad_player") . " set  pcsn = '{$pcsn}', title = '{$title}', creator = '{$_POST['creator']}' {$location_sql} {$image_sql}, post_date = '{$now}', enable_group = '{$enable_group}', width = '{$_POST['width']}', height = '{$_POST['height']}' , content = '{$_POST['content']}', logo='{$_POST['logo_name']}' where psn='$psn'";
-    $xoopsDB->queryF($sql) or web_error($sql);
+    $sql = "update " . $xoopsDB->prefix("tad_player") . " set  pcsn = '{$pcsn}', title = '{$title}', creator = '{$_POST['creator']}' {$location_sql} {$image_sql}, post_date = '{$now}', enable_group = '{$enable_group}', width = '{$width}', height = '{$height}' , content = '{$_POST['content']}', logo='{$_POST['logo_name']}' where psn='$psn'";
+    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
     if (!empty($_FILES['logo']['name'])) {
         upload_logo($psn);
@@ -350,12 +352,12 @@ function upload_flv($psn = "", $update_sql = false)
             $flv_handle->clean();
             if ($update_sql) {
                 $sql = "update " . $xoopsDB->prefix("tad_player") . " set image='{$_FILES['location']['name']}' where psn='$psn'";
-                $xoopsDB->queryF($sql) or web_error($sql);
+                $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
             }
             return true;
         } else {
             $sql = "delete from " . $xoopsDB->prefix("tad_player") . " where psn='{$psn}'";
-            $xoopsDB->query($sql) or web_error($sql);
+            $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
             redirect_header($_SERVER['PHP_SELF'], 3, "Error:" . $flv_handle->error);
         }
     }
@@ -393,14 +395,14 @@ function upload_pic($psn = "", $update_sql = false)
         $img_handle->file_new_name_body = "s_{$psn}";
         $img_handle->image_convert      = 'png';
         $img_handle->image_resize       = true;
-        $img_handle->image_x            = 120;
+        $img_handle->image_x            = 480;
         $img_handle->image_ratio_y      = true;
         $img_handle->process(_TAD_PLAYER_IMG_DIR);
         $img_handle->auto_create_dir = true;
         if ($img_handle->processed) {
             if ($update_sql) {
                 $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `image`='{$psn}.png' where `psn`='$psn'";
-                $result = $xoopsDB->queryF($sql) or web_error($sql);
+                $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
             }
 
@@ -435,7 +437,7 @@ function upload_logo($psn = "")
         if ($img_handle->processed) {
 
             $sql    = "update " . $xoopsDB->prefix("tad_player") . " set `logo`='{$psn}.png' where `psn`='$psn'";
-            $result = $xoopsDB->queryF($sql) or web_error($sql);
+            $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
 
             $img_handle->clean();
             return true;
@@ -463,7 +465,7 @@ switch ($op) {
 
     //輸入表格
     case "tad_player_form":
-        $main = tad_player_form($psn);
+        $main = tad_player_form($psn, $pcsn);
         break;
 
     //更新資料
@@ -473,7 +475,7 @@ switch ($op) {
         break;
 
     default:
-        uploads_tabs($psn);
+        uploads_tabs($psn, $pcsn);
         break;
 
 }

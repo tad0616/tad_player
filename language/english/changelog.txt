@@ -1,9 +1,63 @@
-Tad Player 3.4.1 (2016-05-26 release)
+Tad Player 3.5.9 (released from 2019-02-15)
+=========================================================== ==
+1. Fixed the problem that the background of the video playback could not be deleted.
+2. Fixed an issue where the video sorting was invalid.
+
+Tad Player 3.5.8 (2019-01-01 released)
+====================================================
+1.Support BootStrap4
+2.Support PHP 7.3
+
+
+Tad Player 3.5.7 (2018-10-02 released)
+=========================================================== ==
+1. Remove the Big5 Chinese language family
+2. Fixed an issue where non-admins could not delete the movie.
+
+
+Tad Player 3.5.6 (2018-03-30 released)
+================================================== ==
+1. Support PHP 7.2
+2. Block add the big picture mode
+3. Support database strict mode
+
+
+Tad Player 3.5.5 (2017-06-16 released)
+====================================================
+1.Complete accessibility 2.0 A level detection
+
+
+TTad Player 3.5.4 (2017-01-07 released)
+====================================================
+1.Change the col-md of boootstrap to col-sm
+
+
+Tad Player 3.5.3 (2016-12-16 released)
+====================================================
+1.Fixed an issue where the https://youtu.be data could not be retrieved
+
+
+Tad Player 3.5.2 (2016-10-28 released)
+====================================================
+1.Fix classification can not sort problem
+
+
+Tad Player 3.5.1 (2016-05-31 released)
+====================================================
+1. Fixed block templates
+
+Tad Player 3.5 (2016-05-31 released)
+====================================================
+1. Fixed Unable to retrieve Youtube movie information problem
+2. The compatibility of XOOPS 2.5.8
+
+
+Tad Player 3.4.1 (2016-05-26 released)
 ====================================================
 1.Remove BootStrap2 code
 
 
-Tad Player 3.4 (2016-05-20 release)
+Tad Player 3.4 (2016-05-20 released)
 ====================================================
 1. Support PHP7
 2. Remove bootstrap 2
@@ -11,7 +65,7 @@ Tad Player 3.4 (2016-05-20 release)
 4. Integration admin interface
 5. playlist instead json format
 
-Tad Player 3.3  (2015-06-07 release)
+Tad Player 3.3  (2015-06-07 released)
 ====================================================
 1.When using the bootstrap , auto-hide pda.php
 2.Fixed PHP file format, and Big5-encoded file into UTF-8 encoding
@@ -22,12 +76,12 @@ Tad Player 3.3  (2015-06-07 release)
 7.Layout Optimization
 
 
-Tad Player 3.2  (2014-07-04 release)
+Tad Player 3.2  (2014-07-04 released)
 ================================================== =
 1. Correction tab is not working properly.
 2. Fixed uid field
 
-Tad Player 3.1  (2014-02-17 release)
+Tad Player 3.1  (2014-02-17 released)
 ================================================== =
 1. Fix the problem description if single quote can not be written.
 2. streamline languages.
@@ -40,7 +94,7 @@ Tad Player 3.1  (2014-02-17 release)
 9. If the film classification correction is limited only to a group can see, but audio and video playlists block but can bypass this limitation bug (at the expense of those who have watched the movie a group of qualified, will not appear in the list)
 
 
-Tad Player 3.0  (2013-11-14 release)
+Tad Player 3.0  (2013-11-14 released)
 ================================================== =
 1. Fixed batch import of Languages
 2. Optimize playback screen
@@ -54,7 +108,7 @@ Question 7. Fixed playlist can not be used
 10. Fixed playlist parameter block part of the problem no effect
 
 
-Tad Player3.0 RC1 (2013-07-29 release)
+Tad Player3.0 RC1 (2013-07-29 released)
 ================================================== =
 1. The module instead XOOPS 2.5 format
 2. sets the bootstrap
@@ -63,7 +117,7 @@ Tad Player3.0 RC1 (2013-07-29 release)
 5. greatly simplify setting item width height will be automatically detected.
 
 
-Tad Player 2.0 RC3 (2011-11-28 release)
+Tad Player 2.0 RC3 (2011-11-28 released)
 ================================================== =
 1. Upload Permissions determine precise enough
 2. Strengthen category management classification pulling reset category and drag the sort function to avoid pull it classified disappear dilemma.
@@ -75,7 +129,7 @@ Tad Player 2.0 RC3 (2011-11-28 release)
 Question 8. Fixed the background last batch file does not automatically delete steering
 
 
-Tad Player 2.0 RC2 (release 2011-03-27)
+Tad Player 2.0 RC2 (released 2011-03-27)
 ================================================== =
 1. Add FaceBook Message interface
 2. Change Category management
@@ -83,7 +137,7 @@ Tad Player 2.0 RC2 (release 2011-03-27)
 4. New java uploads can upload large video files
 
 
-Tad Player 1.1 Bug Fixes (2008-10-20 release)
+Tad Player 1.1 Bug Fixes (2008-10-20 released)
 ================================================== =
 1. Fixed Time Zone Problems
 2. New Youtube support directly to the video URL (eg: http: //tw.youtube.com/watch v = xEswd6Bj-oU?) Can be imported.

@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
 include_once "header.php";
-$xoopsOption['template_main'] = set_bootstrap("tad_player_index.html");
+$xoopsOption['template_main'] = "tad_player_index.tpl";
 include_once XOOPS_ROOT_PATH . "/header.php";
 include_once XOOPS_ROOT_PATH . "/modules/tadtools/star_rating.php";
 /*-----------function區--------------*/
@@ -34,7 +34,7 @@ function list_tad_player($pcsn = "")
         $bar = "";
     }
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     //檢查權限
     $ok_cat = chk_cate_power();
@@ -50,7 +50,7 @@ function list_tad_player($pcsn = "")
         $rating = new rating("tad_player", "10", 'show', 'simple');
     }
 
-    $data = $no_power = '';
+    $data = $no_power = array();
     $i    = 0;
     while (list($psn, $new_pcsn, $location, $title, $image, $info, $creator, $post_date, $counter, $enable_group, $cate_title, $of_csn) = $xoopsDB->fetchRow($result)) {
 
@@ -141,7 +141,7 @@ function count_cate_num($pcsn = "0")
 {
     global $xoopsDB, $xoopsModule;
     $sql         = "select count(*) from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
-    $result      = $xoopsDB->query($sql) or web_error($sql);
+    $result      = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     list($count) = $xoopsDB->fetchRow($result);
     if (empty($count)) {
         $count = 0;
@@ -162,9 +162,9 @@ function list_tad_player_cate($pcsn = '0')
     }
 
     $sql    = "select * from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}' order by sort";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $data = "";
+    $data = array();
     $i    = 0;
     while (list($pcsn, $of_csn, $title, $enable_group, $sort, $width, $height) = $xoopsDB->fetchRow($result)) {
         //查看該分類是否允許目前使用者觀看

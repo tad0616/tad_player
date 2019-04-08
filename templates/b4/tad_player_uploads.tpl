@@ -77,18 +77,18 @@
       });
     </script>
 
-    <form action="uploads.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
+    <form action="uploads.php" method="post" id="myForm" enctype="multipart/form-data" role="form">
 
       <div class="alert alert-success">
-        <div class="form-group">
-          <div class="col-md-4">
+        <div class="form-group row">
+          <div class="col-sm-4">
             <select id="flv_where" class="form-control">
               <option value="youtube" <{$selected_youtube}>><{$smarty.const._MD_TADPLAYER_YOUTUBE_FLV}></option>
               <option value="local" <{$selected_local}>><{$smarty.const._MD_TADPLAYER_UPLOAD_FLV}></option>
               <option value="link" <{$selected_link}>><{$smarty.const._MD_TADPLAYER_LINK_FLV}></option>
             </select>
           </div>
-          <div class="col-md-8">
+          <div class="col-sm-8">
             <div id="flv_local">
               <input type="file" name="location" id="location" value="<{$location}>">
             </div>
@@ -99,25 +99,25 @@
 
             <div id="flv_youtube">
               <div class="row">
-                <div class="col-md-9">
+                <div class="col-sm-9">
                   <input type="text" name="youtube" id="youtube" class="form-control" value="<{$youtube}>" placeholder="<{$smarty.const._MD_TADPLAYER_YOUTUBE_LINK}>">
                 </div>
-                <div class="col-md-3">
-                  <button type="button" class="btn btn-default" id="LinkGet"><{$smarty.const._MD_TADPLAYER_AUTO_GET}></button>
+                <div class="col-sm-3">
+                  <button type="button" class="btn btn-secondary" id="LinkGet"><{$smarty.const._MD_TADPLAYER_AUTO_GET}></button>
                 </div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="form-group" id="thumb_config">
-          <div class="col-md-4">
+        <div class="form-group row" id="thumb_config">
+          <div class="col-sm-4">
             <select id="img_where" class="form-control">
               <option value="local" <{$selected_img_local}>><{$smarty.const._MD_TADPLAYER_UPLOAD_IMG}></option>
               <option value="link" <{$selected_img_link}>><{$smarty.const._MD_TADPLAYER_LINK_IMG}></option>
             </select>
           </div>
-          <div class="col-md-8">
+          <div class="col-sm-8">
             <div id="img_local">
               <input type="file" name="image" value="<{$image}>">
             </div>
@@ -128,52 +128,53 @@
         </div>
       </div>
 
-      <div class="form-group">
-        <label class="col-md-1 control-label">
+      <div class="form-group row">
+        <label class="col-sm-1 col-form-label text-sm-right">
           <{$smarty.const._MD_TADPLAYER_OF_CSN}>
         </label>
-        <div class="col-md-3">
+        <div class="col-sm-3">
           <select name="pcsn" size=1 class="form-control">
             <{$cate_select}>
           </select>
         </div>
-        <div class="col-md-8">
+        <div class="col-sm-8">
           <input type="text" name="new_pcsn" class="form-control" placeholder="<{$smarty.const._MD_TADPLAYER_NEW_PCSN}>">
         </div>
       </div>
 
 
 
-      <div class="form-group">
-        <label class="col-md-1 control-label">
+      <div class="form-group row">
+        <label class="col-sm-1 col-form-label text-sm-right">
           <{$smarty.const._MD_TADPLAYER_TITLE}>
         </label>
-        <div class="col-md-7">
+        <div class="col-sm-7">
           <input type="text" name="title" id="title" class="form-control" value="<{$title}>" placeholder="<{$smarty.const._MD_TADPLAYER_TITLE}>">
         </div>
-        <div class="col-md-4">
+        <div class="col-sm-4">
           <input type="text" name="creator" id="creator" class="form-control" value="<{$creator}>" placeholder="<{$smarty.const._MD_TADPLAYER_CREATOR}>">
         </div>
       </div>
 
 
-      <div class="form-group">
-        <div class="col-md-12">
+      <div class="form-group row">
+        <div class="col-sm-12">
           <{$editor}>
         </div>
       </div>
 
 
-      <div class="form-group">
-        <label class="col-md-2 control-label">
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label text-sm-right">
           <{$smarty.const._MD_TADPLAYER_ENABLE_GROUP}>
         </label>
 
-        <div class="col-md-10">
+        <div class="col-sm-10">
           <{foreach from=$group_arr key=group_id item=group_name}>
-            <label class="checkbox-inline">
-              <input type="checkbox" name="enable_group[]" value="<{$group_id}>" <{if $group_id|in_array:$enable_group}>checked<{/if}>> <{$group_name}>
-            </label>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="checkbox" name="enable_group[]" id="enable_group<{$group_id}>" value="<{$group_id}>" <{if $group_id|in_array:$enable_group}>checked<{/if}>>
+              <label class="form-check-label" for="enable_group<{$group_id}>"><{$group_name}></label>
+            </div>
           <{/foreach}>
         </div>
       </div>

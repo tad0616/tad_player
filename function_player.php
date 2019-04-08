@@ -29,7 +29,7 @@ function get_tad_player($psn = "")
     }
     $sql = "select * from " . $xoopsDB->prefix("tad_player") . " where psn='$psn'";
 
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $data   = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -43,7 +43,7 @@ function get_tad_player_cate($pcsn = "")
         return;
     }
     $sql    = "select * from " . $xoopsDB->prefix("tad_player_cate") . " where pcsn='$pcsn'";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $data   = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -62,7 +62,7 @@ function list_tad_player_playlist($pcsn = "")
     $order_by_sort = "a.sort ,";
 
     $sql    = "select a.psn,a.pcsn,a.location,a.title,a.image,a.info,a.creator,a.post_date,a.counter,a.enable_group,a.youtube,b.title,b.of_csn from " . $xoopsDB->prefix("tad_player") . " as a left join " . $xoopsDB->prefix("tad_player_cate") . " as b on a.pcsn=b.pcsn where a.pcsn='{$pcsn}' order by $order_by_sort a.post_date desc";
-    $result = $xoopsDB->query($sql) or web_error($sql);
+    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     //檢查權限
     $ok_cat = chk_cate_power();
@@ -162,11 +162,19 @@ function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autos
         $other_code = "";
         // $media      = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.xml";
         $media = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.json";
+        if (!file_exists(_TAD_PLAYER_UPLOAD_DIR . "{$sn}_list.json")) {
+            return;
+        } else {
+            $content = file_get_contents($media);
+            if (trim($content) == 'null') {
+                return;
+            }
+        }
     } else {
         if (empty($file['location']) and !empty($file['youtube'])) {
             $media      = $file['youtube'];
             $youtube_id = getYTid($file['youtube']);
-            $url        = "http://www.youtube.com/oembed?url=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D{$youtube_id}&format=json";
+            $url        = "https://www.youtube.com/oembed?url=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D{$youtube_id}&format=json";
             $contents   = file_get_contents($url);
             $contents   = utf8_encode($contents);
             $results    = json_decode($contents, false);
@@ -234,7 +242,6 @@ function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autos
     }
 
     $jw = new JwPlayer($id . $mode . $sn, $media, $image, '100%', $rate, null, $mode, $display, $autostart, $repeat, $other_code);
-    //JwPlayer($id="",$file="",$image="",$width="",$height="",$skin="",$mode="",$display="",$autostart=false,$repeat=false, $other_code="")
 
     $main = $jw->render();
 
@@ -244,7 +251,7 @@ function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autos
 //抓取 Youtube ID
 function getYTid($ytURL = "")
 {
-    if (substr($ytURL, 0, 16) == 'http://youtu.be/') {
+    if (substr($ytURL, 0, 16) == 'https://youtu.be/') {
         return substr($ytURL, 16);
     } else {
         parse_str(parse_url($ytURL, PHP_URL_QUERY), $params);

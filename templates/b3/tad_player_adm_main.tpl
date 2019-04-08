@@ -1,9 +1,10 @@
 <div class="container-fluid">
   <div class="row">
     <form action="" method="post" class="form-horizontal" role="form">
-      <div class="col-md-3">
+      <div class="col-sm-3">
         <div style="max-height: 300px; overflow: auto;">
           <{$ztree_code}>
+          <div id="save_msg"></div>
         </div>
         <{if $now_op!="tad_player_cate_form"}>
 
@@ -11,7 +12,7 @@
           <{if $data}>
             <h2><{$smarty.const._MA_TADPLAYER_THE_ACT_IS}></h2>
             <div class="form-group">
-              <div class="col-md-12">
+              <div class="col-sm-12">
                 <label class="radio-inline">
                   <input type="radio" name="op" value="del" id="del">
                   <{$smarty.const._TAD_DEL}>
@@ -20,37 +21,37 @@
             </div>
 
             <div class="form-group">
-              <div class="col-md-4">
+              <div class="col-sm-4">
                 <label class="radio-inline">
                   <input type="radio" name="op" value="move" id="move">
                   <{$smarty.const._MA_TADPLAYER_MOVE_TO}>
                 </label>
               </div>
-              <div class="col-md-8">
+              <div class="col-sm-8">
                 <select name="new_pcsn" onChange="check_one('move',false)" class="form-control"><{$option}></select>
               </div>
             </div>
 
             <div class="form-group">
-              <div class="col-md-4">
+              <div class="col-sm-4">
                 <label class="radio-inline">
                    <input type="radio" name="op" value="add_title" id="add_title">
                    <{$smarty.const._MA_TADPLAYER_ADD_TITLE}>
                 </label>
               </div>
-              <div class="col-md-8">
+              <div class="col-sm-8">
                 <input type="text" name="add_title" class="form-control" onClick="check_one('add_title',false)" onkeypress="check_one('add_title',false)">
               </div>
             </div>
 
             <div class="form-group">
-              <div class="col-md-4">
+              <div class="col-sm-4">
                 <label class="radio-inline">
                    <input type="radio" name="op" value="add_info" id="add_info">
                    <{$smarty.const._MA_TADPLAYER_ADD_INFO}>
                 </label>
               </div>
-              <div class="col-md-8">
+              <div class="col-sm-8">
                 <textarea name="add_info" class="form-control" onClick="check_one('add_info',false)" onkeypress="check_one('add_info',false)"></textarea>
               </div>
             </div>
@@ -63,16 +64,16 @@
         <{/if}>
       </div>
 
-      <div class="col-md-9">
+      <div class="col-sm-9">
 
         <{if $pcsn!="" }>
           <div class="row">
-            <div class="col-md-4">
+            <div class="col-sm-4">
               <h3>
                 <{$cate.title}>
               </h3>
             </div>
-            <div class="col-md-8 text-right">
+            <div class="col-sm-8 text-right">
               <div style="margin-top: 10px;">
                 <a href="main.php?op=mk_list_json&pcsn=<{$pcsn}>" class="btn btn-success"><{$smarty.const._MA_TADPLAYER_MK_JSON}></a>
                 <a href="main.php?op=mk_thumb&pcsn=<{$pcsn}>" class="btn btn-info"><{$smarty.const._MA_TADPLAYER_MK_THUMBS}></a>
@@ -110,7 +111,7 @@
               });
 
               $('.'+menu_name).change(function(){
-              var menu_id= $(this).attr('id');
+              var menu_id= $(this).prop('id');
               var len=menu_id.length-1;
               var next_num = Number(menu_id.charAt(len))+1
                 var next_menu = menu_name + next_num;
@@ -130,10 +131,10 @@
             <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
 
               <div class="form-group">
-                <label class="col-md-2 control-label">
+                <label class="col-sm-2 control-label">
                   <{$smarty.const._MA_TADPLAYER_OF_CSN}>
                 </label>
-                <div class="col-md-10">
+                <div class="col-sm-10">
                   <select name="of_csn_menu[0]" id="of_csn_menu0" class="of_csn_menu"><option value=''></option></select>
                   <select name="of_csn_menu[1]" id="of_csn_menu1" class="of_csn_menu" style="display: none;"></select>
                   <select name="of_csn_menu[2]" id="of_csn_menu2" class="of_csn_menu" style="display: none;"></select>
@@ -145,31 +146,31 @@
               </div>
 
               <div class="form-group">
-                <label class="col-md-2 control-label">
+                <label class="col-sm-2 control-label">
                   <{$smarty.const._MA_TADPLAYER_TITLE}>
                 </label>
-                <div class="col-md-10">
+                <div class="col-sm-10">
                   <input type="text" name="title" class="form-control " value="<{$title}>" placeholder="<{$smarty.const._MA_TADPLAYER_TITLE}>">
                 </div>
               </div>
 
               <div class="form-group">
-                <label class="col-md-2 control-label">
+                <label class="col-sm-2 control-label">
                   <{$smarty.const._MA_TADPLAYER_ENABLE_GROUP}>
                 </label>
-                <div class="col-md-4">
+                <div class="col-sm-4">
                   <{$enable_group}>
                 </div>
-                <label class="col-md-2 control-label">
+                <label class="col-sm-2 control-label">
                   <{$smarty.const._MA_TADPLAYER_ENABLE_UPLOAD_GROUP}>
                 </label>
-                <div class="col-md-4">
+                <div class="col-sm-4">
                   <{$enable_upload_group}>
                 </div>
               </div>
 
               <div class="form-group">
-                <div class="col-md-12 text-center">
+                <div class="col-sm-12 text-center">
                   <input type="hidden" name="sort" value="<{$sort}>">
                   <input type="hidden" name="pcsn" value="<{$pcsn}>">
                   <input type="hidden" name="op" value="<{$op}>">
@@ -180,15 +181,15 @@
           </div>
         <{elseif $data}>
           <script language="JavaScript">
-            $().ready(function(){
-              $("div#all_videos").sortable({ opacity: 0.6, cursor: "move", update: function() {
-                var order = $(this).sortable("serialize") + "&action=updateRecordsListings";
-                $.post("save_sort.php?pcsn=<{$pcsn}>", order, function(theResponse){
-                  $("#save_msg").html(theResponse);
-                });
+            
+            $(document).ready(function(){
+              $('#all_videos').sortable({ opacity: 0.6, cursor: 'move', update: function() {
+                  var order = $(this).sortable('serialize');
+                  $.post('save_sort.php?pcsn=<{$pcsn}>', order, function(theResponse){
+                      $('#save_msg').html(theResponse);
+                  });
               }
               });
-
               var hh = $('div.thumb_height').width() * 0.75;
               $('div.thumb_height').css('height',hh);
 
@@ -196,11 +197,11 @@
                 var x = document.getElementById("clickAll").checked;
                 if(x){
                   $(".video").each(function() {
-                    $(this).attr("checked", true);
+                    $(this).prop("checked", true);
                   });
                 }else{
                  $(".video").each(function() {
-                     $(this).attr("checked", false);
+                     $(this).prop("checked", false);
                  });
                 }
               });
@@ -231,7 +232,7 @@
           <div class="row" id="all_videos">
             <{foreach item=video from=$data}>
 
-              <div class="thumbnail" id="recordsArray_<{$video.psn}>" onClick="check_one('p<{$video.psn}>',true);" onkeypress="check_one('p<{$video.psn}>',true);" style="width:156px;float:left;margin:8px;">
+              <div class="thumbnail" id="psn_<{$video.psn}>" onClick="check_one('p_<{$video.psn}>',true);" onkeypress="check_one('p_<{$video.psn}>',true);" style="width:156px;float:left;margin:8px;">
                 <div class="thumb_height" style="background-color:black;position:relative;height:120px;overflow:hidden;">
                   <img src="<{$video.pic}>" alt="<{$video.title}>" style="z-index:1; width: 100%;">
                   <div id="pt<{$video.psn}>" style="font-size:12px;font-weight:normal;color:#ffffff;position:absolute;bottom:2px;left:10px;z-index:2;text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0px -1px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 1px 0px 0 #000;">
@@ -240,7 +241,7 @@
                 </div>
 
                 <div>
-                  <input type="checkbox" id="p<{$video.psn}>" name="video[]" value="<{$video.psn}>" class="video" onClick="check_one('p<{$video.psn}>',true);" onkeypress="check_one('p<{$video.psn}>',true);">
+                  <input type="checkbox" id="p_<{$video.psn}>" name="video[]" value="<{$video.psn}>" class="video" onClick="check_one('p_<{$video.psn}>',true);" onkeypress="check_one('p_<{$video.psn}>',true);">
                   <a href="../uploads.php?psn=<{$video.psn}>#fragment-1" target="_blank" class="btn btn-xs btn-warning"><{$smarty.const._TAD_EDIT}></a>
                   <a href="../play.php?psn=<{$video.psn}>" target="_blank" class="btn btn-xs btn-info"><{$smarty.const._MA_TADPLAYER_VIEW}></a>
                   <{$smarty.const._MA_TADPLAYER_COUNTER}>:<{$video.counter}>

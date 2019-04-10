@@ -1,4 +1,7 @@
 <?php
+
+use XoopsModules\Tad_player\Utility;
+
 function xoops_module_uninstall_tad_player(&$module)
 {
     global $xoopsDB;

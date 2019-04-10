@@ -1,4 +1,9 @@
 <?php
+
+use XoopsModules\Tad_player\Utility;
+
+include dirname(__DIR__) . '/preloads/autoloader.php';
+
 function xoops_module_install_tad_player(&$module)
 {
     tad_player_mk_dir(XOOPS_ROOT_PATH . "/uploads/tad_player");

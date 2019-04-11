@@ -1,4 +1,7 @@
 <?php
+
+use XoopsModules\Tad_player\Utility;
+
 function xoops_module_uninstall_tad_player(&$module)
 {
     global $xoopsDB;
@@ -9,7 +12,7 @@ function xoops_module_uninstall_tad_player(&$module)
     return true;
 }
 
-function delete_directory($dirname)
+function tad_player_delete_directory($dirname)
 {
     if (is_dir($dirname)) {
         $dir_handle = opendir($dirname);
@@ -22,7 +25,7 @@ function delete_directory($dirname)
             if (!is_dir($dirname . "/" . $file)) {
                 unlink($dirname . "/" . $file);
             } else {
-                delete_directory($dirname . '/' . $file);
+                tad_player_delete_directory($dirname . '/' . $file);
             }
         }
     }
@@ -33,7 +36,7 @@ function delete_directory($dirname)
 }
 
 //«þ¨©¥Ø¿ý
-function full_copy($source = "", $target = "")
+function tad_player_full_copy($source = "", $target = "")
 {
     if (is_dir($source)) {
         @mkdir($target);
@@ -45,7 +48,7 @@ function full_copy($source = "", $target = "")
 
             $Entry = $source . '/' . $entry;
             if (is_dir($Entry)) {
-                full_copy($Entry, $target . '/' . $entry);
+                tad_player_full_copy($Entry, $target . '/' . $entry);
                 continue;
             }
             copy($Entry, $target . '/' . $entry);

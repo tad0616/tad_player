@@ -10,7 +10,7 @@ function tad_player_search($queryarray, $andor, $limit, $offset, $userid)
             }
             $queryarray = $arr;
         } else {
-            $queryarray = array();
+            $queryarray = [];
         }
     }
     $sql = "SELECT psn,title,post_date,uid FROM " . $xoopsDB->prefix("tad_player") . " WHERE 1";
@@ -28,7 +28,7 @@ function tad_player_search($queryarray, $andor, $limit, $offset, $userid)
     $sql .= "ORDER BY post_date DESC";
     //die($sql);
     $result = $xoopsDB->query($sql, $limit, $offset) or web_error($sql, __FILE__, __LINE__);
-    $ret    = array();
+    $ret    = [];
     $i      = 0;
     while ($myrow = $xoopsDB->fetchArray($result)) {
         $ret[$i]['image'] = "images/video.png";

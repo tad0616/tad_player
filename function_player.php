@@ -68,7 +68,7 @@ function list_tad_player_playlist($pcsn = "")
     $ok_cat = chk_cate_power();
 
     //目前使用者所屬群組
-    $user_group = array();
+    $user_group = [];
     if ($xoopsUser) {
         $user_group = $xoopsUser->getGroups();
     }
@@ -123,7 +123,7 @@ function list_tad_player_playlist($pcsn = "")
 
 function mime_type($filename)
 {
-    $mime_types = array(
+    $mime_types = [
 
         // audio/video
         'mp3'  => 'audio/mpeg',
@@ -133,7 +133,7 @@ function mime_type($filename)
         'ogv'  => 'video/ogv',
         'webm' => 'video/webm',
 
-    );
+    ];
 
     $ext = strtolower(array_pop(explode('.', $filename)));
     if (array_key_exists($ext, $mime_types)) {
@@ -150,7 +150,7 @@ function mime_type($filename)
 }
 
 //播放語法($mode=single or playlist)
-function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autostart = false, $ModuleConfig = array(), $skin = "", $list_width = "", $list_where = "bottom", $repeat = false)
+function play_code_jwplayer($id = 'tp', $file = "", $sn = "", $mode = "", $autostart = false, $ModuleConfig = [], $skin = "", $list_width = "", $list_where = "bottom", $repeat = false)
 {
     global $xoopsModuleConfig;
 

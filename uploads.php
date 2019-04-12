@@ -32,7 +32,7 @@ function tad_player_form($psn = "", $pcsn = "")
     if (!empty($psn)) {
         $DBV = get_tad_player($psn);
     } else {
-        $DBV = array();
+        $DBV = [];
     }
 
     //預設值設定
@@ -45,7 +45,7 @@ function tad_player_form($psn = "", $pcsn = "")
     $info         = (!isset($DBV['info'])) ? "" : $DBV['info'];
     $uid          = (!isset($DBV['uid'])) ? "" : $DBV['uid'];
     $post_date    = (!isset($DBV['post_date'])) ? "" : $DBV['post_date'];
-    $enable_group = (!isset($DBV['enable_group'])) ? array() : explode(",", $DBV['enable_group']);
+    $enable_group = (!isset($DBV['enable_group'])) ? [] : explode(",", $DBV['enable_group']);
     $counter      = (!isset($DBV['counter'])) ? "" : $DBV['counter'];
     $content      = (!isset($DBV['content'])) ? "" : $DBV['content'];
     $youtube      = (!isset($DBV['youtube'])) ? "" : $DBV['youtube'];

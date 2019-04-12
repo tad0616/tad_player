@@ -13,7 +13,7 @@ function play($get_psn = "")
     $file   = get_tad_player($get_psn);
     $ok_cat = chk_cate_power();
 
-    $user_group = array();
+    $user_group = [];
     if ($xoopsUser) {
         $user_group = $xoopsUser->getGroups();
     }

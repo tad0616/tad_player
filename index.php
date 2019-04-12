@@ -40,7 +40,7 @@ function list_tad_player($pcsn = "")
     $ok_cat = chk_cate_power();
 
     //目前使用者所屬群組
-    $user_group = array();
+    $user_group = [];
     if ($xoopsUser) {
         $user_group = $xoopsUser->getGroups();
     }
@@ -50,7 +50,7 @@ function list_tad_player($pcsn = "")
         $rating = new rating("tad_player", "10", 'show', 'simple');
     }
 
-    $data = $no_power = array();
+    $data = $no_power = [];
     $i    = 0;
     while (list($psn, $new_pcsn, $location, $title, $image, $info, $creator, $post_date, $counter, $enable_group, $cate_title, $of_csn) = $xoopsDB->fetchRow($result)) {
 
@@ -156,7 +156,7 @@ function list_tad_player_cate($pcsn = '0')
     global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsConfig;
 
     //目前使用者所屬群組
-    $user_group = array();
+    $user_group = [];
     if ($xoopsUser) {
         $user_group = $xoopsUser->getGroups();
     }
@@ -164,7 +164,7 @@ function list_tad_player_cate($pcsn = '0')
     $sql    = "select * from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}' order by sort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    $data = array();
+    $data = [];
     $i    = 0;
     while (list($pcsn, $of_csn, $title, $enable_group, $sort, $width, $height) = $xoopsDB->fetchRow($result)) {
         //查看該分類是否允許目前使用者觀看

@@ -39,19 +39,19 @@ function getUrlData($url)
             $names     = $match[1];
             $values    = $match[2];
             if (count($originals) == count($names) && count($names) == count($values)) {
-                $metaTags = array();
+                $metaTags = [];
                 for ($i = 0, $limiti = count($names); $i < $limiti; $i++) {
-                    $metaTags[$names[$i]] = array(
+                    $metaTags[$names[$i]] = [
                         'html'  => htmlentities($originals[$i]),
                         'value' => $values[$i],
-                    );
+                    ];
                 }
             }
         }
-        $result = array(
+        $result = [
             'title'    => $title,
             'metaTags' => $metaTags,
-        );
+        ];
     }
 
     return $result;
@@ -138,7 +138,7 @@ if (!function_exists('json_encode')) {
             }
 
             if (is_string($a)) {
-                static $jsonReplaces = array(array("\\", "/", "\n", "\t", "\r", "\b", "\f", '"'), array('\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"'));
+                static $jsonReplaces = [["\\", "/", "\n", "\t", "\r", "\b", "\f", '"'], ['\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"']];
 
                 return '"' . str_replace($jsonReplaces[0], $jsonReplaces[1], $a) . '"';
             } else {
@@ -152,7 +152,7 @@ if (!function_exists('json_encode')) {
                 break;
             }
         }
-        $result = array();
+        $result = [];
         if ($isList) {
             foreach ($a as $v) {
                 $result[] = json_encode($v);

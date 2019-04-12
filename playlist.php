@@ -16,7 +16,7 @@ function playlist($pcsn = "0")
     $cate   = get_tad_player_cate($pcsn);
     $ok_cat = chk_cate_power();
 
-    $user_group = array();
+    $user_group = [];
     if ($xoopsUser) {
         $user_group = $xoopsUser->getGroups();
     }

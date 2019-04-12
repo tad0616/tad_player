@@ -1,12 +1,12 @@
 <?php
 
-$ok_video_ext = array("flv", "mp4", "m4v", "f4v", "mov", "mp3", "webm", "ogv", "ogg", "swf", "3gp", "3g2", "aac", "m4a");
-$ok_image_ext = array("jpg", "png", "gif");
+$ok_video_ext = ["flv", "mp4", "m4v", "f4v", "mov", "mp3", "webm", "ogv", "ogg", "swf", "3gp", "3g2", "aac", "m4a"];
+$ok_image_ext = ["jpg", "png", "gif"];
 
 include_once "function_player.php";
 
 //路徑導覽
-function tad_player_breadcrumb($pcsn = '0', $array = array())
+function tad_player_breadcrumb($pcsn = '0', $array = [])
 {
     $item = "";
     if (is_array($array)) {
@@ -92,7 +92,7 @@ function get_tad_player_sub_cate($pcsn = "0")
     global $xoopsDB;
     $sql      = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$pcsn}'";
     $result   = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $pcsn_arr = array();
+    $pcsn_arr = [];
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         $pcsn_arr[$pcsn] = $title;
     }
@@ -311,7 +311,7 @@ function chk_cate_power($kind = "")
         }
         $user_array = $xoopsUser->getGroups();
     } else {
-        $user_array = array(3);
+        $user_array = [3];
         $isAdmin    = 0;
     }
 
@@ -383,7 +383,7 @@ function get_tad_player_cate_all()
     global $xoopsDB;
     $sql    = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate");
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $data   = array();
+    $data   = [];
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         $data[$pcsn] = $title;
     }

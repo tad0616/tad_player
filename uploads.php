@@ -383,7 +383,7 @@ function upload_pic($psn = "", $update_sql = false)
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
         $img_handle->file_safe_name     = false;
-        $img_handle->file_new_name_body = "{$psn}";
+        $img_handle->file_new_name_body = (string)($psn);
         $img_handle->image_convert      = 'png';
         $img_handle->image_resize       = true;
         $img_handle->image_x            = 1024;
@@ -430,7 +430,7 @@ function upload_logo($psn = "")
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
         $img_handle->file_safe_name     = false;
-        $img_handle->file_new_name_body = "{$psn}";
+        $img_handle->file_new_name_body = (string)($psn);
         $img_handle->image_convert      = 'png';
         $img_handle->process(XOOPS_ROOT_PATH . "/uploads/tad_player/logo");
         $img_handle->auto_create_dir = true;

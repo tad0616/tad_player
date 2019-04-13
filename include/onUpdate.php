@@ -24,7 +24,7 @@ function xoops_module_update_tad_player(&$module, $old_version)
 
     Utility::chk_tad_player_block();
 
-    $old_fckeditor = XOOPS_ROOT_PATH . "/modules/tad_player/fckeditor";
+    $old_fckeditor = XOOPS_ROOT_PATH . '/modules/tad_player/fckeditor';
     if (is_dir($old_fckeditor)) {
         Utility::delete_directory($old_fckeditor);
     }

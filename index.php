@@ -66,11 +66,11 @@ function list_tad_player($pcsn = '')
         }
 
         //整理影片圖檔
-        if ('http' == mb_substr($image, 0, 4)) {
+        if ('http' === mb_substr($image, 0, 4)) {
             $pic = $image;
         } elseif (empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR . "{$psn}.png")) {
             $ext = mb_substr($location, -3);
-            if ('mp3' == $ext) {
+            if ('mp3' === $ext) {
                 $pic = 'mp3.png';
             } else {
                 $pic = 'flv.png';

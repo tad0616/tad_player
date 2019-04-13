@@ -88,14 +88,14 @@ function list_tad_player_playlist($pcsn = '')
             continue;
         }
 
-        if ('http' == mb_substr($image, 0, 4)) {
+        if ('http' === mb_substr($image, 0, 4)) {
             $image = basename($image);
         }
 
         //整理影片圖檔
         if (empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR . "s_{$psn}.png")) {
             $ext = mb_substr($location, -3);
-            if ('mp3' == $ext) {
+            if ('mp3' === $ext) {
                 $pic = 'mp3.png';
             } else {
                 $pic = 'flv.png';
@@ -107,7 +107,7 @@ function list_tad_player_playlist($pcsn = '')
 
         if (empty($location) and !empty($youtube)) {
             $media .= "{0:{src:'{$youtube}', type: 'video/youtube'}, config:{title: '$title', poster: '$creator'}},";
-        } elseif ('http' == mb_substr($location, 0, 4)) {
+        } elseif ('http' === mb_substr($location, 0, 4)) {
             $mime = mime_type($location);
             $media .= "{0:{src:'{$location}', type: '{$mime}'}, config:{title: '$title', poster: '$creator'}},";
         } else {
@@ -156,7 +156,7 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
         $xoopsModuleConfig = $ModuleConfig;
     }
     $display = $other_code = '';
-    if ('playlist' == $mode) {
+    if ('playlist' === $mode) {
         $other_code = '';
         // $media      = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.xml";
         $media = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.json";
@@ -164,7 +164,7 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
             return;
         }
         $content = file_get_contents($media);
-        if ('null' == trim($content)) {
+        if ('null' === trim($content)) {
             return;
         }
     } else {
@@ -179,7 +179,7 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
             foreach ($results as $k => $v) {
                 $$k = htmlspecialchars($v);
             }
-        } elseif ('http' == mb_substr($file['location'], 0, 4)) {
+        } elseif ('http' === mb_substr($file['location'], 0, 4)) {
             $media = $file['location'];
         } else {
             $media = _TAD_PLAYER_FLV_URL . "{$sn}_{$file['location']}";
@@ -192,7 +192,7 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
     //  $height=20;
     //}
 
-    if (isset($file['image']) and 'http' == mb_substr($file['image'], 0, 4)) {
+    if (isset($file['image']) and 'http' === mb_substr($file['image'], 0, 4)) {
         $image = $file['image'];
     } else {
         $image = _TAD_PLAYER_IMG_URL . "{$sn}.png";
@@ -200,7 +200,7 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
 
     $play_list = '';
 
-    if ('playlist' == $mode) {
+    if ('playlist' === $mode) {
         $rate = $list_width;
     } else {
         $rate = (!empty($height) and !empty($width)) ? round($height / $width, 2) : 0.6;
@@ -248,7 +248,7 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
 //抓取 Youtube ID
 function getYTid($ytURL = '')
 {
-    if ('https://youtu.be/' == mb_substr($ytURL, 0, 17)) {
+    if ('https://youtu.be/' === mb_substr($ytURL, 0, 17)) {
         return mb_substr($ytURL, 16);
     }
     parse_str(parse_url($ytURL, PHP_URL_QUERY), $params);

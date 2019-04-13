@@ -14,7 +14,7 @@ function uploads_tabs($psn = '', $pcsn = '')
     global $xoopsTpl;
 
     $op = (!isset($_REQUEST['op'])) ? '' : $_REQUEST['op'];
-    if ('to_batch_upload' == $op) {
+    if ('to_batch_upload' === $op) {
         $xoopsTpl->assign('show_to_batch_upload', true);
     } else {
         $xoopsTpl->assign('show_to_batch_upload', false);
@@ -80,7 +80,7 @@ function tad_player_form($psn = '', $pcsn = '')
     //$op="replace_tad_player";
 
     $selected_link = $selected_local = $selected_youtube = $selected_img_local = $selected_img_link = '';
-    if ('http' == mb_substr($location, 0, 4)) {
+    if ('http' === mb_substr($location, 0, 4)) {
         $hide = "$('#flv_youtube').hide();
         $('#flv_local').hide();";
         $selected_link = 'selected';
@@ -96,7 +96,7 @@ function tad_player_form($psn = '', $pcsn = '')
         $selected_youtube = 'selected';
     }
 
-    if ('http' == mb_substr($image, 0, 4)) {
+    if ('http' === mb_substr($image, 0, 4)) {
         $hide_img = "$('#img_local').hide();";
         $selected_img_link = 'selected';
     } else {

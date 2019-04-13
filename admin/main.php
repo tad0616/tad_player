@@ -33,11 +33,11 @@ function list_tad_player($pcsn = '')
 
         $g_txt = txt_to_group_name($enable_group, _MA_TADPLAYER_ALL_OK, ', ');
 
-        if ('http' == mb_substr($image, 0, 4)) {
+        if ('http' === mb_substr($image, 0, 4)) {
             $pic = $image;
         } elseif (empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR . "{$psn}.png")) {
             $ext = mb_substr($location, -3);
-            if ('mp3' == $ext) {
+            if ('mp3' === $ext) {
                 $pic = 'mp3.png';
             } else {
                 $pic = 'flv.png';

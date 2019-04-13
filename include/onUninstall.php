@@ -19,7 +19,7 @@ function tad_player_delete_directory($dirname)
         return false;
     }
     while ($file = readdir($dir_handle)) {
-        if ('.' != $file && '..' != $file) {
+        if ('.' !== $file && '..' !== $file) {
             if (!is_dir($dirname . '/' . $file)) {
                 unlink($dirname . '/' . $file);
             } else {
@@ -42,7 +42,7 @@ function tad_player_full_copy($source = '', $target = '')
         }
         $d = dir($source);
         while (false !== ($entry = $d->read())) {
-            if ('.' == $entry || '..' == $entry) {
+            if ('.' === $entry || '..' === $entry) {
                 continue;
             }
 

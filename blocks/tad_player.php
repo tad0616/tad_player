@@ -13,7 +13,7 @@ function tad_player($options)
 
     if (empty($options[0])) {
         $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_player') . ' ORDER BY rand() LIMIT 0,1';
-    } elseif ('pcsn' == mb_substr($options[0], 0, 4)) {
+    } elseif ('pcsn' === mb_substr($options[0], 0, 4)) {
         $sn = explode('_', $options[0]);
         $sql = 'select * from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$sn[1]}' order by rand() limit 0,1";
     } else {
@@ -38,8 +38,8 @@ function tad_player_edit($options)
     $seled0_0 = ('' == $options[0]) ? 'selected' : '';
     $chked3_0 = ('0' == $options[1]) ? 'checked' : '';
     $chked3_1 = ('1' == $options[1]) ? 'checked' : '';
-    $chked4_0 = ('false' == $options[2]) ? 'checked' : '';
-    $chked4_1 = ('true' == $options[2]) ? 'checked' : '';
+    $chked4_0 = ('false' === $options[2]) ? 'checked' : '';
+    $chked4_1 = ('true' === $options[2]) ? 'checked' : '';
 
     $sql = 'SELECT a.psn,a.pcsn,a.title,b.title FROM ' . $xoopsDB->prefix('tad_player') . ' AS a LEFT JOIN ' . $xoopsDB->prefix('tad_player_cate') . ' AS b ON a.pcsn=b.pcsn ORDER BY a.post_date DESC';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);

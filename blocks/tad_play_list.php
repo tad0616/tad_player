@@ -30,8 +30,8 @@ function tad_player_play_list_edit($options)
 
     $chked3_1 = ('1' == $options[1]) ? 'checked' : '';
     $chked3_0 = ('0' == $options[1]) ? 'checked' : '';
-    $chked5_0 = ('false' == $options[3]) ? 'checked' : '';
-    $chked5_1 = ('true' == $options[3]) ? 'checked' : '';
+    $chked5_0 = ('false' === $options[3]) ? 'checked' : '';
+    $chked5_1 = ('true' === $options[3]) ? 'checked' : '';
 
     $form = "
     <ol class='my-form'>

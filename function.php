@@ -120,7 +120,7 @@ function count_video_num($pcsn = '0')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $count = $xoopsDB->getRowsNum($result);
     while (list($psn, $image, $location) = $xoopsDB->fetchRow($result)) {
-        if ('http' == mb_substr($image, 0, 4)) {
+        if ('http' === mb_substr($image, 0, 4)) {
             $pic = $image;
             break;
         } elseif (!empty($image) and file_exists(_TAD_PLAYER_IMG_DIR . "{$psn}.png")) {
@@ -128,7 +128,7 @@ function count_video_num($pcsn = '0')
             break;
         }
         $ext = mb_substr($location, -3);
-        if ('mp3' == $ext) {
+        if ('mp3' === $ext) {
             $pic = 'mp3.png';
         } else {
             $pic = 'flv.png';
@@ -209,7 +209,7 @@ function tad_player_get_all_news_cate($of_csn = 0, $code = 'big5')
     $option = '';
     while (list($pcsn, $title, $enable_group) = $xoopsDB->fetchRow($result)) {
         $have_sub = tad_player_chk_cate_have_sub($pcsn);
-        if ('utf8' == $code) {
+        if ('utf8' === $code) {
             $title = to_utf8($title);
         }
         $option .= "<li><a href='index.php?pcsn=$pcsn'>$title</a>";
@@ -276,13 +276,13 @@ function mk_video_thumbnail($filename = '', $thumb_name = '', $type = 'image/jpe
 
     // Load
     $thumb = imagecreatetruecolor($newwidth, $newheight);
-    if ('image/jpeg' == $type or 'image/jpg' == $type or 'image/pjpg' == $type or 'image/pjpeg' == $type) {
+    if ('image/jpeg' === $type or 'image/jpg' === $type or 'image/pjpg' === $type or 'image/pjpeg' === $type) {
         $source = imagecreatefromjpeg($filename);
         $type = 'image/jpeg';
-    } elseif ('image/png' == $type) {
+    } elseif ('image/png' === $type) {
         $source = imagecreatefrompng($filename);
         $type = 'image/png';
-    } elseif ('image/gif' == $type) {
+    } elseif ('image/gif' === $type) {
         $source = imagecreatefromgif($filename);
         $type = 'image/gif';
     }
@@ -313,7 +313,7 @@ function chk_cate_power($kind = '')
         $isAdmin = 0;
     }
 
-    $col = ('upload' == $kind) ? 'enable_upload_group' : 'enable_group';
+    $col = ('upload' === $kind) ? 'enable_upload_group' : 'enable_group';
 
     $sql = "select pcsn,$col from " . $xoopsDB->prefix('tad_player_cate') . '';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
@@ -415,7 +415,7 @@ function mk_list_json($pcsn = '')
         $title = htmlspecialchars($title);
 
         //$location=urlencode($location);
-        if ('http' == mb_substr($image, 0, 4)) {
+        if ('http' === mb_substr($image, 0, 4)) {
             $image = $image;
         } else {
             $image = _TAD_PLAYER_IMG_URL . $image;
@@ -424,7 +424,7 @@ function mk_list_json($pcsn = '')
         if (empty($location) and !empty($youtube)) {
             $YTid = getYTid($youtube);
             $media = "https://youtu.be/{$YTid}";
-        } elseif ('http' == mb_substr($location, 0, 4)) {
+        } elseif ('http' === mb_substr($location, 0, 4)) {
             $media = $location;
         } else {
             $media = _TAD_PLAYER_FLV_URL . "{$psn}_{$location}";
@@ -482,7 +482,7 @@ function mk_list_xml($pcsn = '')
         $creator = htmlspecialchars($creator);
 
         //$location=urlencode($location);
-        if ('http' == mb_substr($image, 0, 4)) {
+        if ('http' === mb_substr($image, 0, 4)) {
             $image = $image;
         } else {
             $image = _TAD_PLAYER_IMG_URL . $image;
@@ -493,7 +493,7 @@ function mk_list_xml($pcsn = '')
         if (empty($location) and !empty($youtube)) {
             $YTid = getYTid($youtube);
             $media = "https://youtu.be/{$YTid}";
-        } elseif ('http' == mb_substr($location, 0, 4)) {
+        } elseif ('http' === mb_substr($location, 0, 4)) {
             $media = $location;
         } else {
             $media = _TAD_PLAYER_FLV_URL . "{$psn}_{$location}";

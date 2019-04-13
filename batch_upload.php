@@ -27,7 +27,7 @@ function tad_player_batch_upload_form()
 
     if ($dh = opendir(_TAD_PLAYER_BATCH_UPLOAD_DIR)) {
         while (false !== ($file = readdir($dh))) {
-            if ('.' == mb_substr($file, 0, 1)) {
+            if ('.' === mb_substr($file, 0, 1)) {
                 continue;
             }
 
@@ -128,11 +128,11 @@ function tad_player_batch_import()
                 $pic_s_file = _TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
 
                 $sub = mb_strtolower(mb_substr($_POST['img'][$filename], -3));
-                if ('gif' == $sub) {
+                if ('gif' === $sub) {
                     $type = 'image/gif';
-                } elseif ('png' == $sub) {
+                } elseif ('png' === $sub) {
                     $type = 'image/png';
-                } elseif ('jpg' == $sub or 'peg' == $sub) {
+                } elseif ('jpg' === $sub or 'peg' === $sub) {
                     $type = 'image/jpeg';
                 }
                 mk_video_thumbnail($pic_file, $pic_s_file, $type, '480');

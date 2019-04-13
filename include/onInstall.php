@@ -26,6 +26,8 @@ function tad_player_mk_dir($dir = '')
     if (!is_dir($dir)) {
         umask(000);
         //若建立失敗秀出警告訊息
-        mkdir($dir, 0777);
+        if (!mkdir($dir, 0777) && !is_dir($dir)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
+        }
     }
 }

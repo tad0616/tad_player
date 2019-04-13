@@ -146,7 +146,7 @@ if (!function_exists('json_encode')) {
             return $a;
         }
         $isList = true;
-        for ($i = 0, reset($a); $i < count($a); $i++, next($a)) {
+        for ($i = 0, reset($a), $iMax = count($a); $i < $iMax; $i++, next($a)) {
             if (key($a) !== $i) {
                 $isList = false;
                 break;

@@ -3,7 +3,7 @@
 if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
     redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
 }
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
 
 define('_TAD_PLAYER_UPLOAD_DIR', XOOPS_ROOT_PATH . '/uploads/tad_player/');
 define('_TAD_PLAYER_FLV_DIR', XOOPS_ROOT_PATH . '/uploads/tad_player/flv/');
@@ -75,7 +75,7 @@ function list_tad_player_playlist($pcsn = '')
 
     $media = '';
     $i = 0;
-    while (list($psn, $new_pcsn, $location, $title, $image, $info, $creator, $post_date, $counter, $enable_group, $youtube, $cate_title, $of_csn) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($psn, $new_pcsn, $location, $title, $image, $info, $creator, $post_date, $counter, $enable_group, $youtube, $cate_title, $of_csn) = $xoopsDB->fetchRow($result))) {
         if (!empty($new_pcsn) and !in_array($new_pcsn, $ok_cat, true)) {
             $no_power[] = $psn;
             //continue;
@@ -208,7 +208,7 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/jwplayer_new.php')) {
         redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
     }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/jwplayer_new.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/jwplayer_new.php';
 
     if ('' == $mode) {
         $mode = null;

@@ -1,8 +1,8 @@
 <?php
 /*-----------引入檔案區--------------*/
-include_once __DIR__ . '/header.php';
-$xoopsOption['template_main'] = 'tad_player_play.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once __DIR__ . '/header.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_player_play.tpl';
+require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------function區--------------*/
 
 //播放
@@ -45,16 +45,16 @@ function play($get_psn = '')
 
     $xoops_module_header = "
   $jquery_path
-  <meta proprery=\"og:title\" content=\"{$file['title']}\" />
-  <meta proprery=\"og:description\" content=\"{$info}\" />
-  <meta property=\"og:image\" content=\"" . _TAD_PLAYER_IMG_URL . "s_{$file['image']}\" />
-  <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/play.php?psn=$get_psn\"/>
-  <meta name=\"video_height\" content=\"{$file['width']}\" />
-  <meta name=\"video_width\" content=\"{$file['height']}\" />
-  <meta name=\"video_type\" content=\"application/x-shockwave-flash\" />
+  <meta proprery=\"og:title\" content=\"{$file['title']}\">
+  <meta proprery=\"og:description\" content=\"{$info}\">
+  <meta property=\"og:image\" content=\"" . _TAD_PLAYER_IMG_URL . "s_{$file['image']}\">
+  <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/play.php?psn=$get_psn\">
+  <meta name=\"video_height\" content=\"{$file['width']}\">
+  <meta name=\"video_width\" content=\"{$file['height']}\">
+  <meta name=\"video_type\" content=\"application/x-shockwave-flash\">
   ";
 
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/star_rating.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/star_rating.php';
     $rating = new rating('tad_player', '10', '', 'simple');
     $rating->add_rating('psn', $get_psn);
     $star_rating = $rating->render();
@@ -88,7 +88,7 @@ function get_cate_play($get_psn = '', $size = 1)
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $option = '';
-    while (list($psn, $title, $cate_title) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($psn, $title, $cate_title) = $xoopsDB->fetchRow($result))) {
         $selected = ($psn == $get_psn) ? 'selected' : '';
         $option .= "<option value='{$psn}' $selected>$title</option>\n";
     }
@@ -111,7 +111,7 @@ function get_cate_play($get_psn = '', $size = 1)
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
@@ -145,5 +145,5 @@ $xoopsTpl->assign('push', push_url($xoopsModuleConfig['use_social_tools']));
 $facebook_comments = facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_player', 'play.php', 'psn', $psn);
 $xoopsTpl->assign('facebook_comments', $facebook_comments);
 
-include_once XOOPS_ROOT_PATH . '/include/comment_view.php';
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

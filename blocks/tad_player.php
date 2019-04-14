@@ -4,12 +4,12 @@
 function tad_player($options)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . '/modules/tad_player/function_player.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_player/function_player.php';
 
-    $modhandler = xoops_getHandler('module');
-    $xoopsModule = $modhandler->getByDirname('tad_player');
-    $config_handler = xoops_getHandler('config');
-    $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
+    $moduleHandler = xoops_getHandler('module');
+    $xoopsModule = $moduleHandler->getByDirname('tad_player');
+    $configHandler = xoops_getHandler('config');
+    $xoopsModuleConfig = $configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
     if (empty($options[0])) {
         $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_player') . ' ORDER BY rand() LIMIT 0,1';
@@ -47,7 +47,7 @@ function tad_player_edit($options)
     $select = "<select name='options[0]' class='my-input'>
     <option value='0'>" . _MB_TADPLAYER_RANDOM_PLAY . '</option>';
     $old_pcsn = 0;
-    while (list($psn, $pcsn, $title, $cate_title) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($psn, $pcsn, $title, $cate_title) = $xoopsDB->fetchRow($result))) {
         $selected = ($options[0] == $psn) ? 'selected' : '';
 
         if ($old_pcsn != $pcsn) {

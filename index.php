@@ -1,9 +1,9 @@
 <?php
 /*-----------引入檔案區--------------*/
-include_once 'header.php';
-$xoopsOption['template_main'] = 'tad_player_index.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/star_rating.php';
+require_once __DIR__ . '/header.php';
+$GLOBALS['xoopsOption']['template_main'] = 'tad_player_index.tpl';
+require_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/modules/tadtools/star_rating.php';
 /*-----------function區--------------*/
 
 //列出所有tad_player資料
@@ -52,7 +52,7 @@ function list_tad_player($pcsn = '')
 
     $data = $no_power = [];
     $i = 0;
-    while (list($psn, $new_pcsn, $location, $title, $image, $info, $creator, $post_date, $counter, $enable_group, $cate_title, $of_csn) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($psn, $new_pcsn, $location, $title, $image, $info, $creator, $post_date, $counter, $enable_group, $cate_title, $of_csn) = $xoopsDB->fetchRow($result))) {
         if (!empty($new_pcsn) and !in_array($new_pcsn, $ok_cat, true)) {
             $no_power[] = $psn;
             //continue;
@@ -117,10 +117,10 @@ function list_tad_player($pcsn = '')
 
     if (!empty($pcsn)) {
         $xoops_module_header = "
-        <meta proprery=\"og:title\" content=\"{$cate[$pcsn]}\" />
-        <meta proprery=\"og:description\" content=\"{$info}\" />
-        <meta property=\"og:image\" content=\"{$pic}\" />
-        <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/index.php?pcsn=$pcsn\"/>
+        <meta proprery=\"og:title\" content=\"{$cate[$pcsn]}\">
+        <meta proprery=\"og:description\" content=\"{$info}\">
+        <meta property=\"og:image\" content=\"{$pic}\">
+        <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/index.php?pcsn=$pcsn\">
     ";
     } else {
         $xoops_module_header = '';
@@ -165,7 +165,7 @@ function list_tad_player_cate($pcsn = '0')
 
     $data = [];
     $i = 0;
-    while (list($pcsn, $of_csn, $title, $enable_group, $sort, $width, $height) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($pcsn, $of_csn, $title, $enable_group, $sort, $width, $height) = $xoopsDB->fetchRow($result))) {
         //查看該分類是否允許目前使用者觀看
         $enable_group_arr = explode(',', $enable_group);
         $same = array_intersect($enable_group_arr, $user_group);
@@ -193,7 +193,7 @@ function list_tad_player_cate($pcsn = '0')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
@@ -235,4 +235,4 @@ if (isset($title) and !empty($title)) {
     }
 }
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

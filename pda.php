@@ -7,11 +7,11 @@
 
 /*-----------引入檔案區--------------*/
 if (file_exists('mainfile.php')) {
-    include_once 'mainfile.php';
+    require_once __DIR__ . '/mainfile.php';
 } elseif ('../../mainfile.php') {
-    include_once '../../mainfile.php';
+    require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 }
-include_once 'function.php';
+require_once __DIR__ . '/function.php';
 /*-----------function區--------------*/
 
 function show_cate($pcsn, $passwd)
@@ -33,7 +33,7 @@ function show_cate($pcsn, $passwd)
     $sql = 'select * from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$pcsn}' order by sort , post_date";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         foreach ($all as $k => $v) {
             $$k = $v;
         }
@@ -149,7 +149,7 @@ function get_pre_next($pcsn = '', $now_sn = '')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $stop = false;
     $pre = 0;
-    while (list($psn, $title) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($psn, $title) = $xoopsDB->fetchRow($result))) {
         if ($stop) {
             $next = $psn;
             $next_title = $title;

@@ -133,7 +133,7 @@ class Utility
         $sql = 'SELECT psn,location,image,post_date FROM ' . $xoopsDB->prefix('tad_player') . ' ORDER BY psn';
         $result = $xoopsDB->query($sql) or die($sql);
 
-        while (list($psn, $location, $image, $post_date) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($psn, $location, $image, $post_date) = $xoopsDB->fetchRow($result))) {
             //修正時間格式
             if ('20' == mb_substr($post_date, 0, 2)) {
                 //$now=xoops_getUserTimestamp(strtotime($post_date));
@@ -157,7 +157,7 @@ class Utility
             }
 
             $sql2 = 'update ' . $xoopsDB->prefix('tad_player') . " set $pdate $newimg where psn='$psn'";
-            $xoopsDB->queryF($sql2) or die($sql2);
+            $xoopsDB->queryF($sql2) || die($sql2);
 
             //搬移影片檔
             if (!empty($location)) {
@@ -185,7 +185,7 @@ class Utility
     {
         global $xoopsDB;
         $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_player_cate') . " ADD `enable_upload_group` VARCHAR(255) NOT NULL  DEFAULT '' AFTER `enable_group`";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin', 30, mysql_error());
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin', 30, $GLOBALS['xoopsDB']->error());
     }
 
     //新增logo欄位
@@ -206,7 +206,7 @@ class Utility
         global $xoopsDB;
         mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/logo');
         $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_player') . " ADD `logo` VARCHAR(255) NOT NULL  DEFAULT ''";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin', 30, mysql_error());
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin', 30, $GLOBALS['xoopsDB']->error());
     }
 
     //新增評分表格
@@ -256,10 +256,10 @@ class Utility
     {
         global $xoopsDB;
         $sql = 'ALTER TABLE `' . $xoopsDB->prefix('tad_player') . '` CHANGE `uid` `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0';
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $GLOBALS['xoopsDB']->error());
 
         $sql = 'ALTER TABLE `' . $xoopsDB->prefix('tad_player_rank') . '` CHANGE `uid` `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0';
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $GLOBALS['xoopsDB']->error());
 
         return true;
     }
@@ -269,7 +269,7 @@ class Utility
     {
         global $xoopsDB;
         //die(var_export($xoopsConfig));
-        include XOOPS_ROOT_PATH . '/modules/tad_player/xoops_version.php';
+        require XOOPS_ROOT_PATH . '/modules/tad_player/xoops_version.php';
 
         //先找出該有的區塊以及對應樣板
         foreach ($modversion['blocks'] as $i => $block) {
@@ -282,7 +282,7 @@ class Utility
         $sql = 'SELECT bid,name,visible,show_func,template FROM `' . $xoopsDB->prefix('newblocks') . "`
     WHERE `dirname` = 'tad_player' ORDER BY `func_num`";
         $result = $xoopsDB->query($sql);
-        while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
+        while (false !== (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result))) {
             //假如現有的區塊和樣板對不上就刪掉
             if ($template != $tpl_file_arr[$show_func]) {
                 $sql = 'delete from ' . $xoopsDB->prefix('newblocks') . " where bid='{$bid}'";

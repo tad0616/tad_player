@@ -10,7 +10,7 @@ function tad_new_media($options)
 
     $i = 0;
 
-    while (list($psn, $title, $creator, $location, $image, $info, $uid, $post_date, $enable_group, $counter) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($psn, $title, $creator, $location, $image, $info, $uid, $post_date, $enable_group, $counter) = $xoopsDB->fetchRow($result))) {
         $block[$i]['psn'] = $psn;
         $block[$i]['title'] = $title;
         $block[$i]['location'] = $location;

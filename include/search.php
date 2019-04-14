@@ -30,7 +30,7 @@ function tad_player_search($queryarray, $andor, $limit, $offset, $userid)
     $result = $xoopsDB->query($sql, $limit, $offset) or web_error($sql, __FILE__, __LINE__);
     $ret = [];
     $i = 0;
-    while ($myrow = $xoopsDB->fetchArray($result)) {
+    while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
         $ret[$i]['image'] = 'images/video.png';
         $ret[$i]['link'] = 'play.php?psn=' . $myrow['psn'];
         $ret[$i]['title'] = $myrow['title'];

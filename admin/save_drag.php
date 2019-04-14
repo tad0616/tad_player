@@ -1,6 +1,6 @@
 <?php
 /*-----------引入檔案區--------------*/
-include '../../../include/cp_header.php';
+require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
 $of_csn = (int) (str_replace('node-_', '', $_POST['of_csn']));
 $pcsn = (int) (str_replace('node-_', '', $_POST['pcsn']));
@@ -23,7 +23,7 @@ function chk_cate_path($pcsn, $to_csn)
     //抓出子目錄的編號
     $sql = 'select pcsn from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (list($sub_csn) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($sub_csn) = $xoopsDB->fetchRow($result))) {
         if (chk_cate_path($sub_csn, $to_csn)) {
             return true;
         }

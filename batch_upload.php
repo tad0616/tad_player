@@ -1,8 +1,8 @@
 <?php
-include_once __DIR__ . '/header.php';
-include_once "language/{$xoopsConfig['language']}/batch.php";
+require_once __DIR__ . '/header.php';
+require_once "language/{$xoopsConfig['language']}/batch.php";
 
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 

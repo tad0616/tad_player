@@ -4,16 +4,16 @@
 function tad_player_play_list($options)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . '/modules/tad_player/function_player.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_player/function_player.php';
 
     if (empty($options[0])) {
         retrun;
     }
 
-    $modhandler = xoops_getHandler('module');
-    $xoopsModule = $modhandler->getByDirname('tad_player');
-    $config_handler = xoops_getHandler('config');
-    $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
+    $moduleHandler = xoops_getHandler('module');
+    $xoopsModule = $moduleHandler->getByDirname('tad_player');
+    $configHandler = xoops_getHandler('config');
+    $xoopsModuleConfig = $configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
     $autoplay = (1 == $options[1]) ? 'true' : 'false';
     $cate = get_tad_player_cate($options[0]);
@@ -81,7 +81,7 @@ function tp_block_get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $
 
     $sql = 'SELECT count(*),pcsn FROM ' . $xoopsDB->prefix('tad_player') . ' GROUP BY pcsn';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($count, $pcsn) = $xoopsDB->fetchRow($result))) {
         $cate_count[$pcsn] = $count;
     }
 
@@ -89,7 +89,7 @@ function tp_block_get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $
     $sql = 'select pcsn,title from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$of_csn}' order by sort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
+    while (false !== (list($pcsn, $title) = $xoopsDB->fetchRow($result))) {
         $selected = ($v == $pcsn) ? 'selected' : '';
         if (empty($cate_count[$pcsn]) and $optgroup) {
             $option .= "<optgroup label='{$title}' style='font-style: normal;color:black;'>" . tp_block_get_tad_player_cate_option($pcsn, $level, $v, '0') . '</optgroup>';

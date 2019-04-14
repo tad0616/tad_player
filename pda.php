@@ -6,12 +6,12 @@
 // ------------------------------------------------------------------------- //
 
 /*-----------引入檔案區--------------*/
-if (file_exists("mainfile.php")) {
-    include_once "mainfile.php";
-} elseif ("../../mainfile.php") {
-    include_once "../../mainfile.php";
+if (file_exists('mainfile.php')) {
+    include_once 'mainfile.php';
+} elseif ('../../mainfile.php') {
+    include_once '../../mainfile.php';
 }
-include_once "function.php";
+include_once 'function.php';
 /*-----------function區--------------*/
 
 function show_cate($pcsn, $passwd)
@@ -27,10 +27,10 @@ function show_cate($pcsn, $passwd)
     $ok_cat = chk_cate_power();
 
     //呈現資料預設值
-    $data = "";
+    $data = '';
 
     //找出分類下所有影音檔
-    $sql    = "select * from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort , post_date";
+    $sql = 'select * from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$pcsn}' order by sort , post_date";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     while ($all = $xoopsDB->fetchArray($result)) {
@@ -38,17 +38,17 @@ function show_cate($pcsn, $passwd)
             $$k = $v;
         }
 
-        if (substr($image, 0, 4) == 'http') {
+        if ('http' === mb_substr($image, 0, 4)) {
             $image = basename($image);
         }
 
         //整理影片圖檔
         if (empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR . "s_{$psn}.png")) {
-            $ext = substr($location, -3);
-            if ($ext == "mp3") {
-                $pic = "mp3.png";
+            $ext = mb_substr($location, -3);
+            if ('mp3' === $ext) {
+                $pic = 'mp3.png';
             } else {
-                $pic = "flv.png";
+                $pic = 'flv.png';
             }
             $pic = "images/$pic";
         } else {
@@ -72,7 +72,7 @@ function show_cate($pcsn, $passwd)
 }
 
 //觀看某多媒體檔案
-function view_media($psn = "")
+function view_media($psn = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsModuleConfig, $isAdmin;
 
@@ -86,7 +86,7 @@ function view_media($psn = "")
 
     if (!empty($pcsn)) {
         $ok_cat = chk_cate_power();
-        if (!in_array($pcsn, $ok_cat)) {
+        if (!in_array($pcsn, $ok_cat, true)) {
             header("location:{$_SERVER['PHP_SELF']}");
         }
     }
@@ -97,30 +97,30 @@ function view_media($psn = "")
     //計數器
     add_counter($psn);
 
-    $play_code = play_code_jwplayer("pda{$psn}", $all, $psn, "pda");
+    $play_code = play_code_jwplayer("pda{$psn}", $all, $psn, 'pda');
 
-    $back_news = "";
+    $back_news = '';
     if (!empty($pnp['back']['psn'])) {
         //支援xlanguage
         if (function_exists('xlanguage_ml')) {
             $pnp['back']['title'] = xlanguage_ml($pnp['back']['title']);
         }
-        $title     = xoops_substr($pnp['back']['title'], 0, 30);
+        $title = xoops_substr($pnp['back']['title'], 0, 30);
         $back_news = "<a href='{$_SERVER['PHP_SELF']}?psn={$pnp['back']['psn']}' class='nav'>&#x21E6; {$title}</a>";
     }
 
-    $next_news = "";
+    $next_news = '';
     if (!empty($pnp['next']['psn'])) {
         //支援xlanguage
         if (function_exists('xlanguage_ml')) {
             $pnp['next']['title'] = xlanguage_ml($pnp['next']['title']);
         }
 
-        $title     = xoops_substr($pnp['next']['title'], 0, 30);
+        $title = xoops_substr($pnp['next']['title'], 0, 30);
         $next_news = "<a href='{$_SERVER['PHP_SELF']}?psn={$pnp['next']['psn']}' class='nav'>&#x21E8; {$title}</a>";
     }
 
-    $home = "<a href='{$_SERVER['PHP_SELF']}?pcsn=$pcsn' class='nav'>&#x21E7;" . _TAD_BACK_PAGE . "</a>";
+    $home = "<a href='{$_SERVER['PHP_SELF']}?pcsn=$pcsn' class='nav'>&#x21E7;" . _TAD_BACK_PAGE . '</a>';
 
     $nav = "<p style='width:100%;'>
    <div>$home</div>
@@ -142,45 +142,44 @@ function view_media($psn = "")
 }
 
 //找出上一張或下一張
-function get_pre_next($pcsn = "", $now_sn = "")
+function get_pre_next($pcsn = '', $now_sn = '')
 {
     global $xoopsDB;
-    $sql    = "select psn,title from " . $xoopsDB->prefix("tad_player") . " where pcsn='{$pcsn}' order by sort , post_date";
+    $sql = 'select psn,title from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$pcsn}' order by sort , post_date";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    $stop   = false;
-    $pre    = 0;
+    $stop = false;
+    $pre = 0;
     while (list($psn, $title) = $xoopsDB->fetchRow($result)) {
         if ($stop) {
-            $next       = $psn;
+            $next = $psn;
             $next_title = $title;
             break;
         }
         if ($psn == $now_sn) {
-            $now  = $psn;
+            $now = $psn;
             $stop = true;
         } else {
-            $pre       = $psn;
+            $pre = $psn;
             $pre_title = $title;
         }
     }
-    $main['back']['psn']   = $pre;
+    $main['back']['psn'] = $pre;
     $main['back']['title'] = $pre_title;
-    $main['next']['psn']   = $next;
+    $main['next']['psn'] = $next;
     $main['next']['title'] = $next_title;
 
     return $main;
 }
 
 /*-----------執行動作判斷區----------*/
-$_REQUEST['op'] = (empty($_REQUEST['op'])) ? "" : $_REQUEST['op'];
+$_REQUEST['op'] = (empty($_REQUEST['op'])) ? '' : $_REQUEST['op'];
 
-$psn  = (isset($_REQUEST['psn'])) ? (int) ($_REQUEST['psn']) : 0;
+$psn = (isset($_REQUEST['psn'])) ? (int) ($_REQUEST['psn']) : 0;
 $pcsn = (isset($_REQUEST['pcsn'])) ? (int) ($_REQUEST['pcsn']) : 0;
 
 $jquery = get_jquery();
 
 switch ($_REQUEST['op']) {
-
     default:
         if (!empty($psn)) {
             $main = view_media($psn);

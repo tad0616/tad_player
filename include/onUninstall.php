@@ -1,13 +1,11 @@
 <?php
 
-use XoopsModules\Tad_player\Utility;
-
 function xoops_module_uninstall_tad_player(&$module)
 {
     global $xoopsDB;
-    $date = date("Ymd");
+    $date = date('Ymd');
 
-    rename(XOOPS_ROOT_PATH . "/uploads/tad_player", XOOPS_ROOT_PATH . "/uploads/tad_player_bak_{$date}");
+    rename(XOOPS_ROOT_PATH . '/uploads/tad_player', XOOPS_ROOT_PATH . "/uploads/tad_player_bak_{$date}");
 
     return true;
 }
@@ -21,9 +19,9 @@ function tad_player_delete_directory($dirname)
         return false;
     }
     while ($file = readdir($dir_handle)) {
-        if ($file != "." && $file != "..") {
-            if (!is_dir($dirname . "/" . $file)) {
-                unlink($dirname . "/" . $file);
+        if ('.' !== $file && '..' !== $file) {
+            if (!is_dir($dirname . '/' . $file)) {
+                unlink($dirname . '/' . $file);
             } else {
                 tad_player_delete_directory($dirname . '/' . $file);
             }
@@ -36,13 +34,15 @@ function tad_player_delete_directory($dirname)
 }
 
 //«þ¨©¥Ø¿ý
-function tad_player_full_copy($source = "", $target = "")
+function tad_player_full_copy($source = '', $target = '')
 {
     if (is_dir($source)) {
-        @mkdir($target);
+        if (!mkdir($target) && !is_dir($target)) {
+            throw new \RuntimeException(sprintf('Directory "%s" was not created', $target));
+        }
         $d = dir($source);
         while (false !== ($entry = $d->read())) {
-            if ($entry == '.' || $entry == '..') {
+            if ('.' === $entry || '..' === $entry) {
                 continue;
             }
 

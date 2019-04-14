@@ -4,20 +4,20 @@
 function tad_player_play_list($options)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . "/modules/tad_player/function_player.php";
+    include_once XOOPS_ROOT_PATH . '/modules/tad_player/function_player.php';
 
     if (empty($options[0])) {
         retrun;
     }
 
-    $modhandler        = xoops_getHandler('module');
-    $xoopsModule       = $modhandler->getByDirname("tad_player");
-    $config_handler    = xoops_getHandler('config');
+    $modhandler = xoops_getHandler('module');
+    $xoopsModule = $modhandler->getByDirname('tad_player');
+    $config_handler = xoops_getHandler('config');
     $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
-    $autoplay = ($options[1] == 1) ? "true" : "false";
-    $cate     = get_tad_player_cate($options[0]);
-    $block    = play_code_jwplayer("block_cate{$options[0]}", $cate, $options[0], "playlist", $autoplay, $xoopsModuleConfig, "", $options[2], "bottom", $options[3]);
+    $autoplay = (1 == $options[1]) ? 'true' : 'false';
+    $cate = get_tad_player_cate($options[0]);
+    $block = play_code_jwplayer("block_cate{$options[0]}", $cate, $options[0], 'playlist', $autoplay, $xoopsModuleConfig, '', $options[2], 'bottom', $options[3]);
 
     return $block;
 }
@@ -28,10 +28,10 @@ function tad_player_play_list_edit($options)
     global $xoopsDB;
     $select = tp_block_cate_select($options[0]);
 
-    $chked3_1 = ($options[1] == '1') ? "checked" : "";
-    $chked3_0 = ($options[1] == '0') ? "checked" : "";
-    $chked5_0 = ($options[3] == "false") ? "checked" : "";
-    $chked5_1 = ($options[3] == "true") ? "checked" : "";
+    $chked3_1 = ('1' == $options[1]) ? 'checked' : '';
+    $chked3_0 = ('0' == $options[1]) ? 'checked' : '';
+    $chked5_0 = ('false' === $options[3]) ? 'checked' : '';
+    $chked5_1 = ('true' === $options[3]) ? 'checked' : '';
 
     $form = "
     <ol class='my-form'>
@@ -53,10 +53,10 @@ function tad_player_play_list_edit($options)
             <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM4 . "</lable>
             <div class='my-content'>
                 <input type='radio' $chked5_1 name='options[3]' value='true'>" . _MB_TADPLAYER_LIST_REPEAT . "
-                <input type='radio' $chked5_0 name='options[3]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . "
+                <input type='radio' $chked5_0 name='options[3]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . '
             </div>
         </li>
-    </ol>";
+    </ol>';
 
     return $form;
 }
@@ -65,7 +65,7 @@ function tad_player_play_list_edit($options)
 function tp_block_cate_select($pcsn = 0)
 {
     $cate_select = tp_block_get_tad_player_cate_option(0, 0, $pcsn);
-    $select      = "<select name='options[0]' size='6' class='my-input'>
+    $select = "<select name='options[0]' size='6' class='my-input'>
     $cate_select
     </select>";
 
@@ -73,26 +73,26 @@ function tp_block_cate_select($pcsn = 0)
 }
 
 //取得分類下拉選單
-function tp_block_get_tad_player_cate_option($of_csn = 0, $level = 0, $v = "", $show_dot = '1', $optgroup = true, $chk_view = '1')
+function tp_block_get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $show_dot = '1', $optgroup = true, $chk_view = '1')
 {
     global $xoopsDB;
-    $dot = ($show_dot == '1') ? str_repeat(_MB_TADPLAYER_BLANK, $level) : "";
+    $dot = ('1' == $show_dot) ? str_repeat(_MB_TADPLAYER_BLANK, $level) : '';
     $level += 1;
 
-    $sql    = "SELECT count(*),pcsn FROM " . $xoopsDB->prefix("tad_player") . " GROUP BY pcsn";
+    $sql = 'SELECT count(*),pcsn FROM ' . $xoopsDB->prefix('tad_player') . ' GROUP BY pcsn';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
 
-    $option = ($of_csn) ? "" : "<option value='0'>" . _MB_TADPLAYER_CATE_SELECT . "</option>";
-    $sql    = "select pcsn,title from " . $xoopsDB->prefix("tad_player_cate") . " where of_csn='{$of_csn}' order by sort";
+    $option = ($of_csn) ? '' : "<option value='0'>" . _MB_TADPLAYER_CATE_SELECT . '</option>';
+    $sql = 'select pcsn,title from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$of_csn}' order by sort";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
-        $selected = ($v == $pcsn) ? "selected" : "";
+        $selected = ($v == $pcsn) ? 'selected' : '';
         if (empty($cate_count[$pcsn]) and $optgroup) {
-            $option .= "<optgroup label='{$title}' style='font-style: normal;color:black;'>" . tp_block_get_tad_player_cate_option($pcsn, $level, $v, "0") . "</optgroup>";
+            $option .= "<optgroup label='{$title}' style='font-style: normal;color:black;'>" . tp_block_get_tad_player_cate_option($pcsn, $level, $v, '0') . '</optgroup>';
         } else {
             $counter = (empty($cate_count[$pcsn])) ? 0 : $cate_count[$pcsn];
             $option .= "<option value='{$pcsn}' $selected >{$dot}{$title} ($counter)</option>";

@@ -1,5 +1,5 @@
 <?php
-require_once XOOPS_ROOT_PATH . "/modules/tadtools/language/{$xoopsConfig['language']}/modinfo_common.php";
+xoops_loadLanguage('modinfo_common', 'tadtools');
 
 define('_MI_TADPLAYER_NAME', '影音播放');
 define('_MI_TADPLAYER_AUTHOR', 'Tad (tad0616@gmail.com)');

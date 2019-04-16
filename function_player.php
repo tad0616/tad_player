@@ -76,7 +76,7 @@ function list_tad_player_playlist($pcsn = '')
     $media = '';
     $i = 0;
     while (list($psn, $new_pcsn, $location, $title, $image, $info, $creator, $post_date, $counter, $enable_group, $youtube, $cate_title, $of_csn) = $xoopsDB->fetchRow($result)) {
-        if (!empty($new_pcsn) and !in_array($new_pcsn, $ok_cat, true)) {
+        if (!empty($new_pcsn) and !in_array($new_pcsn, $ok_cat)) {
             $no_power[] = $psn;
             //continue;
         }

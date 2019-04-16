@@ -20,7 +20,7 @@ function playlist($pcsn = '0')
     if ($xoopsUser) {
         $user_group = $xoopsUser->getGroups();
     }
-    if (!empty($pcsn) and !in_array($pcsn, $ok_cat, true)) {
+    if (!empty($pcsn) and !in_array($pcsn, $ok_cat)) {
         redirect_header('index.php', 3, sprintf(_MD_TADPLAYER_NO_POWER, $cate['title']));
     }
 

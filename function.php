@@ -64,7 +64,7 @@ function get_tad_player_cate_path($the_pcsn = '', $include_self = true)
             WHERE t1.of_csn = '0'";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         while ($all = $xoopsDB->fetchArray($result)) {
-            if (in_array($the_pcsn, $all, true)) {
+            if (in_array($the_pcsn, $all)) {
                 //$main.="-";
                 foreach ($all as $pcsn) {
                     if (!empty($pcsn)) {
@@ -242,7 +242,7 @@ function tad_player_chk_cate_have_sub($pcsn = 0)
 //刪除tad_player某筆資料資料
 function delete_tad_player($psn = '')
 {
-    global $xoopsDB, $isAdmin,$isUploader, $xoopsUser, $xoopsModule;
+    global $xoopsDB, $isAdmin, $isUploader, $xoopsUser, $xoopsModule;
 
     if (!$isAdmin and !$isUploader) {
         // die("{$isAdmin} - {$isUploader}");
@@ -324,7 +324,7 @@ function chk_cate_power($kind = '')
         } else {
             $power_array = explode(',', $power);
             foreach ($power_array as $gid) {
-                if (in_array($gid, $user_array, true)) {
+                if (in_array($gid, $user_array)) {
                     $ok_cat[] = $pcsn;
                     break;
                 }
@@ -357,7 +357,7 @@ function get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $show_dot 
     }
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         if ($kind) {
-            if (!in_array($pcsn, $ok_cat, true)) {
+            if (!in_array($pcsn, $ok_cat)) {
                 continue;
             }
         }

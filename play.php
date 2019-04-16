@@ -20,7 +20,7 @@ function play($get_psn = '')
 
     $enable_group_arr = explode(',', $file['enable_group']);
     $same = array_intersect($enable_group_arr, $user_group);
-    if ((!empty($file['pcsn']) and !in_array($file['pcsn'], $ok_cat, true)) or (!empty($file['enable_group']) and empty($same))) {
+    if ((!empty($file['pcsn']) and !in_array($file['pcsn'], $ok_cat)) or (!empty($file['enable_group']) and empty($same))) {
         redirect_header('index.php', 3, sprintf(_MD_TADPLAYER_NO_POWER, $file['title']));
     }
 

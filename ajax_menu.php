@@ -26,13 +26,13 @@ function get_option($of_csn = '', $def_csn = '', $chk_view = 1, $chk_up = 1)
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         if ($chk_view and is_array($ok_cat)) {
-            if (!in_array($pcsn, $ok_cat, true)) {
+            if (!in_array($pcsn, $ok_cat)) {
                 continue;
             }
         }
 
         if ($chk_up and is_array($ok_up_cat)) {
-            if (!in_array($pcsn, $ok_up_cat, true)) {
+            if (!in_array($pcsn, $ok_up_cat)) {
                 continue;
             }
         }

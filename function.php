@@ -64,7 +64,7 @@ function get_tad_player_cate_path($the_pcsn = '', $include_self = true)
             WHERE t1.of_csn = '0'";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
         while (false !== ($all = $xoopsDB->fetchArray($result))) {
-            if (in_array($the_pcsn, $all, true)) {
+            if (in_array($the_pcsn, $all)) {
                 //$main.="-";
                 foreach ($all as $pcsn) {
                     if (!empty($pcsn)) {
@@ -93,7 +93,7 @@ function get_tad_player_sub_cate($pcsn = '0')
     $sql = 'select pcsn,title from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $pcsn_arr = [];
-    while (false !== (list($pcsn, $title) = $xoopsDB->fetchRow($result))) {
+    while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         $pcsn_arr[$pcsn] = $title;
     }
 
@@ -108,7 +108,7 @@ function count_video_num($pcsn = '0')
     $sql = 'select pcsn from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $sub_count = 0;
-    while (false !== (list($sub_pcsn) = $xoopsDB->fetchRow($result))) {
+    while (list($sub_pcsn) = $xoopsDB->fetchRow($result)) {
         $sub = count_video_num($sub_pcsn);
         $sub_count += $sub['num'];
     }
@@ -119,7 +119,7 @@ function count_video_num($pcsn = '0')
     $sql = 'select psn,image,location from ' . $xoopsDB->prefix('tad_player') . " where pcsn = '$pcsn' order by rand()";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $count = $xoopsDB->getRowsNum($result);
-    while (false !== (list($psn, $image, $location) = $xoopsDB->fetchRow($result))) {
+    while (list($psn, $image, $location) = $xoopsDB->fetchRow($result)) {
         if ('http' === mb_substr($image, 0, 4)) {
             $pic = $image;
             break;
@@ -153,7 +153,7 @@ function get_cate_image($pcsn = '0')
     if (empty($image)) {
         $sql = 'select pcsn from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn = '$pcsn' order by rand()";
         $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-        while (false !== (list($pcsn) = $xoopsDB->fetchRow($result))) {
+        while (list($pcsn) = $xoopsDB->fetchRow($result)) {
             $image = get_cate_image($pcsn);
             if ($image) {
                 return $image;
@@ -172,7 +172,7 @@ function hot_media()
     $sql = 'select a.psn,a.pcsn,a.title,a.counter,b.title from ' . $xoopsDB->prefix('tad_player') . ' as a left join ' . $xoopsDB->prefix('tad_player_cate') . ' as b on a.pcsn=b.pcsn order by a.counter desc limit 0,10';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $i = 0;
-    while (false !== (list($psn, $pcsn, $title, $counter, $cate_title) = $xoopsDB->fetchRow($result))) {
+    while (list($psn, $pcsn, $title, $counter, $cate_title) = $xoopsDB->fetchRow($result)) {
         $hot_media[$i]['psn'] = $psn;
         $hot_media[$i]['title'] = $title;
         $hot_media[$i]['counter'] = $counter;
@@ -207,7 +207,7 @@ function tad_player_get_all_news_cate($of_csn = 0, $code = 'big5')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $option = '';
-    while (false !== (list($pcsn, $title, $enable_group) = $xoopsDB->fetchRow($result))) {
+    while (list($pcsn, $title, $enable_group) = $xoopsDB->fetchRow($result)) {
         $have_sub = tad_player_chk_cate_have_sub($pcsn);
         if ('utf8' === $code) {
             $title = to_utf8($title);
@@ -230,7 +230,7 @@ function tad_player_chk_cate_have_sub($pcsn = 0)
     global $xoopsDB;
     $sql = 'select pcsn from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}'";
     $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADNEW_DB_SELECT_ERROR1);
-    while (false !== (list($sub_pcsn) = $xoopsDB->fetchRow($result))) {
+    while (list($sub_pcsn) = $xoopsDB->fetchRow($result)) {
         if (!empty($sub_pcsn)) {
             return true;
         }
@@ -318,13 +318,13 @@ function chk_cate_power($kind = '')
     $sql = "select pcsn,$col from " . $xoopsDB->prefix('tad_player_cate') . '';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
-    while (false !== (list($pcsn, $power) = $xoopsDB->fetchRow($result))) {
+    while (list($pcsn, $power) = $xoopsDB->fetchRow($result)) {
         if ($isAdmin or empty($power)) {
             $ok_cat[] = $pcsn;
         } else {
             $power_array = explode(',', $power);
             foreach ($power_array as $gid) {
-                if (in_array($gid, $user_array, true)) {
+                if (in_array($gid, $user_array)) {
                     $ok_cat[] = $pcsn;
                     break;
                 }
@@ -344,7 +344,7 @@ function get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $show_dot 
 
     $sql = 'select count(*),pcsn from ' . $xoopsDB->prefix('tad_player') . ' group by pcsn';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (false !== (list($count, $pcsn) = $xoopsDB->fetchRow($result))) {
+    while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
 
@@ -355,9 +355,9 @@ function get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $show_dot 
     if ($kind) {
         $ok_cat = chk_cate_power($kind);
     }
-    while (false !== (list($pcsn, $title) = $xoopsDB->fetchRow($result))) {
+    while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         if ($kind) {
-            if (!in_array($pcsn, $ok_cat, true)) {
+            if (!in_array($pcsn, $ok_cat)) {
                 continue;
             }
         }
@@ -382,7 +382,7 @@ function get_tad_player_cate_all()
     $sql = 'select pcsn,title from ' . $xoopsDB->prefix('tad_player_cate');
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $data = [];
-    while (false !== (list($pcsn, $title) = $xoopsDB->fetchRow($result))) {
+    while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         $data[$pcsn] = $title;
     }
 

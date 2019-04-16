@@ -86,7 +86,7 @@ function view_media($psn = '')
 
     if (!empty($pcsn)) {
         $ok_cat = chk_cate_power();
-        if (!in_array($pcsn, $ok_cat, true)) {
+        if (!in_array($pcsn, $ok_cat)) {
             header("location:{$_SERVER['PHP_SELF']}");
         }
     }

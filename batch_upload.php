@@ -41,9 +41,9 @@ function tad_player_batch_upload_form()
             $end = (mb_strlen($ext) + 1) * -1;
             $filename = mb_substr($file, 0, $end);
 
-            if (in_array($ext, $ok_video_ext, true)) {
+            if (in_array($ext, $ok_video_ext)) {
                 $flv_arr['flv'][$filename] = $file;
-            } elseif (in_array($ext, $ok_image_ext, true)) {
+            } elseif (in_array($ext, $ok_image_ext)) {
                 $flv_arr['img'][$filename] = $file;
             }
         }

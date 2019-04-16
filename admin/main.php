@@ -102,7 +102,7 @@ function list_tad_player_cate_tree($def_pcsn = '')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     while (false !== (list($pcsn, $of_csn, $title) = $xoopsDB->fetchRow($result))) {
         $font_style = $def_pcsn == $pcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
-        $open = in_array($pcsn, $path_arr, true) ? 'true' : 'false';
+        $open = in_array($pcsn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($cate_count[$pcsn]) ? '' : " ({$cate_count[$pcsn]})";
         $data[] = "{ id:{$pcsn}, pId:{$of_csn}, name:'{$title}{$display_counter}', url:'main.php?pcsn={$pcsn}', open: {$open} ,target:'_self' {$font_style}}";
     }
@@ -279,7 +279,7 @@ function insert_tad_player_cate()
     if (empty($_POST['title'])) {
         return;
     }
-    if (empty($_POST['enable_group']) or in_array('', $_POST['enable_group'], true)) {
+    if (empty($_POST['enable_group']) or in_array('', $_POST['enable_group'])) {
         $enable_group = '';
     } else {
         $enable_group = implode(',', $_POST['enable_group']);
@@ -315,7 +315,7 @@ function insert_tad_player_cate()
 function update_tad_player_cate($pcsn = '')
 {
     global $xoopsDB;
-    if (empty($_POST['enable_group']) or in_array('', $_POST['enable_group'], true)) {
+    if (empty($_POST['enable_group']) or in_array('', $_POST['enable_group'])) {
         $enable_group = '';
     } else {
         $enable_group = implode(',', $_POST['enable_group']);

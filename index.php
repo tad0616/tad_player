@@ -52,8 +52,8 @@ function list_tad_player($pcsn = '')
 
     $data = $no_power = [];
     $i = 0;
-    while (false !== (list($psn, $new_pcsn, $location, $title, $image, $info, $creator, $post_date, $counter, $enable_group, $cate_title, $of_csn) = $xoopsDB->fetchRow($result))) {
-        if (!empty($new_pcsn) and !in_array($new_pcsn, $ok_cat, true)) {
+    while (list($psn, $new_pcsn, $location, $title, $image, $info, $creator, $post_date, $counter, $enable_group, $cate_title, $of_csn) = $xoopsDB->fetchRow($result)) {
+        if (!empty($new_pcsn) and !in_array($new_pcsn, $ok_cat)) {
             $no_power[] = $psn;
             //continue;
         }
@@ -81,10 +81,10 @@ function list_tad_player($pcsn = '')
         }
 
         //無權限者，無連結
-        $url = (is_array($no_power) and in_array($psn, $no_power, true)) ? '' : "play.php?psn={$psn}";
+        $url = (is_array($no_power) and in_array($psn, $no_power)) ? '' : "play.php?psn={$psn}";
 
         //無權限者，無標題
-        $img_title = (is_array($no_power) and in_array($psn, $no_power, true)) ? sprintf(_MD_TADPLAYER_NO_POWER, $title) : $title;
+        $img_title = (is_array($no_power) and in_array($psn, $no_power)) ? sprintf(_MD_TADPLAYER_NO_POWER, $title) : $title;
 
         //整理日期
         if ('20' == mb_substr($post_date, 0, 2)) {
@@ -165,7 +165,7 @@ function list_tad_player_cate($pcsn = '0')
 
     $data = [];
     $i = 0;
-    while (false !== (list($pcsn, $of_csn, $title, $enable_group, $sort, $width, $height) = $xoopsDB->fetchRow($result))) {
+    while (list($pcsn, $of_csn, $title, $enable_group, $sort, $width, $height) = $xoopsDB->fetchRow($result)) {
         //查看該分類是否允許目前使用者觀看
         $enable_group_arr = explode(',', $enable_group);
         $same = array_intersect($enable_group_arr, $user_group);

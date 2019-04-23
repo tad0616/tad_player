@@ -301,6 +301,7 @@ function mk_video_thumbnail($filename = '', $thumb_name = '', $type = 'image/jpe
 function chk_cate_power($kind = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsModule;
+    $ok_cat = [];
     if (!empty($xoopsUser)) {
         $module_id = $xoopsModule->getVar('mid');
         $isAdmin = $xoopsUser->isAdmin($module_id);

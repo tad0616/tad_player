@@ -135,7 +135,7 @@ class Utility
 
         while (false !== (list($psn, $location, $image, $post_date) = $xoopsDB->fetchRow($result))) {
             //修正時間格式
-            if ('20' == mb_substr($post_date, 0, 2)) {
+            if (0 === mb_strpos($post_date, '20')) {
                 //$now=xoops_getUserTimestamp(strtotime($post_date));
 
                 $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));

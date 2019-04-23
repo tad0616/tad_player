@@ -13,7 +13,7 @@ function tad_player($options)
 
     if (empty($options[0])) {
         $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_player') . ' ORDER BY rand() LIMIT 0,1';
-    } elseif ('pcsn' === mb_substr($options[0], 0, 4)) {
+    } elseif (0 === mb_strpos($options[0], 'pcsn')) {
         $sn = explode('_', $options[0]);
         $sql = 'select * from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$sn[1]}' order by rand() limit 0,1";
     } else {

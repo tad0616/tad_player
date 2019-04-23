@@ -27,7 +27,7 @@ function tad_player_batch_upload_form()
 
     if ($dh = opendir(_TAD_PLAYER_BATCH_UPLOAD_DIR)) {
         while (false !== ($file = readdir($dh))) {
-            if ('.' === mb_substr($file, 0, 1)) {
+            if (0 === mb_strpos($file, '.')) {
                 continue;
             }
 

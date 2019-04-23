@@ -66,7 +66,7 @@ function list_tad_player($pcsn = '')
         }
 
         //整理影片圖檔
-        if ('http' === mb_substr($image, 0, 4)) {
+        if (0 === mb_strpos($image, 'http')) {
             $pic = $image;
         } elseif (empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR . "{$psn}.png")) {
             $ext = mb_substr($location, -3);
@@ -87,7 +87,7 @@ function list_tad_player($pcsn = '')
         $img_title = (is_array($no_power) and in_array($psn, $no_power)) ? sprintf(_MD_TADPLAYER_NO_POWER, $title) : $title;
 
         //整理日期
-        if ('20' == mb_substr($post_date, 0, 2)) {
+        if (0 === mb_strpos($post_date, '20')) {
             $post_date = strtotime($post_date);
         }
 

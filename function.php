@@ -120,7 +120,7 @@ function count_video_num($pcsn = '0')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $count = $xoopsDB->getRowsNum($result);
     while (list($psn, $image, $location) = $xoopsDB->fetchRow($result)) {
-        if ('http' === mb_substr($image, 0, 4)) {
+        if (0 === mb_strpos($image, 'http')) {
             $pic = $image;
             break;
         } elseif (!empty($image) and file_exists(_TAD_PLAYER_IMG_DIR . "{$psn}.png")) {
@@ -415,7 +415,7 @@ function mk_list_json($pcsn = '')
         $title = htmlspecialchars($title);
 
         //$location=urlencode($location);
-        if ('http' === mb_substr($image, 0, 4)) {
+        if (0 === mb_strpos($image, 'http')) {
             $image = $image;
         } else {
             $image = _TAD_PLAYER_IMG_URL . $image;
@@ -424,7 +424,7 @@ function mk_list_json($pcsn = '')
         if (empty($location) and !empty($youtube)) {
             $YTid = getYTid($youtube);
             $media = "https://youtu.be/{$YTid}";
-        } elseif ('http' === mb_substr($location, 0, 4)) {
+        } elseif (0 === mb_strpos($location, 'http')) {
             $media = $location;
         } else {
             $media = _TAD_PLAYER_FLV_URL . "{$psn}_{$location}";
@@ -482,7 +482,7 @@ function mk_list_xml($pcsn = '')
         $creator = htmlspecialchars($creator);
 
         //$location=urlencode($location);
-        if ('http' === mb_substr($image, 0, 4)) {
+        if (0 === mb_strpos($image, 'http')) {
             $image = $image;
         } else {
             $image = _TAD_PLAYER_IMG_URL . $image;
@@ -493,7 +493,7 @@ function mk_list_xml($pcsn = '')
         if (empty($location) and !empty($youtube)) {
             $YTid = getYTid($youtube);
             $media = "https://youtu.be/{$YTid}";
-        } elseif ('http' === mb_substr($location, 0, 4)) {
+        } elseif (0 === mb_strpos($location, 'http')) {
             $media = $location;
         } else {
             $media = _TAD_PLAYER_FLV_URL . "{$psn}_{$location}";
@@ -504,7 +504,7 @@ function mk_list_xml($pcsn = '')
         //$media=str_replace("?","%3F",$media);
         //$media=str_replace("&","%26",$media);
 
-        if ('20' == mb_substr($post_date, 0, 2)) {
+        if (0 === mb_strpos($post_date, '20')) {
             $post_date = strtotime($post_date);
         }
         $post_date = date('Y-m-d H:i:s', xoops_getUserTimestamp($post_date));

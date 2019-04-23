@@ -38,7 +38,7 @@ function show_cate($pcsn, $passwd)
             $$k = $v;
         }
 
-        if ('http' === mb_substr($image, 0, 4)) {
+        if (0 === mb_strpos($image, 'http')) {
             $image = basename($image);
         }
 

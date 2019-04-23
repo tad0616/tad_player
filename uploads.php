@@ -80,7 +80,7 @@ function tad_player_form($psn = '', $pcsn = '')
     //$op="replace_tad_player";
 
     $selected_link = $selected_local = $selected_youtube = $selected_img_local = $selected_img_link = '';
-    if ('http' === mb_substr($location, 0, 4)) {
+    if (0 === mb_strpos($location, 'http')) {
         $hide = "$('#flv_youtube').hide();
         $('#flv_local').hide();";
         $selected_link = 'selected';
@@ -96,7 +96,7 @@ function tad_player_form($psn = '', $pcsn = '')
         $selected_youtube = 'selected';
     }
 
-    if ('http' === mb_substr($image, 0, 4)) {
+    if (0 === mb_strpos($image, 'http')) {
         $hide_img = "$('#img_local').hide();";
         $selected_img_link = 'selected';
     } else {

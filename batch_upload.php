@@ -101,7 +101,7 @@ function tad_player_batch_import()
     }
 
     $uid = $xoopsUser->getVar('uid');
-    $uid_name = XoopsUser::getUnameFromId($uid, 1);
+    $uid_name = \XoopsUser::getUnameFromId($uid, 1);
     //$now=xoops_getUserTimestamp(time());
 
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));

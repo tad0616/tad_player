@@ -71,7 +71,7 @@ function tad_player_form($psn = '', $pcsn = '')
     $xoopsTpl->assign('enable_group', $enable_group);
     //die(var_export($enable_group));
 
-    // $SelectGroup_name = new XoopsFormSelectGroup("", "enable_group", false,$enable_group, 4, true);
+    // $SelectGroup_name = new \XoopsFormSelectGroup("", "enable_group", false,$enable_group, 4, true);
     // $SelectGroup_name->addOption("", _MD_TADPLAYER_ALL_OK, false);
     // $SelectGroup_name->setExtra("class='span12'");
     // $enable_group = $SelectGroup_name->render();

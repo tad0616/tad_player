@@ -47,7 +47,7 @@ function list_tad_player($pcsn = '')
             $pic = _TAD_PLAYER_IMG_URL . "{$psn}.png";
         }
 
-        $uid_name = XoopsUser::getUnameFromId($uid, 1);
+        $uid_name = \XoopsUser::getUnameFromId($uid, 1);
         $uid_name = (empty($uid_name)) ? XoopsUser::getUnameFromId($uid, 0) : $uid_name;
 
         $post_date = mb_substr($post_date, 0, 10);
@@ -75,7 +75,7 @@ function list_tad_player($pcsn = '')
     $xoopsTpl->assign('cate_height', $cate['height']);
     $xoopsTpl->assign('cate', $cate);
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
     $sweet_alert = new sweet_alert();
@@ -110,7 +110,7 @@ function list_tad_player_cate_tree($def_pcsn = '')
     $json = implode(",\n", $data);
 
     if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
+        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
     }
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php';
     $ztree = new ztree('cate_tree', $json, 'save_drag.php', 'save_cate_sort.php', 'of_csn', 'pcsn');
@@ -236,14 +236,14 @@ function tad_player_cate_form($pcsn = '')
     //$cate_select = get_tad_player_cate_option(0, 0, $of_csn, 1, false);
 
     //可見群組
-    $SelectGroup_name = new XoopsFormSelectGroup('', 'enable_group', false, $enable_group, 5, true);
+    $SelectGroup_name = new \XoopsFormSelectGroup('', 'enable_group', false, $enable_group, 5, true);
     $SelectGroup_name->addOption('', _MA_TADPLAYER_ALL_OK, false);
     $SelectGroup_name->setExtra("class='form-control'");
     $enable_group = $SelectGroup_name->render();
     $xoopsTpl->assign('enable_group', $enable_group);
 
     //可上傳群組
-    $SelectGroup_name = new XoopsFormSelectGroup('', 'enable_upload_group', false, $enable_upload_group, 5, true);
+    $SelectGroup_name = new \XoopsFormSelectGroup('', 'enable_upload_group', false, $enable_upload_group, 5, true);
     $SelectGroup_name->setExtra("class='form-control'");
     $enable_upload_group = $SelectGroup_name->render();
     $xoopsTpl->assign('enable_upload_group', $enable_upload_group);

@@ -7,7 +7,7 @@ function tad_player_play_list($options)
     require_once XOOPS_ROOT_PATH . '/modules/tad_player/function_player.php';
 
     if (empty($options[0])) {
-        retrun;
+        return;
     }
 
     $moduleHandler = xoops_getHandler('module');

@@ -229,7 +229,7 @@ function tad_player_chk_cate_have_sub($pcsn = 0)
 {
     global $xoopsDB;
     $sql = 'select pcsn from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADNEW_DB_SELECT_ERROR1);
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADPLAYER_DB_SELECT_ERROR1);
     while (list($sub_pcsn) = $xoopsDB->fetchRow($result)) {
         if (!empty($sub_pcsn)) {
             return true;

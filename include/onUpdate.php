@@ -1,5 +1,6 @@
 <?php
 
+use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tad_player\Update;
 
 function xoops_module_update_tad_player(&$module, $old_version)
@@ -26,7 +27,7 @@ function xoops_module_update_tad_player(&$module, $old_version)
 
     $old_fckeditor = XOOPS_ROOT_PATH . '/modules/tad_player/fckeditor';
     if (is_dir($old_fckeditor)) {
-        Update::delete_directory($old_fckeditor);
+        Utility::delete_directory($old_fckeditor);
     }
 
     return true;

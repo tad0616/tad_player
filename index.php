@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 include_once 'header.php';
 $xoopsOption['template_main'] = 'tad_player_index.tpl';
@@ -26,7 +28,7 @@ function list_tad_player($pcsn = '')
     $sql = 'select a.psn,a.pcsn,a.location,a.title,a.image,a.info,a.creator,a.post_date,a.counter,a.enable_group,b.title,b.of_csn from ' . $xoopsDB->prefix('tad_player') . ' as a left join ' . $xoopsDB->prefix('tad_player_cate') . " as b on a.pcsn=b.pcsn where a.pcsn='{$pcsn}' order by $order_by_sort a.post_date desc";
 
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
-    $PageBar = getPageBar($sql, $xoopsModuleConfig['index_show_num'], 10);
+    $PageBar = Utility::getPageBar($sql, $xoopsModuleConfig['index_show_num'], 10);
     $bar = $PageBar['bar'];
     $sql = $PageBar['sql'];
     $total = $PageBar['total'];
@@ -210,11 +212,8 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 
-// $arr=get_tad_player_cate_path($pcsn);
-// $jBreadCrumbPath=tad_player_breadcrumb($pcsn,$arr);
-// $xoopsTpl->assign( "path_bar" , $jBreadCrumbPath);
-$xoopsTpl->assign('push', push_url($xoopsModuleConfig['use_social_tools']));
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('psn', $psn);
 $xoopsTpl->assign('pcsn', $pcsn);
 $xoopsTpl->assign('font_color', $xoopsModuleConfig['font_color']);

@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 include_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_player_uploads.tpl';
@@ -382,7 +384,7 @@ function upload_pic($psn = '', $update_sql = false)
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
         $img_handle->file_safe_name = false;
-        $img_handle->file_new_name_body = (string)($psn);
+        $img_handle->file_new_name_body = (string) ($psn);
         $img_handle->image_convert = 'png';
         $img_handle->image_resize = true;
         $img_handle->image_x = 1024;
@@ -428,7 +430,7 @@ function upload_logo($psn = '')
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
         $img_handle->file_safe_name = false;
-        $img_handle->file_new_name_body = (string)($psn);
+        $img_handle->file_new_name_body = (string) ($psn);
         $img_handle->image_convert = 'png';
         $img_handle->process(XOOPS_ROOT_PATH . '/uploads/tad_player/logo');
         $img_handle->auto_create_dir = true;
@@ -449,7 +451,7 @@ $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('jquery', get_jquery(true));
 
 switch ($op) {

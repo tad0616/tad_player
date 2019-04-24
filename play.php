@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 include_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_player_play.tpl';
@@ -44,15 +46,15 @@ function play($get_psn = '')
     $jquery_path = get_jquery(true);
 
     $xoops_module_header = "
-  $jquery_path
-  <meta proprery=\"og:title\" content=\"{$file['title']}\" />
-  <meta proprery=\"og:description\" content=\"{$info}\" />
-  <meta property=\"og:image\" content=\"" . _TAD_PLAYER_IMG_URL . "s_{$file['image']}\" />
-  <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/play.php?psn=$get_psn\"/>
-  <meta name=\"video_height\" content=\"{$file['width']}\" />
-  <meta name=\"video_width\" content=\"{$file['height']}\" />
-  <meta name=\"video_type\" content=\"application/x-shockwave-flash\" />
-  ";
+    $jquery_path
+    <meta proprery=\"og:title\" content=\"{$file['title']}\" />
+    <meta proprery=\"og:description\" content=\"{$info}\" />
+    <meta property=\"og:image\" content=\"" . _TAD_PLAYER_IMG_URL . "s_{$file['image']}\" />
+    <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/play.php?psn=$get_psn\"/>
+    <meta name=\"video_height\" content=\"{$file['width']}\" />
+    <meta name=\"video_width\" content=\"{$file['height']}\" />
+    <meta name=\"video_type\" content=\"application/x-shockwave-flash\" />
+    ";
 
     include_once XOOPS_ROOT_PATH . '/modules/tadtools/star_rating.php';
     $rating = new rating('tad_player', '10', '', 'simple');
@@ -98,14 +100,14 @@ function get_cate_play($get_psn = '', $size = 1)
     $xoopsTpl->assign('cate_select', $cate_select);
 
     $select = "
-  <form action='' method='post'>
-  <select id='main_opt' name='main_opt' onchange='getList(this)' style='width:150px;'>
-  $cate_select
-  </select>
-  <select id='sub_opt' name='sub_opt' size=1 onChange=\"window.location.href='{$_SERVER['PHP_SELF']}?psn=' + this.value\" >
-  $option
-  </select>
-  </form>";
+    <form action='' method='post'>
+    <select id='main_opt' name='main_opt' onchange='getList(this)' style='width:150px;'>
+    $cate_select
+    </select>
+    <select id='sub_opt' name='sub_opt' size=1 onChange=\"window.location.href='{$_SERVER['PHP_SELF']}?psn=' + this.value\" >
+    $option
+    </select>
+    </form>";
 
     return $select;
 }
@@ -116,7 +118,7 @@ $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('jquery', get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
 $xoopsTpl->assign('isUploader', $isUploader);
@@ -127,10 +129,12 @@ switch ($op) {
     case 'delete_tad_player_file':
         delete_tad_player($psn);
         header("location:index.php?pcsn=$pcsn");
-        break;
+        exit;
+
     default:
         if (empty($psn)) {
             header('location:index.php');
+            exit;
         }
         play($psn);
         break;
@@ -139,9 +143,9 @@ switch ($op) {
 /*-----------秀出結果區--------------*/
 
 $xoopsTpl->assign('select', get_cate_play($psn));
-$xoopsTpl->assign('push', push_url($xoopsModuleConfig['use_social_tools']));
+$xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
 
-$facebook_comments = facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_player', 'play.php', 'psn', $psn);
+$facebook_comments = Utility::facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_player', 'play.php', 'psn', $psn);
 $xoopsTpl->assign('facebook_comments', $facebook_comments);
 
 include_once XOOPS_ROOT_PATH . '/include/comment_view.php';

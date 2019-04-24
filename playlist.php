@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 include_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_player_playlist.tpl';
@@ -51,11 +53,8 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 
-// $arr=get_tad_player_cate_path($pcsn);
-// $jBreadCrumbPath=tad_player_breadcrumb($pcsn,$arr);
-// $xoopsTpl->assign( "path_bar" , $jBreadCrumbPath);
-$xoopsTpl->assign('push', push_url($xoopsModuleConfig['use_social_tools']));
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('psn', $psn);
 $xoopsTpl->assign('pcsn', $pcsn);
 

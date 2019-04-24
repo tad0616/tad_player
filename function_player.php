@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 //引入TadTools的函式庫
 if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
     redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
@@ -17,7 +19,7 @@ if ($xoopsUser) {
     $uid_dir = $xoopsUser->getVar('uid');
 }
 define('_TAD_PLAYER_BATCH_UPLOAD_DIR', XOOPS_ROOT_PATH . "/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
-mk_dir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
+Utility::mk_dir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
 define('_TAD_PLAYER_BATCH_UPLOAD_URL', XOOPS_URL . "/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
 
 //以流水號取得某筆tad_player資料

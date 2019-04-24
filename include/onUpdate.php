@@ -1,32 +1,32 @@
 <?php
 
-use XoopsModules\Tad_player\Utility;
+use XoopsModules\Tad_player\Update;
 
 function xoops_module_update_tad_player(&$module, $old_version)
 {
     global $xoopsDB;
 
-    if (!Utility::chk_chk1()) {
-        Utility::go_update1();
+    if (!Update::chk_chk1()) {
+        Update::go_update1();
     }
-    if (!Utility::chk_chk2()) {
-        Utility::go_update2();
+    if (!Update::chk_chk2()) {
+        Update::go_update2();
     }
-    if (!Utility::chk_chk3()) {
-        Utility::go_update3();
+    if (!Update::chk_chk3()) {
+        Update::go_update3();
     }
-    if (!Utility::chk_chk4()) {
-        Utility::go_update4();
+    if (!Update::chk_chk4()) {
+        Update::go_update4();
     }
-    if (Utility::chk_uid()) {
-        Utility::go_update_uid();
+    if (Update::chk_uid()) {
+        Update::go_update_uid();
     }
 
-    Utility::chk_tad_player_block();
+    Update::chk_tad_player_block();
 
     $old_fckeditor = XOOPS_ROOT_PATH . '/modules/tad_player/fckeditor';
     if (is_dir($old_fckeditor)) {
-        Utility::delete_directory($old_fckeditor);
+        Update::delete_directory($old_fckeditor);
     }
 
     return true;

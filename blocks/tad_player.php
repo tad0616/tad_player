@@ -1,4 +1,5 @@
 <?php
+use XoopsModules\Tadtools\Utility;
 
 //區塊主函式 (影音播放器區塊1說明)
 function tad_player($options)
@@ -21,7 +22,7 @@ function tad_player($options)
         $sql = 'select * from ' . $xoopsDB->prefix('tad_player') . " where psn='$psn'";
     }
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $file = $xoopsDB->fetchArray($result);
 
     $file = get_tad_player($file['psn']);
@@ -42,7 +43,7 @@ function tad_player_edit($options)
     $chked4_1 = ('true' === $options[2]) ? 'checked' : '';
 
     $sql = 'SELECT a.psn,a.pcsn,a.title,b.title FROM ' . $xoopsDB->prefix('tad_player') . ' AS a LEFT JOIN ' . $xoopsDB->prefix('tad_player_cate') . ' AS b ON a.pcsn=b.pcsn ORDER BY a.post_date DESC';
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $select = "<select name='options[0]' class='my-input'>
     <option value='0'>" . _MB_TADPLAYER_RANDOM_PLAY . '</option>';

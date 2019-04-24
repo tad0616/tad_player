@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 function tad_player_search($queryarray, $andor, $limit, $offset, $userid)
 {
     global $xoopsDB;
@@ -27,7 +29,7 @@ function tad_player_search($queryarray, $andor, $limit, $offset, $userid)
     }
     $sql .= 'ORDER BY post_date DESC';
     //die($sql);
-    $result = $xoopsDB->query($sql, $limit, $offset) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql, $limit, $offset) or Utility::web_error($sql, __FILE__, __LINE__);
     $ret = [];
     $i = 0;
     while ($myrow = $xoopsDB->fetchArray($result)) {

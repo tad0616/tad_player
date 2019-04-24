@@ -1,4 +1,5 @@
 <?php
+use XoopsModules\Tadtools\Utility;
 
 //區塊主函式 (影音播放器區塊1說明)
 function tad_player_play_list($options)
@@ -80,14 +81,14 @@ function tp_block_get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $
     $level += 1;
 
     $sql = 'SELECT count(*),pcsn FROM ' . $xoopsDB->prefix('tad_player') . ' GROUP BY pcsn';
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
 
     $option = ($of_csn) ? '' : "<option value='0'>" . _MB_TADPLAYER_CATE_SELECT . '</option>';
     $sql = 'select pcsn,title from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$of_csn}' order by sort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         $selected = ($v == $pcsn) ? 'selected' : '';

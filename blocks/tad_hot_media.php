@@ -1,12 +1,14 @@
 <?php
 
+use XoopsModules\Tadtools\Utility;
+
 //區塊主函式 (依人氣值挑出熱門影片)
 function tad_player_b_show_3($options)
 {
     global $xoopsDB;
 
     $sql = 'SELECT `psn`, `title`, `creator`, `location`, `image`, `info`, `uid`, `post_date`, `enable_group`, `counter` FROM ' . $xoopsDB->prefix('tad_player') . " order by counter desc limit 0,{$options[0]}";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $i = 0;
 

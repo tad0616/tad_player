@@ -36,7 +36,7 @@ function list_tad_player($pcsn = '')
         $bar = '';
     }
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //檢查權限
     $ok_cat = chk_cate_power();
@@ -142,7 +142,7 @@ function count_cate_num($pcsn = '0')
 {
     global $xoopsDB, $xoopsModule;
     $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($count) = $xoopsDB->fetchRow($result);
     if (empty($count)) {
         $count = 0;
@@ -163,7 +163,7 @@ function list_tad_player_cate($pcsn = '0')
     }
 
     $sql = 'select * from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}' order by sort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $data = [];
     $i = 0;

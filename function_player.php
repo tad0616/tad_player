@@ -1,11 +1,6 @@
 <?php
+use XoopsModules\Tadtools\JwPlayer;
 use XoopsModules\Tadtools\Utility;
-
-//引入TadTools的函式庫
-if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
-    redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
-}
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
 
 define('_TAD_PLAYER_UPLOAD_DIR', XOOPS_ROOT_PATH . '/uploads/tad_player/');
 define('_TAD_PLAYER_FLV_DIR', XOOPS_ROOT_PATH . '/uploads/tad_player/flv/');
@@ -207,10 +202,6 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
     } else {
         $rate = (!empty($height) and !empty($width)) ? round($height / $width, 2) : 0.6;
     }
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/jwplayer_new.php')) {
-        redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/jwplayer_new.php';
 
     if ('' == $mode) {
         $mode = null;

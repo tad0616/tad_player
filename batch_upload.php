@@ -33,7 +33,7 @@ function tad_player_batch_upload_form()
                 continue;
             }
 
-            $file = auto_charset($file, true);
+            $file = Utility::auto_charset($file, true);
 
             $f = explode('.', $file);
             //$filename=$f[0];
@@ -122,7 +122,7 @@ function tad_player_batch_import()
         set_time_limit(0);
         ini_set('memory_limit', '50M');
 
-        $flv = auto_charset($flv, false);
+        $flv = Utility::auto_charset($flv, false);
 
         if (rename(_TAD_PLAYER_BATCH_UPLOAD_DIR . $flv, _TAD_PLAYER_FLV_DIR . $psn . '_' . $flv)) {
             if (!empty($_POST['img'][$filename])) {
@@ -145,7 +145,7 @@ function tad_player_batch_import()
     }
 
     //刪除其他多餘檔案
-    rrmdir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
+    Utility::rrmdir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
 
     return $pcsn;
 }

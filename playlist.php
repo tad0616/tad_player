@@ -1,11 +1,9 @@
 <?php
 use XoopsModules\Tadtools\Utility;
-
 /*-----------引入檔案區--------------*/
 include_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_player_playlist.tpl';
 include_once XOOPS_ROOT_PATH . '/header.php';
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/star_rating.php';
 /*-----------function區--------------*/
 
 //清單播放
@@ -42,7 +40,7 @@ $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 
 $xoops_module_header = '';
-get_jquery(true);
+Utility::get_jquery(true);
 
 switch ($op) {
     //預設動作

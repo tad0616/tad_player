@@ -211,7 +211,7 @@ function tad_player_get_all_news_cate($of_csn = 0, $code = 'big5')
     while (list($pcsn, $title, $enable_group) = $xoopsDB->fetchRow($result)) {
         $have_sub = tad_player_chk_cate_have_sub($pcsn);
         if ('utf8' === $code) {
-            $title = to_utf8($title);
+            $title = Utility::to_utf8($title);
         }
         $option .= "<li><a href='index.php?pcsn=$pcsn'>$title</a>";
         if ($have_sub) {
@@ -252,8 +252,8 @@ function delete_tad_player($psn = '')
 
     //刪除檔案
     $file = get_tad_player($psn);
-    $file['location'] = auto_charset($file['location'], false);
-    $file['image'] = auto_charset($file['location'], image);
+    $file['location'] = Utility::auto_charset($file['location'], false);
+    $file['image'] = Utility::auto_charset($file['location'], image);
     unlink(_TAD_PLAYER_FLV_DIR . "{$psn}_{$file['location']}");
     unlink(_TAD_PLAYER_IMG_DIR . "s_{$psn}.png");
     unlink(_TAD_PLAYER_IMG_DIR . "{$psn}_{$file['image']}");
@@ -443,7 +443,7 @@ function mk_list_json($pcsn = '')
     // } else {
     $content = json_encode($json);
     // }
-    $main = to_utf8($content);
+    $main = Utility::to_utf8($content);
 
     $main = str_replace('\\/', '/', $main);
 
@@ -528,7 +528,7 @@ function mk_list_xml($pcsn = '')
     $main .= "
   </channel>\n</rss>";
 
-    $main = to_utf8($main);
+    $main = Utility::to_utf8($main);
 
     $filename = _TAD_PLAYER_UPLOAD_DIR . "{$pcsn}_list.xml";
 

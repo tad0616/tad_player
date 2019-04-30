@@ -1,6 +1,6 @@
 <?php
+use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\Utility;
-
 /*-----------引入檔案區--------------*/
 include_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_player_uploads.tpl';
@@ -53,14 +53,9 @@ function tad_player_form($psn = '', $pcsn = '')
     $youtube = (!isset($DBV['youtube'])) ? '' : $DBV['youtube'];
     $logo = (!isset($DBV['logo'])) ? '' : $DBV['logo'];
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ck.php')) {
-        redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
-    $ck = new CKEditor('tad_player', 'content', $content);
-
-    $ck->setHeight(200);
-    $editor = $ck->render();
+    $CkEditor = new CkEditor('tad_player', 'content', $content);
+    $CkEditor->setHeight(200);
+    $editor = $CkEditor->render();
 
     $cate_select = get_tad_player_cate_option(0, 0, $pcsn, 1, false, 'upload');
 
@@ -131,7 +126,7 @@ function insert_tad_player()
 {
     global $xoopsDB, $xoopsUser;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     if (!empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
         $pcsn = add_tad_player_cate();
@@ -255,7 +250,7 @@ function update_tad_player($psn = '')
 {
     global $xoopsDB;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     if (_MD_TADPLAYER_YOUTUBE_LINK == $_POST['youtube']) {
         $_POST['youtube'] = '';
@@ -452,7 +447,7 @@ $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', get_jquery(true));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 
 switch ($op) {
     //新增資料

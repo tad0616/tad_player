@@ -1,4 +1,5 @@
 <?php
+xoops_loadLanguage('main', 'tadtools');
 define('_MD_TADPLAYER_LIST', 'Playlist');
 define('_MD_TADPLAYER_TITLE', 'Title');
 define('_MD_TADPLAYER_CREATOR', 'Provider');

@@ -79,7 +79,7 @@ class Update
 
             //搬移影片檔
             if (!empty($location)) {
-                rename_win(XOOPS_ROOT_PATH . "/uploads/tad_player/{$psn}_{$location}", XOOPS_ROOT_PATH . "/uploads/tad_player/flv/{$psn}_{$location}");
+                Utility::rename_win(XOOPS_ROOT_PATH . "/uploads/tad_player/{$psn}_{$location}", XOOPS_ROOT_PATH . "/uploads/tad_player/flv/{$psn}_{$location}");
             }
         }
 

@@ -1,5 +1,7 @@
 <?php
+use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Ztree;
 
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_player_adm_main.tpl';
@@ -33,7 +35,7 @@ function list_tad_player($pcsn = '')
             $$k = $v;
         }
 
-        $g_txt = txt_to_group_name($enable_group, _MA_TADPLAYER_ALL_OK, ', ');
+        $g_txt = Utility::txt_to_group_name($enable_group, _MA_TADPLAYER_ALL_OK, ', ');
 
         if ('http' === mb_substr($image, 0, 4)) {
             $pic = $image;
@@ -67,7 +69,7 @@ function list_tad_player($pcsn = '')
 
         $i++;
     }
-    get_jquery(true);
+    Utility::get_jquery(true);
     $option = get_tad_player_cate_option(0, 0, $pcsn, 1, false);
 
     $xoopsTpl->assign('option', $option);
@@ -76,12 +78,9 @@ function list_tad_player($pcsn = '')
     $xoopsTpl->assign('cate_width', $cate['width']);
     $xoopsTpl->assign('cate_height', $cate['height']);
     $xoopsTpl->assign('cate', $cate);
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
-    $sweet_alert = new sweet_alert();
-    $sweet_alert_code = $sweet_alert->render('delete_tad_player_cate_func', 'main.php?op=delete_tad_player_cate&pcsn=', 'pcsn');
+
+    $SweetAlert = new SweetAlert();
+    $SweetAlert->render('delete_tad_player_cate_func', 'main.php?op=delete_tad_player_cate&pcsn=', 'pcsn');
 }
 
 //列出所有tad_player_cate資料
@@ -111,12 +110,8 @@ function list_tad_player_cate_tree($def_pcsn = '')
 
     $json = implode(",\n", $data);
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php')) {
-        redirect_header('index.php', 3, _MA_NEED_TADTOOLS);
-    }
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php';
-    $ztree = new ztree('cate_tree', $json, 'save_drag.php', 'save_cate_sort.php', 'of_csn', 'pcsn');
-    $ztree_code = $ztree->render();
+    $Ztree = new Ztree('cate_tree', $json, 'save_drag.php', 'save_cate_sort.php', 'of_csn', 'pcsn');
+    $ztree_code = $Ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
     $xoopsTpl->assign('cate_count', $cate_count);
 
@@ -293,7 +288,7 @@ function insert_tad_player_cate()
         $enable_upload_group = implode(',', $_POST['enable_upload_group']);
     }
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     $of_csn = (int) $_POST['of_csn'];
     $sort = (int) $_POST['sort'];
@@ -337,7 +332,7 @@ function update_tad_player_cate($pcsn = '')
         break;
     }
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     $of_csn = (int) $of_csn;
     $sort = (int) $_POST['sort'];

@@ -1,11 +1,10 @@
 <?php
+use XoopsModules\Tadtools\StarRating;
 use XoopsModules\Tadtools\Utility;
-
 /*-----------引入檔案區--------------*/
 include_once 'header.php';
 $xoopsOption['template_main'] = 'tad_player_index.tpl';
 include_once XOOPS_ROOT_PATH . '/header.php';
-include_once XOOPS_ROOT_PATH . '/modules/tadtools/star_rating.php';
 /*-----------function區--------------*/
 
 //列出所有tad_player資料
@@ -49,7 +48,7 @@ function list_tad_player($pcsn = '')
 
     $rating_js = '';
     if ($xoopsModuleConfig['use_star_rating']) {
-        $rating = new rating('tad_player', '10', 'show', 'simple');
+        $StarRating = new StarRating('tad_player', '10', 'show', 'simple');
     }
 
     $data = $no_power = [];
@@ -96,7 +95,7 @@ function list_tad_player($pcsn = '')
         $post_date = date('Y-m-d H:i:s', xoops_getUserTimestamp($post_date));
         $creator_col = (empty($creator)) ? '' : _MD_TADPLAYER_CREATOR . ": $creator";
         if ($xoopsModuleConfig['use_star_rating']) {
-            $rating->add_rating('psn', $psn);
+            $StarRating->add_rating(XOOPS_URL . '/modules/tad_player/play.php', 'psn', $psn);
         }
 
         $data[$i]['pic'] = $pic;
@@ -114,7 +113,7 @@ function list_tad_player($pcsn = '')
     $count += $i;
 
     if ($xoopsModuleConfig['use_star_rating']) {
-        $rating_js = $rating->render();
+        $rating_js = $StarRating->render();
     }
 
     if (!empty($pcsn)) {
@@ -201,7 +200,7 @@ $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 
 $xoops_module_header = '';
-get_jquery(true);
+Utility::get_jquery(true);
 
 switch ($op) {
     //預設動作

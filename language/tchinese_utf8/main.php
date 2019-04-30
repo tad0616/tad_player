@@ -1,4 +1,5 @@
 <?php
+xoops_loadLanguage('main', 'tadtools');
 define('_MD_TADPLAYER_LIST', '播放清單');
 define('_MD_TADPLAYER_TITLE', '標題');
 define('_MD_TADPLAYER_CREATOR', '作者');

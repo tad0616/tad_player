@@ -12,7 +12,7 @@ if (isset($_GET['pcsn'])) {
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($psn, $title, $cate_title) = $xoopsDB->fetchRow($result)) {
-        $title = to_utf8($title);
+        $title = Utility::to_utf8($title);
         echo "obj.options[obj.options.length] = new Option('$title','$psn');\n";
     }
 }

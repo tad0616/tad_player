@@ -14,7 +14,7 @@ function show_cate($pcsn, $passwd)
 {
     global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $xoopsOption;
 
-    $jquery = get_jquery();
+    $jquery = Utility::get_jquery();
 
     //以流水號取得某筆tad_player_cate資料
     $cate = get_tad_player_cate($pcsn);
@@ -173,7 +173,7 @@ $_REQUEST['op'] = (empty($_REQUEST['op'])) ? '' : $_REQUEST['op'];
 $psn = (isset($_REQUEST['psn'])) ? (int) ($_REQUEST['psn']) : 0;
 $pcsn = (isset($_REQUEST['pcsn'])) ? (int) ($_REQUEST['pcsn']) : 0;
 
-$jquery = get_jquery();
+$jquery = Utility::get_jquery();
 
 switch ($_REQUEST['op']) {
     default:
@@ -190,7 +190,7 @@ switch ($_REQUEST['op']) {
 //分類下拉選單
 $cate_option = get_tad_player_cate_option(0, 0, $pcsn);
 
-$jquery = get_jquery();
+$jquery = Utility::get_jquery();
 /*-----------秀出結果區--------------*/
 echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>
 <html>

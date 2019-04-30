@@ -1,6 +1,6 @@
 <?php
+use XoopsModules\Tadtools\StarRating;
 use XoopsModules\Tadtools\Utility;
-
 /*-----------引入檔案區--------------*/
 include_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_player_play.tpl';
@@ -43,7 +43,7 @@ function play($get_psn = '')
         $info = $file['creator'] . ' ' . $file['post_date'];
     }
 
-    $jquery_path = get_jquery(true);
+    $jquery_path = Utility::get_jquery(true);
 
     $xoops_module_header = "
     $jquery_path
@@ -56,10 +56,9 @@ function play($get_psn = '')
     <meta name=\"video_type\" content=\"application/x-shockwave-flash\" />
     ";
 
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/star_rating.php';
-    $rating = new rating('tad_player', '10', '', 'simple');
-    $rating->add_rating('psn', $get_psn);
-    $star_rating = $rating->render();
+    $StarRating = new StarRating('tad_player', '10', '', 'simple');
+    $StarRating->add_rating(XOOPS_URL . '/modules/tad_player/play.php', 'psn', $get_psn);
+    $star_rating = $StarRating->render();
     $star_rating .= "<div id='rating_psn_{$get_psn}'></div>";
 
     $xoopsTpl->assign('title', $file['title']);
@@ -117,9 +116,13 @@ include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
+$mod_name = system_CleanVars($_REQUEST, 'mod_name', '', 'string');
+$col_name = system_CleanVars($_REQUEST, 'col_name', '', 'string');
+$col_sn = system_CleanVars($_REQUEST, 'col_sn', 0, 'int');
+$rank = system_CleanVars($_REQUEST, 'rank', '', 'string');
 
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', get_jquery(true));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
 $xoopsTpl->assign('isUploader', $isUploader);
 
@@ -130,6 +133,10 @@ switch ($op) {
         delete_tad_player($psn);
         header("location:index.php?pcsn=$pcsn");
         exit;
+
+    case 'save_rating':
+        StarRating::save_rating($mod_name, $col_name, $col_sn, $rank);
+        break;
 
     default:
         if (empty($psn)) {

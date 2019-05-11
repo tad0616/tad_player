@@ -23,7 +23,7 @@ function chk_cate_path($pcsn, $to_csn)
     //抓出子目錄的編號
     $sql = 'select pcsn from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}'";
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (false !== (list($sub_csn) = $xoopsDB->fetchRow($result))) {
+    while (list($sub_csn) = $xoopsDB->fetchRow($result)) {
         if (chk_cate_path($sub_csn, $to_csn)) {
             return true;
         }

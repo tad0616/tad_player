@@ -47,7 +47,7 @@ function tad_player_edit($options)
     $select = "<select name='options[0]' class='my-input'>
     <option value='0'>" . _MB_TADPLAYER_RANDOM_PLAY . '</option>';
     $old_pcsn = 0;
-    while (false !== (list($psn, $pcsn, $title, $cate_title) = $xoopsDB->fetchRow($result))) {
+    while (list($psn, $pcsn, $title, $cate_title) = $xoopsDB->fetchRow($result)) {
         $selected = ($options[0] == $psn) ? 'selected' : '';
 
         if ($old_pcsn != $pcsn) {

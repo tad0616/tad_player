@@ -133,7 +133,7 @@ class Utility
         $sql = 'SELECT psn,location,image,post_date FROM ' . $xoopsDB->prefix('tad_player') . ' ORDER BY psn';
         $result = $xoopsDB->query($sql) or die($sql);
 
-        while (false !== (list($psn, $location, $image, $post_date) = $xoopsDB->fetchRow($result))) {
+        while (list($psn, $location, $image, $post_date) = $xoopsDB->fetchRow($result)) {
             //修正時間格式
             if (0 === mb_strpos($post_date, '20')) {
                 //$now=xoops_getUserTimestamp(strtotime($post_date));
@@ -282,7 +282,7 @@ class Utility
         $sql = 'SELECT bid,name,visible,show_func,template FROM `' . $xoopsDB->prefix('newblocks') . "`
     WHERE `dirname` = 'tad_player' ORDER BY `func_num`";
         $result = $xoopsDB->query($sql);
-        while (false !== (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result))) {
+        while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
             //假如現有的區塊和樣板對不上就刪掉
             if ($template != $tpl_file_arr[$show_func]) {
                 $sql = 'delete from ' . $xoopsDB->prefix('newblocks') . " where bid='{$bid}'";

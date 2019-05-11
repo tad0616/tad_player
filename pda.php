@@ -149,7 +149,7 @@ function get_pre_next($pcsn = '', $now_sn = '')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
     $stop = false;
     $pre = 0;
-    while (false !== (list($psn, $title) = $xoopsDB->fetchRow($result))) {
+    while (list($psn, $title) = $xoopsDB->fetchRow($result)) {
         if ($stop) {
             $next = $psn;
             $next_title = $title;

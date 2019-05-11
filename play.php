@@ -88,7 +88,7 @@ function get_cate_play($get_psn = '', $size = 1)
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $option = '';
-    while (false !== (list($psn, $title, $cate_title) = $xoopsDB->fetchRow($result))) {
+    while (list($psn, $title, $cate_title) = $xoopsDB->fetchRow($result)) {
         $selected = ($psn == $get_psn) ? 'selected' : '';
         $option .= "<option value='{$psn}' $selected>$title</option>\n";
     }

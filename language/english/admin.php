@@ -12,7 +12,7 @@ define('_MA_TADPLAYER_ENABLE_UPLOAD_GROUP', '"UPLOAD" enabled group');
 define('_MA_TADPLAYER_ALL_OK', 'All groups');
 define('_MA_TADPLAYER_XML_OK', '"%s" Playlist completed');
 define('_MA_TADPLAYER_JSON_OK', 'Playlist completed');
-define('_MD_TADPLAYER_BLANK', '---');
+define('_MA_TADPLAYER_BLANK', '---');
 define('_MA_TADPLAYER_THE_ACT_IS', 'Action on selected videos:');
 define('_MA_TADPLAYER_MOVE_TO', 'Move to');
 define('_MA_TADPLAYER_ADD_TITLE', 'Add Title');

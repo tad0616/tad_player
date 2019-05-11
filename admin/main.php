@@ -90,7 +90,7 @@ function list_tad_player_cate_tree($def_pcsn = '')
     $cate_count = [];
     $sql = 'select count(*),pcsn from ' . $xoopsDB->prefix('tad_player') . ' group by pcsn';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (false !== (list($count, $pcsn) = $xoopsDB->fetchRow($result))) {
+    while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
 
@@ -100,7 +100,7 @@ function list_tad_player_cate_tree($def_pcsn = '')
 
     $sql = 'select pcsn,of_csn,title from ' . $xoopsDB->prefix('tad_player_cate') . ' order by sort';
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (false !== (list($pcsn, $of_csn, $title) = $xoopsDB->fetchRow($result))) {
+    while (list($pcsn, $of_csn, $title) = $xoopsDB->fetchRow($result)) {
         $font_style = $def_pcsn == $pcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
         $open = in_array($pcsn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($cate_count[$pcsn]) ? '' : " ({$cate_count[$pcsn]})";
@@ -142,7 +142,7 @@ function mk_all_xml($the_pcsn = '')
     $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
 
     $log = '';
-    while (false !== (list($pcsn, $title) = $xoopsDB->fetchRow($result))) {
+    while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         mk_list_json($pcsn);
         $log .= sprintf(_MA_TADPLAYER_XML_OK, $title) . '<br>';
     }
@@ -363,7 +363,7 @@ function delete_tad_player_cate($pcsn = '')
     //先找出底下所有影片
     $sql = 'select psn from ' . $xoopsDB->prefix('tad_player') . " where pcsn='$pcsn'";
     $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
-    while (false !== (list($psn) = $xoopsDB->fetchRow($result))) {
+    while (list($psn) = $xoopsDB->fetchRow($result)) {
         delete_tad_player($psn);
     }
 

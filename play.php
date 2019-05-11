@@ -1,7 +1,9 @@
 <?php
+use XoopsModules\Tadtools\StarRating;
+use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
-$GLOBALS['xoopsOption']['template_main'] = 'tad_player_play.tpl';
+$xoopsOption['template_main'] = 'tad_player_play.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------function區--------------*/
 
@@ -41,7 +43,7 @@ function play($get_psn = '')
         $info = $file['creator'] . ' ' . $file['post_date'];
     }
 
-    $jquery_path = get_jquery(true);
+    $jquery_path = Utility::get_jquery(true);
 
     $xoops_module_header = "
   $jquery_path
@@ -54,10 +56,9 @@ function play($get_psn = '')
   <meta name=\"video_type\" content=\"application/x-shockwave-flash\">
   ";
 
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/star_rating.php';
-    $rating = new rating('tad_player', '10', '', 'simple');
-    $rating->add_rating('psn', $get_psn);
-    $star_rating = $rating->render();
+    $StarRating = new StarRating('tad_player', '10', '', 'simple');
+    $StarRating->add_rating(XOOPS_URL . '/modules/tad_player/play.php', 'psn', $get_psn);
+    $star_rating = $StarRating->render();
     $star_rating .= "<div id='rating_psn_{$get_psn}'></div>";
 
     $xoopsTpl->assign('title', $file['title']);
@@ -85,7 +86,7 @@ function get_cate_play($get_psn = '', $size = 1)
     $file = get_tad_player($get_psn);
 
     $sql = 'select a.psn,a.title,b.title from ' . $xoopsDB->prefix('tad_player') . ' as a left join ' . $xoopsDB->prefix('tad_player_cate') . " as b on a.pcsn=b.pcsn where a.pcsn='{$file['pcsn']}' order by a.sort, a.post_date desc";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $option = '';
     while (list($psn, $title, $cate_title) = $xoopsDB->fetchRow($result)) {
@@ -115,10 +116,13 @@ require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
+$mod_name = system_CleanVars($_REQUEST, 'mod_name', '', 'string');
+$col_name = system_CleanVars($_REQUEST, 'col_name', '', 'string');
+$col_sn = system_CleanVars($_REQUEST, 'col_sn', 0, 'int');
+$rank = system_CleanVars($_REQUEST, 'rank', '', 'string');
 
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('bootstrap', get_bootstrap());
-$xoopsTpl->assign('jquery', get_jquery(true));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
 $xoopsTpl->assign('isUploader', $isUploader);
 
@@ -128,10 +132,16 @@ switch ($op) {
     case 'delete_tad_player_file':
         delete_tad_player($psn);
         header("location:index.php?pcsn=$pcsn");
+        exit;
+
+    case 'save_rating':
+        StarRating::save_rating($mod_name, $col_name, $col_sn, $rank);
         break;
+
     default:
         if (empty($psn)) {
             header('location:index.php');
+            exit;
         }
         play($psn);
         break;
@@ -140,9 +150,9 @@ switch ($op) {
 /*-----------秀出結果區--------------*/
 
 $xoopsTpl->assign('select', get_cate_play($psn));
-$xoopsTpl->assign('push', push_url($xoopsModuleConfig['use_social_tools']));
+$xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
 
-$facebook_comments = facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_player', 'play.php', 'psn', $psn);
+$facebook_comments = Utility::facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_player', 'play.php', 'psn', $psn);
 $xoopsTpl->assign('facebook_comments', $facebook_comments);
 
 require_once XOOPS_ROOT_PATH . '/include/comment_view.php';

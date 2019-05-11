@@ -1,9 +1,5 @@
 <?php
-//  ------------------------------------------------------------------------ //
-// 本模組由 tad 製作
-// 製作日期：2008-03-23
-// $Id: index.php,v 1.5 2008/05/10 11:46:50 tad Exp $
-// ------------------------------------------------------------------------- //
+use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
 if (file_exists('mainfile.php')) {
@@ -18,7 +14,7 @@ function show_cate($pcsn, $passwd)
 {
     global $xoopsDB, $xoopsUser, $xoopsModule, $xoopsModuleConfig, $xoopsTpl, $xoopsOption;
 
-    $jquery = get_jquery();
+    $jquery = Utility::get_jquery();
 
     //以流水號取得某筆tad_player_cate資料
     $cate = get_tad_player_cate($pcsn);
@@ -31,7 +27,7 @@ function show_cate($pcsn, $passwd)
 
     //找出分類下所有影音檔
     $sql = 'select * from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$pcsn}' order by sort , post_date";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         foreach ($all as $k => $v) {
@@ -146,7 +142,7 @@ function get_pre_next($pcsn = '', $now_sn = '')
 {
     global $xoopsDB;
     $sql = 'select psn,title from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$pcsn}' order by sort , post_date";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $stop = false;
     $pre = 0;
     while (list($psn, $title) = $xoopsDB->fetchRow($result)) {
@@ -177,7 +173,7 @@ $_REQUEST['op'] = (empty($_REQUEST['op'])) ? '' : $_REQUEST['op'];
 $psn = (isset($_REQUEST['psn'])) ? (int) ($_REQUEST['psn']) : 0;
 $pcsn = (isset($_REQUEST['pcsn'])) ? (int) ($_REQUEST['pcsn']) : 0;
 
-$jquery = get_jquery();
+$jquery = Utility::get_jquery();
 
 switch ($_REQUEST['op']) {
     default:
@@ -194,7 +190,7 @@ switch ($_REQUEST['op']) {
 //分類下拉選單
 $cate_option = get_tad_player_cate_option(0, 0, $pcsn);
 
-$jquery = get_jquery();
+$jquery = Utility::get_jquery();
 /*-----------秀出結果區--------------*/
 echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>
 <html>

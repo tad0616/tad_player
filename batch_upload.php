@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 require_once __DIR__ . '/header.php';
 require_once __DIR__ . "/language/{$xoopsConfig['language']}/batch.php";
 
@@ -31,7 +33,7 @@ function tad_player_batch_upload_form()
                 continue;
             }
 
-            $file = auto_charset($file, true);
+            $file = Utility::auto_charset($file, true);
 
             $f = explode('.', $file);
             //$filename=$f[0];
@@ -110,17 +112,17 @@ function tad_player_batch_import()
             continue;
         }
         $sql = 'insert into ' . $xoopsDB->prefix('tad_player') . " (pcsn,title,creator,location,image,info,uid,post_date,enable_group,counter) values('{$pcsn}','{$flv}','{$uid_name}','{$flv}','','{$flv}','{$uid}','{$now}','','0')";
-        $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         //取得最後新增資料的流水編號
         $psn = $xoopsDB->getInsertId();
 
         $sql = 'update ' . $xoopsDB->prefix('tad_player') . " set image='{$psn}.png' where psn='$psn'";
-        $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+        $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         set_time_limit(0);
         ini_set('memory_limit', '50M');
 
-        $flv = auto_charset($flv, false);
+        $flv = Utility::auto_charset($flv, false);
 
         if (rename(_TAD_PLAYER_BATCH_UPLOAD_DIR . $flv, _TAD_PLAYER_FLV_DIR . $psn . '_' . $flv)) {
             if (!empty($_POST['img'][$filename])) {
@@ -143,7 +145,7 @@ function tad_player_batch_import()
     }
 
     //刪除其他多餘檔案
-    rrmdir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
+    Utility::rrmdir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
 
     return $pcsn;
 }

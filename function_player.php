@@ -1,12 +1,6 @@
 <?php
-
+use XoopsModules\Tadtools\JwPlayer;
 use XoopsModules\Tadtools\Utility;
-
-//引入TadTools的函式庫
-if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php')) {
-    redirect_header('http://campus-xoops.tn.edu.tw/modules/tad_modules/index.php?module_sn=1', 3, _TAD_NEED_TADTOOLS);
-}
-require_once XOOPS_ROOT_PATH . '/modules/tadtools/tad_function.php';
 
 define('_TAD_PLAYER_UPLOAD_DIR', XOOPS_ROOT_PATH . '/uploads/tad_player/');
 define('_TAD_PLAYER_FLV_DIR', XOOPS_ROOT_PATH . '/uploads/tad_player/flv/');
@@ -32,7 +26,7 @@ function get_tad_player($psn = '')
     }
     $sql = 'select * from ' . $xoopsDB->prefix('tad_player') . " where psn='$psn'";
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $data = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -46,7 +40,7 @@ function get_tad_player_cate($pcsn = '')
         return;
     }
     $sql = 'select * from ' . $xoopsDB->prefix('tad_player_cate') . " where pcsn='$pcsn'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $data = $xoopsDB->fetchArray($result);
 
     return $data;
@@ -65,7 +59,7 @@ function list_tad_player_playlist($pcsn = '')
     $order_by_sort = 'a.sort ,';
 
     $sql = 'select a.psn,a.pcsn,a.location,a.title,a.image,a.info,a.creator,a.post_date,a.counter,a.enable_group,a.youtube,b.title,b.of_csn from ' . $xoopsDB->prefix('tad_player') . ' as a left join ' . $xoopsDB->prefix('tad_player_cate') . " as b on a.pcsn=b.pcsn where a.pcsn='{$pcsn}' order by $order_by_sort a.post_date desc";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //檢查權限
     $ok_cat = chk_cate_power();
@@ -208,10 +202,6 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
     } else {
         $rate = (!empty($height) and !empty($width)) ? round($height / $width, 2) : 0.6;
     }
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/jwplayer_new.php')) {
-        redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/jwplayer_new.php';
 
     if ('' == $mode) {
         $mode = null;

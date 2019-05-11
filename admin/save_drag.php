@@ -1,4 +1,6 @@
 <?php
+use XoopsModules\Tadtools\Utility;
+
 /*-----------引入檔案區--------------*/
 require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
@@ -22,7 +24,7 @@ function chk_cate_path($pcsn, $to_csn)
     global $xoopsDB;
     //抓出子目錄的編號
     $sql = 'select pcsn from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (list($sub_csn) = $xoopsDB->fetchRow($result)) {
         if (chk_cate_path($sub_csn, $to_csn)) {
             return true;

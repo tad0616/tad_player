@@ -1,12 +1,14 @@
 <?php
 
+use XoopsModules\Tadtools\Utility;
+
 //區塊主函式 (影音播放器區塊2說明)
 function tad_new_media($options)
 {
     global $xoopsDB;
 
     $sql = 'SELECT `psn`, `title`, `creator`, `location`, `image`, `info`, `uid`, `post_date`, `enable_group`, `counter` FROM ' . $xoopsDB->prefix('tad_player') . " order by post_date desc limit 0,{$options[0]}";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $i = 0;
 

@@ -1,7 +1,9 @@
 <?php
+use XoopsModules\Tadtools\CkEditor;
+use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
-$GLOBALS['xoopsOption']['template_main'] = 'tad_player_uploads.tpl';
+$xoopsOption['template_main'] = 'tad_player_uploads.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 if (count($upload_powers) <= 0 or empty($xoopsUser)) {
@@ -51,14 +53,9 @@ function tad_player_form($psn = '', $pcsn = '')
     $youtube = (!isset($DBV['youtube'])) ? '' : $DBV['youtube'];
     $logo = (!isset($DBV['logo'])) ? '' : $DBV['logo'];
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ck.php')) {
-        redirect_header('index.php', 3, _MD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/ck.php';
-    $ck = new CKEditor('tad_player', 'content', $content);
-
-    $ck->setHeight(200);
-    $editor = $ck->render();
+    $CkEditor = new CkEditor('tad_player', 'content', $content);
+    $CkEditor->setHeight(200);
+    $editor = $CkEditor->render();
 
     $cate_select = get_tad_player_cate_option(0, 0, $pcsn, 1, false, 'upload');
 
@@ -129,7 +126,7 @@ function insert_tad_player()
 {
     global $xoopsDB, $xoopsUser;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     if (!empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
         $pcsn = add_tad_player_cate();
@@ -214,7 +211,7 @@ function insert_tad_player()
 
     $sql = 'insert into ' . $xoopsDB->prefix('tad_player') . " (pcsn,title,creator,location,image,info,uid,post_date,enable_group,counter,content,youtube,logo) values('{$pcsn}','{$title}','{$_POST['creator']}','{$location}','{$image}','{$location}','{$uid}','{$now}','{$enable_group}','0','{$_POST['content']}','{$_POST['youtube']}','{$_POST['logo_name']}')";
     //die($sql);
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $psn = $xoopsDB->getInsertId();
 
@@ -253,7 +250,7 @@ function update_tad_player($psn = '')
 {
     global $xoopsDB;
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     if (_MD_TADPLAYER_YOUTUBE_LINK == $_POST['youtube']) {
         $_POST['youtube'] = '';
@@ -322,7 +319,7 @@ function update_tad_player($psn = '')
     //$now=xoops_getUserTimestamp(time());
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
     $sql = 'update ' . $xoopsDB->prefix('tad_player') . " set  pcsn = '{$pcsn}', title = '{$title}', creator = '{$_POST['creator']}' {$location_sql} {$image_sql}, post_date = '{$now}', enable_group = '{$enable_group}', width = '{$width}', height = '{$height}' , content = '{$_POST['content']}', logo='{$_POST['logo_name']}' where psn='$psn'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     if (!empty($_FILES['logo']['name'])) {
         upload_logo($psn);
@@ -351,13 +348,13 @@ function upload_flv($psn = '', $update_sql = false)
             $flv_handle->clean();
             if ($update_sql) {
                 $sql = 'update ' . $xoopsDB->prefix('tad_player') . " set image='{$_FILES['location']['name']}' where psn='$psn'";
-                $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+                $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             }
 
             return true;
         }
         $sql = 'delete from ' . $xoopsDB->prefix('tad_player') . " where psn='{$psn}'";
-        $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+        $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
         redirect_header($_SERVER['PHP_SELF'], 3, 'Error:' . $flv_handle->error);
     }
 }
@@ -401,7 +398,7 @@ function upload_pic($psn = '', $update_sql = false)
         if ($img_handle->processed) {
             if ($update_sql) {
                 $sql = 'update ' . $xoopsDB->prefix('tad_player') . " set `image`='{$psn}.png' where `psn`='$psn'";
-                $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+                $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
             }
 
             $img_handle->clean();
@@ -434,7 +431,7 @@ function upload_logo($psn = '')
         $img_handle->auto_create_dir = true;
         if ($img_handle->processed) {
             $sql = 'update ' . $xoopsDB->prefix('tad_player') . " set `logo`='{$psn}.png' where `psn`='$psn'";
-            $result = $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+            $result = $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
             $img_handle->clean();
 
@@ -449,8 +446,8 @@ $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', get_jquery(true));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 
 switch ($op) {
     //新增資料

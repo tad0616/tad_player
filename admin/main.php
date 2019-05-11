@@ -1,6 +1,10 @@
 <?php
+use XoopsModules\Tadtools\SweetAlert;
+use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Ztree;
+
 /*-----------引入檔案區--------------*/
-$GLOBALS['xoopsOption']['template_main'] = 'tad_player_adm_main.tpl';
+$xoopsOption['template_main'] = 'tad_player_adm_main.tpl';
 require_once __DIR__ . '/header.php';
 $isAdmin = true;
 require_once dirname(__DIR__) . '/function.php';
@@ -21,7 +25,7 @@ function list_tad_player($pcsn = '')
 
     $sql = 'select `psn` , `title` , `location` , `image` , `info` , `width` , `height` , `counter` , `enable_group` , `uid` , `post_date` from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$pcsn}' order by sort ";
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $i = 0;
 
@@ -31,7 +35,7 @@ function list_tad_player($pcsn = '')
             $$k = $v;
         }
 
-        $g_txt = txt_to_group_name($enable_group, _MA_TADPLAYER_ALL_OK, ', ');
+        $g_txt = Utility::txt_to_group_name($enable_group, _MA_TADPLAYER_ALL_OK, ', ');
 
         if (0 === mb_strpos($image, 'http')) {
             $pic = $image;
@@ -65,7 +69,7 @@ function list_tad_player($pcsn = '')
 
         $i++;
     }
-    get_jquery(true);
+    Utility::get_jquery(true);
     $option = get_tad_player_cate_option(0, 0, $pcsn, 1, false);
 
     $xoopsTpl->assign('option', $option);
@@ -74,12 +78,9 @@ function list_tad_player($pcsn = '')
     $xoopsTpl->assign('cate_width', $cate['width']);
     $xoopsTpl->assign('cate_height', $cate['height']);
     $xoopsTpl->assign('cate', $cate);
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/sweet_alert.php';
-    $sweet_alert = new sweet_alert();
-    $sweet_alert_code = $sweet_alert->render('delete_tad_player_cate_func', 'main.php?op=delete_tad_player_cate&pcsn=', 'pcsn');
+
+    $SweetAlert = new SweetAlert();
+    $SweetAlert->render('delete_tad_player_cate_func', 'main.php?op=delete_tad_player_cate&pcsn=', 'pcsn');
 }
 
 //列出所有tad_player_cate資料
@@ -89,7 +90,7 @@ function list_tad_player_cate_tree($def_pcsn = '')
 
     $cate_count = [];
     $sql = 'select count(*),pcsn from ' . $xoopsDB->prefix('tad_player') . ' group by pcsn';
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
@@ -99,7 +100,7 @@ function list_tad_player_cate_tree($def_pcsn = '')
     $data[] = "{ id:0, pId:0, name:'" . _MA_TADPLAYER_CATE_SELECT . "', url:'main.php', target:'_self', open:true}";
 
     $sql = 'select pcsn,of_csn,title from ' . $xoopsDB->prefix('tad_player_cate') . ' order by sort';
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (list($pcsn, $of_csn, $title) = $xoopsDB->fetchRow($result)) {
         $font_style = $def_pcsn == $pcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
         $open = in_array($pcsn, $path_arr) ? 'true' : 'false';
@@ -109,12 +110,8 @@ function list_tad_player_cate_tree($def_pcsn = '')
 
     $json = implode(",\n", $data);
 
-    if (!file_exists(XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php')) {
-        redirect_header('index.php', 3, _TAD_NEED_TADTOOLS);
-    }
-    require_once XOOPS_ROOT_PATH . '/modules/tadtools/ztree.php';
-    $ztree = new ztree('cate_tree', $json, 'save_drag.php', 'save_cate_sort.php', 'of_csn', 'pcsn');
-    $ztree_code = $ztree->render();
+    $Ztree = new Ztree('cate_tree', $json, 'save_drag.php', 'save_cate_sort.php', 'of_csn', 'pcsn');
+    $ztree_code = $Ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
     $xoopsTpl->assign('cate_count', $cate_count);
 
@@ -139,7 +136,7 @@ function mk_all_xml($the_pcsn = '')
 {
     global $xoopsDB;
     $sql = 'select pcsn,title from ' . $xoopsDB->prefix('tad_player_cate');
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $log = '';
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
@@ -165,7 +162,7 @@ function batch_move($new_pcsn = '')
     global $xoopsDB;
     $videos = implode(',', $_POST['video']);
     $sql = 'update ' . $xoopsDB->prefix('tad_player') . " set `pcsn` = '{$new_pcsn}' where psn in($videos)";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $sn;
 }
@@ -176,7 +173,7 @@ function batch_add_title()
     global $xoopsDB;
     $videos = implode(',', $_POST['video']);
     $sql = 'update ' . $xoopsDB->prefix('tad_player') . " set  `title` = '{$_POST['add_title']}' where psn in($videos)";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
 //批次新增說明
@@ -185,7 +182,7 @@ function batch_add_info()
     global $xoopsDB;
     $videos = implode(',', $_POST['video']);
     $sql = 'update ' . $xoopsDB->prefix('tad_player') . " set `info` = '{$_POST['add_info']}' where psn in($videos)";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $sn;
 }
@@ -196,7 +193,7 @@ function update_wh()
     global $xoopsDB;
     $videos = implode(',', $_POST['video']);
     $sql = 'update ' . $xoopsDB->prefix('tad_player') . " set `width` = '{$_POST['width']}' , `height` = '{$_POST['height']}' where psn in($videos)";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $sn;
 }
@@ -265,7 +262,7 @@ function auto_get_csn_sort($pcsn = '')
 {
     global $xoopsDB;
     $sql = 'select max(`sort`) from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}' group by of_csn";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($max_sort) = $xoopsDB->fetchRow($result);
 
     return ++$max_sort;
@@ -291,7 +288,7 @@ function insert_tad_player_cate()
         $enable_upload_group = implode(',', $_POST['enable_upload_group']);
     }
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     $of_csn = (int) $_POST['of_csn'];
     $sort = (int) $_POST['sort'];
@@ -303,7 +300,7 @@ function insert_tad_player_cate()
     $enable_upload_group = $myts->addSlashes($enable_upload_group);
 
     $sql = 'insert into ' . $xoopsDB->prefix('tad_player_cate') . " (of_csn,title,enable_group,enable_upload_group,sort,width,height) values('{$of_csn}','{$title}','{$enable_group}','{$enable_upload_group}','{$sort}','{$width}','{$height}')";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $pcsn = $xoopsDB->getInsertId();
     mk_list_json($pcsn);
@@ -335,7 +332,7 @@ function update_tad_player_cate($pcsn = '')
         break;
     }
 
-    $myts = MyTextSanitizer::getInstance();
+    $myts = \MyTextSanitizer::getInstance();
 
     $of_csn = (int) $of_csn;
     $sort = (int) $_POST['sort'];
@@ -348,7 +345,7 @@ function update_tad_player_cate($pcsn = '')
     $enable_upload_group = $myts->addSlashes($enable_upload_group);
 
     $sql = 'update ' . $xoopsDB->prefix('tad_player_cate') . " set  of_csn = '{$of_csn}', title = '{$title}', enable_group = '{$enable_group}', enable_upload_group = '{$enable_upload_group}', sort = '{$sort}', width = '{$width}', height = '{$height}' where pcsn='$pcsn'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     mk_list_json($pcsn);
     $log = "update $pcsn OK!";
 
@@ -362,17 +359,17 @@ function delete_tad_player_cate($pcsn = '')
 
     //先找出底下所有影片
     $sql = 'select psn from ' . $xoopsDB->prefix('tad_player') . " where pcsn='$pcsn'";
-    $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (list($psn) = $xoopsDB->fetchRow($result)) {
         delete_tad_player($psn);
     }
 
     //找出底下分類，並將分類的所屬分類清空
     $sql = 'update ' . $xoopsDB->prefix('tad_player_cate') . " set  of_csn='' where of_csn='$pcsn'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $sql = 'delete from ' . $xoopsDB->prefix('tad_player_cate') . " where pcsn='$pcsn'";
-    $xoopsDB->queryF($sql) or web_error($sql, __FILE__, __LINE__);
+    $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     unlink(_TAD_PLAYER_UPLOAD_DIR . "{$psn}_list.xml");
 }
@@ -383,7 +380,7 @@ function mk_thumb($pcsn = '')
     global $xoopsDB;
     set_time_limit(0);
     $sql = 'select `psn`,`image` from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$pcsn}' order by sort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     while (false !== ($all = $xoopsDB->fetchArray($result))) {
         foreach ($all as $k => $v) {
             $$k = $v;

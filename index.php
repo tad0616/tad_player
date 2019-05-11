@@ -1,9 +1,10 @@
 <?php
+use XoopsModules\Tadtools\StarRating;
+use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-require_once __DIR__ . '/header.php';
-$GLOBALS['xoopsOption']['template_main'] = 'tad_player_index.tpl';
+require_once 'header.php';
+$xoopsOption['template_main'] = 'tad_player_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
-require_once XOOPS_ROOT_PATH . '/modules/tadtools/star_rating.php';
 /*-----------function區--------------*/
 
 //列出所有tad_player資料
@@ -26,7 +27,7 @@ function list_tad_player($pcsn = '')
     $sql = 'select a.psn,a.pcsn,a.location,a.title,a.image,a.info,a.creator,a.post_date,a.counter,a.enable_group,b.title,b.of_csn from ' . $xoopsDB->prefix('tad_player') . ' as a left join ' . $xoopsDB->prefix('tad_player_cate') . " as b on a.pcsn=b.pcsn where a.pcsn='{$pcsn}' order by $order_by_sort a.post_date desc";
 
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
-    $PageBar = getPageBar($sql, $xoopsModuleConfig['index_show_num'], 10);
+    $PageBar = Utility::getPageBar($sql, $xoopsModuleConfig['index_show_num'], 10);
     $bar = $PageBar['bar'];
     $sql = $PageBar['sql'];
     $total = $PageBar['total'];
@@ -34,7 +35,7 @@ function list_tad_player($pcsn = '')
         $bar = '';
     }
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //檢查權限
     $ok_cat = chk_cate_power();
@@ -47,7 +48,7 @@ function list_tad_player($pcsn = '')
 
     $rating_js = '';
     if ($xoopsModuleConfig['use_star_rating']) {
-        $rating = new rating('tad_player', '10', 'show', 'simple');
+        $StarRating = new StarRating('tad_player', '10', 'show', 'simple');
     }
 
     $data = $no_power = [];
@@ -94,7 +95,7 @@ function list_tad_player($pcsn = '')
         $post_date = date('Y-m-d H:i:s', xoops_getUserTimestamp($post_date));
         $creator_col = (empty($creator)) ? '' : _MD_TADPLAYER_CREATOR . ": $creator";
         if ($xoopsModuleConfig['use_star_rating']) {
-            $rating->add_rating('psn', $psn);
+            $StarRating->add_rating(XOOPS_URL . '/modules/tad_player/play.php', 'psn', $psn);
         }
 
         $data[$i]['pic'] = $pic;
@@ -112,7 +113,7 @@ function list_tad_player($pcsn = '')
     $count += $i;
 
     if ($xoopsModuleConfig['use_star_rating']) {
-        $rating_js = $rating->render();
+        $rating_js = $StarRating->render();
     }
 
     if (!empty($pcsn)) {
@@ -140,7 +141,7 @@ function count_cate_num($pcsn = '0')
 {
     global $xoopsDB, $xoopsModule;
     $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}'";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     list($count) = $xoopsDB->fetchRow($result);
     if (empty($count)) {
         $count = 0;
@@ -161,7 +162,7 @@ function list_tad_player_cate($pcsn = '0')
     }
 
     $sql = 'select * from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}' order by sort";
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $data = [];
     $i = 0;
@@ -199,7 +200,7 @@ $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 
 $xoops_module_header = '';
-get_jquery(true);
+Utility::get_jquery(true);
 
 switch ($op) {
     //預設動作
@@ -210,11 +211,8 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 
-// $arr=get_tad_player_cate_path($pcsn);
-// $jBreadCrumbPath=tad_player_breadcrumb($pcsn,$arr);
-// $xoopsTpl->assign( "path_bar" , $jBreadCrumbPath);
-$xoopsTpl->assign('push', push_url($xoopsModuleConfig['use_social_tools']));
-$xoopsTpl->assign('toolbar', toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
 $xoopsTpl->assign('psn', $psn);
 $xoopsTpl->assign('pcsn', $pcsn);
 $xoopsTpl->assign('font_color', $xoopsModuleConfig['font_color']);

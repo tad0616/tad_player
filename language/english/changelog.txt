@@ -1,3 +1,9 @@
+Tad Player 3.6 (2019-05-10 released)
+=========================================================
+1. Support XOOPS 2.5.10
+2. No longer supports PHP 5.3
+
+
 Tad Player 3.5.9 (released from 2019-02-15)
 =========================================================== ==
 1. Fixed the problem that the background of the video playback could not be deleted.

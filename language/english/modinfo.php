@@ -1,6 +1,5 @@
 <?php
 xoops_loadLanguage('modinfo_common', 'tadtools');
-
 define('_MI_TADPLAYER_NAME', 'Video player');
 define('_MI_TADPLAYER_AUTHOR', 'Tad (tad0616@gmail.com)');
 define('_MI_TADPLAYER_CREDITS', 'ck2 (http://ck2tw.net)');

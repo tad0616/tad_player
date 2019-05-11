@@ -1,4 +1,7 @@
 <?php
+
+use XoopsModules\Tadtools\Utility;
+
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 
 require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
@@ -15,7 +18,7 @@ function get_cate_options($pcsn = '', $def_psn = '')
     $sql = 'select `psn` , `title` from `' . $xoopsDB->prefix('tad_player') . "`
     where `pcsn` = '$pcsn' order by `sort`";
 
-    $result = $xoopsDB->query($sql) or web_error($sql, __FILE__, __LINE__);
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $total = $xoopsDB->getRowsNum($result);
     $main = (empty($def_psn) and !empty($total)) ? "<option value=''>" . _MD_TADPLAYER_PICK_A_VIDEO . '</option>' : '';
     $sort = 1;

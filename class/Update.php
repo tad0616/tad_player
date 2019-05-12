@@ -1,8 +1,8 @@
 <?php
 
-use XoopsModules\Tadtools\Utility;
-
 namespace XoopsModules\Tad_player;
+
+use XoopsModules\Tadtools\Utility;
 
 /*
 Update Class Definition

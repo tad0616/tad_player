@@ -7,14 +7,14 @@ use XoopsModules\Tadtools\Utility;
 /*
 Update Class Definition
 
- You may not change or alter any portion of this comment or credits of
- supporting developers from this source code or any supporting source code
- which is considered copyrighted (c) material of the original comment or credit
- authors.
+You may not change or alter any portion of this comment or credits of
+supporting developers from this source code or any supporting source code
+which is considered copyrighted (c) material of the original comment or credit
+authors.
 
- This program is distributed in the hope that it will be useful, but
- WITHOUT ANY WARRANTY; without even the implied warranty of
- MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+This program is distributed in the hope that it will be useful, but
+WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
 /**
@@ -27,7 +27,7 @@ Update Class Definition
  * Class Update
  */
 class Update
-    {
+{
 
     public static function chk_chk1()
     {
@@ -43,10 +43,10 @@ class Update
         global $xoopsDB;
         set_time_limit(0);
 
-        self::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player');
-        self::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/img');
-        self::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/flv');
-        self::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player_batch_uploads');
+        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player');
+        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/img');
+        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/flv');
+        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player_batch_uploads');
 
         $sql = 'SELECT psn,location,image,post_date FROM ' . $xoopsDB->prefix('tad_player') . ' ORDER BY psn';
         $result = $xoopsDB->query($sql) or die($sql);
@@ -122,7 +122,7 @@ class Update
     public static function go_update3()
     {
         global $xoopsDB;
-        self::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/logo');
+        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/logo');
         $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_player') . " ADD `logo` VARCHAR(255) NOT NULL  DEFAULT ''";
         $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin', 30, $GLOBALS['xoopsDB']->error());
     }

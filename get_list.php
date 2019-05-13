@@ -2,7 +2,7 @@
 use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
-include __DIR__ . '/header.php';
+require __DIR__ . '/header.php';
 /*-----------function區--------------*/
 
 if (isset($_GET['pcsn'])) {

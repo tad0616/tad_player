@@ -5,9 +5,9 @@ use XoopsModules\Tadtools\Ztree;
 
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_player_adm_main.tpl';
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 $isAdmin = true;
-include_once '../function.php';
+require_once dirname(__DIR__) . '/function.php';
 
 /*-----------function區--------------*/
 //列出所有tad_player資料
@@ -30,14 +30,14 @@ function list_tad_player($pcsn = '')
     $i = 0;
 
     $data = [];
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         foreach ($all as $k => $v) {
             $$k = $v;
         }
 
         $g_txt = Utility::txt_to_group_name($enable_group, _MA_TADPLAYER_ALL_OK, ', ');
 
-        if ('http' === mb_substr($image, 0, 4)) {
+        if (0 === mb_strpos($image, 'http')) {
             $pic = $image;
         } elseif (empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR . "{$psn}.png")) {
             $ext = mb_substr($location, -3);
@@ -51,7 +51,7 @@ function list_tad_player($pcsn = '')
             $pic = _TAD_PLAYER_IMG_URL . "{$psn}.png";
         }
 
-        $uid_name = XoopsUser::getUnameFromId($uid, 1);
+        $uid_name = \XoopsUser::getUnameFromId($uid, 1);
         $uid_name = (empty($uid_name)) ? XoopsUser::getUnameFromId($uid, 0) : $uid_name;
 
         $post_date = mb_substr($post_date, 0, 10);
@@ -202,7 +202,7 @@ function update_wh()
 function tad_player_cate_form($pcsn = '')
 {
     global $xoopsDB, $xoopsModuleConfig, $xoopsTpl;
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
     $xoopsTpl->assign('now_op', 'tad_player_cate_form');
 
     //抓取預設值
@@ -381,7 +381,7 @@ function mk_thumb($pcsn = '')
     set_time_limit(0);
     $sql = 'select `psn`,`image` from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$pcsn}' order by sort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-    while ($all = $xoopsDB->fetchArray($result)) {
+    while (false !== ($all = $xoopsDB->fetchArray($result))) {
         foreach ($all as $k => $v) {
             $$k = $v;
         }
@@ -395,7 +395,7 @@ function mk_thumb($pcsn = '')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
@@ -479,4 +479,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-include_once __DIR__ . '/footer.php';
+require_once __DIR__ . '/footer.php';

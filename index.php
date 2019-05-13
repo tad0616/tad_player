@@ -2,9 +2,9 @@
 use XoopsModules\Tadtools\StarRating;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-include_once 'header.php';
+require_once 'header.php';
 $xoopsOption['template_main'] = 'tad_player_index.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------function區--------------*/
 
 //列出所有tad_player資料
@@ -67,7 +67,7 @@ function list_tad_player($pcsn = '')
         }
 
         //整理影片圖檔
-        if ('http' === mb_substr($image, 0, 4)) {
+        if (0 === mb_strpos($image, 'http')) {
             $pic = $image;
         } elseif (empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR . "{$psn}.png")) {
             $ext = mb_substr($location, -3);
@@ -88,7 +88,7 @@ function list_tad_player($pcsn = '')
         $img_title = (is_array($no_power) and in_array($psn, $no_power)) ? sprintf(_MD_TADPLAYER_NO_POWER, $title) : $title;
 
         //整理日期
-        if ('20' == mb_substr($post_date, 0, 2)) {
+        if (0 === mb_strpos($post_date, '20')) {
             $post_date = strtotime($post_date);
         }
 
@@ -118,10 +118,10 @@ function list_tad_player($pcsn = '')
 
     if (!empty($pcsn)) {
         $xoops_module_header = "
-        <meta proprery=\"og:title\" content=\"{$cate[$pcsn]}\" />
-        <meta proprery=\"og:description\" content=\"{$info}\" />
-        <meta property=\"og:image\" content=\"{$pic}\" />
-        <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/index.php?pcsn=$pcsn\"/>
+        <meta proprery=\"og:title\" content=\"{$cate[$pcsn]}\">
+        <meta proprery=\"og:description\" content=\"{$info}\">
+        <meta property=\"og:image\" content=\"{$pic}\">
+        <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/index.php?pcsn=$pcsn\">
     ";
     } else {
         $xoops_module_header = '';
@@ -194,7 +194,7 @@ function list_tad_player_cate($pcsn = '0')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
@@ -233,4 +233,4 @@ if (isset($title) and !empty($title)) {
     }
 }
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

@@ -4,7 +4,7 @@ use XoopsModules\Tadtools\Utility;
 $ok_video_ext = ['flv', 'mp4', 'm4v', 'f4v', 'mov', 'mp3', 'webm', 'ogv', 'ogg', 'swf', '3gp', '3g2', 'aac', 'm4a'];
 $ok_image_ext = ['jpg', 'png', 'gif'];
 
-include_once 'function_player.php';
+require_once __DIR__ . '/function_player.php';
 
 //路徑導覽
 function tad_player_breadcrumb($pcsn = '0', $array = [])
@@ -64,7 +64,7 @@ function get_tad_player_cate_path($the_pcsn = '', $include_self = true)
             LEFT JOIN `{$tbl}` t7 ON t7.of_csn = t6.pcsn
             WHERE t1.of_csn = '0'";
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-        while ($all = $xoopsDB->fetchArray($result)) {
+        while (false !== ($all = $xoopsDB->fetchArray($result))) {
             if (in_array($the_pcsn, $all)) {
                 //$main.="-";
                 foreach ($all as $pcsn) {
@@ -121,7 +121,7 @@ function count_video_num($pcsn = '0')
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $count = $xoopsDB->getRowsNum($result);
     while (list($psn, $image, $location) = $xoopsDB->fetchRow($result)) {
-        if ('http' === mb_substr($image, 0, 4)) {
+        if (0 === mb_strpos($image, 'http')) {
             $pic = $image;
             break;
         } elseif (!empty($image) and file_exists(_TAD_PLAYER_IMG_DIR . "{$psn}.png")) {
@@ -230,7 +230,7 @@ function tad_player_chk_cate_have_sub($pcsn = 0)
 {
     global $xoopsDB;
     $sql = 'select pcsn from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}'";
-    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADNEW_DB_SELECT_ERROR1);
+    $result = $xoopsDB->query($sql) or redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADPLAYER_DB_SELECT_ERROR1);
     while (list($sub_pcsn) = $xoopsDB->fetchRow($result)) {
         if (!empty($sub_pcsn)) {
             return true;
@@ -302,6 +302,7 @@ function mk_video_thumbnail($filename = '', $thumb_name = '', $type = 'image/jpe
 function chk_cate_power($kind = '')
 {
     global $xoopsDB, $xoopsUser, $xoopsModule;
+    $ok_cat = [];
     if (!empty($xoopsUser)) {
         $module_id = $xoopsModule->getVar('mid');
         $isAdmin = $xoopsUser->isAdmin($module_id);
@@ -408,7 +409,7 @@ function mk_list_json($pcsn = '')
     $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_player') . " WHERE `pcsn`='{$pcsn}' and `enable_group`='' order by sort";
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $i = 0;
-    while ($midia = $xoopsDB->fetchArray($result)) {
+    while (false !== ($midia = $xoopsDB->fetchArray($result))) {
         foreach ($midia as $k => $v) {
             $$k = $v;
         }
@@ -416,7 +417,7 @@ function mk_list_json($pcsn = '')
         $title = htmlspecialchars($title);
 
         //$location=urlencode($location);
-        if ('http' === mb_substr($image, 0, 4)) {
+        if (0 === mb_strpos($image, 'http')) {
             $image = $image;
         } else {
             $image = _TAD_PLAYER_IMG_URL . $image;
@@ -425,7 +426,7 @@ function mk_list_json($pcsn = '')
         if (empty($location) and !empty($youtube)) {
             $YTid = getYTid($youtube);
             $media = "https://youtu.be/{$YTid}";
-        } elseif ('http' === mb_substr($location, 0, 4)) {
+        } elseif (0 === mb_strpos($location, 'http')) {
             $media = $location;
         } else {
             $media = _TAD_PLAYER_FLV_URL . "{$psn}_{$location}";
@@ -474,7 +475,7 @@ function mk_list_xml($pcsn = '')
     $main = "<rss version=\"2.0\" xmlns:app=\"http://www.w3.org/2007/app\">
   <channel>\n";
 
-    while ($midia = $xoopsDB->fetchArray($result)) {
+    while (false !== ($midia = $xoopsDB->fetchArray($result))) {
         foreach ($midia as $k => $v) {
             $$k = $v;
         }
@@ -483,18 +484,18 @@ function mk_list_xml($pcsn = '')
         $creator = htmlspecialchars($creator);
 
         //$location=urlencode($location);
-        if ('http' === mb_substr($image, 0, 4)) {
+        if (0 === mb_strpos($image, 'http')) {
             $image = $image;
         } else {
             $image = _TAD_PLAYER_IMG_URL . $image;
         }
 
-        $image = (empty($image)) ? '' : "<jwplayer:image file=\"{$image}\" />";
+        $image = (empty($image)) ? '' : "<jwplayer:image file=\"{$image}\">";
 
         if (empty($location) and !empty($youtube)) {
             $YTid = getYTid($youtube);
             $media = "https://youtu.be/{$YTid}";
-        } elseif ('http' === mb_substr($location, 0, 4)) {
+        } elseif (0 === mb_strpos($location, 'http')) {
             $media = $location;
         } else {
             $media = _TAD_PLAYER_FLV_URL . "{$psn}_{$location}";
@@ -505,7 +506,7 @@ function mk_list_xml($pcsn = '')
         //$media=str_replace("?","%3F",$media);
         //$media=str_replace("&","%26",$media);
 
-        if ('20' == mb_substr($post_date, 0, 2)) {
+        if (0 === mb_strpos($post_date, '20')) {
             $post_date = strtotime($post_date);
         }
         $post_date = date('Y-m-d H:i:s', xoops_getUserTimestamp($post_date));
@@ -522,7 +523,7 @@ function mk_list_xml($pcsn = '')
             <guid isPermaLink="true">' . XOOPS_URL . "/modules/tad_player/playlist.php?pcsn={$pcsn}</guid>
             <title>{$title}</title>
             <description>{$content}</description>
-            <jwplayer:source file=\"{$media}\" />
+            <jwplayer:source file=\"{$media}\">
         </item>\n\n";
     }
     $main .= "

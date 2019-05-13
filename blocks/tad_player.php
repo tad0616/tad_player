@@ -5,16 +5,16 @@ use XoopsModules\Tadtools\Utility;
 function tad_player($options)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . '/modules/tad_player/function_player.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_player/function_player.php';
 
-    $modhandler = xoops_getHandler('module');
-    $xoopsModule = $modhandler->getByDirname('tad_player');
-    $config_handler = xoops_getHandler('config');
-    $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
+    $moduleHandler = xoops_getHandler('module');
+    $xoopsModule = $moduleHandler->getByDirname('tad_player');
+    $configHandler = xoops_getHandler('config');
+    $xoopsModuleConfig = $configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
     if (empty($options[0])) {
         $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_player') . ' ORDER BY rand() LIMIT 0,1';
-    } elseif ('pcsn' === mb_substr($options[0], 0, 4)) {
+    } elseif (0 === mb_strpos($options[0], 'pcsn')) {
         $sn = explode('_', $options[0]);
         $sql = 'select * from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$sn[1]}' order by rand() limit 0,1";
     } else {

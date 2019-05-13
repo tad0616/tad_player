@@ -2,9 +2,9 @@
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_player_uploads.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 
 if (count($upload_powers) <= 0 or empty($xoopsUser)) {
     redirect_header(XOOPS_URL . '/user.php', 3, _MD_TADPLAYER_NO_UPLOAD_POWER);
@@ -28,7 +28,7 @@ function uploads_tabs($psn = '', $pcsn = '')
 function tad_player_form($psn = '', $pcsn = '')
 {
     global $xoopsDB, $xoopsModuleConfig, $xoopsTpl;
-    include_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
     if (!empty($psn)) {
@@ -62,8 +62,8 @@ function tad_player_form($psn = '', $pcsn = '')
     $logo_col = false;
 
     //可見群組
-    $member_handler = xoops_getHandler('member');
-    $group_arr = $member_handler->getGroupList();
+    $memberHandler = xoops_getHandler('member');
+    $group_arr = $memberHandler->getGroupList();
     $xoopsTpl->assign('group_arr', $group_arr);
     $xoopsTpl->assign('enable_group', $enable_group);
     //die(var_export($enable_group));
@@ -77,7 +77,7 @@ function tad_player_form($psn = '', $pcsn = '')
     //$op="replace_tad_player";
 
     $selected_link = $selected_local = $selected_youtube = $selected_img_local = $selected_img_link = '';
-    if ('http' === mb_substr($location, 0, 4)) {
+    if (0 === mb_strpos($location, 'http')) {
         $hide = "$('#flv_youtube').hide();
         $('#flv_local').hide();";
         $selected_link = 'selected';
@@ -93,7 +93,7 @@ function tad_player_form($psn = '', $pcsn = '')
         $selected_youtube = 'selected';
     }
 
-    if ('http' === mb_substr($image, 0, 4)) {
+    if (0 === mb_strpos($image, 'http')) {
         $hide_img = "$('#img_local').hide();";
         $selected_img_link = 'selected';
     } else {
@@ -334,7 +334,7 @@ function update_tad_player($psn = '')
 function upload_flv($psn = '', $update_sql = false)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
     set_time_limit(0);
     ini_set('memory_limit', '50M');
     $flv_handle = new upload($_FILES['location'], 'zh_TW');
@@ -363,7 +363,7 @@ function upload_flv($psn = '', $update_sql = false)
 function upload_pic($psn = '', $update_sql = false)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
     set_time_limit(0);
     ini_set('memory_limit', '50M');
 
@@ -379,7 +379,7 @@ function upload_pic($psn = '', $update_sql = false)
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
         $img_handle->file_safe_name = false;
-        $img_handle->file_new_name_body = (string) ($psn);
+        $img_handle->file_new_name_body = (string)($psn);
         $img_handle->image_convert = 'png';
         $img_handle->image_resize = true;
         $img_handle->image_x = 1024;
@@ -413,7 +413,7 @@ function upload_pic($psn = '', $update_sql = false)
 function upload_logo($psn = '')
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
     set_time_limit(0);
     ini_set('memory_limit', '50M');
 
@@ -425,7 +425,7 @@ function upload_logo($psn = '')
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
         $img_handle->file_safe_name = false;
-        $img_handle->file_new_name_body = (string) ($psn);
+        $img_handle->file_new_name_body = (string)($psn);
         $img_handle->image_convert = 'png';
         $img_handle->process(XOOPS_ROOT_PATH . '/uploads/tad_player/logo');
         $img_handle->auto_create_dir = true;
@@ -441,7 +441,7 @@ function upload_logo($psn = '')
     }
 }
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
@@ -470,4 +470,4 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

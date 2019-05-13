@@ -11,7 +11,7 @@ define('_MA_TADPLAYER_ENABLE_UPLOAD_GROUP', '可傳群組');
 define('_MA_TADPLAYER_ALL_OK', '所有群組');
 define('_MA_TADPLAYER_XML_OK', '「%s」的播放清單製作完成！');
 define('_MA_TADPLAYER_JSON_OK', '播放清單製作完成！');
-define('_MD_TADPLAYER_BLANK', '　');
+define('_MA_TADPLAYER_BLANK', '　');
 define('_MA_TADPLAYER_THE_ACT_IS', '將勾選的影片：');
 define('_MA_TADPLAYER_MOVE_TO', '搬移到：');
 define('_MA_TADPLAYER_ADD_TITLE', '加入標題：');

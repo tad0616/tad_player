@@ -1,9 +1,9 @@
 <?php
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_player_playlist.tpl';
-include_once XOOPS_ROOT_PATH . '/header.php';
+require_once XOOPS_ROOT_PATH . '/header.php';
 /*-----------function區--------------*/
 
 //清單播放
@@ -34,7 +34,7 @@ function playlist($pcsn = '0')
 }
 
 /*-----------執行動作判斷區----------*/
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
@@ -70,4 +70,4 @@ if (isset($title) and !empty($title)) {
     }
 }
 
-include_once XOOPS_ROOT_PATH . '/footer.php';
+require_once XOOPS_ROOT_PATH . '/footer.php';

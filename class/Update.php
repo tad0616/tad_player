@@ -1,20 +1,20 @@
 <?php
 
-use XoopsModules\Tadtools\Utility;
-
 namespace XoopsModules\Tad_player;
+
+use XoopsModules\Tadtools\Utility;
 
 /*
 Update Class Definition
 
-You may not change or alter any portion of this comment or credits of
-supporting developers from this source code or any supporting source code
-which is considered copyrighted (c) material of the original comment or credit
-authors.
+ You may not change or alter any portion of this comment or credits of
+ supporting developers from this source code or any supporting source code
+ which is considered copyrighted (c) material of the original comment or credit
+ authors.
 
-This program is distributed in the hope that it will be useful, but
-WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ This program is distributed in the hope that it will be useful, but
+ WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
 /**
@@ -27,7 +27,7 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * Class Update
  */
 class Update
-{
+    {
 
     public static function chk_chk1()
     {
@@ -43,17 +43,17 @@ class Update
         global $xoopsDB;
         set_time_limit(0);
 
-        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player');
-        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/img');
-        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/flv');
-        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player_batch_uploads');
+        self::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player');
+        self::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/img');
+        self::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/flv');
+        self::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player_batch_uploads');
 
         $sql = 'SELECT psn,location,image,post_date FROM ' . $xoopsDB->prefix('tad_player') . ' ORDER BY psn';
         $result = $xoopsDB->query($sql) or die($sql);
 
         while (list($psn, $location, $image, $post_date) = $xoopsDB->fetchRow($result)) {
             //修正時間格式
-            if ('20' == mb_substr($post_date, 0, 2)) {
+            if (0 === mb_strpos($post_date, '20')) {
                 //$now=xoops_getUserTimestamp(strtotime($post_date));
 
                 $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
@@ -103,7 +103,7 @@ class Update
     {
         global $xoopsDB;
         $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_player_cate') . " ADD `enable_upload_group` VARCHAR(255) NOT NULL  DEFAULT '' AFTER `enable_group`";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin', 30, mysql_error());
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin', 30, $GLOBALS['xoopsDB']->error());
     }
 
     //新增logo欄位
@@ -122,9 +122,9 @@ class Update
     public static function go_update3()
     {
         global $xoopsDB;
-        Utility::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/logo');
+        self::mk_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/logo');
         $sql = 'ALTER TABLE ' . $xoopsDB->prefix('tad_player') . " ADD `logo` VARCHAR(255) NOT NULL  DEFAULT ''";
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin', 30, mysql_error());
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL . '/modules/system/admin.php?fct=modulesadmin', 30, $GLOBALS['xoopsDB']->error());
     }
 
     //新增評分表格
@@ -174,10 +174,10 @@ class Update
     {
         global $xoopsDB;
         $sql = 'ALTER TABLE `' . $xoopsDB->prefix('tad_player') . '` CHANGE `uid` `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0';
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $GLOBALS['xoopsDB']->error());
 
         $sql = 'ALTER TABLE `' . $xoopsDB->prefix('tad_player_rank') . '` CHANGE `uid` `uid` MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT 0';
-        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, mysql_error());
+        $xoopsDB->queryF($sql) or redirect_header(XOOPS_URL, 3, $GLOBALS['xoopsDB']->error());
 
         return true;
     }
@@ -187,7 +187,7 @@ class Update
     {
         global $xoopsDB;
         //die(var_export($xoopsConfig));
-        include XOOPS_ROOT_PATH . '/modules/tad_player/xoops_version.php';
+        require XOOPS_ROOT_PATH . '/modules/tad_player/xoops_version.php';
 
         //先找出該有的區塊以及對應樣板
         foreach ($modversion['blocks'] as $i => $block) {

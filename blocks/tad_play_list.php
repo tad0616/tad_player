@@ -5,16 +5,16 @@ use XoopsModules\Tadtools\Utility;
 function tad_player_play_list($options)
 {
     global $xoopsDB;
-    include_once XOOPS_ROOT_PATH . '/modules/tad_player/function_player.php';
+    require_once XOOPS_ROOT_PATH . '/modules/tad_player/function_player.php';
 
     if (empty($options[0])) {
-        retrun;
+        return;
     }
 
-    $modhandler = xoops_getHandler('module');
-    $xoopsModule = $modhandler->getByDirname('tad_player');
-    $config_handler = xoops_getHandler('config');
-    $xoopsModuleConfig = $config_handler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
+    $moduleHandler = xoops_getHandler('module');
+    $xoopsModule = $moduleHandler->getByDirname('tad_player');
+    $configHandler = xoops_getHandler('config');
+    $xoopsModuleConfig = $configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
 
     $autoplay = (1 == $options[1]) ? 'true' : 'false';
     $cate = get_tad_player_cate($options[0]);

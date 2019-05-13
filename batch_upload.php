@@ -1,10 +1,10 @@
 <?php
 use XoopsModules\Tadtools\Utility;
 
-include_once __DIR__ . '/header.php';
-include_once "language/{$xoopsConfig['language']}/batch.php";
+require_once __DIR__ . '/header.php';
+require_once __DIR__ . "/language/{$xoopsConfig['language']}/batch.php";
 
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');
 $pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
 
@@ -29,7 +29,7 @@ function tad_player_batch_upload_form()
 
     if ($dh = opendir(_TAD_PLAYER_BATCH_UPLOAD_DIR)) {
         while (false !== ($file = readdir($dh))) {
-            if ('.' === mb_substr($file, 0, 1)) {
+            if (0 === mb_strpos($file, '.')) {
                 continue;
             }
 
@@ -103,7 +103,7 @@ function tad_player_batch_import()
     }
 
     $uid = $xoopsUser->getVar('uid');
-    $uid_name = XoopsUser::getUnameFromId($uid, 1);
+    $uid_name = \XoopsUser::getUnameFromId($uid, 1);
     //$now=xoops_getUserTimestamp(time());
 
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));

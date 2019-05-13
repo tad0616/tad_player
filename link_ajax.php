@@ -1,5 +1,5 @@
 <?php
-include_once __DIR__ . '/header.php';
+require_once __DIR__ . '/header.php';
 if (!isset($_POST['url'])) {
     $_POST['url'] = 'https://www.youtube.com/watch?v=WbnG6-SmcXA';
 }

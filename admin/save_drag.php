@@ -2,7 +2,7 @@
 use XoopsModules\Tadtools\Utility;
 
 /*-----------引入檔案區--------------*/
-include '../../../include/cp_header.php';
+require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 
 $of_csn = (int) (str_replace('node-_', '', $_POST['of_csn']));
 $pcsn = (int) (str_replace('node-_', '', $_POST['pcsn']));

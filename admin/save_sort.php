@@ -1,7 +1,7 @@
 <?php
 /*-----------引入檔案區--------------*/
-include_once '../../../include/cp_header.php';
-include_once '../function.php';
+require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
+require_once dirname(__DIR__) . '/function.php';
 
 $sort = 1;
 foreach ($_POST['psn'] as $sn) {

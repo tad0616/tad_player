@@ -1,9 +1,10 @@
 <?php
+
 use XoopsModules\Tadtools\Utility;
 
-include_once '../../mainfile.php';
+require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_POST, 'op', '', 'string');
 $psn = system_CleanVars($_POST, 'psn', 0, 'int');
 $pcsn = system_CleanVars($_POST, 'pcsn', 0, 'int');

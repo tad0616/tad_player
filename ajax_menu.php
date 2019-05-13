@@ -1,8 +1,8 @@
 <?php
 use XoopsModules\Tadtools\Utility;
 
-include_once 'header.php';
-include_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
+require_once __DIR__ . '/header.php';
+require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $of_csn = system_CleanVars($_REQUEST, 'of_csn', 0, 'int');
 $def_csn = system_CleanVars($_REQUEST, 'def_csn', 0, 'int');
 $chk_view = system_CleanVars($_REQUEST, 'chk_view', 1, 'int');

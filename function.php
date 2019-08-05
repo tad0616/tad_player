@@ -17,17 +17,17 @@ function tad_player_breadcrumb($pcsn = '0', $array = [])
 
             if (!empty($cate['sub']) and is_array($cate['sub']) and ($pcsn != $cate['pcsn'] or 0 == $pcsn)) {
                 $item .= "
-        <li class='dropdown'>
-          <a class='dropdown-toggle' data-toggle='dropdown' href='index.php?pcsn={$cate['pcsn']}'>
-            {$cate['title']} <span class='caret'></span>
-          </a>
-          <ul class='dropdown-menu' role='menu'>";
+                <li class='dropdown'>
+                <a class='dropdown-toggle' data-toggle='dropdown' href='index.php?pcsn={$cate['pcsn']}'>
+                    {$cate['title']} <span class='caret'></span>
+                </a>
+                <ul class='dropdown-menu' role='menu'>";
                 foreach ($cate['sub'] as $sub_pcsn => $sub_title) {
                     $item .= "<li><a href='index.php?pcsn={$sub_pcsn}'>{$sub_title}</a></li>\n";
                 }
                 $item .= '
-          </ul>
-        </li>';
+                </ul>
+                </li>';
             } else {
                 $item .= "<li{$active}>{$url} </li>";
             }
@@ -35,10 +35,10 @@ function tad_player_breadcrumb($pcsn = '0', $array = [])
     }
 
     $main = "
-      <ul class='breadcrumb'>
-        $item
-      </ul>
-      ";
+        <ul class='breadcrumb'>
+            $item
+        </ul>
+    ";
 
     return $main;
 }

@@ -1,6 +1,6 @@
 <?php
-use XoopsModules\Tadtools\JwPlayer;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\VideoJs;
 
 define('_TAD_PLAYER_UPLOAD_DIR', XOOPS_ROOT_PATH . '/uploads/tad_player/');
 define('_TAD_PLAYER_FLV_DIR', XOOPS_ROOT_PATH . '/uploads/tad_player/flv/');
@@ -11,7 +11,7 @@ define('_TAD_PLAYER_FLV_URL', XOOPS_URL . '/uploads/tad_player/flv/');
 define('_TAD_PLAYER_IMG_URL', XOOPS_URL . '/uploads/tad_player/img/');
 $uid_dir = 0;
 if ($xoopsUser) {
-    $uid_dir = $xoopsUser->getVar('uid');
+    $uid_dir = $xoopsUser->uid();
 }
 define('_TAD_PLAYER_BATCH_UPLOAD_DIR', XOOPS_ROOT_PATH . "/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
 Utility::mk_dir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
@@ -155,13 +155,12 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
     $display = $other_code = '';
     if ('playlist' === $mode) {
         $other_code = '';
-        // $media      = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.xml";
-        $media = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.json";
+        $json = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.json";
         if (!file_exists(_TAD_PLAYER_UPLOAD_DIR . "{$sn}_list.json")) {
             return;
         }
-        $content = file_get_contents($media);
-        if ('null' === trim($content)) {
+        $media = file_get_contents($json);
+        if ('null' === trim($media)) {
             return;
         }
     } else {
@@ -183,11 +182,6 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
         }
         $pic = (empty($file['image'])) ? '' : "image:'" . _TAD_PLAYER_IMG_URL . "{$sn}.png',";
     }
-
-    //$type=strtolower(substr($file['location'],-3));
-    //if($type=="mp3" and empty($file['image'])){
-    //  $height=20;
-    //}
 
     if (isset($file['image']) and 0 === mb_strpos($file['image'], 'http')) {
         $image = $file['image'];
@@ -231,9 +225,10 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
         $other_code = null;
     }
 
-    $jw = new JwPlayer($id . $mode . $sn, $media, $image, '100%', $rate, null, $mode, $display, $autostart, $repeat, $other_code);
+    $id_name = "{$id}{$mode}{$sn}";
+    $VideoJs = new VideoJs($id_name, $media, $image, $mode, $display, $autostart, $repeat, $other_code);
 
-    $main = $jw->render();
+    $main = $VideoJs->render();
 
     return $main;
 }
@@ -243,6 +238,9 @@ function getYTid($ytURL = '')
 {
     if (0 === mb_strpos($ytURL, 'https://youtu.be/')) {
         return mb_substr($ytURL, 16);
+    }
+    if (0 === mb_strpos($ytURL, 'http://youtu.be/')) {
+        return mb_substr($ytURL, 15);
     }
     parse_str(parse_url($ytURL, PHP_URL_QUERY), $params);
 

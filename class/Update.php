@@ -29,6 +29,113 @@ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 class Update
 {
 
+    //重新產生所有的 json
+    public static function mk_all_json()
+    {
+        global $xoopsDB;
+        $sql = 'select pcsn from ' . $xoopsDB->prefix('tad_player_cate');
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
+        $log = '';
+        while (list($pcsn) = $xoopsDB->fetchRow($result)) {
+            self::mk_list_json($pcsn);
+        }
+    }
+
+    //製作播放清單
+    public static function mk_list_json($pcsn = '')
+    {
+        global $xoopsDB, $xoopsModule, $upload_dir;
+
+        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_player') . " WHERE `pcsn`='{$pcsn}' and `enable_group`='' order by sort";
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $i = 0;
+        while (false !== ($midia = $xoopsDB->fetchArray($result))) {
+            foreach ($midia as $k => $v) {
+                $$k = $v;
+            }
+
+            $title = htmlspecialchars($title);
+
+            if (0 === mb_strpos($image, 'http')) {
+                $image = basename($image);
+            }
+
+            //整理影片圖檔
+            if (empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR . "s_{$psn}.png")) {
+                $ext = mb_substr($location, -3);
+                if ('mp3' === $ext) {
+                    $pic = 'mp3.png';
+                } else {
+                    $pic = 'flv.png';
+                }
+                $pic = "images/$pic";
+            } else {
+                $pic = XOOPS_URL . "/uploads/tad_player/img/s_{$psn}.png";
+            }
+
+            if (empty($location) and !empty($youtube)) {
+                $YTid = getYTid($youtube);
+                $media = "https://youtu.be/{$YTid}";
+                $type = 'video/youtube';
+            } elseif (0 === mb_strpos($location, 'http')) {
+                $media = $location;
+                $ext = substr($media, -3);
+                if ('mp4' === $ext) {
+                    $type = 'video/mp4';
+                } elseif ('ebm' === $ext) {
+                    $type = 'video/webm';
+                } elseif ('mp3' === $ext) {
+                    $type = 'audio/mp3';
+                } elseif ('ogg' === $ext) {
+                    $type = 'video/ogg';
+                } elseif ('flv' === $ext) {
+                    $type = 'video/flv';
+                }
+            } else {
+                $media = XOOPS_URL . "/uploads/tad_player/flv/{$psn}_{$location}";
+                $ext = substr($media, -3);
+                if ('mp4' === $ext) {
+                    $type = 'video/mp4';
+                } elseif ('ebm' === $ext) {
+                    $type = 'video/webm';
+                } elseif ('mp3' === $ext) {
+                    $type = 'audio/mp3';
+                } elseif ('ogg' === $ext) {
+                    $type = 'video/ogg';
+                } elseif ('flv' === $ext) {
+                    $type = 'video/flv';
+                }
+            }
+
+            $json[$i]['name'] = $title;
+            $json[$i]['description'] = strip_tags($content);
+            $json[$i]['sources'][] = array('src' => $media, 'type' => $type);
+            $json[$i]['poster'] = $pic;
+            $json[$i]['thumbnail'][] = array('src' => $pic);
+            $i++;
+        }
+
+        $content = json_encode($json, 256);
+
+        $main = Utility::to_utf8($content);
+
+        $main = str_replace('\\/', '/', $main);
+
+        // $main = str_replace('"', '\\\\"', $main);
+
+        $filename = XOOPS_ROOT_PATH . "/uploads/tad_player/{$pcsn}_list.json";
+
+        if (!$handle = fopen($filename, 'wb')) {
+            redirect_header($_SERVER['PHP_SELF'], 3, sprintf(_MD_TADPLAYER_CANT_OPEN, $filename));
+        }
+
+        if (false === fwrite($handle, $main)) {
+            redirect_header($_SERVER['PHP_SELF'], 3, sprintf(_MD_TADPLAYER_CANT_WRITE, $filename));
+        }
+        fclose($handle);
+    }
+
     public static function chk_chk1()
     {
         if (is_dir(XOOPS_ROOT_PATH . '/uploads/tad_player/img')) {
@@ -144,13 +251,13 @@ class Update
     {
         global $xoopsDB;
         $sql = 'CREATE TABLE ' . $xoopsDB->prefix('tad_player_rank') . ' (
-    `col_name` VARCHAR(255) NOT NULL,
-    `col_sn` SMALLINT(5) UNSIGNED NOT NULL,
-    `rank` TINYINT(3) UNSIGNED NOT NULL,
-    `uid` SMALLINT(5) UNSIGNED NOT NULL,
-    `rank_date` DATETIME NOT NULL,
-    PRIMARY KEY (`col_name`,`col_sn`,`uid`)
-    )';
+        `col_name` VARCHAR(255) NOT NULL,
+        `col_sn` SMALLINT(5) UNSIGNED NOT NULL,
+        `rank` TINYINT(3) UNSIGNED NOT NULL,
+        `uid` SMALLINT(5) UNSIGNED NOT NULL,
+        `rank_date` DATETIME NOT NULL,
+        PRIMARY KEY (`col_name`,`col_sn`,`uid`)
+        )';
         $xoopsDB->queryF($sql);
     }
 
@@ -159,7 +266,7 @@ class Update
     {
         global $xoopsDB;
         $sql = "SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
-    WHERE table_name = '" . $xoopsDB->prefix('tad_player') . "' AND COLUMN_NAME = 'uid'";
+        WHERE table_name = '" . $xoopsDB->prefix('tad_player') . "' AND COLUMN_NAME = 'uid'";
         $result = $xoopsDB->query($sql);
         list($type) = $xoopsDB->fetchRow($result);
         if ('smallint' === $type) {
@@ -198,7 +305,7 @@ class Update
 
         //找出目前所有的樣板檔
         $sql = 'SELECT bid,name,visible,show_func,template FROM `' . $xoopsDB->prefix('newblocks') . "`
-    WHERE `dirname` = 'tad_player' ORDER BY `func_num`";
+        WHERE `dirname` = 'tad_player' ORDER BY `func_num`";
         $result = $xoopsDB->query($sql);
         while (list($bid, $name, $visible, $show_func, $template) = $xoopsDB->fetchRow($result)) {
             //假如現有的區塊和樣板對不上就刪掉

@@ -131,8 +131,8 @@ function cate_select($pcsn = 0, $size = 20)
     return $select;
 }
 
-//重新產生所有的XML
-function mk_all_xml($the_pcsn = '')
+//重新產生所有的 json
+function mk_all_json($the_pcsn = '')
 {
     global $xoopsDB;
     $sql = 'select pcsn,title from ' . $xoopsDB->prefix('tad_player_cate');
@@ -407,9 +407,9 @@ switch ($op) {
         mk_list_json($pcsn);
         redirect_header($_SERVER['PHP_SELF'] . "?pcsn=$pcsn", 3, _MA_TADPLAYER_JSON_OK);
         break;
-    //重新產生所有的XML
-    case 'mk_all_xml':
-        $main = mk_all_xml();
+    //重新產生所有的 json
+    case 'mk_all_json':
+        $main = mk_all_json();
         break;
     case 'del':
         batch_del();

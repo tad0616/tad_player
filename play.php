@@ -46,20 +46,22 @@ function play($get_psn = '')
     $jquery_path = Utility::get_jquery(true);
 
     $xoops_module_header = "
-  $jquery_path
-  <meta proprery=\"og:title\" content=\"{$file['title']}\">
-  <meta proprery=\"og:description\" content=\"{$info}\">
-  <meta property=\"og:image\" content=\"" . _TAD_PLAYER_IMG_URL . "s_{$file['image']}\">
-  <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/play.php?psn=$get_psn\">
-  <meta name=\"video_height\" content=\"{$file['width']}\">
-  <meta name=\"video_width\" content=\"{$file['height']}\">
-  <meta name=\"video_type\" content=\"application/x-shockwave-flash\">
-  ";
+    $jquery_path
+    <meta proprery=\"og:title\" content=\"{$file['title']}\">
+    <meta proprery=\"og:description\" content=\"{$info}\">
+    <meta property=\"og:image\" content=\"" . _TAD_PLAYER_IMG_URL . "s_{$file['image']}\">
+    <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/play.php?psn=$get_psn\">
+    <meta name=\"video_height\" content=\"{$file['width']}\">
+    <meta name=\"video_width\" content=\"{$file['height']}\">
+    <meta name=\"video_type\" content=\"application/x-shockwave-flash\">
+    ";
 
-    $StarRating = new StarRating('tad_player', '10', '', 'simple');
-    $StarRating->add_rating(XOOPS_URL . '/modules/tad_player/play.php', 'psn', $get_psn);
-    $star_rating = $StarRating->render();
-    $star_rating .= "<div id='rating_psn_{$get_psn}'></div>";
+    if ($xoopsModuleConfig['use_star_rating']) {
+        $StarRating = new StarRating('tad_player', '10', '', 'simple');
+        $StarRating->add_rating(XOOPS_URL . '/modules/tad_player/play.php', 'psn', $get_psn);
+        $star_rating = $StarRating->render();
+        $star_rating .= "<div id='rating_psn_{$get_psn}'></div>";
+    }
 
     $xoopsTpl->assign('title', $file['title']);
 

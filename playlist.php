@@ -13,6 +13,7 @@ function playlist($pcsn = '0')
     if (empty($pcsn)) {
         $pcsn = 0;
     }
+    mk_list_json($pcsn);
     $cate = get_tad_player_cate($pcsn);
     $ok_cat = chk_cate_power();
 

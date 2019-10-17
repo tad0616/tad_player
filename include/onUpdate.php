@@ -29,6 +29,7 @@ function xoops_module_update_tad_player(&$module, $old_version)
         Update::go_update_uid();
     }
 
+    Update::mk_all_json();
     Update::chk_tad_player_block();
 
     $old_fckeditor = XOOPS_ROOT_PATH . '/modules/tad_player/fckeditor';

@@ -11,14 +11,13 @@ function tad_player_play_list($options)
         return;
     }
 
-    $moduleHandler = xoops_getHandler('module');
-    $xoopsModule = $moduleHandler->getByDirname('tad_player');
-    $configHandler = xoops_getHandler('config');
-    $xoopsModuleConfig = $configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
-
-    $autoplay = (1 == $options[1]) ? 'true' : 'false';
+    $pcsn = (int) $options[0];
     $cate = get_tad_player_cate($options[0]);
-    $block = play_code_jwplayer("block_cate{$options[0]}", $cate, $options[0], 'playlist', $autoplay, $xoopsModuleConfig, '', $options[2], 'bottom', $options[3]);
+    $autoplay = $options[1] !== 'true' ? 'false' : 'true';
+    $loop = $options[2] !== 'true' ? 'false' : 'true';
+    $position = $options[3] !== 'right' ? 'bottom' : 'right';
+
+    $block = play_code_player("block_cate_{$pcsn}", $cate, $pcsn, 'playlist', $autoplay, $loop, $position);
 
     return $block;
 }
@@ -29,32 +28,40 @@ function tad_player_play_list_edit($options)
     global $xoopsDB;
     $select = tp_block_cate_select($options[0]);
 
-    $chked3_1 = ('1' == $options[1]) ? 'checked' : '';
-    $chked3_0 = ('0' == $options[1]) ? 'checked' : '';
-    $chked5_0 = ('false' === $options[3]) ? 'checked' : '';
-    $chked5_1 = ('true' === $options[3]) ? 'checked' : '';
+    $chked1_0 = ('true' !== $options[1]) ? 'checked' : '';
+    $chked1_1 = ('true' === $options[1]) ? 'checked' : '';
+    $chked2_0 = ('true' !== $options[2]) ? 'checked' : '';
+    $chked2_1 = ('true' === $options[2]) ? 'checked' : '';
+    $chked3_r = ('bottom' !== $options[3]) ? 'checked' : '';
+    $chked3_b = ('bottom' === $options[3]) ? 'checked' : '';
 
     $form = "
     <ol class='my-form'>
         <li class='my-row'>
-            <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM0 . "</lable>
+            <lable class='my-label'>" . _MB_TADPLAYER_CATE . "</lable>
             <div class='my-content'>
-                 $select
+                $select
             </div>
         </li>
         <li class='my-row'>
-            <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM3 . "</lable>
+            <lable class='my-label'>" . _MB_TADPLAYER_AUTOPLAY . "</lable>
             <div class='my-content'>
-                <input type='radio' $chked3_1 name='options[1]' value='1'>" . _MB_TADPLAYER_AUTOPLAY . "
-                <input type='radio' $chked3_0 name='options[1]' value='0'>" . _MB_TADPLAYER_DONT_AUTOPLAY . "<br>
-                <input type='hidden' name='options[2]' value='{$options[2]}'>
+                <input type='radio' $chked1_1 name='options[1]' value='true'>" . _MB_TADPLAYER_AUTOPLAY . "
+                <input type='radio' $chked1_0 name='options[1]' value='false'>" . _MB_TADPLAYER_DONT_AUTOPLAY . "<br>
             </div>
         </li>
         <li class='my-row'>
-            <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM4 . "</lable>
+            <lable class='my-label'>" . _MB_TADPLAYER_REPEAT . "</lable>
             <div class='my-content'>
-                <input type='radio' $chked5_1 name='options[3]' value='true'>" . _MB_TADPLAYER_LIST_REPEAT . "
-                <input type='radio' $chked5_0 name='options[3]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . '
+                <input type='radio' $chked2_1 name='options[2]' value='true'>" . _MB_TADPLAYER_LIST_REPEAT . "
+                <input type='radio' $chked2_0 name='options[2]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . "
+            </div>
+        </li>
+        <li class='my-row'>
+            <lable class='my-label'>" . _MB_TADPLAYER_LIST_POSITION . "</lable>
+            <div class='my-content'>
+                <input type='radio' $chked3_r name='options[3]' value='right'>" . _MB_TADPLAYER_LIST_RIGHT . "
+                <input type='radio' $chked3_b name='options[3]' value='bottom'>" . _MB_TADPLAYER_LIST_BOTTOM . '
             </div>
         </li>
     </ol>';

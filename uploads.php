@@ -137,18 +137,6 @@ function insert_tad_player()
     $uid = $xoopsUser->getVar('uid');
     $enable_group = implode(',', $_POST['enable_group']);
 
-    if (_MD_TADPLAYER_YOUTUBE_LINK == $_POST['youtube']) {
-        $_POST['youtube'] = '';
-    }
-
-    if (_MD_TADPLAYER_IMG_LINK == $_POST['image']) {
-        $_POST['image'] = '';
-    }
-
-    if (_MD_TADPLAYER_FLV_LINK == $_POST['location']) {
-        $_POST['location'] = '';
-    }
-
     //$now=xoops_getUserTimestamp(time());
 
     if (empty($_FILES['location']['name']) and !empty($_POST['location'])) {
@@ -202,15 +190,16 @@ function insert_tad_player()
         $title = $myts->addSlashes(basename($location));
     }
 
-    $_POST['creator'] = $myts->addSlashes($_POST['creator']);
-    $_POST['content'] = $myts->addSlashes($_POST['content']);
-    $_POST['youtube'] = $myts->addSlashes($_POST['youtube']);
-    $_POST['logo_name'] = $myts->addSlashes($_POST['logo_name']);
+    $creator = $myts->addSlashes($_POST['creator']);
+    $content = $myts->addSlashes($_POST['content']);
+    $content = removeEmoji($content);
+    $youtube = $myts->addSlashes($_POST['youtube']);
+    $logo_name = $myts->addSlashes($_POST['logo_name']);
 
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
 
-    $sql = 'insert into ' . $xoopsDB->prefix('tad_player') . " (pcsn,title,creator,location,image,info,uid,post_date,enable_group,counter,content,youtube,logo) values('{$pcsn}','{$title}','{$_POST['creator']}','{$location}','{$image}','{$location}','{$uid}','{$now}','{$enable_group}','0','{$_POST['content']}','{$_POST['youtube']}','{$_POST['logo_name']}')";
-    //die($sql);
+    $sql = 'insert into ' . $xoopsDB->prefix('tad_player') . " (pcsn,title,creator,location,image,info,uid,post_date,enable_group,counter,content,youtube,logo) values('{$pcsn}','{$title}','{$creator}','{$location}','{$image}','{$location}','{$uid}','{$now}','{$enable_group}','0','{$content}','{$youtube}','{$logo_name}')";
+
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號
     $psn = $xoopsDB->getInsertId();
@@ -223,8 +212,8 @@ function insert_tad_player()
     //上傳圖檔
     if (!empty($_FILES['image']['name'])) {
         upload_pic($psn);
-    } elseif (!empty($_POST['youtube'])) {
-        $youtube_id = getYTid($_POST['youtube']);
+    } elseif (!empty($youtube)) {
+        $youtube_id = getYTid($youtube);
         $image = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
         $type = getimagesize($image);
         $pic_s_file = _TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
@@ -251,18 +240,6 @@ function update_tad_player($psn = '')
     global $xoopsDB;
 
     $myts = \MyTextSanitizer::getInstance();
-
-    if (_MD_TADPLAYER_YOUTUBE_LINK == $_POST['youtube']) {
-        $_POST['youtube'] = '';
-    }
-
-    if (_MD_TADPLAYER_IMG_LINK == $_POST['image']) {
-        $_POST['image'] = '';
-    }
-
-    if (_MD_TADPLAYER_FLV_LINK == $_POST['location']) {
-        $_POST['location'] = '';
-    }
 
     if (!empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
         $pcsn = add_tad_player_cate();
@@ -309,16 +286,17 @@ function update_tad_player($psn = '')
 
     $enable_group = implode(',', $_POST['enable_group']);
 
-    $_POST['creator'] = $myts->addSlashes($_POST['creator']);
-    $_POST['content'] = $myts->addSlashes($_POST['content']);
-    $_POST['youtube'] = $myts->addSlashes($_POST['youtube']);
-    $_POST['logo_name'] = $myts->addSlashes($_POST['logo_name']);
+    $creator = $myts->addSlashes($_POST['creator']);
+    $content = $myts->addSlashes($_POST['content']);
+    $content = removeEmoji($content);
+    $youtube = $myts->addSlashes($_POST['youtube']);
+    $logo_name = $myts->addSlashes($_POST['logo_name']);
     $width = (int) $_POST['width'];
     $height = (int) $_POST['height'];
 
     //$now=xoops_getUserTimestamp(time());
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
-    $sql = 'update ' . $xoopsDB->prefix('tad_player') . " set  pcsn = '{$pcsn}', title = '{$title}', creator = '{$_POST['creator']}' {$location_sql} {$image_sql}, post_date = '{$now}', enable_group = '{$enable_group}', width = '{$width}', height = '{$height}' , content = '{$_POST['content']}', logo='{$_POST['logo_name']}' where psn='$psn'";
+    $sql = 'update ' . $xoopsDB->prefix('tad_player') . " set  pcsn = '{$pcsn}', title = '{$title}', creator = '{$creator}' {$location_sql} {$image_sql}, post_date = '{$now}', enable_group = '{$enable_group}', width = '{$width}', height = '{$height}' , content = '{$content}', logo='{$logo_name}' where psn='$psn'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     if (!empty($_FILES['logo']['name'])) {
@@ -379,7 +357,7 @@ function upload_pic($psn = '', $update_sql = false)
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
         $img_handle->file_safe_name = false;
-        $img_handle->file_new_name_body = (string)($psn);
+        $img_handle->file_new_name_body = (string) ($psn);
         $img_handle->image_convert = 'png';
         $img_handle->image_resize = true;
         $img_handle->image_x = 1024;
@@ -425,7 +403,7 @@ function upload_logo($psn = '')
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
         $img_handle->file_safe_name = false;
-        $img_handle->file_new_name_body = (string)($psn);
+        $img_handle->file_new_name_body = (string) ($psn);
         $img_handle->image_convert = 'png';
         $img_handle->process(XOOPS_ROOT_PATH . '/uploads/tad_player/logo');
         $img_handle->auto_create_dir = true;
@@ -440,6 +418,36 @@ function upload_logo($psn = '')
         redirect_header($_SERVER['PHP_SELF'], 3, 'Error:' . $img_handle->error);
     }
 }
+
+// 移除表情圖
+function removeEmoji($text)
+{
+
+    $clean_text = "";
+
+    // Match Emoticons
+    $regexEmoticons = '/[\x{1F600}-\x{1F64F}]/u';
+    $clean_text = preg_replace($regexEmoticons, '', $text);
+
+    // Match Miscellaneous Symbols and Pictographs
+    $regexSymbols = '/[\x{1F300}-\x{1F5FF}]/u';
+    $clean_text = preg_replace($regexSymbols, '', $clean_text);
+
+    // Match Transport And Map Symbols
+    $regexTransport = '/[\x{1F680}-\x{1F6FF}]/u';
+    $clean_text = preg_replace($regexTransport, '', $clean_text);
+
+    // Match Miscellaneous Symbols
+    $regexMisc = '/[\x{2600}-\x{26FF}]/u';
+    $clean_text = preg_replace($regexMisc, '', $clean_text);
+
+    // Match Dingbats
+    $regexDingbats = '/[\x{2700}-\x{27BF}]/u';
+    $clean_text = preg_replace($regexDingbats, '', $clean_text);
+
+    return $clean_text;
+}
+
 /*-----------執行動作判斷區----------*/
 require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
 $op = system_CleanVars($_REQUEST, 'op', '', 'string');

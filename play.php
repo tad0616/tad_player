@@ -28,8 +28,7 @@ function play($get_psn = '')
 
     add_counter($get_psn);
 
-    $play_code = play_code_jwplayer("file{$get_psn}", $file, $get_psn, 'single');
-    //play_code_jwplayer($id='tp' , $file="",$sn="",$mode="",$autostart=false,$ModuleConfig=array(),$skin="",$list_width="",$list_where="bottom",$repeat=false)
+    $play_code = play_code_player("file{$get_psn}", $file, $get_psn, 'single');
 
     $all['pcsn'] = $file['pcsn'];
 

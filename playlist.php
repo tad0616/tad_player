@@ -25,7 +25,7 @@ function playlist($pcsn = '0')
         redirect_header('index.php', 3, sprintf(_MD_TADPLAYER_NO_POWER, $cate['title']));
     }
 
-    $playcode = play_code_jwplayer("tad_player_list{$pcsn}", $cate, $pcsn, 'playlist', false, null, null);
+    $playcode = play_code_player("tad_player_list{$pcsn}", $cate, $pcsn, 'playlist');
 
     $title = (empty($cate[$pcsn])) ? '' : $cate[$pcsn];
 

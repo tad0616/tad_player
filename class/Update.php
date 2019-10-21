@@ -75,7 +75,7 @@ class Update
             }
 
             if (empty($location) and !empty($youtube)) {
-                $YTid = getYTid($youtube);
+                $YTid = self::getYTid($youtube);
                 $media = "https://youtu.be/{$YTid}";
                 $type = 'video/youtube';
             } elseif (0 === mb_strpos($location, 'http')) {
@@ -175,7 +175,7 @@ class Update
                 if (file_exists($filename)) {
                     $type = getimagesize($filename);
                     $thumb_s_name = XOOPS_ROOT_PATH . "/uploads/tad_player/img/s_{$psn}.png";
-                    mk_video_thumbnail($filename, $thumb_s_name, $type['mime'], '480');
+                    self::mk_video_thumbnail($filename, $thumb_s_name, $type['mime'], '480');
                     //unlink($filename);
                     $newimg = ",`image`='{$psn}.png'";
                 }
@@ -327,8 +327,22 @@ class Update
         }
     }
 
+    //抓取 Youtube ID
+    public static function getYTid($ytURL = '')
+    {
+        if (0 === mb_strpos($ytURL, 'https://youtu.be/')) {
+            return mb_substr($ytURL, 16);
+        }
+        if (0 === mb_strpos($ytURL, 'http://youtu.be/')) {
+            return mb_substr($ytURL, 15);
+        }
+        parse_str(parse_url($ytURL, PHP_URL_QUERY), $params);
+
+        return $params['v'];
+    }
+
     //做縮圖
-    public function mk_video_thumbnail($filename = '', $thumb_name = '', $type = 'image/jpeg', $width = '480')
+    public static function mk_video_thumbnail($filename = '', $thumb_name = '', $type = 'image/jpeg', $width = '480')
     {
         ini_set('memory_limit', '50M');
         // Get new sizes
@@ -360,4 +374,5 @@ class Update
 
         imagedestroy($thumb);
     }
+
 }

@@ -6,11 +6,10 @@ define('_TAD_PLAYER_UPLOAD_DIR', XOOPS_ROOT_PATH . '/uploads/tad_player/');
 define('_TAD_PLAYER_FLV_DIR', XOOPS_ROOT_PATH . '/uploads/tad_player/flv/');
 define('_TAD_PLAYER_IMG_DIR', XOOPS_ROOT_PATH . '/uploads/tad_player/img/');
 
-define('_TAD_PLAYER_UPLOAD_URL', XOOPS_URL . '/uploads/tad_player/');
 define('_TAD_PLAYER_FLV_URL', XOOPS_URL . '/uploads/tad_player/flv/');
 define('_TAD_PLAYER_IMG_URL', XOOPS_URL . '/uploads/tad_player/img/');
 $uid_dir = 0;
-if ($xoopsUser) {
+if (isset($xoopsUser)) {
     $uid_dir = $xoopsUser->uid();
 }
 define('_TAD_PLAYER_BATCH_UPLOAD_DIR', XOOPS_ROOT_PATH . "/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
@@ -49,7 +48,7 @@ function get_tad_player_cate($pcsn = '')
 //列出所有tad_player資料
 function list_tad_player_playlist($pcsn = '')
 {
-    global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsUser;
+    global $xoopsDB, $xoopsModule, $xoopsUser;
 
     //取得所有分類名稱
     $cate = get_tad_player_cate_all();
@@ -145,17 +144,11 @@ function mime_type($filename)
 }
 
 //播放語法($mode=single or playlist)
-function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autostart = false, $ModuleConfig = [], $skin = '', $list_width = '', $list_where = 'bottom', $repeat = false)
+function play_code_player($id = 'tp', $file = '', $sn = '', $mode = '', $autostart = false, $repeat = false, $position = 'bottom')
 {
-    global $xoopsModuleConfig;
 
-    if (empty($xoopsModuleConfig)) {
-        $xoopsModuleConfig = $ModuleConfig;
-    }
-    $display = $other_code = '';
     if ('playlist' === $mode) {
-        $other_code = '';
-        $json = _TAD_PLAYER_UPLOAD_URL . "{$sn}_list.json";
+        $json = XOOPS_URL . "/uploads/tad_player/{$sn}_list.json";
         if (!file_exists(_TAD_PLAYER_UPLOAD_DIR . "{$sn}_list.json")) {
             return;
         }
@@ -189,44 +182,23 @@ function play_code_jwplayer($id = 'tp', $file = '', $sn = '', $mode = '', $autos
         $image = _TAD_PLAYER_IMG_URL . "{$sn}.png";
     }
 
-    $play_list = '';
-
-    if ('playlist' === $mode) {
-        $rate = $list_width;
-    } else {
-        $rate = (!empty($height) and !empty($width)) ? round($height / $width, 2) : 0.6;
-    }
-
     if ('' == $mode) {
-        $mode = null;
+        $mode = 'single';
     }
-    if ('' == $display) {
-        $display = null;
-    }
+
     if ('' == $autostart) {
-        $autostart = null;
+        $autostart = 'false';
     }
     if ('' == $repeat) {
-        $repeat = null;
+        $repeat = 'false';
     }
-    if ('' == $other_code) {
-        $other_code = null;
-    }
-    if ('' == $display) {
-        $display = null;
-    }
-    if ('' == $autostart) {
-        $autostart = null;
-    }
-    if ('' == $repeat) {
-        $repeat = null;
-    }
-    if ('' == $other_code) {
-        $other_code = null;
+    if ('' == $position) {
+        $position = 'bottom';
     }
 
     $id_name = "{$id}{$mode}{$sn}";
-    $VideoJs = new VideoJs($id_name, $media, $image, $mode, $display, $autostart, $repeat, $other_code);
+
+    $VideoJs = new VideoJs($id_name, $media, $image, $mode, $autostart, $repeat, $position);
 
     $main = $VideoJs->render();
 

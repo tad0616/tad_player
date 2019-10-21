@@ -7,11 +7,6 @@ function tad_player($options)
     global $xoopsDB;
     require_once XOOPS_ROOT_PATH . '/modules/tad_player/function_player.php';
 
-    $moduleHandler = xoops_getHandler('module');
-    $xoopsModule = $moduleHandler->getByDirname('tad_player');
-    $configHandler = xoops_getHandler('config');
-    $xoopsModuleConfig = $configHandler->getConfigsByCat(0, $xoopsModule->getVar('mid'));
-
     if (empty($options[0])) {
         $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_player') . ' ORDER BY rand() LIMIT 0,1';
     } elseif (0 === mb_strpos($options[0], 'pcsn')) {
@@ -26,9 +21,11 @@ function tad_player($options)
     $file = $xoopsDB->fetchArray($result);
 
     $file = get_tad_player($file['psn']);
-    $block = play_code_jwplayer("block{$file['psn']}", $file, $file['psn'], 'single', $options[1], $xoopsModuleConfig, null, null, null, $options[2]);
 
-    //play_code_jwplayer($id='tp' , $file="",$sn="",$mode="",$autostart=false,$ModuleConfig=array(),$skin="",$list_width="",$list_where="bottom",$repeat=false)
+    $autoplay = $options[1] !== 'true' ? 'false' : 'true';
+    $loop = $options[2] !== 'true' ? 'false' : 'true';
+
+    $block = play_code_player("block{$file['psn']}", $file, $file['psn'], 'single', $autoplay, $loop);
     return $block;
 }
 
@@ -37,10 +34,10 @@ function tad_player_edit($options)
 {
     global $xoopsDB;
     $seled0_0 = ('' == $options[0]) ? 'selected' : '';
-    $chked3_0 = ('0' == $options[1]) ? 'checked' : '';
-    $chked3_1 = ('1' == $options[1]) ? 'checked' : '';
-    $chked4_0 = ('false' === $options[2]) ? 'checked' : '';
-    $chked4_1 = ('true' === $options[2]) ? 'checked' : '';
+    $chked1_0 = ('false' == $options[1]) ? 'checked' : '';
+    $chked1_1 = ('true' == $options[1]) ? 'checked' : '';
+    $chked2_0 = ('false' === $options[2]) ? 'checked' : '';
+    $chked2_1 = ('true' === $options[2]) ? 'checked' : '';
 
     $sql = 'SELECT a.psn,a.pcsn,a.title,b.title FROM ' . $xoopsDB->prefix('tad_player') . ' AS a LEFT JOIN ' . $xoopsDB->prefix('tad_player_cate') . ' AS b ON a.pcsn=b.pcsn ORDER BY a.post_date DESC';
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -62,23 +59,23 @@ function tad_player_edit($options)
     $form = "
     <ol class='my-form'>
         <li class='my-row'>
-            <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM0 . "</lable>
+            <lable class='my-label'>" . _MB_TADPLAYER_CATE . "</lable>
             <div class='my-content'>
                 $select
             </div>
         </li>
         <li class='my-row'>
-            <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM3 . "</lable>
+            <lable class='my-label'>" . _MB_TADPLAYER_AUTOPLAY . "</lable>
             <div class='my-content'>
-                <input type='radio' $chked3_1 name='options[1]' value='1'>" . _MB_TADPLAYER_AUTOPLAY . "
-                <input type='radio' $chked3_0 name='options[1]' value='0'>" . _MB_TADPLAYER_DONT_AUTOPLAY . "
+                <input type='radio' $chked1_1 name='options[1]' value='true'>" . _MB_TADPLAYER_AUTOPLAY . "
+                <input type='radio' $chked1_0 name='options[1]' value='false'>" . _MB_TADPLAYER_DONT_AUTOPLAY . "
             </div>
         </li>
         <li class='my-row'>
-            <lable class='my-label'>" . _MB_TADPLAYER_TAD_PLAYER_EDIT_BITEM4 . "</lable>
+            <lable class='my-label'>" . _MB_TADPLAYER_REPEAT . "</lable>
             <div class='my-content'>
-                <input type='radio' $chked4_1 name='options[2]' value='true'>" . _MB_TADPLAYER_REPEAT . "
-                <input type='radio' $chked4_0 name='options[2]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . '
+                <input type='radio' $chked2_1 name='options[2]' value='true'>" . _MB_TADPLAYER_REPEAT . "
+                <input type='radio' $chked2_0 name='options[2]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . '
             </div>
         </li>
     </ol> ';

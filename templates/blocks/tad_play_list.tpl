@@ -1,2 +1,7 @@
-<{assign var=this_file value=$smarty.template|basename|replace:'db:':''}>
-<{includeq file="$xoops_rootpath/modules/tad_player/templates/blocks/b4.tpl"}>
+<{if $block}>
+    <{$block}>
+<{else}>
+    <div class="alert alert-danger">
+        <{$smarty.const._MB_TADPLAYER_NO_PLAYLIST}>
+    </div>
+<{/if}>

@@ -93,7 +93,7 @@ function view_media($psn = '')
     //計數器
     add_counter($psn);
 
-    $play_code = play_code_jwplayer("pda{$psn}", $all, $psn, 'pda');
+    $play_code = play_code_player("pda{$psn}", $all, $psn, 'pda');
 
     $back_news = '';
     if (!empty($pnp['back']['psn'])) {

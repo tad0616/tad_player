@@ -448,7 +448,7 @@ function mk_list_json($pcsn = '')
             } elseif ('ogg' === $ext) {
                 $type = 'video/ogg';
             } elseif ('flv' === $ext) {
-                $type = 'video/flv';
+                $type = 'video/x-flv';
             }
         } else {
             $media = _TAD_PLAYER_FLV_URL . "{$psn}_{$location}";
@@ -462,7 +462,7 @@ function mk_list_json($pcsn = '')
             } elseif ('ogg' === $ext) {
                 $type = 'video/ogg';
             } elseif ('flv' === $ext) {
-                $type = 'video/flv';
+                $type = 'video/x-flv';
             }
         }
 

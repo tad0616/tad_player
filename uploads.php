@@ -315,7 +315,7 @@ function upload_flv($psn = '', $update_sql = false)
     require_once XOOPS_ROOT_PATH . '/modules/tadtools/upload/class.upload.php';
     set_time_limit(0);
     ini_set('memory_limit', '50M');
-    $flv_handle = new upload($_FILES['location'], 'zh_TW');
+    $flv_handle = new \Verot\Upload\Upload($_FILES['location'], 'zh_TW');
     if ($flv_handle->uploaded) {
         $name = mb_substr($_FILES['location']['name'], 0, -4);
         $flv_handle->file_safe_name = false;
@@ -353,7 +353,7 @@ function upload_pic($psn = '', $update_sql = false)
         unlink(_TAD_PLAYER_IMG_DIR . "/s_{$psn}.png");
     }
 
-    $img_handle = new upload($_FILES['image'], 'zh_TW');
+    $img_handle = new \Verot\Upload\Upload($_FILES['image'], 'zh_TW');
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
         $img_handle->file_safe_name = false;
@@ -399,7 +399,7 @@ function upload_logo($psn = '')
         unlink(_TAD_PLAYER_UPLOAD_DIR . "/logo/{$psn}.png");
     }
 
-    $img_handle = new upload($_FILES['logo'], 'zh_TW');
+    $img_handle = new \Verot\Upload\Upload($_FILES['logo'], 'zh_TW');
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
         $img_handle->file_safe_name = false;

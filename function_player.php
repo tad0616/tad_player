@@ -8,13 +8,6 @@ define('_TAD_PLAYER_IMG_DIR', XOOPS_ROOT_PATH . '/uploads/tad_player/img/');
 
 define('_TAD_PLAYER_FLV_URL', XOOPS_URL . '/uploads/tad_player/flv/');
 define('_TAD_PLAYER_IMG_URL', XOOPS_URL . '/uploads/tad_player/img/');
-$uid_dir = 0;
-if (isset($xoopsUser)) {
-    $uid_dir = $xoopsUser->uid();
-}
-define('_TAD_PLAYER_BATCH_UPLOAD_DIR', XOOPS_ROOT_PATH . "/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
-Utility::mk_dir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
-define('_TAD_PLAYER_BATCH_UPLOAD_URL', XOOPS_URL . "/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
 
 //以流水號取得某筆tad_player資料
 function get_tad_player($psn = '')
@@ -123,7 +116,7 @@ function mime_type($filename)
         // audio/video
         'mp3' => 'audio/mpeg',
         'mp4' => 'video/mp4',
-        'flv' => 'video/flv',
+        'flv' => 'video/x-flv',
         'ogg' => 'video/ogg',
         'ogv' => 'video/ogv',
         'webm' => 'video/webm',
@@ -149,7 +142,7 @@ function play_code_player($id = 'tp', $file = '', $sn = '', $mode = '', $autosta
 
     if ('playlist' === $mode) {
         $json = XOOPS_URL . "/uploads/tad_player/{$sn}_list.json";
-        if (!file_exists(_TAD_PLAYER_UPLOAD_DIR . "{$sn}_list.json")) {
+        if (!is_file(_TAD_PLAYER_UPLOAD_DIR . "{$sn}_list.json")) {
             return;
         }
         $media = file_get_contents($json);

@@ -26,6 +26,12 @@ function tad_player_batch_upload_form()
 
     $cate_select = get_tad_player_cate_option(0, 0, $pcsn, 1, false);
     $i = 0;
+    $uid_dir = 0;
+    if ($xoopsUser) {
+        $uid_dir = $xoopsUser->uid();
+    }
+    define('_TAD_PLAYER_BATCH_UPLOAD_DIR', XOOPS_ROOT_PATH . "/uploads/tad_player_batch_uploads/user_{$uid_dir}/");
+    Utility::mk_dir(_TAD_PLAYER_BATCH_UPLOAD_DIR);
 
     if ($dh = opendir(_TAD_PLAYER_BATCH_UPLOAD_DIR)) {
         while (false !== ($file = readdir($dh))) {

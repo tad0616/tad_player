@@ -90,7 +90,7 @@ class Update
                 } elseif ('ogg' === $ext) {
                     $type = 'video/ogg';
                 } elseif ('flv' === $ext) {
-                    $type = 'video/flv';
+                    $type = 'video/x-flv';
                 }
             } else {
                 $media = XOOPS_URL . "/uploads/tad_player/flv/{$psn}_{$location}";
@@ -104,7 +104,7 @@ class Update
                 } elseif ('ogg' === $ext) {
                     $type = 'video/ogg';
                 } elseif ('flv' === $ext) {
-                    $type = 'video/flv';
+                    $type = 'video/x-flv';
                 }
             }
 

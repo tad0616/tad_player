@@ -90,7 +90,7 @@
               width: 130px;
               padding: 4px;
               border: 1px solid gray;
-              font-size:12px;
+              font-size: 0.75em;
             }
           </style>
           <script>
@@ -181,7 +181,7 @@
           </div>
         <{elseif $data}>
           <script language="JavaScript">
-            
+
             $(document).ready(function(){
               $('#all_videos').sortable({ opacity: 0.6, cursor: 'move', update: function() {
                   var order = $(this).sortable('serialize');
@@ -235,7 +235,7 @@
               <div class="thumbnail" id="psn_<{$video.psn}>" onClick="check_one('p_<{$video.psn}>',true);" onkeypress="check_one('p_<{$video.psn}>',true);" style="width:156px;float:left;margin:8px;">
                 <div class="thumb_height" style="background-color:black;position:relative;height:120px;overflow:hidden;">
                   <img src="<{$video.pic}>" alt="<{$video.title}>" style="z-index:1; width: 100%;">
-                  <div id="pt<{$video.psn}>" style="font-size:12px;font-weight:normal;color:#ffffff;position:absolute;bottom:2px;left:10px;z-index:2;text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0px -1px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 1px 0px 0 #000;">
+                  <div id="pt<{$video.psn}>" style="font-size: 0.75em;font-weight:normal;color:#ffffff;position:absolute;bottom:2px;left:10px;z-index:2;text-shadow: 1px 1px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 0px -1px 0 #000, 0px 1px 0 #000, -1px 0px 0 #000, 1px 0px 0 #000;">
 
                     <{$video.title}></div>
                 </div>
@@ -263,4 +263,3 @@
     </form>
   </div>
 </div>
-

@@ -8,7 +8,7 @@
                 </div>
                 <{if $now_op!="tad_player_cate_form"}>
                     <a href="main.php?op=tad_player_cate_form" class="btn btn-info btn-block"><{$smarty.const._MA_TADPLAYER_ADD_CATE}></a>
-                    
+
                     <{if $data}>
                         <h2><{$smarty.const._MA_TADPLAYER_THE_ACT_IS}></h2>
                         <div class="form-group row">
@@ -90,7 +90,7 @@
                         width: 130px;
                         padding: 4px;
                         border: 1px solid gray;
-                        font-size:12px;
+                        font-size: 0.75em;
                         }
                     </style>
                     <script>
@@ -180,7 +180,7 @@
                         </form>
                     </div>
                 <{elseif $data}>
-                    <script language="JavaScript">  
+                    <script language="JavaScript">
                         $(document).ready(function(){
                             $('#all_videos').sortable({ opacity: 0.6, cursor: 'move', update: function() {
                                 var order = $(this).sortable('serialize');
@@ -189,7 +189,7 @@
                                 });
                             }
                             });
-                            
+
 
                             var hh = $('div.thumb_height').width() * 0.75;
                             $('div.thumb_height').css('height',hh);
@@ -241,14 +241,14 @@
                                                 <input type="checkbox" id="p_<{$video.psn}>" name="video[]" value="<{$video.psn}>" class="video" onClick="check_one('p_<{$video.psn}>',true);" onkeypress="check_one('p_<{$video.psn}>',true);">
                                                 <{$video.uid_name}> / <{$video.post_date}>
                                             </div>
-                                            <div>                                                
+                                            <div>
                                                 <{$smarty.const._MA_TADPLAYER_COUNTER}>:<{$video.counter}>
                                             </div>
                                             <div style="height:40px;overflow:auto;"><{$video.g_txt}></div>
                                         </div>
                                         <div class="card-title" id="pt<{$video.psn}>"><{$video.title}></div>
                                     </div>
-                                    <div class="card-footer">                                        
+                                    <div class="card-footer">
                                         <a href="../uploads.php?psn=<{$video.psn}>#fragment-1" target="_blank" class="btn btn-sm btn-warning"><{$smarty.const._TAD_EDIT}></a>
                                         <a href="../play.php?psn=<{$video.psn}>" target="_blank" class="btn btn-sm btn-info"><{$smarty.const._MA_TADPLAYER_VIEW}></a>
                                     </div>
@@ -261,4 +261,3 @@
         </div>
     </form>
 </div>
-

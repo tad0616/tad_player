@@ -58,8 +58,8 @@
           <div class="card-body">
             <h5 class="card-title"><{$sub_cate.title}></h5>
             <p class="card-text">
-              <div style="font-size:13px; color:#666666; text-align:center;"><{$sub_cate.num}></div>
-              <{if $sub_cate.pcsn_num}><div style="font-size:13px;color:#666666;text-align:center;"><{$sub_cate.pcsn_num}></div><{/if}>
+              <div style="font-size: 0.8125em; color:#666666; text-align:center;"><{$sub_cate.num}></div>
+              <{if $sub_cate.pcsn_num}><div style="font-size: 0.8125em;color:#666666;text-align:center;"><{$sub_cate.pcsn_num}></div><{/if}>
             </p>
           </div>
         </div>
@@ -72,7 +72,7 @@
 <div class="row">
   <{foreach item=video from=$content}>
 
-    <div class="col-sm-3 d-flex align-items-stretch">      
+    <div class="col-sm-3 d-flex align-items-stretch">
         <div class="card my-1">
           <a href="<{$video.url}>">
             <img class="card-img-top" src="<{$video.pic}>" alt="<{$video.img_title}>">
@@ -80,7 +80,7 @@
           <div class="card-body">
             <p class="card-text">
               <{if $video.post_date}>
-              <div style="font-size: 12px; color: #666666;">
+              <div style="font-size: 0.75em; color: #666666;">
                 <span class="badge badge-info pull-right"><{$video.counter}></span>
                 <{$video.post_date}>
               </div>

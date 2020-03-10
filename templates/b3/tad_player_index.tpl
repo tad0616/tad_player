@@ -63,8 +63,8 @@
           </a>
         </div>
         <div class="caption">
-          <div style="font-size:13px; color:#666666; text-align:center;"><{$sub_cate.num}></div>
-          <{if $sub_cate.pcsn_num}><div style="font-size:13px;color:#666666;text-align:center;"><{$sub_cate.pcsn_num}></div><{/if}>
+          <div style="font-size: 0.8125em; color:#666666; text-align:center;"><{$sub_cate.num}></div>
+          <{if $sub_cate.pcsn_num}><div style="font-size: 0.8125em;color:#666666;text-align:center;"><{$sub_cate.pcsn_num}></div><{/if}>
         </div>
       </div>
     </div>
@@ -91,12 +91,12 @@
           <div class="thumb_height" style="background-color:black;position:relative;height:120px;overflow:hidden;">
           <img src="<{$video.pic}>" alt="<{$video.img_title}>" style="z-index:1; width :100%;">
           <{if $video.img_title}>
-            <div style="color: <{$font_color}>; font-size: 12px; position: absolute; bottom: 2px; left: 10px; z-index: 2; text-shadow: 1px 1px 0 <{$border_color}>, -1px -1px 0 <{$border_color}>, 1px -1px 0 <{$border_color}>, -1px 1px 0 <{$border_color}>, 0px -1px 0 <{$border_color}>, 0px 1px 0 <{$border_color}>, -1px 0px 0 <{$border_color}>, 1px 0px 0 <{$border_color}>;"><{$video.img_title}></div>
+            <div style="color: <{$font_color}>; font-size: 0.75em; position: absolute; bottom: 2px; left: 10px; z-index: 2; text-shadow: 1px 1px 0 <{$border_color}>, -1px -1px 0 <{$border_color}>, 1px -1px 0 <{$border_color}>, -1px 1px 0 <{$border_color}>, 0px -1px 0 <{$border_color}>, 0px 1px 0 <{$border_color}>, -1px 0px 0 <{$border_color}>, 1px 0px 0 <{$border_color}>;"><{$video.img_title}></div>
           <{/if}>
           </div>
         <{if $video.url}></a><{/if}>
         <div class="caption">
-          <{if $video.post_date}><div style="font-size: 11px; color: #666666;"><span class="badge badge-info pull-right"><{$video.counter}></span><{$video.post_date}></div><{/if}>
+          <{if $video.post_date}><div style="font-size: 0.6875em; color: #666666;"><span class="badge badge-info pull-right"><{$video.counter}></span><{$video.post_date}></div><{/if}>
           <{if $rating_js}><div id="rating_psn_<{$video.psn}>"></div><{/if}>
         </div>
       </div>

@@ -210,7 +210,7 @@ echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>
   </script>
   <style>
     body,td,div,#cate_menu option,a{
-      font-size:56px;
+      font-size: 3.5em;
       text-decoration:none;
       border:none;
     }
@@ -239,7 +239,7 @@ echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01 Transitional//EN'>
   </head>
   <body style='background-color:black;'>
 
-  <select style='width:100%;font-size:56px;' onChange=\"window.location.href='{$_SERVER['PHP_SELF']}?pcsn=' + this.value\" id='cate_menu'>$cate_option</select>
+  <select style='width:100%;font-size:3.5em;' onChange=\"window.location.href='{$_SERVER['PHP_SELF']}?pcsn=' + this.value\" id='cate_menu'>$cate_option</select>
   $main
 
   </body>

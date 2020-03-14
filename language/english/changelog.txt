@@ -1,8 +1,15 @@
-Tad Player 3.6.2 (released from 2019-10-16)
+Tad Player 3.6.3 (2020-03-14 released)
+====================================================
+1. Streamline playback syntax and add settings such as auto play, repeat play, list position ...
+2.Fixed the problem that thumbnails cannot be generated
+3. corrected for 2.0 AA accessibility standards
+
+
+Tad Player 3.6.2 (2019-10-16 released)
 =========================================================
 1. Fully switch to VideoJS player, no longer use JW Player
 
-Tad Player 3.6.1 (released from 2019-08-06)
+Tad Player 3.6.1 (2019-08-06 released)
 =========================================================
 1. Support "XOOPS Website" App
 
@@ -12,7 +19,7 @@ Tad Player 3.6 (2019-05-10 released)
 2. No longer supports PHP 5.3
 
 
-Tad Player 3.5.9 (released from 2019-02-15)
+Tad Player 3.5.9 (2019-02-15 released)
 =========================================================== ==
 1. Fixed the problem that the background of the video playback could not be deleted.
 2. Fixed an issue where the video sorting was invalid.

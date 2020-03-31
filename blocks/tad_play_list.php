@@ -46,15 +46,15 @@ function tad_player_play_list_edit($options)
         <li class='my-row'>
             <lable class='my-label'>" . _MB_TADPLAYER_AUTOPLAY . "</lable>
             <div class='my-content'>
-                <input type='radio' $chked1_1 name='options[1]' value='true'>" . _MB_TADPLAYER_AUTOPLAY . "
-                <input type='radio' $chked1_0 name='options[1]' value='false'>" . _MB_TADPLAYER_DONT_AUTOPLAY . "<br>
+                <input type='radio' $chked1_1 name='options[1]' value='true'>" . _YES . "
+                <input type='radio' $chked1_0 name='options[1]' value='false'>" . _NO . "<br>
             </div>
         </li>
         <li class='my-row'>
             <lable class='my-label'>" . _MB_TADPLAYER_REPEAT . "</lable>
             <div class='my-content'>
-                <input type='radio' $chked2_1 name='options[2]' value='true'>" . _MB_TADPLAYER_LIST_REPEAT . "
-                <input type='radio' $chked2_0 name='options[2]' value='false'>" . _MB_TADPLAYER_DONT_REPEAT . "
+                <input type='radio' $chked2_1 name='options[2]' value='true'>" . _YES . "
+                <input type='radio' $chked2_0 name='options[2]' value='false'>" . _NO . "
             </div>
         </li>
         <li class='my-row'>

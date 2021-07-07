@@ -29,12 +29,12 @@
 <div class="alert alert-success">
   <div class="row">
     <div class="col-sm-4">
-      <select id="menu1" class="form-control">
+      <select id="menu1" class="form-control" title="menu1">
         <{$cate_select}>
       </select>
     </div>
     <div class="col-sm-8">
-      <select id="menu2" style="display: none;" class="form-control" onChange="location.href='play.php?psn='+this.value">
+      <select id="menu2" style="display: none;" class="form-control" onChange="location.href='play.php?psn='+this.value" title="menu2">
       </select>
     </div>
   </div>

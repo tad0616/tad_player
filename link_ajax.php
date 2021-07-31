@@ -1,15 +1,15 @@
 <?php
+use Xmf\Request;
 require_once __DIR__ . '/header.php';
-if (!isset($_POST['url'])) {
-    $_POST['url'] = 'https://www.youtube.com/watch?v=WbnG6-SmcXA';
-}
+
+$url = Request::getUrl('url');
 
 $date['metaTags']['description']['value'] = $date['title'] = '';
-if (!empty($_POST['url'])) {
-    $date = getUrlData($_POST['url']);
+if (!empty($url)) {
+    $date = getUrlData($url);
     $web['description'] = $date['metaTags']['description']['value'];
 
-    $youtube_id = getYTid($_POST['url']);
+    $youtube_id = getYTid($url);
 
     $url = "https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
     $contents = file_get_contents($url);
@@ -117,53 +117,4 @@ function chk_function()
     }
 
     return $main;
-}
-
-if (!function_exists('json_encode')) {
-    function json_encode($a = false)
-    {
-        if (null === $a) {
-            return 'null';
-        }
-        if (false === $a) {
-            return 'false';
-        }
-        if (true === $a) {
-            return 'true';
-        }
-        if (is_scalar($a)) {
-            if (is_float($a)) {
-                // Always use "." for floats.
-                return (float) (str_replace(',', '.', (string) ($a)));
-            }
-
-            if (is_string($a)) {
-                static $jsonReplaces = [['\\', '/', "\n", "\t", "\r", "\b", "\f", '"'], ['\\\\', '\\/', '\\n', '\\t', '\\r', '\\b', '\\f', '\"']];
-
-                return '"' . str_replace($jsonReplaces[0], $jsonReplaces[1], $a) . '"';
-            }
-
-            return $a;
-        }
-        $isList = true;
-        for ($i = 0, reset($a), $iMax = count($a); $i < $iMax; $i++, next($a)) {
-            if (key($a) !== $i) {
-                $isList = false;
-                break;
-            }
-        }
-        $result = [];
-        if ($isList) {
-            foreach ($a as $v) {
-                $result[] = json_encode($v);
-            }
-
-            return '[' . implode(',', $result) . ']';
-        }
-        foreach ($a as $k => $v) {
-            $result[] = json_encode($k) . ':' . json_encode($v);
-        }
-
-        return '{' . implode(',', $result) . '}';
-    }
 }

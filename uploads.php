@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
@@ -449,13 +450,9 @@ function removeEmoji($text)
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
-$pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
-
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', Utility::get_jquery(true));
+$op = Request::getString('op');
+$psn = Request::getInt('psn');
+$pcsn = Request::getInt('pcsn');
 
 switch ($op) {
     //新增資料
@@ -478,4 +475,6 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 require_once XOOPS_ROOT_PATH . '/footer.php';

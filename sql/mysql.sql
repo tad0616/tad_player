@@ -16,9 +16,8 @@ CREATE TABLE `tad_player` (
   `content` text NOT NULL,
   `youtube` varchar(255) NOT NULL default '',
   `logo` varchar(255) NOT NULL default '',
-  PRIMARY KEY  (`psn`)
-)ENGINE=MyISAM DEFAULT CHARSET=utf8;
-
+  PRIMARY KEY (`psn`)
+) ENGINE = MyISAM DEFAULT CHARSET = utf8;
 
 CREATE TABLE `tad_player_cate` (
   `pcsn` smallint(5) unsigned NOT NULL auto_increment,
@@ -29,8 +28,8 @@ CREATE TABLE `tad_player_cate` (
   `sort` smallint(5) unsigned NOT NULL default '0',
   `width` smallint(5) unsigned NOT NULL default '0',
   `height` smallint(5) unsigned NOT NULL default '0',
-  PRIMARY KEY  (`pcsn`)
-)ENGINE=MyISAM DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`pcsn`)
+) ENGINE = MyISAM DEFAULT CHARSET = utf8;
 
 CREATE TABLE `tad_player_rank` (
   `col_name` varchar(255) NOT NULL,
@@ -38,5 +37,5 @@ CREATE TABLE `tad_player_rank` (
   `rank` tinyint(3) unsigned NOT NULL,
   `uid` mediumint(8) unsigned NOT NULL,
   `rank_date` datetime NOT NULL,
-  PRIMARY KEY (`col_name`,`col_sn`,`uid`)
-) ENGINE = MYISAM ;
+  PRIMARY KEY (`col_name`, `col_sn`, `uid`)
+) ENGINE = MYISAM;

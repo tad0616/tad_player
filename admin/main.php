@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tadtools\Ztree;
@@ -124,7 +125,7 @@ function cate_select($pcsn = 0, $size = 20)
 
     $PHP_SELF = basename($_SERVER['PHP_SELF']);
     $select = "
-    <select name='pcsn' class='span12' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
+    <select name='pcsn' title='select category' class='form-control' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
     $cate_select
     </select>";
 
@@ -395,11 +396,10 @@ function mk_thumb($pcsn = '')
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
-$pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
-$new_pcsn = system_CleanVars($_REQUEST, 'new_pcsn', 0, 'int');
+$op = Request::getString('op');
+$psn = Request::getInt('psn');
+$pcsn = Request::getInt('pcsn');
+$new_pcsn = Request::getInt('new_pcsn');
 
 switch ($op) {
     //重作清單

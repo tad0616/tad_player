@@ -1,13 +1,12 @@
 <?php
-
+use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
 
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_POST, 'op', '', 'string');
-$psn = system_CleanVars($_POST, 'psn', 0, 'int');
-$pcsn = system_CleanVars($_POST, 'pcsn', 0, 'int');
+$op = Request::getString('op');
+$psn = Request::getInt('psn');
+$pcsn = Request::getInt('pcsn');
 
 echo get_cate_options($pcsn, $psn);
 

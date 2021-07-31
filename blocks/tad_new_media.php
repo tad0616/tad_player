@@ -47,7 +47,7 @@ function tad_new_media_edit($options)
         <li class='my-row'>
             <lable class='my-label'>" . _MB_TADPLAYER_DISPLAY_MODE . "</lable>
             <div class='my-content'>
-                <select name='options[1]' class='my-input'>
+                <select name='options[1]' class='my-input' title='select mode'>
                     <option value='0' $selected0>" . _MB_TADPLAYER_DISPLAY_MODE_0 . "</option>
                     <option value='1' $selected1>" . _MB_TADPLAYER_DISPLAY_MODE_1 . "</option>
                     <option value='2' $selected2>" . _MB_TADPLAYER_DISPLAY_MODE_2 . '</option>

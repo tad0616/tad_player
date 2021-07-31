@@ -1,3 +1,10 @@
+Tad Player 3.6.4 (išleista 2021-07-31)
+================================================
+1. Nustatyta garso ir vaizdo srities kalba
+2. Atitinka naują 2021/07 AA prieinamumo standarto versiją
+3. Suderinti "BootStrap3" ir "4" šablonai
+4. Support XOOPS 2.5.11
+
 Tad Player 3.6.3 (2020-03-14 released)
 ====================================================
 1. Streamline playback syntax and add settings such as auto play, repeat play, list position ...

@@ -1,12 +1,12 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
 
 require_once __DIR__ . '/header.php';
-require_once __DIR__ . "/language/{$xoopsConfig['language']}/batch.php";
+xoops_loadLanguage('batch', 'tad_player');
 
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
+$op = Request::getString('op');
+$pcsn = Request::getInt('pcsn');
 
 switch ($op) {
     case 'import':
@@ -80,7 +80,7 @@ function tad_player_batch_upload_form()
         <table class='table table-striped table-bordered table-hover'>
         <tr>
             <td class='title' nowrap>" . _MD_TADPLAYER_BATCH_OF_CSN . "</td>
-            <td class='col' colspan=2><select name='pcsn' size=1>
+            <td class='col' colspan=2><select name='pcsn' size=1 title='select category'>
             $cate_select
             </select>" . _MD_TADPLAYER_BATCH_NEW_PCSN . "<input type='text' name='new_pcsn' size='10'></td></tr>
             $tr

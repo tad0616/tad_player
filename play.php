@@ -1,4 +1,5 @@
 <?php
+use Xmf\Request;
 use XoopsModules\Tadtools\StarRating;
 use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
@@ -100,34 +101,26 @@ function get_cate_play($get_psn = '', $size = 1)
     $xoopsTpl->assign('cate_select', $cate_select);
 
     $select = "
-  <form action='' method='post'>
-  <select id='main_opt' name='main_opt' onchange='getList(this)' style='width:150px;'>
-  $cate_select
-  </select>
-  <select id='sub_opt' name='sub_opt' size=1 onChange=\"window.location.href='{$_SERVER['PHP_SELF']}?psn=' + this.value\" >
-  $option
-  </select>
-  </form>";
+    <form action='' method='post'>
+    <select id='main_opt' name='main_opt' onchange='getList(this)' style='width:150px;' title='select category'>
+    $cate_select
+    </select>
+    <select id='sub_opt' name='sub_opt' size=1 onChange=\"window.location.href='{$_SERVER['PHP_SELF']}?psn=' + this.value\" title='select sub-category'>
+    $option
+    </select>
+    </form>";
 
     return $select;
 }
 
 /*-----------執行動作判斷區----------*/
-require_once $GLOBALS['xoops']->path('/modules/system/include/functions.php');
-$op = system_CleanVars($_REQUEST, 'op', '', 'string');
-$psn = system_CleanVars($_REQUEST, 'psn', 0, 'int');
-$pcsn = system_CleanVars($_REQUEST, 'pcsn', 0, 'int');
-$mod_name = system_CleanVars($_REQUEST, 'mod_name', '', 'string');
-$col_name = system_CleanVars($_REQUEST, 'col_name', '', 'string');
-$col_sn = system_CleanVars($_REQUEST, 'col_sn', 0, 'int');
-$rank = system_CleanVars($_REQUEST, 'rank', '', 'string');
-
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', Utility::get_jquery(true));
-$xoopsTpl->assign('isAdmin', $isAdmin);
-$xoopsTpl->assign('isUploader', $isUploader);
-
-$xoopsTpl->assign('psn', $psn);
+$op = Request::getString('op');
+$psn = Request::getInt('psn');
+$pcsn = Request::getInt('pcsn');
+$col_sn = Request::getInt('col_sn');
+$col_name = Request::getString('col_name');
+$mod_name = Request::getString('mod_name');
+$rank = Request::getString('rank');
 
 switch ($op) {
     case 'delete_tad_player_file':
@@ -149,7 +142,11 @@ switch ($op) {
 }
 
 /*-----------秀出結果區--------------*/
-
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
+$xoopsTpl->assign('jquery', Utility::get_jquery(true));
+$xoopsTpl->assign('isAdmin', $isAdmin);
+$xoopsTpl->assign('isUploader', $isUploader);
+$xoopsTpl->assign('psn', $psn);
 $xoopsTpl->assign('select', get_cate_play($psn));
 $xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
 

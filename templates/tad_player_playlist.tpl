@@ -1,2 +1,32 @@
-<{assign var=this_file value=$smarty.template|basename|replace:'db:':''}>
-<{includeq file="$xoops_rootpath/modules/$xoops_dirname/templates/b4.tpl"}>
+<{$toolbar}>
+
+<h2 class="sr-only">Video List</h2>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#menu1").change(function(){
+      location.href="playlist.php?pcsn=" +　$("#menu1").val();
+    });
+  });
+</script>
+
+<div class="alert alert-success">
+  <div class="row">
+    <div class="col-sm-4">
+      <select id="menu1" class="form-control" title="select category">
+        <{$cate_select}>
+      </select>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <{$title}>
+    <{$playcode}>
+  </div>
+</div>
+
+<div class="text-center" style="margin: 20px auto;">
+  <{$push}>
+</div>

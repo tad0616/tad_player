@@ -73,7 +73,7 @@ function tad_player_play_list_edit($options)
 function tp_block_cate_select($pcsn = 0)
 {
     $cate_select = tp_block_get_tad_player_cate_option(0, 0, $pcsn);
-    $select = "<select name='options[0]' size='6' class='my-input'>
+    $select = "<select name='options[0]' size='6' class='my-input' title='select category'>
     $cate_select
     </select>";
 

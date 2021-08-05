@@ -3,7 +3,7 @@
 use XoopsModules\Tadtools\Utility;
 
 //區塊主函式 (依人氣值挑出熱門影片)
-function tad_player_b_show_3($options)
+function tad_hot_media($options)
 {
     global $xoopsDB;
 

@@ -19,7 +19,8 @@ function get_cate_options($pcsn = '', $def_psn = '')
 
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $total = $xoopsDB->getRowsNum($result);
-    $main = (empty($def_psn) and !empty($total)) ? "<option value=''>" . _MD_TADPLAYER_PICK_A_VIDEO . '</option>' : '';
+    // $main = (empty($def_psn) and !empty($total)) ? "<option value=''>" . _MD_TADPLAYER_PICK_A_VIDEO . '</option>' : '';
+    $main = "<option value=''>" . _MD_TADPLAYER_PICK_A_VIDEO . '</option>';
     $sort = 1;
     while (list($psn, $title) = $xoopsDB->fetchRow($result)) {
         $selected = $def_psn == $psn ? 'selected' : '';

@@ -92,7 +92,7 @@
           </div>
           <div class="col-sm-8">
             <div id="flv_local">
-              <input type="file" name="location" id="location" value="<{$location}>">
+              <input type="file" name="location" id="location" class="form-control" value="<{$location}>">
             </div>
 
             <div id="flv_link">
@@ -121,7 +121,7 @@
           </div>
           <div class="col-sm-8">
             <div id="img_local">
-              <input type="file" name="image" value="<{$image}>">
+              <input type="file" name="image" class="form-control" value="<{$image}>">
             </div>
             <div id="img_link">
               <input type="text" name="image" class="form-control" value="<{$image}>" placeholder="<{$smarty.const._MD_TADPLAYER_IMG_LINK}>">

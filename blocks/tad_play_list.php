@@ -99,13 +99,9 @@ function tp_block_get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $
 
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         $selected = ($v == $pcsn) ? 'selected' : '';
-        if (empty($cate_count[$pcsn]) and $optgroup) {
-            $option .= "<optgroup label='{$title}' style='font-style: normal;color:black;'>" . tp_block_get_tad_player_cate_option($pcsn, $level, $v, '0') . '</optgroup>';
-        } else {
-            $counter = (empty($cate_count[$pcsn])) ? 0 : $cate_count[$pcsn];
-            $option .= "<option value='{$pcsn}' $selected >{$dot}{$title} ($counter)</option>";
-            $option .= tp_block_get_tad_player_cate_option($pcsn, $level, $v);
-        }
+        $counter = (empty($cate_count[$pcsn])) ? 0 : $cate_count[$pcsn];
+        $option .= "<option value='{$pcsn}' $selected >{$dot}{$title} ($counter)</option>";
+        $option .= tp_block_get_tad_player_cate_option($pcsn, $level, $v);
     }
 
     return $option;

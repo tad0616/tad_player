@@ -365,13 +365,10 @@ function get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $show_dot 
         }
 
         $selected = ($v == $pcsn) ? 'selected' : '';
-        if (empty($cate_count[$pcsn]) and $optgroup) {
-            $option .= "<optgroup label='{$title}' style='font-style: normal;color:black;'>" . get_tad_player_cate_option($pcsn, $level, $v, '0') . '</optgroup>';
-        } else {
-            $counter = (empty($cate_count[$pcsn])) ? 0 : $cate_count[$pcsn];
-            $option .= "<option value='{$pcsn}' $selected >{$dot}{$title} ($counter)</option>";
-            $option .= get_tad_player_cate_option($pcsn, $level, $v, $show_dot, $optgroup, $kind);
-        }
+        $counter = (empty($cate_count[$pcsn])) ? 0 : $cate_count[$pcsn];
+        $option .= "<option value='{$pcsn}' $selected >{$dot}{$title} ($counter)</option>";
+        $option .= get_tad_player_cate_option($pcsn, $level, $v, $show_dot, $optgroup, $kind);
+
     }
 
     return $option;

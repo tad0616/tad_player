@@ -11,7 +11,7 @@ function tad_new_media($options)
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $i = 0;
-
+    $block = [];
     while (list($psn, $title, $creator, $location, $image, $info, $uid, $post_date, $enable_group, $counter) = $xoopsDB->fetchRow($result)) {
         $block[$i]['psn'] = $psn;
         $block[$i]['title'] = $title;

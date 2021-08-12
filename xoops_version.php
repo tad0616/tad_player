@@ -88,37 +88,45 @@ $modversion['templates'][$i]['file'] = 'tad_player_playlist.tpl';
 $modversion['templates'][$i]['description'] = 'tad_player_playlist.tpl';
 
 //---區塊設定---//
-$modversion['blocks'][1]['file'] = 'tad_player.php';
-$modversion['blocks'][1]['name'] = _MI_TADPLAYER_BNAME1;
-$modversion['blocks'][1]['description'] = _MI_TADPLAYER_BDESC1;
-$modversion['blocks'][1]['show_func'] = 'tad_player';
-$modversion['blocks'][1]['template'] = 'tad_player.tpl';
-$modversion['blocks'][1]['edit_func'] = 'tad_player_edit';
-$modversion['blocks'][1]['options'] = '|0|true';
+$modversion['blocks'][] = [
+    'file' => 'tad_player.php',
+    'name' => _MI_TADPLAYER_BNAME1,
+    'description' => _MI_TADPLAYER_BDESC1,
+    'show_func' => 'tad_player',
+    'template' => 'tad_player.tpl',
+    'edit_func' => 'tad_player_edit',
+    'options' => '|0|true',
+];
 
-$modversion['blocks'][2]['file'] = 'tad_new_media.php';
-$modversion['blocks'][2]['name'] = _MI_TADPLAYER_BNAME2;
-$modversion['blocks'][2]['description'] = _MI_TADPLAYER_BDESC2;
-$modversion['blocks'][2]['show_func'] = 'tad_new_media';
-$modversion['blocks'][2]['template'] = 'tad_new_media.tpl';
-$modversion['blocks'][2]['edit_func'] = 'tad_new_media_edit';
-$modversion['blocks'][2]['options'] = '10|1';
+$modversion['blocks'][] = [
+    'file' => 'tad_new_media.php',
+    'name' => _MI_TADPLAYER_BNAME2,
+    'description' => _MI_TADPLAYER_BDESC2,
+    'show_func' => 'tad_new_media',
+    'template' => 'tad_new_media.tpl',
+    'edit_func' => 'tad_new_media_edit',
+    'options' => '10|1',
+];
 
-$modversion['blocks'][3]['file'] = 'tad_hot_media.php';
-$modversion['blocks'][3]['name'] = _MI_TADPLAYER_BNAME3;
-$modversion['blocks'][3]['description'] = _MI_TADPLAYER_BDESC3;
-$modversion['blocks'][3]['show_func'] = 'tad_hot_media';
-$modversion['blocks'][3]['template'] = 'tad_hot_media.tpl';
-$modversion['blocks'][3]['edit_func'] = 'tad_tad_hot_media_edit';
-$modversion['blocks'][3]['options'] = '10|1';
+$modversion['blocks'][] = [
+    'file' => 'tad_hot_media.php',
+    'name' => _MI_TADPLAYER_BNAME3,
+    'description' => _MI_TADPLAYER_BDESC3,
+    'show_func' => 'tad_hot_media',
+    'template' => 'tad_hot_media.tpl',
+    'edit_func' => 'tad_tad_hot_media_edit',
+    'options' => '10|1',
+];
 
-$modversion['blocks'][4]['file'] = 'tad_play_list.php';
-$modversion['blocks'][4]['name'] = _MI_TADPLAYER_BNAME4;
-$modversion['blocks'][4]['description'] = _MI_TADPLAYER_BDESC4;
-$modversion['blocks'][4]['show_func'] = 'tad_player_play_list';
-$modversion['blocks'][4]['template'] = 'tad_play_list.tpl';
-$modversion['blocks'][4]['edit_func'] = 'tad_player_play_list_edit';
-$modversion['blocks'][4]['options'] = '|0|100|true';
+$modversion['blocks'][] = [
+    'file' => 'tad_play_list.php',
+    'name' => _MI_TADPLAYER_BNAME4,
+    'description' => _MI_TADPLAYER_BDESC4,
+    'show_func' => 'tad_player_play_list',
+    'template' => 'tad_play_list.tpl',
+    'edit_func' => 'tad_player_play_list_edit',
+    'options' => '|0|100|true',
+];
 
 //---模組設定---//
 $i = 1;

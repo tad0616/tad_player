@@ -33,12 +33,14 @@ function tad_player_search($queryarray, $andor, $limit, $offset, $userid)
     $ret = [];
     $i = 0;
     while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
-        $ret[$i]['image'] = 'images/video.png';
-        $ret[$i]['link'] = 'play.php?psn=' . $myrow['psn'];
-        $ret[$i]['title'] = $myrow['title'];
-        $ret[$i]['time'] = tadplayer_tnsday2ts($myrow['post_date']);
-        $ret[$i]['uid'] = $myrow['uid'];
-        $i++;
+        if ($myrow['title']) {
+            $ret[$i]['image'] = 'images/video.png';
+            $ret[$i]['link'] = 'play.php?psn=' . $myrow['psn'];
+            $ret[$i]['title'] = $myrow['title'];
+            $ret[$i]['time'] = tadplayer_tnsday2ts($myrow['post_date']);
+            $ret[$i]['uid'] = $myrow['uid'];
+            $i++;
+        }
     }
 
     return $ret;

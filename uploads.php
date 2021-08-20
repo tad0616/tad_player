@@ -2,6 +2,7 @@
 use Xmf\Request;
 use XoopsModules\Tadtools\CkEditor;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tadtools\Wcag;
 /*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
 $xoopsOption['template_main'] = 'tad_player_uploads.tpl';
@@ -194,6 +195,7 @@ function insert_tad_player()
     $creator = $myts->addSlashes($_POST['creator']);
     $content = $myts->addSlashes($_POST['content']);
     $content = removeEmoji($content);
+    $content = Wcag::amend($content);
     $youtube = $myts->addSlashes($_POST['youtube']);
     $logo_name = $myts->addSlashes($_POST['logo_name']);
 
@@ -290,6 +292,7 @@ function update_tad_player($psn = '')
     $creator = $myts->addSlashes($_POST['creator']);
     $content = $myts->addSlashes($_POST['content']);
     $content = removeEmoji($content);
+    $content = Wcag::amend($content);
     $youtube = $myts->addSlashes($_POST['youtube']);
     $logo_name = $myts->addSlashes($_POST['logo_name']);
     $width = (int) $_POST['width'];

@@ -4,17 +4,17 @@ use XoopsModules\Tadtools\Utility;
 function tad_player_search($queryarray, $andor, $limit, $offset, $userid)
 {
     global $xoopsDB;
-    //處理許功蓋
-    if (get_magic_quotes_gpc()) {
-        if (is_array($queryarray)) {
-            foreach ($queryarray as $k => $v) {
-                $arr[$k] = addslashes($v);
-            }
-            $queryarray = $arr;
-        } else {
-            $queryarray = [];
+
+    $myts = \MyTextSanitizer::getInstance();
+    if (is_array($queryarray)) {
+        foreach ($queryarray as $k => $v) {
+            $arr[$k] = $myts->addSlashes($v);
         }
+        $queryarray = $arr;
+    } else {
+        $queryarray = [];
     }
+
     $sql = 'SELECT psn,title,post_date,uid FROM ' . $xoopsDB->prefix('tad_player') . ' WHERE 1';
     if (0 != $userid) {
         $sql .= ' AND uid=' . $userid . ' ';

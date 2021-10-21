@@ -154,7 +154,7 @@ function insert_tad_player()
         $youtube_id = getYTid($_POST['youtube']);
 
         $url = "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={$youtube_id}&format=json";
-        $contents = file_get_contents($url);
+        $contents = vita_get_url_content($url);
         $contents = utf8_encode($contents);
         //$ytb = json_decode($contents,false);
         $ytb = get_object_vars(json_decode($contents));

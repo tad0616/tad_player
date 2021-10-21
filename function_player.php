@@ -145,7 +145,8 @@ function play_code_player($id = 'tp', $file = '', $sn = '', $mode = '', $autosta
         if (!is_file(_TAD_PLAYER_UPLOAD_DIR . "{$sn}_list.json")) {
             return;
         }
-        $media = file_get_contents($json);
+
+        $media = vita_get_url_content($json);
         if ('null' === trim($media)) {
             return;
         }
@@ -154,7 +155,7 @@ function play_code_player($id = 'tp', $file = '', $sn = '', $mode = '', $autosta
             $media = $file['youtube'];
             $youtube_id = getYTid($file['youtube']);
             $url = "https://www.youtube.com/oembed?url=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D{$youtube_id}&format=json";
-            $contents = file_get_contents($url);
+            $contents = vita_get_url_content($url);
             $contents = utf8_encode($contents);
             $results = json_decode($contents, false);
             // die(var_export($results));
@@ -210,4 +211,26 @@ function getYTid($ytURL = '')
     parse_str(parse_url($ytURL, PHP_URL_QUERY), $params);
 
     return $params['v'];
+}
+
+//遠端取得資料
+function vita_get_url_content($url)
+{
+    if (function_exists('curl_init')) {
+        $ch = curl_init();
+        $timeout = 5;
+
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
+        $file_contents = curl_exec($ch);
+        curl_close($ch);
+    } elseif (function_exists('file_get_contents')) {
+        $file_contents = file_get_contents($url, false, stream_context_create(['ssl' => ['verify_peer' => false, 'verify_peer_name' => false]]));
+    }
+
+    return $file_contents;
 }

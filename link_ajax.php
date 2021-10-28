@@ -1,5 +1,6 @@
 <?php
 use Xmf\Request;
+use XoopsModules\Tadtools\Utility;
 require_once __DIR__ . '/header.php';
 
 $url = Request::getUrl('url');
@@ -12,7 +13,7 @@ if (!empty($url)) {
     $youtube_id = getYTid($url);
 
     $url = "https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
-    $contents = vita_get_url_content($url);
+    $contents = Utility::vita_get_url_content($url);
     $contents = utf8_encode($contents);
     $ytb = json_decode($contents, true);
     // die(var_export($ytb));
@@ -60,7 +61,7 @@ function getUrlData($url)
 function getUrlContents($url, $maximumRedirections = null, $currentRedirection = 0)
 {
     $result = false;
-    $contents = vita_get_url_content($url);
+    $contents = Utility::vita_get_url_content($url);
     if (isset($contents) && is_string($contents)) {
         preg_match_all('/<[\s]*meta[\s]*http-equiv="?REFRESH"?' . '[\s]*content="?[0-9]*;[\s]*URL[\s]*=[\s]*([^>"]*)"?' . '[\s]*[\/]?[\s]*>/si', $contents, $match);
         if (isset($match) && is_array($match) && 2 == count($match) && 1 == count($match[1])) {

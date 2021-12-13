@@ -1,6 +1,6 @@
 <{$toolbar}>
 
-<h2 class="sr-only">Video Upload</h2>
+<h2 class="sr-only visually-hidden">Video Upload</h2>
 
 <script type="text/javascript">
   $(document).ready(function() {
@@ -82,7 +82,7 @@
     <form action="uploads.php" method="post" id="myForm" enctype="multipart/form-data" class="form-horizontal" role="form">
 
       <div class="alert alert-success">
-        <div class="form-group row">
+        <div class="form-group row mb-3">
           <div class="col-sm-4">
             <select id="flv_where" class="form-control" title="select type">
               <option value="youtube" <{$selected_youtube}>><{$smarty.const._MD_TADPLAYER_YOUTUBE_FLV}></option>
@@ -112,7 +112,7 @@
           </div>
         </div>
 
-        <div class="form-group row" id="thumb_config">
+        <div class="form-group row mb-3" id="thumb_config">
           <div class="col-sm-4">
             <select id="img_where" class="form-control" title="select method">
               <option value="local" <{$selected_img_local}>><{$smarty.const._MD_TADPLAYER_UPLOAD_IMG}></option>
@@ -130,7 +130,7 @@
         </div>
       </div>
 
-      <div class="form-group row">
+      <div class="form-group row mb-3">
         <label class="col-sm-1 col-form-label text-sm-right control-label">
           <{$smarty.const._MD_TADPLAYER_OF_CSN}>
         </label>
@@ -146,7 +146,7 @@
 
 
 
-      <div class="form-group row">
+      <div class="form-group row mb-3">
         <label class="col-sm-1 col-form-label text-sm-right control-label">
           <{$smarty.const._MD_TADPLAYER_TITLE}>
         </label>
@@ -159,14 +159,14 @@
       </div>
 
 
-      <div class="form-group row">
+      <div class="form-group row mb-3">
         <div class="col-sm-12">
           <{$editor}>
         </div>
       </div>
 
 
-      <div class="form-group row">
+      <div class="form-group row mb-3">
         <label class="col-sm-2 col-form-label text-sm-right control-label">
           <{$smarty.const._MD_TADPLAYER_ENABLE_GROUP}>
         </label>

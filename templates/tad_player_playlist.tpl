@@ -1,6 +1,6 @@
 <{$toolbar}>
 
-<h2 class="sr-only">Video List</h2>
+<h2 class="sr-only visually-hidden">Video List</h2>
 
 <script type="text/javascript">
   $(document).ready(function(){

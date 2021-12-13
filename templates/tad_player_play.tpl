@@ -35,7 +35,7 @@
 <{if $title}>
   <h1><{$title}></h1>
 <{else}>
-  <h2 class="sr-only">Play Video</h2>
+  <h2 class="sr-only visually-hidden">Play Video</h2>
 <{/if}>
 
 
@@ -61,7 +61,7 @@
     <{$star_rating}>
   </div>
 
-  <div class="col-sm-3 text-right">
+  <div class="col-sm-3 text-right text-end">
     <{if $isAdmin or $isUploader}>
       <a href="javascript:delete_tad_player_file_func(<{$psn}>);" class="btn btn-sm btn-danger"><{$smarty.const._TAD_DEL}></a>
 

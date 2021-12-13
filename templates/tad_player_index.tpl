@@ -1,5 +1,5 @@
 <{$toolbar}>
-<h2 class="sr-only">Video List</h2>
+<h2 class="sr-only visually-hidden">Video List</h2>
 <script type="text/javascript">
   $(document).ready(function(){
     $.post("ajax.php",  {op: "get_menu" , pcsn: $("#menu1").val() , psn: '<{$psn}>'} , function(data) {
@@ -46,7 +46,7 @@
       <div class="col-sm-3 d-flex align-items-stretch">
         <div class="card" style="width:100%; magrin-bottom:1em;">
           <a href="index.php?pcsn=<{$sub_cate.pcsn}>">
-            <img class="card-img-top" src="<{$sub_cate.pic}>" alt="<{$sub_cate.title}> pic" style="width:100%"><span class="sr-only"><{$sub_cate.title}></span>
+            <img class="card-img-top" src="<{$sub_cate.pic}>" alt="<{$sub_cate.title}> pic" style="width:100%"><span class="sr-only visually-hidden"><{$sub_cate.title}></span>
           </a>
           <div class="card-body">
             <h5 class="card-title text-center"><{$sub_cate.title}></h5>
@@ -67,7 +67,7 @@
       <div class="col-sm-3 d-flex align-items-stretch">
           <div class="card" style="width:100%; magrin-bottom:1em;">
             <a href="<{$video.url}>">
-              <img class="card-img-top" src="<{$video.pic}>" alt="<{$video.img_title}> pic" style="width:100%"><span class="sr-only"><{$video.img_title}></span>
+              <img class="card-img-top" src="<{$video.pic}>" alt="<{$video.img_title}> pic" style="width:100%"><span class="sr-only visually-hidden"><{$video.img_title}></span>
             </a>
             <div class="card-body">
               <p class="card-text text-center">

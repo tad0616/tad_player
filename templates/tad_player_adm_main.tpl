@@ -7,11 +7,12 @@
                     <div id="save_msg"></div>
                 </div>
                 <{if $now_op!="tad_player_cate_form"}>
-                    <a href="main.php?op=tad_player_cate_form" class="btn btn-info btn-block"><{$smarty.const._MA_TADPLAYER_ADD_CATE}></a>
-
+                    <div class="d-grid gap-2">
+                        <a href="main.php?op=tad_player_cate_form" class="btn btn-info btn-block"><{$smarty.const._MA_TADPLAYER_ADD_CATE}></a>
+                    </div>
                     <{if $data}>
                         <h2><{$smarty.const._MA_TADPLAYER_THE_ACT_IS}></h2>
-                        <div class="form-group row">
+                        <div class="form-group row mb-3">
                             <div class="col-sm-12">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="op" id="del" value="del">
@@ -20,7 +21,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row mb-3">
                             <div class="col-sm-4">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="op" id="move" value="move">
@@ -32,7 +33,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row mb-3">
                             <div class="col-sm-4">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="op" id="add_title" value="add_title">
@@ -44,7 +45,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row mb-3">
                             <div class="col-sm-4">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="op" id="add_info" value="add_info">
@@ -73,7 +74,7 @@
                                 <{$cate.title}>
                             </h3>
                         </div>
-                        <div class="col-sm-8 text-right">
+                        <div class="col-sm-8 text-right text-end">
                             <div style="margin-top: 10px;">
                                 <a href="main.php?op=mk_list_json&pcsn=<{$pcsn}>" class="btn btn-success"><{$smarty.const._MA_TADPLAYER_MK_JSON}></a>
                                 <a href="main.php?op=mk_thumb&pcsn=<{$pcsn}>" class="btn btn-info"><{$smarty.const._MA_TADPLAYER_MK_THUMBS}></a>
@@ -130,7 +131,7 @@
                     <div class="card card-body bg-light m-1">
                         <form action="main.php" method="post" id="myForm" enctype="multipart/form-data" role="form">
 
-                        <div class="form-group row">
+                        <div class="form-group row mb-3">
                             <label class="col-sm-2 col-form-label text-sm-right">
                             <{$smarty.const._MA_TADPLAYER_OF_CSN}>
                             </label>
@@ -145,7 +146,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row mb-3">
                             <label class="col-sm-2 col-form-label text-sm-right">
                             <{$smarty.const._MA_TADPLAYER_TITLE}>
                             </label>
@@ -154,7 +155,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row mb-3">
                             <label class="col-sm-2 col-form-label text-sm-right">
                             <{$smarty.const._MA_TADPLAYER_ENABLE_GROUP}>
                             </label>
@@ -169,7 +170,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group row">
+                        <div class="form-group row mb-3">
                             <div class="col-sm-12 text-center">
                             <input type="hidden" name="sort" value="<{$sort}>">
                             <input type="hidden" name="pcsn" value="<{$pcsn}>">

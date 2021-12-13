@@ -1,3 +1,10 @@
+Tad Player 3.6.7 (Released 2021-12-13)
+====================================
+1. Fix the problem that the list cannot be played
+2. Fix the problem that the block may conflict with tad_link
+3. Support BootStrap5
+
+
 Tad Player 3.6.6 (released on 2021-08-24)
 ====================================
 1.Search function security correction

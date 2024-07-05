@@ -3,10 +3,6 @@ use XoopsModules\Tadtools\Utility;
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 
 require_once __DIR__ . '/function.php';
-if ('1' == $xoopsModuleConfig['use_pda'] and false === mb_strpos($_SESSION['theme_kind'], 'bootstrap')) {
-    Utility::mobile_device_detect(true, false, true, true, true, true, true, 'pda.php', false);
-
-}
 
 $interface_menu[_TAD_TO_MOD] = 'index.php';
 

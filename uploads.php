@@ -133,11 +133,11 @@ function insert_tad_player()
     if (!empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
         $pcsn = add_tad_player_cate();
     } else {
-        $pcsn = $_POST['pcsn'];
+        $pcsn = (int) $_POST['pcsn'];
     }
 
-    $uid = $xoopsUser->getVar('uid');
-    $enable_group = implode(',', $_POST['enable_group']);
+    $uid = $xoopsUser->uid();
+    $enable_group = $_POST['enable_group'] ? implode(',', $_POST['enable_group']) : '';
 
     //$now=xoops_getUserTimestamp(time());
 
@@ -155,7 +155,7 @@ function insert_tad_player()
 
         $url = "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={$youtube_id}&format=json";
         $contents = Utility::vita_get_url_content($url);
-        $contents = utf8_encode($contents);
+        // $contents = utf8_encode($contents);
         //$ytb = json_decode($contents,false);
         $ytb = get_object_vars(json_decode($contents));
         /*
@@ -462,7 +462,7 @@ switch ($op) {
     case 'insert_tad_player':
         $psn = insert_tad_player();
         header("location: play.php?psn=$psn");
-        break;
+        exit;
     //輸入表格
     case 'tad_player_form':
         $main = tad_player_form($psn, $pcsn);
@@ -471,7 +471,7 @@ switch ($op) {
     case 'update_tad_player':
         update_tad_player($psn);
         header("location: play.php?psn=$psn");
-        break;
+        exit;
     default:
         uploads_tabs($psn, $pcsn);
         break;
@@ -479,5 +479,4 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 require_once XOOPS_ROOT_PATH . '/footer.php';

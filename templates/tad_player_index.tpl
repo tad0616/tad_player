@@ -42,17 +42,17 @@
 
 <{if $sub_cate}>
   <div class="row">
-    <{foreach item=sub_cate from=$sub_cate}>
+    <{foreach from=$sub_cate item=cate}>
       <div class="col-sm-3 d-flex align-items-stretch">
         <div class="card" style="width:100%; magrin-bottom:1em;">
-          <a href="index.php?pcsn=<{$sub_cate.pcsn}>">
-            <img class="card-img-top" src="<{$sub_cate.pic}>" alt="<{$sub_cate.title}> pic" style="width:100%"><span class="sr-only visually-hidden"><{$sub_cate.title}></span>
+          <a href="index.php?pcsn=<{$cate.pcsn}>">
+            <img class="card-img-top" src="<{$cate.pic}>" alt="<{$cate.title}> pic" style="width:100%"><span class="sr-only visually-hidden"><{$cate.title}></span>
           </a>
           <div class="card-body">
-            <h5 class="card-title text-center"><{$sub_cate.title}></h5>
+            <h5 class="card-title text-center"><{$cate.title}></h5>
             <p class="card-text">
-              <div style="font-size: 0.8125em; color:#666666; text-align:center;"><{$sub_cate.num}></div>
-              <{if $sub_cate.pcsn_num}><div style="font-size: 0.8125em;color:#666666;text-align:center;"><{$sub_cate.pcsn_num}></div><{/if}>
+              <div style="font-size: 0.8125em; color:#666666; text-align:center;"><{$cate.num}></div>
+              <{if $cate.pcsn_num}><div style="font-size: 0.8125em;color:#666666;text-align:center;"><{$cate.pcsn_num}></div><{/if}>
             </p>
           </div>
         </div>
@@ -79,7 +79,7 @@
                 <{/if}>
                 <{if $rating_js}><div id="rating_psn_<{$video.psn}>"></div><{/if}>
               </p>
-              <p class="card-title"><{$video.img_title}></p>
+              <p class="card-title"><a href="<{$video.url}>"><{$video.img_title}></a></p>
             </div>
           </div>
 

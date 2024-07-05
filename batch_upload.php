@@ -14,6 +14,7 @@ switch ($op) {
         mk_list_json($pcsn);
         header("location:index.php?pcsn=$pcsn");
         break;
+
     default:
         echo tad_player_batch_upload_form();
         break;

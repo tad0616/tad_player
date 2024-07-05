@@ -168,7 +168,7 @@ function get_cate_image($pcsn = '0')
 //熱門影片
 function hot_media()
 {
-    global $xoopsDB, $xoopsModule, $xoopsModuleConfig;
+    global $xoopsDB;
 
     $sql = 'select a.psn,a.pcsn,a.title,a.counter,b.title from ' . $xoopsDB->prefix('tad_player') . ' as a left join ' . $xoopsDB->prefix('tad_player_cate') . ' as b on a.pcsn=b.pcsn order by a.counter desc limit 0,10';
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -186,12 +186,11 @@ function hot_media()
 //新增資料到tad_player_cate中
 function add_tad_player_cate()
 {
-    global $xoopsDB, $xoopsModuleConfig;
+    global $xoopsDB;
     if (empty($_POST['new_pcsn'])) {
         return;
     }
 
-    $enable_group = implode(',', $_POST['enable_group']);
     $sql = 'insert into ' . $xoopsDB->prefix('tad_player_cate') . " (of_csn,title,enable_group,sort) values('{$_POST['pcsn']}','{$_POST['new_pcsn']}','','0')";
     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     //取得最後新增資料的流水編號

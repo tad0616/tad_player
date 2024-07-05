@@ -76,14 +76,6 @@
   <div class="alert alert-info"><{$code}></div>
 <{/if}>
 
-
-
-<{if $facebook_comments}>
-  <div class="row">
-    <{$facebook_comments}>
-  </div>
-<{/if}>
-
 <!--Tad Player play_tpl.html-->
 
 <p style="clear: both">

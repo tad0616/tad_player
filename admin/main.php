@@ -10,6 +10,92 @@ require_once __DIR__ . '/header.php';
 $isAdmin = true;
 require_once dirname(__DIR__) . '/function.php';
 
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$psn = Request::getInt('psn');
+$pcsn = Request::getInt('pcsn');
+$new_pcsn = Request::getInt('new_pcsn');
+
+switch ($op) {
+    //重作清單
+    case 'mk_list_json':
+        mk_list_json($pcsn);
+        redirect_header($_SERVER['PHP_SELF'] . "?pcsn=$pcsn", 3, _MA_TADPLAYER_JSON_OK);
+        break;
+    //重新產生所有的 json
+    case 'mk_all_json':
+        $main = mk_all_json();
+        break;
+    case 'del':
+        batch_del();
+        header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
+        exit;
+
+    case 'move':
+        batch_move($new_pcsn);
+        mk_list_json($pcsn);
+        mk_list_json($new_pcsn);
+        header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
+        exit;
+
+    case 'add_title':
+        batch_add_title();
+        mk_list_json($pcsn);
+        header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
+        exit;
+
+    case 'add_info':
+        batch_add_info();
+        mk_list_json($pcsn);
+        header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
+        exit;
+
+    case 'update_wh':
+        update_wh();
+        mk_list_json($pcsn);
+        header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
+        exit;
+
+    //新增資料
+    case 'tad_player_cate_form':
+        list_tad_player_cate_tree($pcsn);
+        tad_player_cate_form($pcsn);
+        break;
+    //新增資料
+    case 'insert_tad_player_cate':
+        insert_tad_player_cate();
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //刪除資料
+    case 'delete_tad_player_cate':
+        delete_tad_player_cate($pcsn);
+        header("location: {$_SERVER['PHP_SELF']}");
+        exit;
+
+    //更新資料
+    case 'update_tad_player_cate':
+        update_tad_player_cate($pcsn);
+        header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
+        exit;
+
+    //重作縮圖
+    case 'mk_thumb':
+        mk_thumb($pcsn);
+        header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
+        exit;
+
+    //預設動作
+    default:
+
+        list_tad_player_cate_tree($pcsn);
+        list_tad_player($pcsn);
+        break;
+}
+
+/*-----------秀出結果區--------------*/
+require_once __DIR__ . '/footer.php';
+
 /*-----------function區--------------*/
 //列出所有tad_player資料
 function list_tad_player($pcsn = '')
@@ -394,89 +480,3 @@ function mk_thumb($pcsn = '')
         mk_video_thumbnail($image, $pic_s_file, $type['mime'], '480');
     }
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$psn = Request::getInt('psn');
-$pcsn = Request::getInt('pcsn');
-$new_pcsn = Request::getInt('new_pcsn');
-
-switch ($op) {
-    //重作清單
-    case 'mk_list_json':
-        mk_list_json($pcsn);
-        redirect_header($_SERVER['PHP_SELF'] . "?pcsn=$pcsn", 3, _MA_TADPLAYER_JSON_OK);
-        break;
-    //重新產生所有的 json
-    case 'mk_all_json':
-        $main = mk_all_json();
-        break;
-    case 'del':
-        batch_del();
-        header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
-        exit;
-
-    case 'move':
-        batch_move($new_pcsn);
-        mk_list_json($pcsn);
-        mk_list_json($new_pcsn);
-        header("location: {$_SERVER['PHP_SELF']}?pcsn=$new_pcsn");
-        exit;
-
-    case 'add_title':
-        batch_add_title();
-        mk_list_json($pcsn);
-        header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
-        exit;
-
-    case 'add_info':
-        batch_add_info();
-        mk_list_json($pcsn);
-        header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
-        exit;
-
-    case 'update_wh':
-        update_wh();
-        mk_list_json($pcsn);
-        header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
-        exit;
-
-    //新增資料
-    case 'tad_player_cate_form':
-        list_tad_player_cate_tree($pcsn);
-        tad_player_cate_form($pcsn);
-        break;
-    //新增資料
-    case 'insert_tad_player_cate':
-        insert_tad_player_cate();
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //刪除資料
-    case 'delete_tad_player_cate':
-        delete_tad_player_cate($pcsn);
-        header("location: {$_SERVER['PHP_SELF']}");
-        exit;
-
-    //更新資料
-    case 'update_tad_player_cate':
-        update_tad_player_cate($pcsn);
-        header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
-        exit;
-
-    //重作縮圖
-    case 'mk_thumb':
-        mk_thumb($pcsn);
-        header("location: {$_SERVER['PHP_SELF']}?pcsn={$pcsn}");
-        exit;
-
-    //預設動作
-    default:
-
-        list_tad_player_cate_tree($pcsn);
-        list_tad_player($pcsn);
-        break;
-}
-
-/*-----------秀出結果區--------------*/
-require_once __DIR__ . '/footer.php';

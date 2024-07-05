@@ -32,7 +32,7 @@ CREATE TABLE `tad_player_cate` (
 ) ENGINE = MyISAM DEFAULT CHARSET = utf8;
 
 CREATE TABLE `tad_player_rank` (
-  `col_name` varchar(255) NOT NULL,
+  `col_name` varchar(50) NOT NULL,
   `col_sn` smallint(5) unsigned NOT NULL,
   `rank` tinyint(3) unsigned NOT NULL,
   `uid` mediumint(8) unsigned NOT NULL,

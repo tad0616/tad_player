@@ -143,15 +143,11 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('jquery', Utility::get_jquery(true));
 $xoopsTpl->assign('isAdmin', $isAdmin);
 $xoopsTpl->assign('isUploader', $isUploader);
 $xoopsTpl->assign('psn', $psn);
 $xoopsTpl->assign('select', get_cate_play($psn));
 $xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
-
-$facebook_comments = Utility::facebook_comments($xoopsModuleConfig['facebook_comments_width'], 'tad_player', 'play.php', 'psn', $psn);
-$xoopsTpl->assign('facebook_comments', $facebook_comments);
 
 require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 require_once XOOPS_ROOT_PATH . '/footer.php';

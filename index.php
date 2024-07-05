@@ -11,18 +11,16 @@ require_once XOOPS_ROOT_PATH . '/header.php';
 //列出所有tad_player資料
 function list_tad_player($pcsn = '')
 {
-    global $xoopsDB, $xoopsModule, $xoopsModuleConfig, $xoopsUser, $xoopsTpl;
+    global $xoopsDB, $xoopsModuleConfig, $xoopsUser, $xoopsTpl;
 
     //先找出底下分類
     $sub_cate = list_tad_player_cate($pcsn);
-    //die(var_export($sub_cate));
     $count = empty($sub_cate) ? 0 : count($sub_cate);
-    //die('count:'.$count);
+
     //取得所有分類名稱
     $cate = get_tad_player_cate_all();
 
     //進行排序
-    //$order_by_sort=(empty($pcsn))?"":"a.sort ,";
     $order_by_sort = 'a.sort ,';
 
     $sql = 'select a.psn,a.pcsn,a.location,a.title,a.image,a.info,a.creator,a.post_date,a.counter,a.enable_group,b.title,b.of_csn from ' . $xoopsDB->prefix('tad_player') . ' as a left join ' . $xoopsDB->prefix('tad_player_cate') . " as b on a.pcsn=b.pcsn where a.pcsn='{$pcsn}' order by $order_by_sort a.post_date desc";

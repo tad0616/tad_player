@@ -3,6 +3,7 @@ Tad Player 4.0 (尚未釋出)
 1.支援 XOOPS 2.5.11
 2.支援 PHP 8.3
 3.移除pda.php及facebook留言框
+4.用$xoopsDB->escape()取代$myts->addSlashes()
 
 Tad Player 3.6.7 (2021-12-13 釋出)
 ====================================

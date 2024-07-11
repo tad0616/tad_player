@@ -382,9 +382,9 @@ function insert_tad_player_cate()
     $width = (int) $_POST['width'];
     $height = (int) $_POST['height'];
 
-    $title = $myts->addSlashes($_POST['title']);
-    $enable_group = $myts->addSlashes($enable_group);
-    $enable_upload_group = $myts->addSlashes($enable_upload_group);
+    $title = $xoopsDB->escape($_POST['title']);
+    $enable_group = $xoopsDB->escape($enable_group);
+    $enable_upload_group = $xoopsDB->escape($enable_upload_group);
 
     $sql = 'insert into ' . $xoopsDB->prefix('tad_player_cate') . " (of_csn,title,enable_group,enable_upload_group,sort,width,height) values('{$of_csn}','{$title}','{$enable_group}','{$enable_upload_group}','{$sort}','{$width}','{$height}')";
     $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -427,9 +427,9 @@ function update_tad_player_cate($pcsn = '')
     $height = (int) $_POST['height'];
     $pcsn = (int) $pcsn;
 
-    $title = $myts->addSlashes($_POST['title']);
-    $enable_group = $myts->addSlashes($enable_group);
-    $enable_upload_group = $myts->addSlashes($enable_upload_group);
+    $title = $xoopsDB->escape($_POST['title']);
+    $enable_group = $xoopsDB->escape($enable_group);
+    $enable_upload_group = $xoopsDB->escape($enable_upload_group);
 
     $sql = 'update ' . $xoopsDB->prefix('tad_player_cate') . " set  of_csn = '{$of_csn}', title = '{$title}', enable_group = '{$enable_group}', enable_upload_group = '{$enable_upload_group}', sort = '{$sort}', width = '{$width}', height = '{$height}' where pcsn='$pcsn'";
     $xoopsDB->queryF($sql) or Utility::web_error($sql, __FILE__, __LINE__);

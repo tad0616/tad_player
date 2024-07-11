@@ -142,14 +142,14 @@ function insert_tad_player()
     //$now=xoops_getUserTimestamp(time());
 
     if (empty($_FILES['location']['name']) and !empty($_POST['location'])) {
-        $location = $myts->addSlashes($_POST['location']);
+        $location = $xoopsDB->escape($_POST['location']);
     } else {
-        $location = $myts->addSlashes($_FILES['location']['name']);
+        $location = $xoopsDB->escape($_FILES['location']['name']);
     }
     $location = mb_strtolower($location);
 
     if (!empty($_POST['image'])) {
-        $image = $myts->addSlashes($_POST['image']);
+        $image = $xoopsDB->escape($_POST['image']);
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = getYTid($_POST['youtube']);
 
@@ -183,21 +183,21 @@ function insert_tad_player()
             $_POST['creator'] = $ytb['author_name'];
         }
     } else {
-        $image = $myts->addSlashes($_FILES['image']['name']);
+        $image = $xoopsDB->escape($_FILES['image']['name']);
     }
 
     if (!empty($_POST['title'])) {
-        $title = $myts->addSlashes($_POST['title']);
+        $title = $xoopsDB->escape($_POST['title']);
     } else {
-        $title = $myts->addSlashes(basename($location));
+        $title = $xoopsDB->escape(basename($location));
     }
 
-    $creator = $myts->addSlashes($_POST['creator']);
-    $content = $myts->addSlashes($_POST['content']);
+    $creator = $xoopsDB->escape($_POST['creator']);
+    $content = $xoopsDB->escape($_POST['content']);
     $content = removeEmoji($content);
     $content = Wcag::amend($content);
-    $youtube = $myts->addSlashes($_POST['youtube']);
-    $logo_name = $myts->addSlashes($_POST['logo_name']);
+    $youtube = $xoopsDB->escape($_POST['youtube']);
+    $logo_name = $xoopsDB->escape($_POST['logo_name']);
 
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
 
@@ -282,19 +282,19 @@ function update_tad_player($psn = '')
     }
 
     if (!empty($_POST['title'])) {
-        $title = $myts->addSlashes($_POST['title']);
+        $title = $xoopsDB->escape($_POST['title']);
     } else {
-        $title = $myts->addSlashes(basename($location));
+        $title = $xoopsDB->escape(basename($location));
     }
 
     $enable_group = implode(',', $_POST['enable_group']);
 
-    $creator = $myts->addSlashes($_POST['creator']);
-    $content = $myts->addSlashes($_POST['content']);
+    $creator = $xoopsDB->escape($_POST['creator']);
+    $content = $xoopsDB->escape($_POST['content']);
     $content = removeEmoji($content);
     $content = Wcag::amend($content);
-    $youtube = $myts->addSlashes($_POST['youtube']);
-    $logo_name = $myts->addSlashes($_POST['logo_name']);
+    $youtube = $xoopsDB->escape($_POST['youtube']);
+    $logo_name = $xoopsDB->escape($_POST['logo_name']);
     $width = (int) $_POST['width'];
     $height = (int) $_POST['height'];
 

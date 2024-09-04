@@ -57,9 +57,7 @@ $modversion['onUpdate'] = 'include/onUpdate.php';
 $modversion['onUninstall'] = 'include/onUninstall.php';
 
 //---評論設定---//
-$modversion['hasComments'] = 1;
-$modversion['comments']['pageName'] = 'play.php';
-$modversion['comments']['itemName'] = 'psn';
+$modversion['hasComments'] = 0;
 
 //---搜尋設定---//
 $modversion['hasSearch'] = 1;

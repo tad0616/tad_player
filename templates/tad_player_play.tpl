@@ -75,24 +75,3 @@
 <{if $code}>
   <div class="alert alert-info"><{$code}></div>
 <{/if}>
-
-<!--Tad Player play_tpl.html-->
-
-<p style="clear: both">
-<div style="text-align: center; padding: 3px; margin: 3px;">
-  <{$commentsnav}>
-  <{$lang_notice}>
-</div>
-
-<div style="margin: 3px; padding: 3px;">
-<!-- start comments loop -->
-<{if $comment_mode == "flat"}>
-  <{include file="db:system_comments_flat.html"}>
-<{elseif $comment_mode == "thread"}>
-  <{include file="db:system_comments_thread.html"}>
-<{elseif $comment_mode == "nest"}>
-  <{include file="db:system_comments_nest.html"}>
-<{/if}>
-<!-- end comments loop -->
-</div>
-</p>

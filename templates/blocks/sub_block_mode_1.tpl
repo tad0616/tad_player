@@ -1,4 +1,4 @@
-<{if $video.title}>
+<{if $video.title|default:false}>
     <div class="row" style="margin:5px 0px; border-bottom: 1px dotted #cfcfcf;">
         <div class="col-sm-4">
             <a href="<{$xoops_url}>/modules/tad_player/play.php?psn=<{$video.psn}>">

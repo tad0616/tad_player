@@ -10,7 +10,7 @@
                     <div class="d-grid gap-2">
                         <a href="main.php?op=tad_player_cate_form" class="btn btn-info btn-block"><{$smarty.const._MA_TADPLAYER_ADD_CATE}></a>
                     </div>
-                    <{if $data}>
+                    <{if $data|default:false}>
                         <h2><{$smarty.const._MA_TADPLAYER_THE_ACT_IS}></h2>
                         <div class="form-group row mb-3">
                             <div class="col-sm-12">
@@ -96,7 +96,7 @@
                     </style>
                     <script>
                         $(document).ready(function(){
-                        <{if $path_arr}>
+                        <{if $path_arr|default:false}>
                             <{foreach from=$path_arr key=i item=sn}>
                             make_option('of_csn_menu','<{$i}>','<{$sn.of_csn}>','<{$sn.def_csn}>');
                             <{/foreach}>

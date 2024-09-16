@@ -6,7 +6,7 @@
   $(document).ready(function() {
     var $tabs = $("#tad_player_upload_tabs").tabs();
     var last_tab=$tabs.size()-1;
-    <{if $show_to_batch_upload}>$tabs.tabs("select", last_tab);<{/if}>
+    <{if $show_to_batch_upload|default:false}>$tabs.tabs("select", last_tab);<{/if}>
   });
 </script>
 

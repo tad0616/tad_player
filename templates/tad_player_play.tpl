@@ -32,14 +32,14 @@
 </div>
 
 
-<{if $title}>
+<{if $title|default:false}>
   <h1><{$title}></h1>
 <{else}>
   <h2 class="sr-only visually-hidden">Play Video</h2>
 <{/if}>
 
 
-<{if $content}>
+<{if $content|default:false}>
   <div class="alert alert-info">
     <{$content}>
   </div>
@@ -72,6 +72,6 @@
 </div>
 
 
-<{if $code}>
+<{if $code|default:false}>
   <div class="alert alert-info"><{$code}></div>
 <{/if}>

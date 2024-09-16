@@ -40,7 +40,7 @@
 
 <{$rating_js}>
 
-<{if $sub_cate}>
+<{if $sub_cate|default:false}>
   <div class="row">
     <{foreach from=$sub_cate item=cate}>
       <div class="col-sm-3 d-flex align-items-stretch">
@@ -52,7 +52,7 @@
             <h5 class="card-title text-center"><{$cate.title}></h5>
             <p class="card-text">
               <div style="font-size: 0.8125em; color:#666666; text-align:center;"><{$cate.num}></div>
-              <{if $cate.pcsn_num}><div style="font-size: 0.8125em;color:#666666;text-align:center;"><{$cate.pcsn_num}></div><{/if}>
+              <{if $cate.pcsn_num|default:false}><div style="font-size: 0.8125em;color:#666666;text-align:center;"><{$cate.pcsn_num}></div><{/if}>
             </p>
           </div>
         </div>
@@ -61,7 +61,7 @@
   </div>
 <{/if}>
 
-<{if $content}>
+<{if $content|default:false}>
   <div class="row">
     <{foreach item=video from=$content}>
       <div class="col-sm-3 d-flex align-items-stretch">
@@ -71,13 +71,13 @@
             </a>
             <div class="card-body">
               <p class="card-text text-center">
-                <{if $video.post_date}>
+                <{if $video.post_date|default:false}>
                   <div style="font-size: 0.75em; color: #666666;">
                     <span class="badge badge-info pull-right"><{$video.counter}></span>
                     <{$video.post_date}>
                   </div>
                 <{/if}>
-                <{if $rating_js}><div id="rating_psn_<{$video.psn}>"></div><{/if}>
+                <{if $rating_js|default:false}><div id="rating_psn_<{$video.psn}>"></div><{/if}>
               </p>
               <p class="card-title"><a href="<{$video.url}>"><{$video.img_title}></a></p>
             </div>

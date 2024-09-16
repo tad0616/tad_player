@@ -1,4 +1,4 @@
-<{if $block}>
+<{if $block|default:false}>
     <{$block}>
 <{else}>
     <div class="alert alert-danger">

@@ -1,4 +1,4 @@
-<{$toolbar}>
+<{$toolbar|default:''}>
 
 <h2 class="sr-only visually-hidden">Video Upload</h2>
 
@@ -20,8 +20,8 @@
   <div id="fragment-1">
     <script type="text/javascript">
       $(document).ready(function() {
-        <{$hide}>
-        <{$hide_img}>
+        <{$hide|default:''}>
+        <{$hide_img|default:''}>
 
         $("#flv_where").change(function() {
           if ($("#flv_where").val()=="youtube") {
@@ -85,24 +85,24 @@
         <div class="form-group row mb-3">
           <div class="col-sm-4">
             <select id="flv_where" class="form-control" title="select type">
-              <option value="youtube" <{$selected_youtube}>><{$smarty.const._MD_TADPLAYER_YOUTUBE_FLV}></option>
-              <option value="local" <{$selected_local}>><{$smarty.const._MD_TADPLAYER_UPLOAD_FLV}></option>
-              <option value="link" <{$selected_link}>><{$smarty.const._MD_TADPLAYER_LINK_FLV}></option>
+              <option value="youtube" <{$selected_youtube|default:''}>><{$smarty.const._MD_TADPLAYER_YOUTUBE_FLV}></option>
+              <option value="local" <{$selected_local|default:''}>><{$smarty.const._MD_TADPLAYER_UPLOAD_FLV}></option>
+              <option value="link" <{$selected_link|default:''}>><{$smarty.const._MD_TADPLAYER_LINK_FLV}></option>
             </select>
           </div>
           <div class="col-sm-8">
             <div id="flv_local">
-              <input type="file" name="location" id="location" class="form-control" value="<{$location}>">
+              <input type="file" name="location" id="location" class="form-control" value="<{$location|default:''}>">
             </div>
 
             <div id="flv_link">
-              <input type="text" name="location" id="location" class="form-control" value="<{$location}>" placeholder="<{$smarty.const._MD_TADPLAYER_FLV_LINK}>">
+              <input type="text" name="location" id="location" class="form-control" value="<{$location|default:''}>" placeholder="<{$smarty.const._MD_TADPLAYER_FLV_LINK}>">
             </div>
 
             <div id="flv_youtube">
               <div class="row">
                 <div class="col-sm-9">
-                  <input type="text" name="youtube" id="youtube" class="form-control" value="<{$youtube}>" placeholder="<{$smarty.const._MD_TADPLAYER_YOUTUBE_LINK}>">
+                  <input type="text" name="youtube" id="youtube" class="form-control" value="<{$youtube|default:''}>" placeholder="<{$smarty.const._MD_TADPLAYER_YOUTUBE_LINK}>">
                 </div>
                 <div class="col-sm-3">
                   <button type="button" class="btn btn-info" id="LinkGet"><{$smarty.const._MD_TADPLAYER_AUTO_GET}></button>
@@ -115,16 +115,16 @@
         <div class="form-group row mb-3" id="thumb_config">
           <div class="col-sm-4">
             <select id="img_where" class="form-control" title="select method">
-              <option value="local" <{$selected_img_local}>><{$smarty.const._MD_TADPLAYER_UPLOAD_IMG}></option>
-              <option value="link" <{$selected_img_link}>><{$smarty.const._MD_TADPLAYER_LINK_IMG}></option>
+              <option value="local" <{$selected_img_local|default:''}>><{$smarty.const._MD_TADPLAYER_UPLOAD_IMG}></option>
+              <option value="link" <{$selected_img_link|default:''}>><{$smarty.const._MD_TADPLAYER_LINK_IMG}></option>
             </select>
           </div>
           <div class="col-sm-8">
             <div id="img_local">
-              <input type="file" name="image" class="form-control" value="<{$image}>">
+              <input type="file" name="image" class="form-control" value="<{$image|default:''}>">
             </div>
             <div id="img_link">
-              <input type="text" name="image" class="form-control" value="<{$image}>" placeholder="<{$smarty.const._MD_TADPLAYER_IMG_LINK}>">
+              <input type="text" name="image" class="form-control" value="<{$image|default:''}>" placeholder="<{$smarty.const._MD_TADPLAYER_IMG_LINK}>">
             </div>
           </div>
         </div>
@@ -136,7 +136,7 @@
         </label>
         <div class="col-sm-3">
           <select name="pcsn" size=1 class="form-control" title="select category">
-            <{$cate_select}>
+            <{$cate_select|default:''}>
           </select>
         </div>
         <div class="col-sm-8">
@@ -151,17 +151,17 @@
           <{$smarty.const._MD_TADPLAYER_TITLE}>
         </label>
         <div class="col-sm-7">
-          <input type="text" name="title" id="title" class="form-control" value="<{$title}>" placeholder="<{$smarty.const._MD_TADPLAYER_TITLE}>">
+          <input type="text" name="title" id="title" class="form-control" value="<{$title|default:''}>" placeholder="<{$smarty.const._MD_TADPLAYER_TITLE}>">
         </div>
         <div class="col-sm-4">
-          <input type="text" name="creator" id="creator" class="form-control" value="<{$creator}>" placeholder="<{$smarty.const._MD_TADPLAYER_CREATOR}>">
+          <input type="text" name="creator" id="creator" class="form-control" value="<{$creator|default:''}>" placeholder="<{$smarty.const._MD_TADPLAYER_CREATOR}>">
         </div>
       </div>
 
 
       <div class="form-group row mb-3">
         <div class="col-sm-12">
-          <{$editor}>
+          <{$editor|default:''}>
         </div>
       </div>
 
@@ -174,8 +174,8 @@
         <div class="col-sm-10">
           <{foreach from=$group_arr key=group_id item=group_name}>
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" name="enable_group[]" id="enable_group<{$group_id}>" value="<{$group_id}>" <{if $group_id|in_array:$enable_group}>checked<{/if}>>
-              <label class="form-check-label" for="enable_group<{$group_id}>"><{$group_name}></label>
+              <input class="form-check-input" type="checkbox" name="enable_group[]" id="enable_group<{$group_id|default:''}>" value="<{$group_id|default:''}>" <{if $group_id|in_array:$enable_group}>checked<{/if}>>
+              <label class="form-check-label" for="enable_group<{$group_id|default:''}>"><{$group_name|default:''}></label>
             </div>
           <{/foreach}>
         </div>
@@ -186,8 +186,8 @@
       </div>
 
       <div class="text-center">
-        <input type="hidden" name="op" value="<{$next_op}>">
-        <input type="hidden" name="psn" value="<{$psn}>">
+        <input type="hidden" name="op" value="<{$next_op|default:''}>">
+        <input type="hidden" name="psn" value="<{$psn|default:''}>">
         <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
       </div>
 

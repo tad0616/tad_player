@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-sm-3">
                 <div style="max-height: 300px; overflow: auto;">
-                    <{$ztree_code}>
+                    <{$ztree_code|default:''}>
                     <div id="save_msg"></div>
                 </div>
                 <{if $now_op!="tad_player_cate_form"}>
@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-8">
-                                <select name="new_pcsn" onChange="check_one('move',false)" class="form-control"><{$option}></select>
+                                <select name="new_pcsn" onChange="check_one('move',false)" class="form-control"><{$option|default:''}></select>
                             </div>
                         </div>
 
@@ -58,7 +58,7 @@
                         </div>
 
                         <div class="text-center">
-                            <input type="hidden" name="pcsn" value="<{$pcsn}>">
+                            <input type="hidden" name="pcsn" value="<{$pcsn|default:''}>">
                             <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
                         </div>
                     <{/if}>
@@ -76,10 +76,10 @@
                         </div>
                         <div class="col-sm-8 text-right text-end">
                             <div style="margin-top: 10px;">
-                                <a href="main.php?op=mk_list_json&pcsn=<{$pcsn}>" class="btn btn-success"><{$smarty.const._MA_TADPLAYER_MK_JSON}></a>
-                                <a href="main.php?op=mk_thumb&pcsn=<{$pcsn}>" class="btn btn-info"><{$smarty.const._MA_TADPLAYER_MK_THUMBS}></a>
+                                <a href="main.php?op=mk_list_json&pcsn=<{$pcsn|default:''}>" class="btn btn-success"><{$smarty.const._MA_TADPLAYER_MK_JSON}></a>
+                                <a href="main.php?op=mk_thumb&pcsn=<{$pcsn|default:''}>" class="btn btn-info"><{$smarty.const._MA_TADPLAYER_MK_THUMBS}></a>
                                 <a href="javascript:delete_tad_player_cate_func(<{$cate.pcsn}>);" class="btn btn-danger <{if $cate_count.$pcsn > 0}>disabled<{/if}>"><{$smarty.const._TAD_DEL}></a>
-                                <a href="main.php?op=tad_player_cate_form&pcsn=<{$pcsn}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
+                                <a href="main.php?op=tad_player_cate_form&pcsn=<{$pcsn|default:''}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
                             </div>
                         </div>
                     </div>
@@ -98,7 +98,7 @@
                         $(document).ready(function(){
                         <{if $path_arr|default:false}>
                             <{foreach from=$path_arr key=i item=sn}>
-                            make_option('of_csn_menu','<{$i}>','<{$sn.of_csn}>','<{$sn.def_csn}>');
+                            make_option('of_csn_menu','<{$i|default:''}>','<{$sn.of_csn}>','<{$sn.def_csn}>');
                             <{/foreach}>
                         <{else}>
                             make_option('of_csn_menu',0,0,0);
@@ -151,7 +151,7 @@
                             <{$smarty.const._MA_TADPLAYER_TITLE}>
                             </label>
                             <div class="col-sm-10">
-                            <input type="text" name="title" class="form-control " value="<{$title}>" placeholder="<{$smarty.const._MA_TADPLAYER_TITLE}>">
+                            <input type="text" name="title" class="form-control " value="<{$title|default:''}>" placeholder="<{$smarty.const._MA_TADPLAYER_TITLE}>">
                             </div>
                         </div>
 
@@ -160,21 +160,21 @@
                             <{$smarty.const._MA_TADPLAYER_ENABLE_GROUP}>
                             </label>
                             <div class="col-sm-4">
-                            <{$enable_group}>
+                            <{$enable_group|default:''}>
                             </div>
                             <label class="col-sm-2 col-form-label text-sm-right">
                             <{$smarty.const._MA_TADPLAYER_ENABLE_UPLOAD_GROUP}>
                             </label>
                             <div class="col-sm-4">
-                            <{$enable_upload_group}>
+                            <{$enable_upload_group|default:''}>
                             </div>
                         </div>
 
                         <div class="form-group row mb-3">
                             <div class="col-sm-12 text-center">
-                            <input type="hidden" name="sort" value="<{$sort}>">
-                            <input type="hidden" name="pcsn" value="<{$pcsn}>">
-                            <input type="hidden" name="op" value="<{$op}>">
+                            <input type="hidden" name="sort" value="<{$sort|default:''}>">
+                            <input type="hidden" name="pcsn" value="<{$pcsn|default:''}>">
+                            <input type="hidden" name="op" value="<{$op|default:''}>">
                             <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
                             </div>
                         </div>
@@ -185,7 +185,7 @@
                         $(document).ready(function(){
                             $('#all_videos').sortable({ opacity: 0.6, cursor: 'move', update: function() {
                                 var order = $(this).sortable('serialize');
-                                $.post('save_sort.php?pcsn=<{$pcsn}>', order, function(theResponse){
+                                $.post('save_sort.php?pcsn=<{$pcsn|default:''}>', order, function(theResponse){
                                     $('#save_msg').html(theResponse);
                                 });
                             }
@@ -226,7 +226,7 @@
                         </label>
 
                         <{if $pcsn!=""}>
-                            <a href="../index.php?pcsn=<{$pcsn}>" class="btn btn-sm btn-primary"><{$link_to_cate}></a>
+                            <a href="../index.php?pcsn=<{$pcsn|default:''}>" class="btn btn-sm btn-primary"><{$link_to_cate|default:''}></a>
                         <{/if}>
                         <span id="save_msg"></span>
                     </div>

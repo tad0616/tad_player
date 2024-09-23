@@ -149,5 +149,4 @@ $xoopsTpl->assign('psn', $psn);
 $xoopsTpl->assign('select', get_cate_play($psn));
 $xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
 
-require_once XOOPS_ROOT_PATH . '/include/comment_view.php';
 require_once XOOPS_ROOT_PATH . '/footer.php';

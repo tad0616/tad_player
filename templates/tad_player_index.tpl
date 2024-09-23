@@ -1,8 +1,8 @@
-<{$toolbar}>
+<{$toolbar|default:''}>
 <h2 class="sr-only visually-hidden">Video List</h2>
 <script type="text/javascript">
   $(document).ready(function(){
-    $.post("ajax.php",  {op: "get_menu" , pcsn: $("#menu1").val() , psn: '<{$psn}>'} , function(data) {
+    $.post("ajax.php",  {op: "get_menu" , pcsn: $("#menu1").val() , psn: '<{$psn|default:''}>'} , function(data) {
       if(data){
         $("#menu2").show();
         $("#menu2").html(data);
@@ -22,14 +22,14 @@
   function delete_tad_player_file_func(psn){
     var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
     if (!sure)  return;
-    location.href="play.php?op=delete_tad_player_file&pcsn=<{$pcsn}>&psn=" + psn;
+    location.href="play.php?op=delete_tad_player_file&pcsn=<{$pcsn|default:''}>&psn=" + psn;
   }
 </script>
 
 <div class="row" style="margin-bottom:2em;">
   <div class="col-sm-4">
     <select id="menu1" class="form-control" title="select category">
-      <{$cate_select}>
+      <{$cate_select|default:''}>
     </select>
   </div>
   <div class="col-sm-8">
@@ -38,7 +38,7 @@
   </div>
 </div>
 
-<{$rating_js}>
+<{$rating_js|default:''}>
 
 <{if $sub_cate|default:false}>
   <div class="row">
@@ -90,10 +90,10 @@
 
 
 <div class="text-center" style="margin: 20px auto;">
-  <{$bar}>
+  <{$bar|default:''}>
 </div>
 
 
 <div class="text-center" style="margin: 20px auto;">
-  <{$push}>
+  <{$push|default:''}>
 </div>

@@ -1,4 +1,4 @@
-<{$toolbar}>
+<{$toolbar|default:''}>
 
 <h2 class="sr-only visually-hidden">Video List</h2>
 
@@ -14,7 +14,7 @@
   <div class="row">
     <div class="col-sm-4">
       <select id="menu1" class="form-control" title="select category">
-        <{$cate_select}>
+        <{$cate_select|default:''}>
       </select>
     </div>
   </div>
@@ -22,11 +22,11 @@
 
 <div class="row">
   <div class="col-sm-12">
-    <{$title}>
-    <{$playcode}>
+    <{$title|default:''}>
+    <{$playcode|default:''}>
   </div>
 </div>
 
 <div class="text-center" style="margin: 20px auto;">
-  <{$push}>
+  <{$push|default:''}>
 </div>

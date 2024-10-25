@@ -257,8 +257,6 @@ function update_tad_player($psn = '')
 {
     global $xoopsDB;
 
-    $myts = \MyTextSanitizer::getInstance();
-
     if (!empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
         $pcsn = add_tad_player_cate();
     } else {

@@ -16,7 +16,7 @@ echo get_option($of_csn, $def_csn, $chk_view, $chk_up);
 
 function get_option($of_csn = '', $def_csn = '', $chk_view = 1, $chk_up = 1)
 {
-    global $xoopsDB, $xoopsUser, $xoopsModule;
+    global $xoopsDB;
 
     $ok_cat = $ok_up_cat = [];
 

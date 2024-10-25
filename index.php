@@ -1,11 +1,53 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\StarRating;
+use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_player\Tools;
 /*-----------引入檔案區--------------*/
 require_once 'header.php';
 $xoopsOption['template_main'] = 'tad_player_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
+
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$psn = Request::getInt('psn');
+$pcsn = Request::getInt('pcsn');
+
+switch ($op) {
+    //預設動作
+    default:
+        list_tad_player($pcsn);
+        $op = 'list_tad_player';
+        break;
+}
+
+/*-----------秀出結果區--------------*/
+$xoopsTpl->assign('now_op', $op);
+$xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
+$xoopsTpl->assign('psn', $psn);
+$xoopsTpl->assign('pcsn', $pcsn);
+$xoopsTpl->assign('font_color', $xoopsModuleConfig['font_color']);
+$xoopsTpl->assign('border_color', $xoopsModuleConfig['border_color']);
+
+$cate_select = get_tad_player_cate_option(0, 0, $pcsn, 1, false);
+
+$xoopsTpl->assign('cate_select', $cate_select);
+
+if (isset($title) and !empty($title)) {
+    $xoopsTpl->assign('xoops_pagetitle', $title);
+    if (is_object($xoTheme)) {
+        $xoTheme->addMeta('meta', 'keywords', $title);
+        $xoTheme->addMeta('meta', 'description', $info);
+    } else {
+        $xoopsTpl->assign('xoops_meta_keywords', 'keywords', $title);
+        $xoopsTpl->assign('xoops_meta_description', $info);
+    }
+}
+
+require_once XOOPS_ROOT_PATH . '/footer.php';
+
 /*-----------function區--------------*/
 
 //列出所有tad_player資料
@@ -13,6 +55,8 @@ function list_tad_player($pcsn = '')
 {
     global $xoopsDB, $xoopsModuleConfig, $xoopsUser, $xoopsTpl;
 
+    $SweetAlert = new SweetAlert();
+    $SweetAlert->render("delete_tad_player_file_func", "play.php?op=delete_tad_player_file&pcsn={$pcsn}&psn=", 'psn');
     //先找出底下分類
     $sub_cate = list_tad_player_cate($pcsn);
     $count = empty($sub_cate) ? 0 : count($sub_cate);
@@ -68,7 +112,7 @@ function list_tad_player($pcsn = '')
         //整理影片圖檔
         if (0 === mb_strpos($image, 'http')) {
             $pic = $image;
-        } elseif (empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR . "{$psn}.png")) {
+        } elseif (empty($image) or !file_exists(Tools::_TAD_PLAYER_IMG_DIR . "{$psn}.png")) {
             $ext = mb_substr($location, -3);
             if ('mp3' === $ext) {
                 $pic = 'mp3.png';
@@ -77,7 +121,7 @@ function list_tad_player($pcsn = '')
             }
             $pic = "images/$pic";
         } else {
-            $pic = _TAD_PLAYER_IMG_URL . "{$psn}.png";
+            $pic = Tools::_TAD_PLAYER_IMG_URL . "{$psn}.png";
         }
 
         //無權限者，無連結
@@ -138,9 +182,10 @@ function list_tad_player($pcsn = '')
 //底下分類數
 function count_cate_num($pcsn = '0')
 {
-    global $xoopsDB, $xoopsModule;
-    $sql = 'select count(*) from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}'";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    global $xoopsDB;
+    $sql = 'SELECT COUNT(*) FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `of_csn`=?';
+    $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     list($count) = $xoopsDB->fetchRow($result);
     if (empty($count)) {
         $count = 0;
@@ -152,7 +197,7 @@ function count_cate_num($pcsn = '0')
 //列出分類
 function list_tad_player_cate($pcsn = '0')
 {
-    global $xoopsDB, $xoopsModule, $xoopsUser, $xoopsConfig;
+    global $xoopsDB, $xoopsUser, $xoopsConfig;
 
     //目前使用者所屬群組
     $user_group = [];
@@ -160,8 +205,8 @@ function list_tad_player_cate($pcsn = '0')
         $user_group = $xoopsUser->getGroups();
     }
 
-    $sql = 'select * from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$pcsn}' order by sort";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `of_csn`=? ORDER BY `sort`';
+    $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $data = [];
     $i = 0;
@@ -191,41 +236,3 @@ function list_tad_player_cate($pcsn = '0')
 
     return $data;
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$psn = Request::getInt('psn');
-$pcsn = Request::getInt('pcsn');
-
-switch ($op) {
-    //預設動作
-    default:
-        list_tad_player($pcsn);
-        break;
-}
-
-/*-----------秀出結果區--------------*/
-
-$xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('psn', $psn);
-$xoopsTpl->assign('pcsn', $pcsn);
-$xoopsTpl->assign('font_color', $xoopsModuleConfig['font_color']);
-$xoopsTpl->assign('border_color', $xoopsModuleConfig['border_color']);
-
-$cate_select = get_tad_player_cate_option(0, 0, $pcsn, 1, false);
-
-$xoopsTpl->assign('cate_select', $cate_select);
-
-if (isset($title) and !empty($title)) {
-    $xoopsTpl->assign('xoops_pagetitle', $title);
-    if (is_object($xoTheme)) {
-        $xoTheme->addMeta('meta', 'keywords', $title);
-        $xoTheme->addMeta('meta', 'description', $info);
-    } else {
-        $xoopsTpl->assign('xoops_meta_keywords', 'keywords', $title);
-        $xoopsTpl->assign('xoops_meta_description', $info);
-    }
-}
-
-require_once XOOPS_ROOT_PATH . '/footer.php';

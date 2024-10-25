@@ -16,7 +16,7 @@
                             <div class="col-sm-12">
                                 <div class="form-check form-check-inline">
                                     <input class="form-check-input" type="radio" name="op" id="del" value="del">
-                                    <label class="form-check-label" for="del"><{$smarty.const._TAD_DEL}></label>
+                                    <label class="form-check-label" for="del"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></label>
                                 </div>
                             </div>
                         </div>
@@ -59,7 +59,7 @@
 
                         <div class="text-center">
                             <input type="hidden" name="pcsn" value="<{$pcsn|default:''}>">
-                            <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
                         </div>
                     <{/if}>
                 <{/if}>
@@ -67,19 +67,20 @@
 
             <div class="col-sm-9">
 
-                <{if $pcsn!="" }>
+                <{if $pcsn}>
                     <div class="row">
                         <div class="col-sm-4">
-                            <h3>
-                                <{$cate.title}>
-                            </h3>
+                            <h2>
+                                <a href="../index.php?pcsn=<{$pcsn|default:''}>"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i> <{$cate.title}></a>
+                            </h2>
                         </div>
+
                         <div class="col-sm-8 text-right text-end">
                             <div style="margin-top: 10px;">
                                 <a href="main.php?op=mk_list_json&pcsn=<{$pcsn|default:''}>" class="btn btn-success"><{$smarty.const._MA_TADPLAYER_MK_JSON}></a>
                                 <a href="main.php?op=mk_thumb&pcsn=<{$pcsn|default:''}>" class="btn btn-info"><{$smarty.const._MA_TADPLAYER_MK_THUMBS}></a>
-                                <a href="javascript:delete_tad_player_cate_func(<{$cate.pcsn}>);" class="btn btn-danger <{if $cate_count.$pcsn > 0}>disabled<{/if}>"><{$smarty.const._TAD_DEL}></a>
-                                <a href="main.php?op=tad_player_cate_form&pcsn=<{$pcsn|default:''}>" class="btn btn-warning"><{$smarty.const._TAD_EDIT}></a>
+                                <a href="javascript:delete_tad_player_cate_func(<{$cate.pcsn}>);" class="btn btn-danger <{if $cate_count.$pcsn > 0}>disabled<{/if}>"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
+                                <a href="main.php?op=tad_player_cate_form&pcsn=<{$pcsn|default:''}>" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
                             </div>
                         </div>
                     </div>
@@ -175,7 +176,7 @@
                             <input type="hidden" name="sort" value="<{$sort|default:''}>">
                             <input type="hidden" name="pcsn" value="<{$pcsn|default:''}>">
                             <input type="hidden" name="op" value="<{$op|default:''}>">
-                            <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
                             </div>
                         </div>
                         </form>
@@ -220,14 +221,11 @@
                         }
                     </script>
 
-                    <div class="row">
+                    <div>
                         <label class="checkbox-inline">
                             <input type="checkbox" id="clickAll"> <{$smarty.const._MA_TADPLAYER_SELECT_ALL}>
                         </label>
 
-                        <{if $pcsn!=""}>
-                            <a href="../index.php?pcsn=<{$pcsn|default:''}>" class="btn btn-sm btn-primary"><{$link_to_cate|default:''}></a>
-                        <{/if}>
                         <span id="save_msg"></span>
                     </div>
 
@@ -250,7 +248,7 @@
                                         <div class="card-title" id="pt<{$video.psn}>"><{$video.title}></div>
                                     </div>
                                     <div class="card-footer">
-                                        <a href="../uploads.php?psn=<{$video.psn}>#fragment-1" target="_blank" class="btn btn-sm btn-warning"><{$smarty.const._TAD_EDIT}></a>
+                                        <a href="../uploads.php?psn=<{$video.psn}>#fragment-1" target="_blank" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
                                         <a href="../play.php?psn=<{$video.psn}>" target="_blank" class="btn btn-sm btn-info"><{$smarty.const._MA_TADPLAYER_VIEW}></a>
                                     </div>
                                 </div>

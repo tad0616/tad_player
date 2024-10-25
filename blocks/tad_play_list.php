@@ -1,23 +1,22 @@
 <?php
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_player\Tools;
 
 //區塊主函式 (影音播放器區塊1說明)
 function tad_player_play_list($options)
 {
-    global $xoopsDB;
-    require_once XOOPS_ROOT_PATH . '/modules/tad_player/function_player.php';
 
     if (empty($options[0])) {
         return;
     }
 
     $pcsn = (int) $options[0];
-    $cate = get_tad_player_cate($options[0]);
+    $cate = Tools::get_tad_player_cate($options[0]);
     $autoplay = $options[1] !== 'true' ? 'false' : 'true';
     $loop = $options[2] !== 'true' ? 'false' : 'true';
     $position = $options[3] !== 'right' ? 'bottom' : 'right';
 
-    $block = play_code_player("block_cate_{$pcsn}", $cate, $pcsn, 'playlist', $autoplay, $loop, $position);
+    $block = Tools::play_code_player("block_cate_{$pcsn}", $cate, $pcsn, 'playlist', $autoplay, $loop, $position);
 
     return $block;
 }
@@ -87,15 +86,16 @@ function tp_block_get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $
     $dot = ('1' == $show_dot) ? str_repeat(_MB_TADPLAYER_BLANK, $level) : '';
     $level += 1;
 
-    $sql = 'SELECT count(*),pcsn FROM ' . $xoopsDB->prefix('tad_player') . ' GROUP BY pcsn';
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT COUNT(*), `pcsn` FROM `' . $xoopsDB->prefix('tad_player') . '` GROUP BY `pcsn`';
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
 
     $option = ($of_csn) ? '' : "<option value='0'>" . _MB_TADPLAYER_CATE_SELECT . '</option>';
-    $sql = 'select pcsn,title from ' . $xoopsDB->prefix('tad_player_cate') . " where of_csn='{$of_csn}' order by sort";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `pcsn`, `title` FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `of_csn`=? ORDER BY `sort`';
+    $result = Utility::query($sql, 'i', [$of_csn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         $selected = ($v == $pcsn) ? 'selected' : '';

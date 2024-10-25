@@ -5,6 +5,7 @@ Tad Player 4.0 (尚未釋出)
 3.移除pda.php及facebook留言框
 4.用$xoopsDB->escape()取代$myts->addSlashes()
 5.移除評論機制
+6.資料庫語法參數化
 
 Tad Player 3.6.7 (2021-12-13 釋出)
 ====================================

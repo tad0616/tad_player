@@ -3,6 +3,7 @@
 namespace XoopsModules\Tad_player;
 
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_player\Tools;
 
 /*
 Update Class Definition
@@ -38,102 +39,8 @@ class Update
 
         $log = '';
         while (list($pcsn) = $xoopsDB->fetchRow($result)) {
-            self::mk_list_json($pcsn);
+            Tools::mk_list_json($pcsn);
         }
-    }
-
-    //製作播放清單
-    public static function mk_list_json($pcsn = '')
-    {
-        global $xoopsDB, $xoopsModule, $upload_dir;
-
-        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_player') . " WHERE `pcsn`='{$pcsn}' and `enable_group`='' order by sort";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-        $i = 0;
-        while (false !== ($midia = $xoopsDB->fetchArray($result))) {
-            foreach ($midia as $k => $v) {
-                $$k = $v;
-            }
-
-            $title = htmlspecialchars($title);
-
-            if (0 === mb_strpos($image, 'http')) {
-                $image = basename($image);
-            }
-
-            //整理影片圖檔
-            if (empty($image) or !file_exists(_TAD_PLAYER_IMG_DIR . "s_{$psn}.png")) {
-                $ext = mb_substr($location, -3);
-                if ('mp3' === $ext) {
-                    $pic = 'mp3.png';
-                } else {
-                    $pic = 'flv.png';
-                }
-                $pic = "images/$pic";
-            } else {
-                $pic = XOOPS_URL . "/uploads/tad_player/img/s_{$psn}.png";
-            }
-
-            if (empty($location) and !empty($youtube)) {
-                $YTid = self::getYTid($youtube);
-                $media = "https://youtu.be/{$YTid}";
-                $type = 'video/youtube';
-            } elseif (0 === mb_strpos($location, 'http')) {
-                $media = $location;
-                $ext = substr($media, -3);
-                if ('mp4' === $ext) {
-                    $type = 'video/mp4';
-                } elseif ('ebm' === $ext) {
-                    $type = 'video/webm';
-                } elseif ('mp3' === $ext) {
-                    $type = 'audio/mp3';
-                } elseif ('ogg' === $ext) {
-                    $type = 'video/ogg';
-                } elseif ('flv' === $ext) {
-                    $type = 'video/x-flv';
-                }
-            } else {
-                $media = XOOPS_URL . "/uploads/tad_player/flv/{$psn}_{$location}";
-                $ext = substr($media, -3);
-                if ('mp4' === $ext) {
-                    $type = 'video/mp4';
-                } elseif ('ebm' === $ext) {
-                    $type = 'video/webm';
-                } elseif ('mp3' === $ext) {
-                    $type = 'audio/mp3';
-                } elseif ('ogg' === $ext) {
-                    $type = 'video/ogg';
-                } elseif ('flv' === $ext) {
-                    $type = 'video/x-flv';
-                }
-            }
-
-            $json[$i]['name'] = $title;
-            $json[$i]['description'] = strip_tags($content);
-            $json[$i]['sources'][] = array('src' => $media, 'type' => $type);
-            $json[$i]['poster'] = $pic;
-            $json[$i]['thumbnail'][] = array('src' => $pic);
-            $i++;
-        }
-
-        $content = json_encode($json, 256);
-
-        $main = Utility::to_utf8($content);
-
-        $main = str_replace('\\/', '/', $main);
-
-        // $main = str_replace('"', '\\\\"', $main);
-
-        $filename = XOOPS_ROOT_PATH . "/uploads/tad_player/{$pcsn}_list.json";
-
-        if (!$handle = fopen($filename, 'wb')) {
-            redirect_header($_SERVER['PHP_SELF'], 3, sprintf(_MD_TADPLAYER_CANT_OPEN, $filename));
-        }
-
-        if (false === fwrite($handle, $main)) {
-            redirect_header($_SERVER['PHP_SELF'], 3, sprintf(_MD_TADPLAYER_CANT_WRITE, $filename));
-        }
-        fclose($handle);
     }
 
     public static function chk_chk1()
@@ -175,7 +82,7 @@ class Update
                 if (file_exists($filename)) {
                     $type = getimagesize($filename);
                     $thumb_s_name = XOOPS_ROOT_PATH . "/uploads/tad_player/img/s_{$psn}.png";
-                    self::mk_video_thumbnail($filename, $thumb_s_name, $type['mime'], '480');
+                    Tools::mk_video_thumbnail($filename, $thumb_s_name, $type['mime'], '480');
                     //unlink($filename);
                     $newimg = ",`image`='{$psn}.png'";
                 }
@@ -325,54 +232,6 @@ class Update
                 $xoopsDB->queryF($sql);
             }
         }
-    }
-
-    //抓取 Youtube ID
-    public static function getYTid($ytURL = '')
-    {
-        if (0 === mb_strpos($ytURL, 'https://youtu.be/')) {
-            return mb_substr($ytURL, 16);
-        }
-        if (0 === mb_strpos($ytURL, 'http://youtu.be/')) {
-            return mb_substr($ytURL, 15);
-        }
-        parse_str(parse_url($ytURL, PHP_URL_QUERY), $params);
-
-        return $params['v'];
-    }
-
-    //做縮圖
-    public static function mk_video_thumbnail($filename = '', $thumb_name = '', $type = 'image/jpeg', $width = '480')
-    {
-        ini_set('memory_limit', '50M');
-        // Get new sizes
-        list($old_width, $old_height) = getimagesize($filename);
-
-        $percent = ($old_width > $old_height) ? round($width / $old_width, 2) : round($width / $old_height, 2);
-
-        $newwidth = ($old_width > $old_height) ? $width : $old_width * $percent;
-        $newheight = ($old_width > $old_height) ? $old_height * $percent : $width;
-
-        // Load
-        $thumb = imagecreatetruecolor($newwidth, $newheight);
-        if ('image/jpeg' === $type or 'image/jpg' === $type or 'image/pjpg' === $type or 'image/pjpeg' === $type) {
-            $source = imagecreatefromjpeg($filename);
-            $type = 'image/jpeg';
-        } elseif ('image/png' === $type) {
-            $source = imagecreatefrompng($filename);
-            $type = 'image/png';
-        } elseif ('image/gif' === $type) {
-            $source = imagecreatefromgif($filename);
-            $type = 'image/gif';
-        }
-
-        // Resize
-        imagecopyresampled($thumb, $source, 0, 0, 0, 0, $newwidth, $newheight, $old_width, $old_height);
-
-        header('Content-type: image/png');
-        imagepng($thumb, $thumb_name);
-
-        imagedestroy($thumb);
     }
 
 }

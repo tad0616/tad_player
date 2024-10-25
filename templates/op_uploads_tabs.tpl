@@ -1,5 +1,3 @@
-<{$toolbar|default:''}>
-
 <h2 class="sr-only visually-hidden">Video Upload</h2>
 
 <script type="text/javascript">
@@ -188,7 +186,7 @@
       <div class="text-center">
         <input type="hidden" name="op" value="<{$next_op|default:''}>">
         <input type="hidden" name="psn" value="<{$psn|default:''}>">
-        <button type="submit" class="btn btn-primary"><{$smarty.const._TAD_SAVE}></button>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
       </div>
 
     </form>

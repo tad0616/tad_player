@@ -3,6 +3,10 @@ use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
 
 require_once __DIR__ . '/header.php';
+
+// 關閉除錯訊息
+$xoopsLogger->activated = false;
+
 $of_csn = Request::getInt('of_csn');
 $def_csn = Request::getInt('def_csn');
 $chk_view = Request::getInt('chk_view', 1);
@@ -12,7 +16,7 @@ echo get_option($of_csn, $def_csn, $chk_view, $chk_up);
 
 function get_option($of_csn = '', $def_csn = '', $chk_view = 1, $chk_up = 1)
 {
-    global $xoopsDB, $xoopsUser, $xoopsModule, $isAdmin;
+    global $xoopsDB, $xoopsUser, $xoopsModule;
 
     $ok_cat = $ok_up_cat = [];
 
@@ -24,9 +28,8 @@ function get_option($of_csn = '', $def_csn = '', $chk_view = 1, $chk_up = 1)
         $ok_up_cat = chk_cate_power('upload');
     }
     $option = '';
-    $sql = 'select pcsn,title from ' . $xoopsDB->prefix('tad_player_cate') . "
-    where of_csn='$of_csn' order by sort";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `pcsn`, `title` FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `of_csn`=? ORDER BY `sort`';
+    $result = Utility::query($sql, 'i', [$of_csn]) or Utility::web_error($sql, __FILE__, __LINE__);
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         if ($chk_view and is_array($ok_cat)) {
             if (!in_array($pcsn, $ok_cat)) {

@@ -1,5 +1,3 @@
-<{$toolbar|default:''}>
-
 <script type="text/javascript">
   $(document).ready(function(){
     $.post("ajax.php",  {op: "get_menu" , pcsn: $("#menu1").val() , psn: '<{$psn|default:''}>'} , function(data) {
@@ -12,11 +10,6 @@
     });
   });
 
-  function delete_tad_player_file_func(psn){
-    var sure = window.confirm("<{$smarty.const._TAD_DEL_CONFIRM}>");
-    if (!sure)  return;
-    location.href="play.php?op=delete_tad_player_file&pcsn=<{$pcsn|default:''}>&psn=" + psn;
-  }
 </script>
 
 <div class="row" style="margin-bottom:2em;">
@@ -62,10 +55,10 @@
   </div>
 
   <div class="col-sm-3 text-right text-end">
-    <{if $isAdmin or $isUploader}>
-      <a href="javascript:delete_tad_player_file_func(<{$psn|default:''}>);" class="btn btn-sm btn-danger"><{$smarty.const._TAD_DEL}></a>
+    <{if $smarty.session.tad_player_adm or $isUploader}>
+      <a href="javascript:delete_tad_player_file_func(<{$psn|default:''}>);" class="btn btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
 
-      <a href="<{$xoops_url}>/modules/tad_player/uploads.php?psn=<{$psn|default:''}>#fragment-1" class="btn btn-sm btn-warning"><{$smarty.const._TAD_EDIT}></a>
+      <a href="<{$xoops_url}>/modules/tad_player/uploads.php?psn=<{$psn|default:''}>#fragment-1" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
     <{/if}>
   </div>
 

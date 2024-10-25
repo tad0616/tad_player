@@ -1,19 +1,61 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\StarRating;
+use XoopsModules\Tadtools\SweetAlert;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_player\Tools;
 /*-----------引入檔案區--------------*/
 require_once __DIR__ . '/header.php';
-$xoopsOption['template_main'] = 'tad_player_play.tpl';
+$xoopsOption['template_main'] = 'tad_player_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
+
+/*-----------執行動作判斷區----------*/
+$op = Request::getString('op');
+$psn = Request::getInt('psn');
+$pcsn = Request::getInt('pcsn');
+$col_sn = Request::getInt('col_sn');
+$col_name = Request::getString('col_name');
+$mod_name = Request::getString('mod_name');
+$rank = Request::getString('rank');
+
+switch ($op) {
+    case 'delete_tad_player_file':
+        delete_tad_player($psn);
+        header("location:index.php?pcsn=$pcsn");
+        exit;
+
+    case 'save_rating':
+        StarRating::save_rating($mod_name, $col_name, $col_sn, $rank);
+        break;
+
+    default:
+        if (empty($psn)) {
+            header('location:index.php');
+            exit;
+        }
+        play($psn);
+        $op = 'play';
+        break;
+}
+
+/*-----------秀出結果區--------------*/
+$xoopsTpl->assign('now_op', $op);
+$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
+$xoopsTpl->assign('isUploader', $isUploader);
+$xoopsTpl->assign('psn', $psn);
+$xoopsTpl->assign('select', get_cate_play($psn));
+$xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
+
+require_once XOOPS_ROOT_PATH . '/footer.php';
+
 /*-----------function區--------------*/
 
 //播放
 function play($get_psn = '')
 {
-    global $xoopsDB, $xoopsModuleConfig, $xoopsUser, $xoopsTpl, $xoTheme;
+    global $xoopsModuleConfig, $xoopsUser, $xoopsTpl, $xoTheme;
 
-    $file = get_tad_player($get_psn);
+    $file = Tools::get_tad_player($get_psn);
     $ok_cat = chk_cate_power();
 
     $user_group = [];
@@ -29,7 +71,7 @@ function play($get_psn = '')
 
     add_counter($get_psn);
 
-    $play_code = play_code_player("file{$get_psn}", $file, $get_psn, 'single');
+    $play_code = Tools::play_code_player("file{$get_psn}", $file, $get_psn, 'single');
 
     $all['pcsn'] = $file['pcsn'];
 
@@ -49,7 +91,7 @@ function play($get_psn = '')
     $jquery_path
     <meta proprery=\"og:title\" content=\"{$file['title']}\">
     <meta proprery=\"og:description\" content=\"{$info}\">
-    <meta property=\"og:image\" content=\"" . _TAD_PLAYER_IMG_URL . "s_{$file['image']}\">
+    <meta property=\"og:image\" content=\"" . Tools::_TAD_PLAYER_IMG_URL . "s_{$file['image']}\">
     <meta property=\"og:video\" content=\"" . XOOPS_URL . "/modules/tad_player/play.php?psn=$get_psn\">
     <meta name=\"video_height\" content=\"{$file['width']}\">
     <meta name=\"video_width\" content=\"{$file['height']}\">
@@ -79,16 +121,18 @@ function play($get_psn = '')
     $xoopsTpl->assign('xoops_pagetitle', $file['title']);
     $xoopsTpl->assign('star_rating', $star_rating);
     $xoopsTpl->assign('pcsn', $file['pcsn']);
+    $SweetAlert = new SweetAlert();
+    $SweetAlert->render("delete_tad_player_file_func", "play.php?op=delete_tad_player_file&pcsn={$file['pcsn']}&psn=", 'psn');
 }
 
 //找出選單
-function get_cate_play($get_psn = '', $size = 1)
+function get_cate_play($get_psn = '')
 {
     global $xoopsDB, $xoopsTpl;
-    $file = get_tad_player($get_psn);
+    $file = Tools::get_tad_player($get_psn);
 
-    $sql = 'select a.psn,a.title,b.title from ' . $xoopsDB->prefix('tad_player') . ' as a left join ' . $xoopsDB->prefix('tad_player_cate') . " as b on a.pcsn=b.pcsn where a.pcsn='{$file['pcsn']}' order by a.sort, a.post_date desc";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `a`.`psn`, `a`.`title`, `b`.`title` FROM `' . $xoopsDB->prefix('tad_player') . '` AS `a` LEFT JOIN `' . $xoopsDB->prefix('tad_player_cate') . '` AS `b` ON `a`.`pcsn` = `b`.`pcsn` WHERE `a`.`pcsn` = ? ORDER BY `a`.`sort`, `a`.`post_date` DESC';
+    $result = Utility::query($sql, 'i', [$file['pcsn']]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $option = '';
     while (list($psn, $title, $cate_title) = $xoopsDB->fetchRow($result)) {
@@ -112,41 +156,3 @@ function get_cate_play($get_psn = '', $size = 1)
 
     return $select;
 }
-
-/*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$psn = Request::getInt('psn');
-$pcsn = Request::getInt('pcsn');
-$col_sn = Request::getInt('col_sn');
-$col_name = Request::getString('col_name');
-$mod_name = Request::getString('mod_name');
-$rank = Request::getString('rank');
-
-switch ($op) {
-    case 'delete_tad_player_file':
-        delete_tad_player($psn);
-        header("location:index.php?pcsn=$pcsn");
-        exit;
-
-    case 'save_rating':
-        StarRating::save_rating($mod_name, $col_name, $col_sn, $rank);
-        break;
-
-    default:
-        if (empty($psn)) {
-            header('location:index.php');
-            exit;
-        }
-        play($psn);
-        break;
-}
-
-/*-----------秀出結果區--------------*/
-$xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu));
-$xoopsTpl->assign('isAdmin', $isAdmin);
-$xoopsTpl->assign('isUploader', $isUploader);
-$xoopsTpl->assign('psn', $psn);
-$xoopsTpl->assign('select', get_cate_play($psn));
-$xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
-
-require_once XOOPS_ROOT_PATH . '/footer.php';

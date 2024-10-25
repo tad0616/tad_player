@@ -4,6 +4,9 @@ use XoopsModules\Tadtools\Utility;
 
 require_once dirname(dirname(__DIR__)) . '/mainfile.php';
 
+// 關閉除錯訊息
+$xoopsLogger->activated = false;
+
 $op = Request::getString('op');
 $psn = Request::getInt('psn');
 $pcsn = Request::getInt('pcsn');
@@ -14,12 +17,11 @@ function get_cate_options($pcsn = '', $def_psn = '')
 {
     global $xoopsDB;
 
-    $sql = 'select `psn` , `title` from `' . $xoopsDB->prefix('tad_player') . "`
-    where `pcsn` = '$pcsn' order by `sort`";
+    $sql = 'SELECT `psn`, `title` FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `pcsn` =? ORDER BY `sort`';
+    $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $total = $xoopsDB->getRowsNum($result);
-    // $main = (empty($def_psn) and !empty($total)) ? "<option value=''>" . _MD_TADPLAYER_PICK_A_VIDEO . '</option>' : '';
+
     $main = "<option value=''>" . _MD_TADPLAYER_PICK_A_VIDEO . '</option>';
     $sort = 1;
     while (list($psn, $title) = $xoopsDB->fetchRow($result)) {

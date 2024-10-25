@@ -38,5 +38,4 @@ define('_MD_TADPLAYER_AUTO_GET', 'Get info');
 define('_MD_TADPLAYER_PICK_A_VIDEO', 'Please select the video which you want to watch');
 
 define('_MD_TADPLAYER_DB_SELECT_ERROR1', 'DB Select Error');
-
-
+define('_MD_TADPLAYER_INDEX', 'All videos');

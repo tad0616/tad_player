@@ -1,5 +1,3 @@
-<{$toolbar|default:''}>
-
 <h2 class="sr-only visually-hidden">Video List</h2>
 
 <script type="text/javascript">

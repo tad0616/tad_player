@@ -1,7 +1,11 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_player\Tools;
 require_once __DIR__ . '/header.php';
+
+// 關閉除錯訊息
+$xoopsLogger->activated = false;
 
 $url = Request::getUrl('url');
 
@@ -10,7 +14,7 @@ if (!empty($url)) {
     $date = getUrlData($url);
     $web['description'] = $date['metaTags']['description']['value'];
 
-    $youtube_id = getYTid($url);
+    $youtube_id = Tools::getYTid($url);
 
     $url = "https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
     $contents = Utility::vita_get_url_content($url);

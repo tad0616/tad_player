@@ -1,7 +1,11 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_player\Tools;
 require_once __DIR__ . '/header.php';
+
+// 關閉除錯訊息
+$xoopsLogger->activated = false;
 
 /*-----------執行動作判斷區----------*/
 $op = Request::getString('op');
@@ -34,8 +38,9 @@ function file_count()
     global $xoopsDB;
 
     $file_count = [];
-    $sql = 'select count(*),pcsn from ' . $xoopsDB->prefix('tad_player') . ' group by pcsn';
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT COUNT(*), `pcsn` FROM `' . $xoopsDB->prefix('tad_player') . '` GROUP BY `pcsn`';
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $file_count[$pcsn] = $count;
     }
@@ -47,8 +52,9 @@ function cate_count()
     global $xoopsDB;
 
     $cate_count = [];
-    $sql = 'select count(*),of_csn from ' . $xoopsDB->prefix('tad_player_cate') . ' group by of_csn';
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT COUNT(*), `of_csn` FROM `' . $xoopsDB->prefix('tad_player_cate') . '` GROUP BY `of_csn`';
+    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+
     while (list($count, $of_csn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$of_csn] = $count;
     }
@@ -63,8 +69,9 @@ function get_cates($of_csn = 0)
     $cate_count = cate_count();
     $all_cates = [];
 
-    $sql = 'SELECT pcsn,of_csn,title,sort FROM ' . $xoopsDB->prefix('tad_player_cate') . " WHERE of_csn='{$of_csn}' and (enable_group='' or enable_group like '%3%') ORDER BY sort";
-    $result = $xoopsDB->query($sql);
+    $sql = 'SELECT `pcsn`,`of_csn`,`title`,`sort` FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `of_csn`=? AND (`enable_group`=\'\' OR `enable_group` LIKE \'%3%\') ORDER BY `sort`';
+    $result = Utility::query($sql, 'i', [$of_csn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
     while (list($pcsn, $of_csn, $title, $sort) = $xoopsDB->fetchRow($result)) {
         $cover = '';
         $cate['pcsn'] = (int) $pcsn;
@@ -89,17 +96,18 @@ function cate_cover($pcsn = '')
     }
 
     //找出分類下所有影片
-    $sql = 'select psn,image from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$pcsn}' order by rand() limit 1";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `psn`, `image` FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `pcsn` =? ORDER BY RAND() LIMIT 1';
+    $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($psn, $image) = $xoopsDB->fetchRow($result);
 
     if (empty($psn)) {
-        $sql = 'select psn,image from ' . $xoopsDB->prefix('tad_player') . ' as a
-            join ' . $xoopsDB->prefix('tad_player_cate') . " as b on a.pcsn=b.pcsn
-            where a.pcsn='{$pcsn}' or b.of_csn='{$pcsn}'
-            order by rand() limit 1";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT `psn`, `image` FROM `' . $xoopsDB->prefix('tad_player') . '` AS a
+        JOIN `' . $xoopsDB->prefix('tad_player_cate') . '` AS b ON a.`pcsn`=b.`pcsn`
+        WHERE a.`pcsn`=? OR b.`of_csn`=?
+        ORDER BY RAND() LIMIT 1';
+        $result = Utility::query($sql, 'ii', [$pcsn, $pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
         list($psn, $image) = $xoopsDB->fetchRow($result);
     }
 
@@ -115,16 +123,16 @@ function video_cover($psn = '', $image = '')
         return;
     }
     if (empty($image)) {
-        $sql = 'select image from ' . $xoopsDB->prefix('tad_player') . " where psn='{$psn}'";
-        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT `image` FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `psn` = ?';
+        $result = Utility::query($sql, 'i', [$psn]) or Utility::web_error($sql, __FILE__, __LINE__);
+
         list($image) = $xoopsDB->fetchRow($result);
     }
 
     if (substr($image, 0, 4) == 'http') {
         $pic = $image;
     } elseif (file_exists(XOOPS_ROOT_PATH . "/uploads/tad_player/img/s_{$psn}.png")) {
-        $cover = XOOPS_URL . "/uploads/tad_player/img/s_{$psn}.png";
-        $pic = _TAD_PLAYER_IMG_URL . "{$psn}.png";
+        $pic = Tools::_TAD_PLAYER_IMG_URL . "{$psn}.png";
     } else {
         $ext = mb_substr($location, -3);
         if ('mp3' === $ext) {
@@ -141,13 +149,8 @@ function get_videos($pcsn)
 {
     global $xoopsDB;
 
-    $sql = 'select a.psn, a.pcsn, a.location, a.youtube, a.title, a.creator, a.content, a.image,a.post_date,a.counter,a.enable_group,b.title,b.of_csn
-    from ' . $xoopsDB->prefix('tad_player') . ' as a
-    left join ' . $xoopsDB->prefix('tad_player_cate') . " as b on a.pcsn=b.pcsn
-    where a.pcsn='{$pcsn}' and (a.location!='' or a.youtube!='')
-    order by a.sort , a.post_date desc";
-
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT a.`psn`, a.`pcsn`, a.`location`, a.`youtube`, a.`title`, a.`creator`, a.`content`, a.`image`, a.`post_date`, a.`counter`, a.`enable_group`, b.`title`, b.`of_csn` FROM `' . $xoopsDB->prefix('tad_player') . '` AS a LEFT JOIN `' . $xoopsDB->prefix('tad_player_cate') . '` AS b ON a.`pcsn`=b.`pcsn` WHERE a.`pcsn`=? AND (a.`location`!=\'\' OR a.`youtube`!=\'\') ORDER BY a.`sort`, a.`post_date` DESC';
+    $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
     //檢查權限
     $ok_cat = chk_cate_power();
 
@@ -187,9 +190,9 @@ function get_videos($pcsn)
 
         $post_date = date('Y-m-d H:i:s', xoops_getUserTimestamp($post_date));
 
-        $YTid == '';
+        $YTid = '';
         if ($youtube) {
-            $YTid = getYTid($youtube);
+            $YTid = Tools::getYTid($youtube);
         }
 
         if ($location) {

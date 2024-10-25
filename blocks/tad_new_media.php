@@ -7,8 +7,8 @@ function tad_new_media($options)
 {
     global $xoopsDB;
 
-    $sql = 'SELECT `psn`, `title`, `creator`, `location`, `image`, `info`, `uid`, `post_date`, `enable_group`, `counter` FROM ' . $xoopsDB->prefix('tad_player') . " order by post_date desc limit 0,{$options[0]}";
-    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql = 'SELECT `psn`, `title`, `creator`, `location`, `image`, `info`, `uid`, `post_date`, `enable_group`, `counter` FROM `' . $xoopsDB->prefix('tad_player') . '` ORDER BY `post_date` DESC LIMIT 0, ?';
+    $result = Utility::query($sql, 'i', [$options[0]]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $i = 0;
     $block = [];

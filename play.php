@@ -56,7 +56,7 @@ function play($get_psn = '')
     global $xoopsModuleConfig, $xoopsUser, $xoopsTpl, $xoTheme;
 
     $file = Tools::get_tad_player($get_psn);
-    $ok_cat = chk_cate_power();
+    $ok_cat = Tools::chk_cate_power();
 
     $user_group = [];
     if ($xoopsUser) {

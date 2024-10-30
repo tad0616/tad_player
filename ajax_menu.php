@@ -1,6 +1,7 @@
 <?php
 use Xmf\Request;
 use XoopsModules\Tadtools\Utility;
+use XoopsModules\Tad_plyer\Tools;
 
 require_once __DIR__ . '/header.php';
 
@@ -25,7 +26,7 @@ function get_option($of_csn = '', $def_csn = '', $chk_view = 1, $chk_up = 1)
     }
 
     if ($chk_up) {
-        $ok_up_cat = chk_cate_power('upload');
+        $ok_up_cat = Tools::chk_cate_power('upload');
     }
     $option = '';
     $sql = 'SELECT `pcsn`, `title` FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `of_csn`=? ORDER BY `sort`';

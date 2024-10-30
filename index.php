@@ -81,7 +81,7 @@ function list_tad_player($pcsn = '')
     $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //檢查權限
-    $ok_cat = chk_cate_power();
+    $ok_cat = Tools::chk_cate_power();
 
     //目前使用者所屬群組
     $user_group = [];

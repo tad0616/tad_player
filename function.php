@@ -206,45 +206,6 @@ function delete_tad_player($psn = '')
     Utility::query($sql, 'i', [$psn]) or Utility::web_error($sql, __FILE__, __LINE__);
 }
 
-//判斷某人在哪些類別中有觀看或發表(upload)的權利
-function chk_cate_power($kind = '')
-{
-    global $xoopsDB, $xoopsUser, $xoopsModule;
-    $ok_cat = [];
-    if (!empty($xoopsUser)) {
-        $module_id = $xoopsModule->getVar('mid');
-        $_SESSION['tad_player_adm'] = $xoopsUser->isAdmin($module_id);
-        if ($_SESSION['tad_player_adm']) {
-            $ok_cat[] = '0';
-        }
-        $user_array = $xoopsUser->getGroups();
-    } else {
-        $user_array = [3];
-        $_SESSION['tad_player_adm'] = 0;
-    }
-
-    $col = ('upload' === $kind) ? 'enable_upload_group' : 'enable_group';
-
-    $sql = 'SELECT `pcsn`, `' . $col . '` FROM `' . $xoopsDB->prefix('tad_player_cate') . '`';
-    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
-
-    while (list($pcsn, $power) = $xoopsDB->fetchRow($result)) {
-        if ($_SESSION['tad_player_adm'] or empty($power)) {
-            $ok_cat[] = $pcsn;
-        } else {
-            $power_array = explode(',', $power);
-            foreach ($power_array as $gid) {
-                if (in_array($gid, $user_array)) {
-                    $ok_cat[] = $pcsn;
-                    break;
-                }
-            }
-        }
-    }
-
-    return $ok_cat;
-}
-
 //取得分類下拉選單
 function get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $show_dot = '1', $optgroup = true, $kind = 'view')
 {
@@ -265,7 +226,7 @@ function get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $show_dot 
     $result = Utility::query($sql, 'i', [$of_csn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     if ($kind) {
-        $ok_cat = chk_cate_power($kind);
+        $ok_cat = Tools::chk_cate_power($kind);
     }
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         if ($kind) {

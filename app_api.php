@@ -147,12 +147,12 @@ function video_cover($psn = '', $image = '')
 
 function get_videos($pcsn)
 {
-    global $xoopsDB;
+    global $xoopsDB, $xoopsUser;
 
     $sql = 'SELECT a.`psn`, a.`pcsn`, a.`location`, a.`youtube`, a.`title`, a.`creator`, a.`content`, a.`image`, a.`post_date`, a.`counter`, a.`enable_group`, b.`title`, b.`of_csn` FROM `' . $xoopsDB->prefix('tad_player') . '` AS a LEFT JOIN `' . $xoopsDB->prefix('tad_player_cate') . '` AS b ON a.`pcsn`=b.`pcsn` WHERE a.`pcsn`=? AND (a.`location`!=\'\' OR a.`youtube`!=\'\') ORDER BY a.`sort`, a.`post_date` DESC';
     $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
     //檢查權限
-    $ok_cat = chk_cate_power();
+    $ok_cat = Tools::chk_cate_power();
 
     //目前使用者所屬群組
     $user_group = [];

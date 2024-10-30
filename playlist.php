@@ -54,7 +54,7 @@ function playlist($pcsn = '0')
     }
     Tools::mk_list_json($pcsn);
     $cate = Tools::get_tad_player_cate($pcsn);
-    $ok_cat = chk_cate_power();
+    $ok_cat = Tools::chk_cate_power();
 
     if (!empty($pcsn) and !in_array($pcsn, $ok_cat)) {
         redirect_header('index.php', 3, sprintf(_MD_TADPLAYER_NO_POWER, $cate['title']));

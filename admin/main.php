@@ -219,7 +219,7 @@ function cate_select($pcsn = 0, $size = 20)
 
     $PHP_SELF = basename($_SERVER['PHP_SELF']);
     $select = "
-    <select name='pcsn' title='select category' class='form-control' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
+    <select name='pcsn' title='select category' class='form-select' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
     $cate_select
     </select>";
 
@@ -481,8 +481,7 @@ function mk_thumb($pcsn = '')
             $$k = $v;
         }
 
-        $type = getimagesize($image);
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
-        Tools::mk_video_thumbnail($image, $pic_s_file, $type['mime'], '480');
+        Utility::generateThumbnail($image, $pic_s_file, 480);
     }
 }

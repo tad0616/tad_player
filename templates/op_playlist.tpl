@@ -11,7 +11,7 @@
 <div class="alert alert-success">
   <div class="row">
     <div class="col-sm-4">
-      <select id="menu1" class="form-control" title="select category">
+      <select id="menu1" class="form-select" title="select category">
         <{$cate_select|default:''}>
       </select>
     </div>

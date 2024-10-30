@@ -21,7 +21,7 @@ function get_option($of_csn = '', $def_csn = '', $chk_view = 1, $chk_up = 1)
     $ok_cat = $ok_up_cat = [];
 
     if ($chk_view) {
-        $ok_cat = chk_cate_power();
+        $ok_cat = get_gperm_cate_arr();
     }
 
     if ($chk_up) {

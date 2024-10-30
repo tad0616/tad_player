@@ -234,13 +234,11 @@ function insert_tad_player()
     } elseif (!empty($youtube)) {
         $youtube_id = Tools::getYTid($youtube);
         $image = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
-        $type = getimagesize($image);
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
-        Tools::mk_video_thumbnail($image, $pic_s_file, $type['mime'], '480');
+        Utility::generateThumbnail($image, $pic_s_file, 480);
     } elseif (!empty($_POST['image'])) {
-        $type = getimagesize($_POST['image']);
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
-        Tools::mk_video_thumbnail($_POST['image'], $pic_s_file, $type['mime'], '480');
+        Utility::generateThumbnail($_POST['image'], $pic_s_file, 480);
     }
 
     if (!empty($_FILES['logo']['name'])) {
@@ -275,15 +273,12 @@ function update_tad_player($psn = '')
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = Tools::getYTid($_POST['youtube']);
         $image = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
-        $type = getimagesize($image);
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
-        Tools::mk_video_thumbnail($image, $pic_s_file, $type['mime'], '480');
+        Utility::generateThumbnail($image, $pic_s_file, 480);
         $image_sql = ", image = '{$image}'";
     } elseif (!empty($_POST['image'])) {
-        $filename = basename($_POST['image']);
-        $type = getimagesize($_POST['image']);
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
-        Tools::mk_video_thumbnail($_POST['image'], $pic_s_file, $type['mime'], '480');
+        Utility::generateThumbnail($_POST['image'], $pic_s_file, 480);
         $image_sql = ", image = '{$_POST['image']}'";
     }
     if (!empty($_POST['location'])) {

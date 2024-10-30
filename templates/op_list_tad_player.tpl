@@ -22,12 +22,12 @@
 
 <div class="row" style="margin-bottom:2em;">
   <div class="col-sm-4">
-    <select id="menu1" class="form-control" title="select category">
+    <select id="menu1" class="form-select" title="select category">
       <{$cate_select|default:''}>
     </select>
   </div>
   <div class="col-sm-8">
-    <select id="menu2" style="display: none;" class="form-control" onChange="location.href='play.php?psn='+this.value" title="select sub-category">
+    <select id="menu2" style="display: none;" class="form-select" onChange="location.href='play.php?psn='+this.value" title="select sub-category">
     </select>
   </div>
 </div>
@@ -67,7 +67,7 @@
               <p class="card-text text-center">
                 <{if $video.post_date|default:false}>
                   <div style="font-size: 0.75em; color: #666666;">
-                    <span class="badge badge-info pull-right"><{$video.counter}></span>
+                    <span class="badge badge-info pull-right pull-end"><{$video.counter}></span>
                     <{$video.post_date}>
                   </div>
                 <{/if}>

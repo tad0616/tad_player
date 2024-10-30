@@ -80,10 +80,8 @@ class Update
             if (!empty($image)) {
                 $filename = XOOPS_ROOT_PATH . "/uploads/tad_player/{$psn}_{$image}";
                 if (file_exists($filename)) {
-                    $type = getimagesize($filename);
                     $thumb_s_name = XOOPS_ROOT_PATH . "/uploads/tad_player/img/s_{$psn}.png";
-                    Tools::mk_video_thumbnail($filename, $thumb_s_name, $type['mime'], '480');
-                    //unlink($filename);
+                    Utility::generateThumbnail($filename, $thumb_s_name, 480);
                     $newimg = ",`image`='{$psn}.png'";
                 }
             }

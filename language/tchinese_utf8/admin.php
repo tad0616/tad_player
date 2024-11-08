@@ -1,5 +1,6 @@
 <?php
 xoops_loadLanguage('admin_common', 'tadtools');
+xoops_loadLanguage('main', 'tadtools');
 
 define('_MA_INPUT_CATE_FORM', '分類設定表單');
 define('_MA_TADPLAYER_TITLE', '標題');

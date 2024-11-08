@@ -1,5 +1,7 @@
 <?php
 xoops_loadLanguage('admin_common', 'tadtools');
+xoops_loadLanguage('main', 'tadtools');
+
 define('_MA_INPUT_CATE_FORM', 'Category setting form');
 define('_MA_TADPLAYER_TITLE', 'Title');
 define('_MA_TADPLAYER_COUNTER', 'View counts');

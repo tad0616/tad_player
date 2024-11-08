@@ -1,9 +1,12 @@
 <?php
 use XoopsModules\Tad_player\Tools;
+if (!class_exists('XoopsModules\Tad_player\Tools')) {
+    require XOOPS_ROOT_PATH . '/modules/tad_player/preloads/autoloader.php';
+}
 
 //判斷是否對該模組有管理權限
 if (!isset($_SESSION['tad_player_adm'])) {
-    $_SESSION['tad_player_adm'] = ($xoopsUser) ? $xoopsUser->isAdmin() : false;
+    $_SESSION['tad_player_adm'] = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
 }
 
 $interface_menu[_MD_TADPLAYER_INDEX] = 'index.php';
@@ -11,7 +14,7 @@ $interface_icon[_MD_TADPLAYER_INDEX] = "fa-video-camera";
 
 $upload_powers = Tools::chk_cate_power('upload');
 
-if (count($upload_powers) > 0 and $xoopsUser) {
+if (count($upload_powers) > 0 and isset($xoopsUser)) {
     $isUploader = true;
     $interface_menu[_MD_TADPLAYER_UPLOAD] = 'uploads.php';
     $interface_icon[_MD_TADPLAYER_UPLOAD] = 'fa-upload';

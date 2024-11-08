@@ -22,7 +22,6 @@ define('_MD_TADPLAYER_UPLOAD', '上傳影片');
 define('_MD_TADPLAYER_NO_UPLOAD_POWER', '您沒有上傳的權限喔！！');
 
 //uploads.php
-define('_MD_INPUT_FORM', '上傳影片');
 define('_MD_TADPLAYER_BATCH_UPLOAD', '批次匯入');
 define('_MD_TADPLAYER_NEW_PCSN', '在左邊分類下新增分類');
 define('_MD_TADPLAYER_FLV_LINK', '請貼上 flv 的網址');

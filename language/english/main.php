@@ -21,7 +21,6 @@ define('_MD_TADPLAYER_UPLOAD', 'Upload video');
 define('_TADPLAYER_NO_UPLOAD_POWER', 'You are not authorized to upload videos!');
 
 //uploads.php
-define('_MD_INPUT_FORM', 'Upload video');
 define('_MI_TADPLAYER_BATCH_UPLOAD', 'Batch upload');
 define('_MI_TADPLAYER_JAVA_UPLOAD', 'Large files upload');
 define('_MD_TADPLAYER_NEW_PCSN', 'Create a new sub-category from the category on left side');

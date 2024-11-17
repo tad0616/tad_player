@@ -203,17 +203,17 @@ function insert_tad_player()
     }
 
     if (!empty($_POST['title'])) {
-        $title = $_POST['title'];
+        $title = (string) $_POST['title'];
     } else {
         $title = basename($location);
     }
 
-    $creator = $_POST['creator'];
-    $content = $_POST['content'];
+    $creator = (string) $_POST['creator'];
+    $content = (string) $_POST['content'];
     $content = removeEmoji($content);
     $content = Wcag::amend($content);
-    $youtube = $_POST['youtube'];
-    $logo_name = $_POST['logo_name'];
+    $youtube = (string) $_POST['youtube'];
+    $logo_name = (string) $_POST['logo_name'];
 
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
 

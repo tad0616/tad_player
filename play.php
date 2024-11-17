@@ -41,6 +41,7 @@ switch ($op) {
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('now_op', $op);
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
+$xoopsTpl->assign('tad_player_adm', $tad_player_adm);
 $xoopsTpl->assign('isUploader', $isUploader);
 $xoopsTpl->assign('psn', $psn);
 $xoopsTpl->assign('select', get_cate_play($psn));

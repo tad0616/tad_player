@@ -1,7 +1,4 @@
 <?php
-
-global $xoopsConfig;
-
 $modversion = [];
 global $xoopsConfig;
 
@@ -71,7 +68,7 @@ $modversion['templates'] = [
 
 //---區塊設定---//
 $modversion['blocks'] = [
-    [
+    1 => [
         'file' => 'tad_player.php',
         'name' => _MI_TADPLAYER_BNAME1,
         'description' => _MI_TADPLAYER_BDESC1,

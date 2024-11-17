@@ -26,6 +26,7 @@ switch ($op) {
 $xoopsTpl->assign('now_op', $op);
 $xoopsTpl->assign('push', Utility::push_url($xoopsModuleConfig['use_social_tools']));
 $xoopsTpl->assign('toolbar', Utility::toolbar_bootstrap($interface_menu, false, $interface_icon));
+$xoopsTpl->assign('tad_player_adm', $tad_player_adm);
 $xoopsTpl->assign('psn', $psn);
 $xoopsTpl->assign('pcsn', $pcsn);
 $xoopsTpl->assign('font_color', $xoopsModuleConfig['font_color']);

@@ -5,8 +5,8 @@ if (!class_exists('XoopsModules\Tad_player\Tools')) {
 }
 
 //判斷是否對該模組有管理權限
-if (!isset($_SESSION['tad_player_adm'])) {
-    $_SESSION['tad_player_adm'] = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
+if (!isset($tad_player_adm)) {
+    $tad_player_adm = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
 }
 
 $interface_menu[_MD_TADPLAYER_INDEX] = 'index.php';
@@ -27,7 +27,7 @@ if (!empty($_REQUEST['pcsn'])) {
     $ptool = "?pcsn={$pcsn}";
 }
 
-if ($_SESSION['tad_player_adm']) {
+if ($tad_player_adm) {
     if (!empty($_REQUEST['psn'])) {
         $psn = (int) ($_REQUEST['psn']);
         $interface_menu[_MD_TADPLAYER_MODIFY_MEDIA] = "uploads.php?psn={$psn}#fragment-1";

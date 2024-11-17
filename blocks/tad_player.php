@@ -8,19 +8,16 @@ function tad_player($options)
     global $xoopsDB;
 
     if (empty($options[0])) {
-        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player') . '` ORDER BY RAND() LIMIT 1';
+        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_player') . ' ORDER BY rand() LIMIT 0,1';
     } elseif (0 === mb_strpos($options[0], 'pcsn')) {
         $sn = explode('_', $options[0]);
-        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE pcsn = ? ORDER BY RAND() LIMIT 1';
-        $params = [$sn[1]];
+        $sql = 'select * from ' . $xoopsDB->prefix('tad_player') . " where pcsn='{$sn[1]}' order by rand() limit 0,1";
     } else {
-        $psn = $options[0];
-        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('tad_player') . ' WHERE psn = ?';
-        $params = [$psn];
+        $psn = (int) $options[0];
+        $sql = 'select * from ' . $xoopsDB->prefix('tad_player') . " where psn='$psn'";
     }
 
-    $result = Utility::query($sql, isset($params) ? str_repeat('i', count($params)) : '', $params ?? []) or Utility::web_error($sql, __FILE__, __LINE__);
-
+    $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
     $file = $xoopsDB->fetchArray($result);
 
     $file = Tools::get_tad_player($file['psn']);

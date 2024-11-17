@@ -21,8 +21,8 @@ class Tools
         if (empty($psn)) {
             return;
         }
-        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `psn`=?';
-        $result = Utility::query($sql, 'i', [$psn]) or Utility::web_error($sql, __FILE__, __LINE__);
+        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `psn`=' . $psn;
+        $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $data = $xoopsDB->fetchArray($result);
 
@@ -214,18 +214,22 @@ class Tools
     //判斷某人在哪些類別中有觀看或發表(upload)的權利
     public static function chk_cate_power($kind = '')
     {
-        global $xoopsDB, $xoopsUser, $xoopsModule;
+        global $xoopsDB, $xoopsUser, $xoopsModule, $tad_player_adm;
         $ok_cat = [];
+        if (!$xoopsModule) {
+            $modhandler = xoops_gethandler('module');
+            $xoopsModule = $modhandler->getByDirname('tad_player');
+        }
         if (!empty($xoopsUser)) {
-            $module_id = $xoopsModule->getVar('mid');
-            $_SESSION['tad_player_adm'] = $xoopsUser->isAdmin($module_id);
-            if ($_SESSION['tad_player_adm']) {
+            $module_id = $xoopsModule->mid();
+            $tad_player_adm = $xoopsUser->isAdmin($module_id);
+            if ($tad_player_adm) {
                 $ok_cat[] = '0';
             }
             $user_array = $xoopsUser->getGroups();
         } else {
             $user_array = [3];
-            $_SESSION['tad_player_adm'] = 0;
+            $tad_player_adm = 0;
         }
 
         $col = ('upload' === $kind) ? 'enable_upload_group' : 'enable_group';
@@ -234,7 +238,7 @@ class Tools
         $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         while (list($pcsn, $power) = $xoopsDB->fetchRow($result)) {
-            if ($_SESSION['tad_player_adm'] or empty($power)) {
+            if ($tad_player_adm or empty($power)) {
                 $ok_cat[] = $pcsn;
             } else {
                 $power_array = explode(',', $power);

@@ -2,6 +2,11 @@
 use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tad_player\Tools;
 
+//判斷是否對該模組有管理權限
+if (!isset($tad_player_adm)) {
+    $tad_player_adm = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
+}
+
 //路徑導覽
 function tad_player_breadcrumb($pcsn = '0', $array = [])
 {
@@ -187,9 +192,9 @@ function tad_player_chk_cate_have_sub($pcsn = 0)
 //刪除tad_player某筆資料資料
 function delete_tad_player($psn = '')
 {
-    global $xoopsDB, $isUploader;
+    global $xoopsDB, $isUploader, $tad_player_adm;
 
-    if (!$_SESSION['tad_player_adm'] and !$isUploader) {
+    if (!$tad_player_adm and !$isUploader) {
         redirect_header('index.php', 3, _TAD_PERMISSION_DENIED);
     }
 

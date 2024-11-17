@@ -55,7 +55,7 @@
   </div>
 
   <div class="col-sm-3 text-right text-end">
-    <{if $smarty.session.tad_player_adm or $isUploader}>
+    <{if $tad_player_adm or $isUploader}>
       <a href="javascript:delete_tad_player_file_func(<{$psn|default:''}>);" class="btn btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
 
       <a href="<{$xoops_url}>/modules/tad_player/uploads.php?psn=<{$psn|default:''}>#fragment-1" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>

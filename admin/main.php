@@ -8,7 +8,6 @@ use XoopsModules\Tad_player\Tools;
 /*-----------引入檔案區--------------*/
 $xoopsOption['template_main'] = 'tad_player_admin.tpl';
 require_once __DIR__ . '/header.php';
-$_SESSION['tad_player_adm'] = true;
 require_once dirname(__DIR__) . '/function.php';
 
 /*-----------執行動作判斷區----------*/
@@ -98,6 +97,7 @@ switch ($op) {
 
 /*-----------秀出結果區--------------*/
 $xoopsTpl->assign('now_op', $op);
+$xoopsTpl->assign('tad_player_adm', $tad_player_adm);
 require_once __DIR__ . '/footer.php';
 
 /*-----------function區--------------*/

@@ -82,7 +82,7 @@
       <div class="alert alert-success">
         <div class="form-group row mb-3">
           <div class="col-sm-4">
-            <select id="flv_where" class="form-select" title="select type">
+            <select id="flv_where" class="form-control form-select" title="select type">
               <option value="youtube" <{$selected_youtube|default:''}>><{$smarty.const._MD_TADPLAYER_YOUTUBE_FLV}></option>
               <option value="local" <{$selected_local|default:''}>><{$smarty.const._MD_TADPLAYER_UPLOAD_FLV}></option>
               <option value="link" <{$selected_link|default:''}>><{$smarty.const._MD_TADPLAYER_LINK_FLV}></option>
@@ -112,7 +112,7 @@
 
         <div class="form-group row mb-3" id="thumb_config">
           <div class="col-sm-4">
-            <select id="img_where" class="form-select" title="select method">
+            <select id="img_where" class="form-control form-select" title="select method">
               <option value="local" <{$selected_img_local|default:''}>><{$smarty.const._MD_TADPLAYER_UPLOAD_IMG}></option>
               <option value="link" <{$selected_img_link|default:''}>><{$smarty.const._MD_TADPLAYER_LINK_IMG}></option>
             </select>
@@ -133,7 +133,7 @@
           <{$smarty.const._MD_TADPLAYER_OF_CSN}>
         </label>
         <div class="col-sm-3">
-          <select name="pcsn" size=1 class="form-select" title="select category">
+          <select name="pcsn" size=1 class="form-control form-select" title="select category">
             <{$cate_select|default:''}>
           </select>
         </div>

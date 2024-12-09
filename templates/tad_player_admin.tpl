@@ -29,7 +29,7 @@
                                 </div>
                             </div>
                             <div class="col-sm-8">
-                                <select name="new_pcsn" onChange="check_one('move',false)" class="form-select"><{$option|default:''}></select>
+                                <select name="new_pcsn" onChange="check_one('move',false)" class="form-control form-select"><{$option|default:''}></select>
                             </div>
                         </div>
 
@@ -67,7 +67,7 @@
 
             <div class="col-sm-9">
 
-                <{if $pcsn}>
+                <{if $pcsn|default:false}>
                     <div class="row">
                         <div class="col-sm-4">
                             <h2>

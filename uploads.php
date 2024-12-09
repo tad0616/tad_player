@@ -158,14 +158,14 @@ function insert_tad_player()
     //$now=xoops_getUserTimestamp(time());
 
     if (empty($_FILES['location']['name']) and !empty($_POST['location'])) {
-        $location = $_POST['location'];
+        $location = (string) $_POST['location'];
     } else {
         $location = $_FILES['location']['name'];
     }
     $location = mb_strtolower($location);
 
     if (!empty($_POST['image'])) {
-        $image = $_POST['image'];
+        $image = (string) $_POST['image'];
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = Tools::getYTid($_POST['youtube']);
 
@@ -258,7 +258,7 @@ function update_tad_player($psn = '')
     if (!empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
         $pcsn = add_tad_player_cate();
     } else {
-        $pcsn = $_POST['pcsn'];
+        $pcsn = (int) $_POST['pcsn'];
     }
 
     //上傳影片
@@ -266,6 +266,7 @@ function update_tad_player($psn = '')
         upload_flv($psn, true);
     }
 
+    $image_sql = $location_sql = '';
     //上傳圖檔
     if (!empty($_FILES['image']['name'])) {
         upload_pic($psn, true);
@@ -290,26 +291,26 @@ function update_tad_player($psn = '')
     }
 
     if (!empty($_POST['title'])) {
-        $title = $_POST['title'];
+        $title = (string) $_POST['title'];
     } else {
-        $title = basename($location);
+        $title = basename($_POST['location']);
     }
 
-    $enable_group = implode(',', $_POST['enable_group']);
+    $enable_group = (string) implode(',', $_POST['enable_group']);
 
-    $creator = $_POST['creator'];
-    $content = $_POST['content'];
+    $creator = (string) $_POST['creator'];
+    $content = (string) $_POST['content'];
     $content = removeEmoji($content);
     $content = Wcag::amend($content);
-    $youtube = $_POST['youtube'];
-    $logo_name = $_POST['logo_name'];
+    $youtube = (string) $_POST['youtube'];
+    $logo_name = (string) $_POST['logo_name'];
     $width = (int) $_POST['width'];
     $height = (int) $_POST['height'];
 
     //$now=xoops_getUserTimestamp(time());
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
     $sql = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `pcsn`=?, `title`=?, `creator`=? ' . $location_sql . ' ' . $image_sql . ', `post_date`=?, `enable_group`=?, `width`=?, `height`=? , `content`=?, `logo`=? WHERE `psn`=?';
-    Utility::query($sql, 'issssiissi', [$pcsn, $title, $creator, $now, $enable_group, $width, $height, $content, $logo_name, $psn]) or Utility::web_error($sql, __FILE__, __LINE__);
+    Utility::query($sql, 'issssiissi', [$pcsn, $title, $creator, $now, $enable_group, $width, $height, $content, $logo_name, $psn]) or Utility::web_error($sql);
 
     if (!empty($_FILES['logo']['name'])) {
         upload_logo($psn);

@@ -1,6 +1,9 @@
 <?php
 
 use XoopsModules\Tadtools\Utility;
+if (!class_exists('XoopsModules\Tadtools\Utility')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
 
 //區塊主函式 (影音播放器區塊2說明)
 function tad_new_media($options)
@@ -25,7 +28,7 @@ function tad_new_media($options)
         $block[$i]['counter'] = $counter;
         $i++;
     }
-
+    // Utility::test($block, 'block', 'dd');
     return $block;
 }
 

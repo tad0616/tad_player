@@ -219,7 +219,7 @@ function cate_select($pcsn = 0, $size = 20)
 
     $PHP_SELF = basename($_SERVER['PHP_SELF']);
     $select = "
-    <select name='pcsn' title='select category' class='form-select' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
+    <select name='pcsn' title='select category' class='form-control form-select' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
     $cate_select
     </select>";
 
@@ -392,7 +392,7 @@ function insert_tad_player_cate()
     $width = (int) $_POST['width'];
     $height = (int) $_POST['height'];
 
-    $title = $_POST['title'];
+    $title = (string) $_POST['title'];
 
     $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_player_cate') . '` (`of_csn`, `title`, `enable_group`, `enable_upload_group`, `sort`, `width`, `height`) VALUES (?, ?, ?, ?, ?, ?, ?)';
     Utility::query($sql, 'isssiii', [$of_csn, $title, $enable_group, $enable_upload_group, $sort, $width, $height]) or Utility::web_error($sql, __FILE__, __LINE__);
@@ -434,7 +434,7 @@ function update_tad_player_cate($pcsn = '')
     $height = (int) $_POST['height'];
     $pcsn = (int) $pcsn;
 
-    $title = $_POST['title'];
+    $title = (string) $_POST['title'];
 
     $sql = 'UPDATE `' . $xoopsDB->prefix('tad_player_cate') . '` SET `of_csn`=?, `title`=?, `enable_group`=?, `enable_upload_group`=?, `sort`=?, `width`=?, `height`=? WHERE `pcsn`=?';
     Utility::query($sql, 'isssiiii', [$of_csn, $title, $enable_group, $enable_upload_group, $sort, $width, $height, $pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);

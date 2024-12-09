@@ -1,6 +1,12 @@
 <?php
 use XoopsModules\Tadtools\Utility;
+if (!class_exists('XoopsModules\Tadtools\Utility')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
 use XoopsModules\Tad_player\Tools;
+if (!class_exists('XoopsModules\Tad_player\Tad_player')) {
+    require XOOPS_ROOT_PATH . '/modules/tad_player/preloads/autoloader.php';
+}
 
 //區塊主函式 (影音播放器區塊1說明)
 function tad_player($options)

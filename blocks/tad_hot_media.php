@@ -1,6 +1,9 @@
 <?php
 
 use XoopsModules\Tadtools\Utility;
+if (!class_exists('XoopsModules\Tadtools\Utility')) {
+    require XOOPS_ROOT_PATH . '/modules/tadtools/preloads/autoloader.php';
+}
 
 //區塊主函式 (依人氣值挑出熱門影片)
 function tad_hot_media($options)

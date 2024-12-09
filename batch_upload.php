@@ -112,7 +112,7 @@ function tad_player_batch_import()
     if (!empty($_POST['new_pcsn'])) {
         $pcsn = add_tad_player_cate();
     } else {
-        $pcsn = $_POST['pcsn'];
+        $pcsn = (int) $_POST['pcsn'];
     }
 
     $uid = $xoopsUser->uid();

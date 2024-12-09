@@ -22,12 +22,12 @@
 
 <div class="row" style="margin-bottom:2em;">
   <div class="col-sm-4">
-    <select id="menu1" class="form-select" title="select category">
+    <select id="menu1" class="form-control form-select" title="select category">
       <{$cate_select|default:''}>
     </select>
   </div>
   <div class="col-sm-8">
-    <select id="menu2" style="display: none;" class="form-select" onChange="location.href='play.php?psn='+this.value" title="select sub-category">
+    <select id="menu2" style="display: none;" class="form-control form-select" onChange="location.href='play.php?psn='+this.value" title="select sub-category">
     </select>
   </div>
 </div>

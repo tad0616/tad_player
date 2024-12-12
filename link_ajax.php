@@ -5,6 +5,7 @@ use XoopsModules\Tad_player\Tools;
 require_once __DIR__ . '/header.php';
 
 // 關閉除錯訊息
+header('HTTP/1.1 200 OK');
 $xoopsLogger->activated = false;
 
 $url = Request::getUrl('url');
@@ -18,7 +19,7 @@ if (!empty($url)) {
 
     $url = "https://www.youtube.com/oembed?url=http://www.youtube.com/watch?v={$youtube_id}&format=json";
     $contents = Utility::vita_get_url_content($url);
-    $contents = utf8_encode($contents);
+    // $contents = utf8_encode($contents);
     $ytb = json_decode($contents, true);
     // die(var_export($ytb));
     $web['author'] = $ytb['author_name'];

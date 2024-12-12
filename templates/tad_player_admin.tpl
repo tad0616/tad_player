@@ -59,7 +59,7 @@
 
                         <div class="text-center">
                             <input type="hidden" name="pcsn" value="<{$pcsn|default:''}>">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-disk" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
                         </div>
                     <{/if}>
                 <{/if}>
@@ -71,7 +71,7 @@
                     <div class="row">
                         <div class="col-sm-4">
                             <h2>
-                                <a href="../index.php?pcsn=<{$pcsn|default:''}>"><i class="fa fa-caret-square-o-right" aria-hidden="true"></i> <{$cate.title}></a>
+                                <a href="../index.php?pcsn=<{$pcsn|default:''}>"><i class="fa fa-square-caret-right" aria-hidden="true"></i> <{$cate.title}></a>
                             </h2>
                         </div>
 
@@ -80,7 +80,7 @@
                                 <a href="main.php?op=mk_list_json&pcsn=<{$pcsn|default:''}>" class="btn btn-success"><{$smarty.const._MA_TADPLAYER_MK_JSON}></a>
                                 <a href="main.php?op=mk_thumb&pcsn=<{$pcsn|default:''}>" class="btn btn-info"><{$smarty.const._MA_TADPLAYER_MK_THUMBS}></a>
                                 <a href="javascript:delete_tad_player_cate_func(<{$cate.pcsn}>);" class="btn btn-danger <{if $cate_count.$pcsn > 0}>disabled<{/if}>"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
-                                <a href="main.php?op=tad_player_cate_form&pcsn=<{$pcsn|default:''}>" class="btn btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
+                                <a href="main.php?op=tad_player_cate_form&pcsn=<{$pcsn|default:''}>" class="btn btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
                             </div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                             $('#'+menu_name+num).html("<option value=''>/</option>"+data);
                         });
 
-                        $('.'+menu_name).change(function(){
+                        $('.'+menu_name).on('change', function(){
                         var menu_id= $(this).prop('id');
                         var len=menu_id.length-1;
                         var next_num = Number(menu_id.charAt(len))+1
@@ -176,7 +176,7 @@
                             <input type="hidden" name="sort" value="<{$sort|default:''}>">
                             <input type="hidden" name="pcsn" value="<{$pcsn|default:''}>">
                             <input type="hidden" name="op" value="<{$op|default:''}>">
-                            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
+                            <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-disk" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
                             </div>
                         </div>
                         </form>
@@ -248,7 +248,7 @@
                                         <div class="card-title" id="pt<{$video.psn}>"><{$video.title}></div>
                                     </div>
                                     <div class="card-footer">
-                                        <a href="../uploads.php?psn=<{$video.psn}>#fragment-1" target="_blank" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
+                                        <a href="../uploads.php?psn=<{$video.psn}>#fragment-1" target="_blank" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
                                         <a href="../play.php?psn=<{$video.psn}>" target="_blank" class="btn btn-sm btn-info"><{$smarty.const._MA_TADPLAYER_VIEW}></a>
                                     </div>
                                 </div>

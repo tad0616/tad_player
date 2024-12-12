@@ -31,6 +31,6 @@ if ($tad_player_adm) {
     if (!empty($_REQUEST['psn'])) {
         $psn = (int) ($_REQUEST['psn']);
         $interface_menu[_MD_TADPLAYER_MODIFY_MEDIA] = "uploads.php?psn={$psn}#fragment-1";
-        $interface_icon[_MD_TADPLAYER_MODIFY_MEDIA] = 'fa-pencil-square-o';
+        $interface_icon[_MD_TADPLAYER_MODIFY_MEDIA] = 'fa-pen-to-square';
     }
 }

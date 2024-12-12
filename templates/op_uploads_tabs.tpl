@@ -21,7 +21,7 @@
         <{$hide|default:''}>
         <{$hide_img|default:''}>
 
-        $("#flv_where").change(function() {
+        $("#flv_where").on('change', function() {
           if ($("#flv_where").val()=="youtube") {
             $("#flv_youtube").slideDown();
             $("#flv_local").slideUp();
@@ -41,7 +41,7 @@
         });
 
 
-        $("#img_where").change(function() {
+        $("#img_where").on('change', function() {
           if ($("#img_where").val()=="link"){
             $("#img_link").slideDown();
             $("#img_local").hide();
@@ -52,28 +52,27 @@
         });
 
 
-        $('#youtube').change(function() {
+        $('#youtube').on('change', function() {
           $('#title').val($('#youtube').val());
           $.post("link_ajax.php", { url: $('#youtube').val()},
            function(data) {
-            var obj = $.parseJSON(data);
+            var obj = JSON.parse(data);
               $('#title').val(obj.title);
               $('#creator').val(obj.author);
               CKEDITOR.instances.editor_content.setData(obj.description);
            });
         });
-
 
         $('#LinkGet').click(function() {
           $.post("link_ajax.php", { url: $('#youtube').val()},
            function(data) {
-            var obj = $.parseJSON(data);
+            console.log(data);
+            var obj = JSON.parse(data);
               $('#title').val(obj.title);
               $('#creator').val(obj.author);
               CKEDITOR.instances.editor_content.setData(obj.description);
            });
         });
-
       });
     </script>
 
@@ -186,7 +185,7 @@
       <div class="text-center">
         <input type="hidden" name="op" value="<{$next_op|default:''}>">
         <input type="hidden" name="psn" value="<{$psn|default:''}>">
-        <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-o" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
+        <button type="submit" class="btn btn-primary"><i class="fa fa-floppy-disk" aria-hidden="true"></i>  <{$smarty.const._TAD_SAVE}></button>
       </div>
 
     </form>

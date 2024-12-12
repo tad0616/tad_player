@@ -3,7 +3,7 @@
     $.post("ajax.php",  {op: "get_menu" , pcsn: $("#menu1").val() , psn: '<{$psn|default:''}>'} , function(data) {
       $("#menu2").html(data);
     });
-    $("#menu1").change(function(){
+    $("#menu1").on('change', function(){
       $.post("ajax.php",  {op: "get_menu" , pcsn: $("#menu1").val() , psn: '<{$psn|default:''}>'} , function(data) {
         $("#menu2").html(data);
       });
@@ -58,7 +58,7 @@
     <{if $tad_player_adm or $isUploader}>
       <a href="javascript:delete_tad_player_file_func(<{$psn|default:''}>);" class="btn btn-sm btn-danger"><i class="fa fa-trash" aria-hidden="true"></i> <{$smarty.const._TAD_DEL}></a>
 
-      <a href="<{$xoops_url}>/modules/tad_player/uploads.php?psn=<{$psn|default:''}>#fragment-1" class="btn btn-sm btn-warning"><i class="fa fa-pencil-square-o" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
+      <a href="<{$xoops_url}>/modules/tad_player/uploads.php?psn=<{$psn|default:''}>#fragment-1" class="btn btn-sm btn-warning"><i class="fa fa-pencil" aria-hidden="true"></i>  <{$smarty.const._TAD_EDIT}></a>
     <{/if}>
   </div>
 

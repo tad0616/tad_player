@@ -7,6 +7,7 @@ require_once __DIR__ . '/header.php';
 xoops_loadLanguage('batch', 'tad_player');
 
 // 關閉除錯訊息
+header('HTTP/1.1 200 OK');
 $xoopsLogger->activated = false;
 
 $op = Request::getString('op');

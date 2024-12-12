@@ -3,6 +3,7 @@ use XoopsModules\Tadtools\Utility;
 /*-----------引入檔案區--------------*/
 require dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 // 關閉除錯訊息
+header('HTTP/1.1 200 OK');
 $xoopsLogger->activated = false;
 $pcsn = (int) $_POST['pcsn'];
 $sort = (int) $_POST['sort'];

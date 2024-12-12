@@ -10,7 +10,7 @@
       }
     });
 
-    $("#menu1").change(function(){
+    $("#menu1").on('change', function(){
       location.href="index.php?pcsn=" +　$("#menu1").val();
     });
 

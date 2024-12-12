@@ -5,6 +5,7 @@ use XoopsModules\Tad_player\Tools;
 require_once dirname(dirname(dirname(__DIR__))) . '/include/cp_header.php';
 require_once dirname(__DIR__) . '/function.php';
 // 關閉除錯訊息
+header('HTTP/1.1 200 OK');
 $xoopsLogger->activated = false;
 $sort = 1;
 foreach ($_POST['psn'] as $sn) {

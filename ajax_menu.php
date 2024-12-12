@@ -6,6 +6,7 @@ use XoopsModules\Tad_plyer\Tools;
 require_once __DIR__ . '/header.php';
 
 // 關閉除錯訊息
+header('HTTP/1.1 200 OK');
 $xoopsLogger->activated = false;
 
 $of_csn = Request::getInt('of_csn');

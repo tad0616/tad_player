@@ -266,29 +266,30 @@ function update_tad_player($psn = '')
         upload_flv($psn, true);
     }
 
-    $image_sql = $location_sql = '';
     //上傳圖檔
     if (!empty($_FILES['image']['name'])) {
         upload_pic($psn, true);
-        $image_sql = '';
+        $image = '';
     } elseif (!empty($_POST['youtube'])) {
         $youtube_id = Tools::getYTid($_POST['youtube']);
         $image = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
         Utility::generateThumbnail($image, $pic_s_file, 480);
-        $image_sql = ", image = '{$image}'";
+        // $image_sql = ", image = '{$image}'";
     } elseif (!empty($_POST['image'])) {
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
         Utility::generateThumbnail($_POST['image'], $pic_s_file, 480);
-        $image_sql = ", image = '{$_POST['image']}'";
+        $image = $_POST['image'];
+        // $image_sql = ", image = '{$_POST['image']}'";
     }
-    if (!empty($_POST['location'])) {
-        $location_sql = ", location = '{$_POST['location']}', youtube=''";
-    } elseif (!empty($_POST['youtube'])) {
-        $location_sql = ", location = '', youtube='{$_POST['youtube']}'";
-    } else {
-        $location_sql = '';
-    }
+
+    // if (!empty($_POST['location'])) {
+    //     $location_sql = ", location = '{$_POST['location']}', youtube=''";
+    // } elseif (!empty($_POST['youtube'])) {
+    //     $location_sql = ", location = '', youtube='{$_POST['youtube']}'";
+    // } else {
+    //     $location_sql = '';
+    // }
 
     if (!empty($_POST['title'])) {
         $title = (string) $_POST['title'];
@@ -296,12 +297,13 @@ function update_tad_player($psn = '')
         $title = basename($_POST['location']);
     }
 
-    $enable_group = (string) implode(',', $_POST['enable_group']);
+    $enable_group = empty($_POST['enable_group']) ? '' : (string) implode(',', $_POST['enable_group']);
 
     $creator = (string) $_POST['creator'];
     $content = (string) $_POST['content'];
     $content = removeEmoji($content);
     $content = Wcag::amend($content);
+    $location = (string) $_POST['location'];
     $youtube = (string) $_POST['youtube'];
     $logo_name = (string) $_POST['logo_name'];
     $width = (int) $_POST['width'];
@@ -309,8 +311,8 @@ function update_tad_player($psn = '')
 
     //$now=xoops_getUserTimestamp(time());
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
-    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `pcsn`=?, `title`=?, `creator`=? ' . $location_sql . ' ' . $image_sql . ', `post_date`=?, `enable_group`=?, `width`=?, `height`=? , `content`=?, `logo`=? WHERE `psn`=?';
-    Utility::query($sql, 'issssiissi', [$pcsn, $title, $creator, $now, $enable_group, $width, $height, $content, $logo_name, $psn]) or Utility::web_error($sql);
+    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `pcsn`=?, `title`=?, `creator`=?, `location`=?, `youtube`=?, `image`=?, `post_date`=?, `enable_group`=?, `width`=?, `height`=? , `content`=?, `logo`=? WHERE `psn`=?';
+    Utility::query($sql, 'isssssssiissi', [$pcsn, $title, $creator, $location, $youtube, $image, $now, $enable_group, $width, $height, $content, $logo_name, $psn]) or Utility::web_error($sql);
 
     if (!empty($_FILES['logo']['name'])) {
         upload_logo($psn);

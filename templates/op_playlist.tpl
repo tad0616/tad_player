@@ -2,7 +2,7 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $("#menu1").change(function(){
+    $("#menu1").on('change', function(){
       location.href="playlist.php?pcsn=" +　$("#menu1").val();
     });
   });

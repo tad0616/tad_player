@@ -64,10 +64,12 @@ class Tools
                 $contents = Utility::vita_get_url_content($url);
                 $contents = utf8_encode($contents);
                 $results = json_decode($contents, false);
-                // die(var_export($results));
-                foreach ($results as $k => $v) {
-                    $$k = htmlspecialchars($v);
+                if (is_array($results)) {
+                    foreach ($results as $k => $v) {
+                        $$k = htmlspecialchars($v);
+                    }
                 }
+
             } elseif (0 === mb_strpos($file['location'], 'http')) {
                 $media = $file['location'];
             } else {

@@ -14,8 +14,8 @@ if (count($upload_powers) <= 0 or empty($xoopsUser)) {
 }
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$psn = Request::getInt('psn');
+$op   = Request::getString('op');
+$psn  = Request::getInt('psn');
 $pcsn = Request::getInt('pcsn');
 
 switch ($op) {
@@ -47,7 +47,7 @@ function uploads_tabs($psn = '', $pcsn = '')
 {
     global $xoopsTpl;
 
-    $op = (!isset($_REQUEST['op'])) ? '' : $_REQUEST['op'];
+    $op = (! isset($_REQUEST['op'])) ? '' : $_REQUEST['op'];
     if ('to_batch_upload' === $op) {
         $xoopsTpl->assign('show_to_batch_upload', true);
     } else {
@@ -63,7 +63,7 @@ function tad_player_form($psn = '', $pcsn = '')
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
-    if (!empty($psn)) {
+    if (! empty($psn)) {
         $DBV = Tools::get_tad_player($psn);
     } else {
         $DBV = [];
@@ -71,14 +71,14 @@ function tad_player_form($psn = '', $pcsn = '')
 
     //預設值設定
 
-    $pcsn = (!isset($DBV['pcsn'])) ? $pcsn : $DBV['pcsn'];
-    $title = (!isset($DBV['title'])) ? '' : $DBV['title'];
-    $creator = (!isset($DBV['creator'])) ? '' : $DBV['creator'];
-    $location = (!isset($DBV['location'])) ? '' : $DBV['location'];
-    $image = (!isset($DBV['image'])) ? '' : $DBV['image'];
-    $enable_group = (!isset($DBV['enable_group'])) ? [] : explode(',', $DBV['enable_group']);
-    $content = (!isset($DBV['content'])) ? '' : $DBV['content'];
-    $youtube = (!isset($DBV['youtube'])) ? '' : $DBV['youtube'];
+    $pcsn         = (! isset($DBV['pcsn'])) ? $pcsn : $DBV['pcsn'];
+    $title        = (! isset($DBV['title'])) ? '' : $DBV['title'];
+    $creator      = (! isset($DBV['creator'])) ? '' : $DBV['creator'];
+    $location     = (! isset($DBV['location'])) ? '' : $DBV['location'];
+    $image        = (! isset($DBV['image'])) ? '' : $DBV['image'];
+    $enable_group = (! isset($DBV['enable_group'])) ? [] : explode(',', $DBV['enable_group']);
+    $content      = (! isset($DBV['content'])) ? '' : $DBV['content'];
+    $youtube      = (! isset($DBV['youtube'])) ? '' : $DBV['youtube'];
 
     $CkEditor = new CkEditor('tad_player', 'content', $content);
     $CkEditor->setHeight(200);
@@ -90,7 +90,7 @@ function tad_player_form($psn = '', $pcsn = '')
 
     //可見群組
     $memberHandler = xoops_getHandler('member');
-    $group_arr = $memberHandler->getGroupList();
+    $group_arr     = $memberHandler->getGroupList();
     $xoopsTpl->assign('group_arr', $group_arr);
     $xoopsTpl->assign('enable_group', $enable_group);
 
@@ -101,7 +101,7 @@ function tad_player_form($psn = '', $pcsn = '')
         $hide = "$('#flv_youtube').hide();
         $('#flv_local').hide();";
         $selected_link = 'selected';
-    } elseif (!empty($location) and empty($youtube)) {
+    } elseif (! empty($location) and empty($youtube)) {
         $hide = "$('#flv_youtube').hide();
         $('#flv_link').hide();";
         $selected_local = 'selected';
@@ -114,10 +114,10 @@ function tad_player_form($psn = '', $pcsn = '')
     }
 
     if (0 === mb_strpos($image, 'http')) {
-        $hide_img = "$('#img_local').hide();";
+        $hide_img          = "$('#img_local').hide();";
         $selected_img_link = 'selected';
     } else {
-        $hide_img = "$('#img_link').hide();";
+        $hide_img           = "$('#img_link').hide();";
         $selected_img_local = 'selected';
     }
 
@@ -146,30 +146,30 @@ function insert_tad_player()
 {
     global $xoopsDB, $xoopsUser;
 
-    if (!empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
+    if (! empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
         $pcsn = add_tad_player_cate();
     } else {
         $pcsn = (int) $_POST['pcsn'];
     }
 
-    $uid = $xoopsUser->uid();
+    $uid          = $xoopsUser->uid();
     $enable_group = $_POST['enable_group'] ? implode(',', $_POST['enable_group']) : '';
 
     //$now=xoops_getUserTimestamp(time());
 
-    if (empty($_FILES['location']['name']) and !empty($_POST['location'])) {
+    if (empty($_FILES['location']['name']) and ! empty($_POST['location'])) {
         $location = (string) $_POST['location'];
     } else {
         $location = $_FILES['location']['name'];
     }
     $location = mb_strtolower($location);
 
-    if (!empty($_POST['image'])) {
+    if (! empty($_POST['image'])) {
         $image = (string) $_POST['image'];
-    } elseif (!empty($_POST['youtube'])) {
+    } elseif (! empty($_POST['youtube'])) {
         $youtube_id = Tools::getYTid($_POST['youtube']);
 
-        $url = "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={$youtube_id}&format=json";
+        $url      = "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={$youtube_id}&format=json";
         $contents = Utility::vita_get_url_content($url);
         // $contents = utf8_encode($contents);
         //$ytb = json_decode($contents,false);
@@ -190,7 +190,7 @@ function insert_tad_player()
         $thumbnail_url = https://i4.ytimg.com/vi/3B4fyi-xXzo/hqdefault.jpg;
          */
         $_POST['height'] = round(($ytb['height'] / $ytb['width']) * $_POST['width']);
-        $image = $ytb['thumbnail_url'];
+        $image           = $ytb['thumbnail_url'];
         if (empty($_POST['title'])) {
             $_POST['title'] = $ytb['title'];
         }
@@ -202,18 +202,19 @@ function insert_tad_player()
         $image = $_FILES['image']['name'];
     }
 
-    if (!empty($_POST['title'])) {
+    if (! empty($_POST['title'])) {
         $title = (string) $_POST['title'];
     } else {
         $title = basename($location);
     }
 
-    $creator = (string) $_POST['creator'];
-    $content = (string) $_POST['content'];
-    $content = removeEmoji($content);
-    $content = Wcag::amend($content);
-    $youtube = (string) $_POST['youtube'];
+    $creator   = (string) $_POST['creator'];
+    $content   = (string) $_POST['content'];
+    $content   = removeEmoji($content);
+    $content   = Wcag::amend($content);
+    $youtube   = (string) $_POST['youtube'];
     $logo_name = (string) $_POST['logo_name'];
+    $image     = $image ? $image : '';
 
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
 
@@ -224,24 +225,24 @@ function insert_tad_player()
     $psn = $xoopsDB->getInsertId();
 
     //上傳影片
-    if (!empty($_FILES['location']['name'])) {
+    if (! empty($_FILES['location']['name'])) {
         upload_flv($psn);
     }
 
     //上傳圖檔
-    if (!empty($_FILES['image']['name'])) {
+    if (! empty($_FILES['image']['name'])) {
         upload_pic($psn);
-    } elseif (!empty($youtube)) {
+    } elseif (! empty($youtube)) {
         $youtube_id = Tools::getYTid($youtube);
-        $image = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
+        $image      = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
         Utility::generateThumbnail($image, $pic_s_file, 480);
-    } elseif (!empty($_POST['image'])) {
+    } elseif (! empty($_POST['image'])) {
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
         Utility::generateThumbnail($_POST['image'], $pic_s_file, 480);
     }
 
-    if (!empty($_FILES['logo']['name'])) {
+    if (! empty($_FILES['logo']['name'])) {
         upload_logo($psn);
     }
 
@@ -255,28 +256,28 @@ function update_tad_player($psn = '')
 {
     global $xoopsDB;
 
-    if (!empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
+    if (! empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
         $pcsn = add_tad_player_cate();
     } else {
         $pcsn = (int) $_POST['pcsn'];
     }
 
     //上傳影片
-    if (!empty($_FILES['location']['name'])) {
+    if (! empty($_FILES['location']['name'])) {
         upload_flv($psn, true);
     }
 
     //上傳圖檔
-    if (!empty($_FILES['image']['name'])) {
+    if (! empty($_FILES['image']['name'])) {
         upload_pic($psn, true);
         $image = '';
-    } elseif (!empty($_POST['youtube'])) {
+    } elseif (! empty($_POST['youtube'])) {
         $youtube_id = Tools::getYTid($_POST['youtube']);
-        $image = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
+        $image      = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
         Utility::generateThumbnail($image, $pic_s_file, 480);
         // $image_sql = ", image = '{$image}'";
-    } elseif (!empty($_POST['image'])) {
+    } elseif (! empty($_POST['image'])) {
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
         Utility::generateThumbnail($_POST['image'], $pic_s_file, 480);
         $image = $_POST['image'];
@@ -291,7 +292,7 @@ function update_tad_player($psn = '')
     //     $location_sql = '';
     // }
 
-    if (!empty($_POST['title'])) {
+    if (! empty($_POST['title'])) {
         $title = (string) $_POST['title'];
     } else {
         $title = basename($_POST['location']);
@@ -299,22 +300,22 @@ function update_tad_player($psn = '')
 
     $enable_group = empty($_POST['enable_group']) ? '' : (string) implode(',', $_POST['enable_group']);
 
-    $creator = (string) $_POST['creator'];
-    $content = (string) $_POST['content'];
-    $content = removeEmoji($content);
-    $content = Wcag::amend($content);
-    $location = (string) $_POST['location'];
-    $youtube = (string) $_POST['youtube'];
+    $creator   = (string) $_POST['creator'];
+    $content   = (string) $_POST['content'];
+    $content   = removeEmoji($content);
+    $content   = Wcag::amend($content);
+    $location  = (string) $_POST['location'];
+    $youtube   = (string) $_POST['youtube'];
     $logo_name = (string) $_POST['logo_name'];
-    $width = (int) $_POST['width'];
-    $height = (int) $_POST['height'];
+    $width     = (int) $_POST['width'];
+    $height    = (int) $_POST['height'];
 
     //$now=xoops_getUserTimestamp(time());
     $now = date('Y-m-d H:i:s', xoops_getUserTimestamp(time()));
     $sql = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `pcsn`=?, `title`=?, `creator`=?, `location`=?, `youtube`=?, `image`=?, `post_date`=?, `enable_group`=?, `width`=?, `height`=? , `content`=?, `logo`=? WHERE `psn`=?';
     Utility::query($sql, 'isssssssiissi', [$pcsn, $title, $creator, $location, $youtube, $image, $now, $enable_group, $width, $height, $content, $logo_name, $psn]) or Utility::web_error($sql);
 
-    if (!empty($_FILES['logo']['name'])) {
+    if (! empty($_FILES['logo']['name'])) {
         upload_logo($psn);
     }
 
@@ -332,9 +333,9 @@ function upload_flv($psn = '', $update_sql = false)
     ini_set('memory_limit', '50M');
     $flv_handle = new \Verot\Upload\Upload($_FILES['location'], 'zh_TW');
     if ($flv_handle->uploaded) {
-        $name = mb_substr($_FILES['location']['name'], 0, -4);
-        $flv_handle->file_safe_name = false;
-        $flv_handle->auto_create_dir = true;
+        $name                           = mb_substr($_FILES['location']['name'], 0, -4);
+        $flv_handle->file_safe_name     = false;
+        $flv_handle->auto_create_dir    = true;
         $flv_handle->file_new_name_body = mb_strtolower("{$psn}_{$name}");
         $flv_handle->process(Tools::_TAD_PLAYER_FLV_DIR);
         if ($flv_handle->processed) {
@@ -373,21 +374,21 @@ function upload_pic($psn = '', $update_sql = false)
     $img_handle = new \Verot\Upload\Upload($_FILES['image'], 'zh_TW');
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
-        $img_handle->file_safe_name = false;
+        $img_handle->file_safe_name     = false;
         $img_handle->file_new_name_body = (string) ($psn);
-        $img_handle->image_convert = 'png';
-        $img_handle->image_resize = true;
-        $img_handle->image_x = 1024;
-        $img_handle->image_ratio_y = true;
+        $img_handle->image_convert      = 'png';
+        $img_handle->image_resize       = true;
+        $img_handle->image_x            = 1024;
+        $img_handle->image_ratio_y      = true;
         $img_handle->process(Tools::_TAD_PLAYER_IMG_DIR);
 
         //製作縮圖
-        $img_handle->file_safe_name = false;
+        $img_handle->file_safe_name     = false;
         $img_handle->file_new_name_body = "s_{$psn}";
-        $img_handle->image_convert = 'png';
-        $img_handle->image_resize = true;
-        $img_handle->image_x = 480;
-        $img_handle->image_ratio_y = true;
+        $img_handle->image_convert      = 'png';
+        $img_handle->image_resize       = true;
+        $img_handle->image_x            = 480;
+        $img_handle->image_ratio_y      = true;
         $img_handle->process(Tools::_TAD_PLAYER_IMG_DIR);
         $img_handle->auto_create_dir = true;
         if ($img_handle->processed) {
@@ -424,9 +425,9 @@ function upload_logo($psn = '')
     $img_handle = new \Verot\Upload\Upload($_FILES['logo'], 'zh_TW');
     if ($img_handle->uploaded) {
         //$name=substr($_FILES['image']['name'],0,-4);
-        $img_handle->file_safe_name = false;
+        $img_handle->file_safe_name     = false;
         $img_handle->file_new_name_body = (string) ($psn);
-        $img_handle->image_convert = 'png';
+        $img_handle->image_convert      = 'png';
         $img_handle->process(XOOPS_ROOT_PATH . '/uploads/tad_player/logo');
         $img_handle->auto_create_dir = true;
         if ($img_handle->processed) {
@@ -453,23 +454,23 @@ function removeEmoji($text)
 
     // Match Emoticons
     $regexEmoticons = '/[\x{1F600}-\x{1F64F}]/u';
-    $clean_text = preg_replace($regexEmoticons, '', $text);
+    $clean_text     = preg_replace($regexEmoticons, '', $text);
 
     // Match Miscellaneous Symbols and Pictographs
     $regexSymbols = '/[\x{1F300}-\x{1F5FF}]/u';
-    $clean_text = preg_replace($regexSymbols, '', $clean_text);
+    $clean_text   = preg_replace($regexSymbols, '', $clean_text);
 
     // Match Transport And Map Symbols
     $regexTransport = '/[\x{1F680}-\x{1F6FF}]/u';
-    $clean_text = preg_replace($regexTransport, '', $clean_text);
+    $clean_text     = preg_replace($regexTransport, '', $clean_text);
 
     // Match Miscellaneous Symbols
-    $regexMisc = '/[\x{2600}-\x{26FF}]/u';
+    $regexMisc  = '/[\x{2600}-\x{26FF}]/u';
     $clean_text = preg_replace($regexMisc, '', $clean_text);
 
     // Match Dingbats
     $regexDingbats = '/[\x{2700}-\x{27BF}]/u';
-    $clean_text = preg_replace($regexDingbats, '', $clean_text);
+    $clean_text    = preg_replace($regexDingbats, '', $clean_text);
 
     return $clean_text;
 }

@@ -7,12 +7,12 @@ use XoopsModules\Tadtools\VideoJs;
 class Tools
 {
     const _TAD_PLAYER_UPLOAD_DIR = XOOPS_ROOT_PATH . '/uploads/tad_player/';
-    const _TAD_PLAYER_FLV_DIR = XOOPS_ROOT_PATH . '/uploads/tad_player/flv/';
-    const _TAD_PLAYER_IMG_DIR = XOOPS_ROOT_PATH . '/uploads/tad_player/img/';
-    const _TAD_PLAYER_FLV_URL = XOOPS_URL . '/uploads/tad_player/flv/';
-    const _TAD_PLAYER_IMG_URL = XOOPS_URL . '/uploads/tad_player/img/';
-    public static $ok_video_ext = ['flv', 'mp4', 'm4v', 'f4v', 'mov', 'mp3', 'webm', 'ogv', 'ogg', 'swf', '3gp', '3g2', 'aac', 'm4a'];
-    public static $ok_image_ext = ['jpg', 'png', 'gif'];
+    const _TAD_PLAYER_FLV_DIR    = XOOPS_ROOT_PATH . '/uploads/tad_player/flv/';
+    const _TAD_PLAYER_IMG_DIR    = XOOPS_ROOT_PATH . '/uploads/tad_player/img/';
+    const _TAD_PLAYER_FLV_URL    = XOOPS_URL . '/uploads/tad_player/flv/';
+    const _TAD_PLAYER_IMG_URL    = XOOPS_URL . '/uploads/tad_player/img/';
+    public static $ok_video_ext  = ['flv', 'mp4', 'm4v', 'f4v', 'mov', 'mp3', 'webm', 'ogv', 'ogg', 'swf', '3gp', '3g2', 'aac', 'm4a'];
+    public static $ok_image_ext  = ['jpg', 'png', 'gif'];
 
     //以流水號取得某筆tad_player資料
     public static function get_tad_player($psn = '')
@@ -21,7 +21,7 @@ class Tools
         if (empty($psn)) {
             return;
         }
-        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `psn`=' . $psn;
+        $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `psn`=' . $psn;
         $result = $xoopsDB->query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $data = $xoopsDB->fetchArray($result);
@@ -36,9 +36,9 @@ class Tools
         if (empty($pcsn)) {
             return;
         }
-        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `pcsn`=?';
+        $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `pcsn`=?';
         $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
-        $data = $xoopsDB->fetchArray($result);
+        $data   = $xoopsDB->fetchArray($result);
         return $data;
     }
 
@@ -58,12 +58,12 @@ class Tools
             }
         } else {
             if (empty($file['location']) and !empty($file['youtube'])) {
-                $media = $file['youtube'];
+                $media      = $file['youtube'];
                 $youtube_id = self::getYTid($file['youtube']);
-                $url = "https://www.youtube.com/oembed?url=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D{$youtube_id}&format=json";
-                $contents = Utility::vita_get_url_content($url);
-                $contents = utf8_encode($contents);
-                $results = json_decode($contents, false);
+                $url        = "https://www.youtube.com/oembed?url=http%3A%2F%2Fwww.youtube.com%2Fwatch%3Fv%3D{$youtube_id}&format=json";
+                $contents   = Utility::vita_get_url_content($url);
+                $contents   = utf8_encode($contents);
+                $results    = json_decode($contents, false);
                 if (is_array($results)) {
                     foreach ($results as $k => $v) {
                         $$k = htmlspecialchars($v);
@@ -125,7 +125,7 @@ class Tools
     {
         global $xoopsDB;
 
-        $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `pcsn`=? AND `enable_group`=\'\' ORDER BY `sort`';
+        $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `pcsn`=? AND `enable_group`=\'\' ORDER BY `sort`';
         $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
         $i = 0;
@@ -154,12 +154,12 @@ class Tools
             }
 
             if (empty($location) and !empty($youtube)) {
-                $YTid = self::getYTid($youtube);
+                $YTid  = self::getYTid($youtube);
                 $media = "https://youtu.be/{$YTid}";
-                $type = 'video/youtube';
+                $type  = 'video/youtube';
             } elseif (0 === mb_strpos($location, 'http')) {
                 $media = $location;
-                $ext = substr($media, -3);
+                $ext   = substr($media, -3);
                 if ('mp4' === $ext) {
                     $type = 'video/mp4';
                 } elseif ('ebm' === $ext) {
@@ -173,7 +173,7 @@ class Tools
                 }
             } else {
                 $media = self::_TAD_PLAYER_FLV_URL . "{$psn}_{$location}";
-                $ext = substr($media, -3);
+                $ext   = substr($media, -3);
                 if ('mp4' === $ext) {
                     $type = 'video/mp4';
                 } elseif ('ebm' === $ext) {
@@ -187,10 +187,10 @@ class Tools
                 }
             }
 
-            $json[$i]['name'] = $title;
+            $json[$i]['name']        = $title;
             $json[$i]['description'] = strip_tags($content);
-            $json[$i]['sources'][] = array('src' => $media, 'type' => $type);
-            $json[$i]['poster'] = $pic;
+            $json[$i]['sources'][]   = array('src' => $media, 'type' => $type);
+            $json[$i]['poster']      = $pic;
             $json[$i]['thumbnail'][] = array('src' => $pic);
             $i++;
         }
@@ -219,28 +219,29 @@ class Tools
         global $xoopsDB, $xoopsUser, $xoopsModule, $tad_player_adm;
         $ok_cat = [];
         if (!$xoopsModule) {
-            $modhandler = xoops_gethandler('module');
+            $modhandler  = xoops_gethandler('module');
             $xoopsModule = $modhandler->getByDirname('tad_player');
         }
         if (!empty($xoopsUser)) {
-            $module_id = $xoopsModule->mid();
+            $module_id      = $xoopsModule->mid();
             $tad_player_adm = $xoopsUser->isAdmin($module_id);
             if ($tad_player_adm) {
                 $ok_cat[] = '0';
             }
             $user_array = $xoopsUser->getGroups();
         } else {
-            $user_array = [3];
+            $user_array     = [3];
             $tad_player_adm = 0;
         }
 
         $col = ('upload' === $kind) ? 'enable_upload_group' : 'enable_group';
 
-        $sql = 'SELECT `pcsn`, `' . $col . '` FROM `' . $xoopsDB->prefix('tad_player_cate') . '`';
+        $sql    = 'SELECT `pcsn`, `' . $col . '` FROM `' . $xoopsDB->prefix('tad_player_cate') . '`';
         $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
         while (list($pcsn, $power) = $xoopsDB->fetchRow($result)) {
-            if ($tad_player_adm or empty($power)) {
+
+            if ($tad_player_adm or (empty($power) && 'upload' != $kind)) {
                 $ok_cat[] = $pcsn;
             } else {
                 $power_array = explode(',', $power);

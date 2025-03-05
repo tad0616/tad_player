@@ -15,21 +15,21 @@ $interface_icon[_MD_TADPLAYER_INDEX] = "fa-video-camera";
 $upload_powers = Tools::chk_cate_power('upload');
 
 if (count($upload_powers) > 0 and isset($xoopsUser)) {
-    $isUploader = true;
+    $isUploader                           = true;
     $interface_menu[_MD_TADPLAYER_UPLOAD] = 'uploads.php';
     $interface_icon[_MD_TADPLAYER_UPLOAD] = 'fa-upload';
 }
 
 if (!empty($_REQUEST['pcsn'])) {
-    $pcsn = (int) ($_REQUEST['pcsn']);
+    $pcsn                               = (int) ($_REQUEST['pcsn']);
     $interface_menu[_MD_TADPLAYER_LIST] = "playlist.php?pcsn={$pcsn}";
     $interface_icon[_MD_TADPLAYER_LIST] = 'fa-play-circle';
-    $ptool = "?pcsn={$pcsn}";
+    $ptool                              = "?pcsn={$pcsn}";
 }
 
 if ($tad_player_adm) {
     if (!empty($_REQUEST['psn'])) {
-        $psn = (int) ($_REQUEST['psn']);
+        $psn                                        = (int) ($_REQUEST['psn']);
         $interface_menu[_MD_TADPLAYER_MODIFY_MEDIA] = "uploads.php?psn={$psn}#fragment-1";
         $interface_icon[_MD_TADPLAYER_MODIFY_MEDIA] = 'fa-pen-to-square';
     }

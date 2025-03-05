@@ -10,13 +10,13 @@ $xoopsOption['template_main'] = 'tad_player_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$psn = Request::getInt('psn');
-$pcsn = Request::getInt('pcsn');
-$col_sn = Request::getInt('col_sn');
+$op       = Request::getString('op');
+$psn      = Request::getInt('psn');
+$pcsn     = Request::getInt('pcsn');
+$col_sn   = Request::getInt('col_sn');
 $col_name = Request::getString('col_name');
 $mod_name = Request::getString('mod_name');
-$rank = Request::getString('rank');
+$rank     = Request::getString('rank');
 
 switch ($op) {
     case 'delete_tad_player_file':
@@ -54,9 +54,9 @@ require_once XOOPS_ROOT_PATH . '/footer.php';
 //播放
 function play($get_psn = '')
 {
-    global $xoopsModuleConfig, $xoopsUser, $xoopsTpl, $xoTheme;
+    global $xoopsModuleConfig, $xoopsUser, $xoopsTpl, $xoTheme, $isUploader;
 
-    $file = Tools::get_tad_player($get_psn);
+    $file   = Tools::get_tad_player($get_psn);
     $ok_cat = Tools::chk_cate_power();
 
     $user_group = [];
@@ -65,6 +65,7 @@ function play($get_psn = '')
     }
 
     $enable_group_arr = explode(',', $file['enable_group']);
+
     $same = array_intersect($enable_group_arr, $user_group);
     if ((!empty($file['pcsn']) and !in_array($file['pcsn'], $ok_cat)) or (!empty($file['enable_group']) and empty($same))) {
         redirect_header('index.php', 3, sprintf(_MD_TADPLAYER_NO_POWER, $file['title']));
@@ -86,10 +87,9 @@ function play($get_psn = '')
         $info = $file['creator'] . ' ' . $file['post_date'];
     }
 
-    $jquery_path = Utility::get_jquery(true);
+    Utility::get_jquery(true);
 
     $xoops_module_header = "
-    $jquery_path
     <meta proprery=\"og:title\" content=\"{$file['title']}\">
     <meta proprery=\"og:description\" content=\"{$info}\">
     <meta property=\"og:image\" content=\"" . Tools::_TAD_PLAYER_IMG_URL . "s_{$file['image']}\">
@@ -124,6 +124,7 @@ function play($get_psn = '')
     $xoopsTpl->assign('pcsn', $file['pcsn']);
     $SweetAlert = new SweetAlert();
     $SweetAlert->render("delete_tad_player_file_func", "play.php?op=delete_tad_player_file&pcsn={$file['pcsn']}&psn=", 'psn');
+
 }
 
 //找出選單
@@ -132,7 +133,7 @@ function get_cate_play($get_psn = '')
     global $xoopsDB, $xoopsTpl;
     $file = Tools::get_tad_player($get_psn);
 
-    $sql = 'SELECT `a`.`psn`, `a`.`title`, `b`.`title` FROM `' . $xoopsDB->prefix('tad_player') . '` AS `a` LEFT JOIN `' . $xoopsDB->prefix('tad_player_cate') . '` AS `b` ON `a`.`pcsn` = `b`.`pcsn` WHERE `a`.`pcsn` = ? ORDER BY `a`.`sort`, `a`.`post_date` DESC';
+    $sql    = 'SELECT `a`.`psn`, `a`.`title`, `b`.`title` FROM `' . $xoopsDB->prefix('tad_player') . '` AS `a` LEFT JOIN `' . $xoopsDB->prefix('tad_player_cate') . '` AS `b` ON `a`.`pcsn` = `b`.`pcsn` WHERE `a`.`pcsn` = ? ORDER BY `a`.`sort`, `a`.`post_date` DESC';
     $result = Utility::query($sql, 'i', [$file['pcsn']]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $option = '';

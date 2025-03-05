@@ -47,7 +47,7 @@ function uploads_tabs($psn = '', $pcsn = '')
 {
     global $xoopsTpl;
 
-    $op = (! isset($_REQUEST['op'])) ? '' : $_REQUEST['op'];
+    $op = (!isset($_REQUEST['op'])) ? '' : $_REQUEST['op'];
     if ('to_batch_upload' === $op) {
         $xoopsTpl->assign('show_to_batch_upload', true);
     } else {
@@ -63,7 +63,7 @@ function tad_player_form($psn = '', $pcsn = '')
     require_once XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
 
     //抓取預設值
-    if (! empty($psn)) {
+    if (!empty($psn)) {
         $DBV = Tools::get_tad_player($psn);
     } else {
         $DBV = [];
@@ -71,14 +71,14 @@ function tad_player_form($psn = '', $pcsn = '')
 
     //預設值設定
 
-    $pcsn         = (! isset($DBV['pcsn'])) ? $pcsn : $DBV['pcsn'];
-    $title        = (! isset($DBV['title'])) ? '' : $DBV['title'];
-    $creator      = (! isset($DBV['creator'])) ? '' : $DBV['creator'];
-    $location     = (! isset($DBV['location'])) ? '' : $DBV['location'];
-    $image        = (! isset($DBV['image'])) ? '' : $DBV['image'];
-    $enable_group = (! isset($DBV['enable_group'])) ? [] : explode(',', $DBV['enable_group']);
-    $content      = (! isset($DBV['content'])) ? '' : $DBV['content'];
-    $youtube      = (! isset($DBV['youtube'])) ? '' : $DBV['youtube'];
+    $pcsn         = (!isset($DBV['pcsn'])) ? $pcsn : $DBV['pcsn'];
+    $title        = (!isset($DBV['title'])) ? '' : $DBV['title'];
+    $creator      = (!isset($DBV['creator'])) ? '' : $DBV['creator'];
+    $location     = (!isset($DBV['location'])) ? '' : $DBV['location'];
+    $image        = (!isset($DBV['image'])) ? '' : $DBV['image'];
+    $enable_group = (!isset($DBV['enable_group'])) ? [] : explode(',', $DBV['enable_group']);
+    $content      = (!isset($DBV['content'])) ? '' : $DBV['content'];
+    $youtube      = (!isset($DBV['youtube'])) ? '' : $DBV['youtube'];
 
     $CkEditor = new CkEditor('tad_player', 'content', $content);
     $CkEditor->setHeight(200);
@@ -101,7 +101,7 @@ function tad_player_form($psn = '', $pcsn = '')
         $hide = "$('#flv_youtube').hide();
         $('#flv_local').hide();";
         $selected_link = 'selected';
-    } elseif (! empty($location) and empty($youtube)) {
+    } elseif (!empty($location) and empty($youtube)) {
         $hide = "$('#flv_youtube').hide();
         $('#flv_link').hide();";
         $selected_local = 'selected';
@@ -146,27 +146,27 @@ function insert_tad_player()
 {
     global $xoopsDB, $xoopsUser;
 
-    if (! empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
+    if (!empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
         $pcsn = add_tad_player_cate();
     } else {
         $pcsn = (int) $_POST['pcsn'];
     }
 
     $uid          = $xoopsUser->uid();
-    $enable_group = $_POST['enable_group'] ? implode(',', $_POST['enable_group']) : '';
+    $enable_group = $_POST['enable_group'] ? implode(',', $_POST['enable_group']) : '1';
 
     //$now=xoops_getUserTimestamp(time());
 
-    if (empty($_FILES['location']['name']) and ! empty($_POST['location'])) {
+    if (empty($_FILES['location']['name']) and !empty($_POST['location'])) {
         $location = (string) $_POST['location'];
     } else {
         $location = $_FILES['location']['name'];
     }
     $location = mb_strtolower($location);
 
-    if (! empty($_POST['image'])) {
+    if (!empty($_POST['image'])) {
         $image = (string) $_POST['image'];
-    } elseif (! empty($_POST['youtube'])) {
+    } elseif (!empty($_POST['youtube'])) {
         $youtube_id = Tools::getYTid($_POST['youtube']);
 
         $url      = "https://www.youtube.com/oembed?url=https://www.youtube.com/watch?v={$youtube_id}&format=json";
@@ -202,7 +202,7 @@ function insert_tad_player()
         $image = $_FILES['image']['name'];
     }
 
-    if (! empty($_POST['title'])) {
+    if (!empty($_POST['title'])) {
         $title = (string) $_POST['title'];
     } else {
         $title = basename($location);
@@ -225,24 +225,24 @@ function insert_tad_player()
     $psn = $xoopsDB->getInsertId();
 
     //上傳影片
-    if (! empty($_FILES['location']['name'])) {
+    if (!empty($_FILES['location']['name'])) {
         upload_flv($psn);
     }
 
     //上傳圖檔
-    if (! empty($_FILES['image']['name'])) {
+    if (!empty($_FILES['image']['name'])) {
         upload_pic($psn);
-    } elseif (! empty($youtube)) {
+    } elseif (!empty($youtube)) {
         $youtube_id = Tools::getYTid($youtube);
         $image      = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
         Utility::generateThumbnail($image, $pic_s_file, 480);
-    } elseif (! empty($_POST['image'])) {
+    } elseif (!empty($_POST['image'])) {
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
         Utility::generateThumbnail($_POST['image'], $pic_s_file, 480);
     }
 
-    if (! empty($_FILES['logo']['name'])) {
+    if (!empty($_FILES['logo']['name'])) {
         upload_logo($psn);
     }
 
@@ -256,28 +256,28 @@ function update_tad_player($psn = '')
 {
     global $xoopsDB;
 
-    if (! empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
+    if (!empty($_POST['new_pcsn']) and _MD_TADPLAYER_NEW_PCSN != $_POST['new_pcsn']) {
         $pcsn = add_tad_player_cate();
     } else {
         $pcsn = (int) $_POST['pcsn'];
     }
 
     //上傳影片
-    if (! empty($_FILES['location']['name'])) {
+    if (!empty($_FILES['location']['name'])) {
         upload_flv($psn, true);
     }
 
     //上傳圖檔
-    if (! empty($_FILES['image']['name'])) {
+    if (!empty($_FILES['image']['name'])) {
         upload_pic($psn, true);
         $image = '';
-    } elseif (! empty($_POST['youtube'])) {
+    } elseif (!empty($_POST['youtube'])) {
         $youtube_id = Tools::getYTid($_POST['youtube']);
         $image      = "https://i3.ytimg.com/vi/{$youtube_id}/0.jpg";
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
         Utility::generateThumbnail($image, $pic_s_file, 480);
         // $image_sql = ", image = '{$image}'";
-    } elseif (! empty($_POST['image'])) {
+    } elseif (!empty($_POST['image'])) {
         $pic_s_file = Tools::_TAD_PLAYER_IMG_DIR . 's_' . $psn . '.png';
         Utility::generateThumbnail($_POST['image'], $pic_s_file, 480);
         $image = $_POST['image'];
@@ -292,7 +292,7 @@ function update_tad_player($psn = '')
     //     $location_sql = '';
     // }
 
-    if (! empty($_POST['title'])) {
+    if (!empty($_POST['title'])) {
         $title = (string) $_POST['title'];
     } else {
         $title = basename($_POST['location']);
@@ -315,7 +315,7 @@ function update_tad_player($psn = '')
     $sql = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `pcsn`=?, `title`=?, `creator`=?, `location`=?, `youtube`=?, `image`=?, `post_date`=?, `enable_group`=?, `width`=?, `height`=? , `content`=?, `logo`=? WHERE `psn`=?';
     Utility::query($sql, 'isssssssiissi', [$pcsn, $title, $creator, $location, $youtube, $image, $now, $enable_group, $width, $height, $content, $logo_name, $psn]) or Utility::web_error($sql);
 
-    if (! empty($_FILES['logo']['name'])) {
+    if (!empty($_FILES['logo']['name'])) {
         upload_logo($psn);
     }
 

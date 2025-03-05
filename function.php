@@ -3,7 +3,7 @@ use XoopsModules\Tadtools\Utility;
 use XoopsModules\Tad_player\Tools;
 
 //判斷是否對該模組有管理權限
-if (! isset($tad_player_adm)) {
+if (!isset($tad_player_adm)) {
     $tad_player_adm = isset($xoopsUser) && \is_object($xoopsUser) ? $xoopsUser->isAdmin() : false;
 }
 
@@ -16,7 +16,7 @@ function tad_player_breadcrumb($pcsn = '0', $array = [])
             $url    = ($pcsn == $cate['pcsn']) ? "<a href='index.php?pcsn={$cate['pcsn']}' style='color: gray;'>{$cate['title']}</a>" : "<a href='index.php?pcsn={$cate['pcsn']}'>{$cate['title']}</a>";
             $active = ($pcsn == $cate['pcsn']) ? " class='active'" : '';
 
-            if (! empty($cate['sub']) and is_array($cate['sub']) and ($pcsn != $cate['pcsn'] or 0 == $pcsn)) {
+            if (!empty($cate['sub']) and is_array($cate['sub']) and ($pcsn != $cate['pcsn'] or 0 == $pcsn)) {
                 $item .= "
                 <li class='dropdown'>
                 <a class='dropdown-toggle' data-toggle='dropdown' href='index.php?pcsn={$cate['pcsn']}'>
@@ -69,7 +69,7 @@ function count_video_num($pcsn = '0')
         if (0 === mb_strpos($image, 'http')) {
             $pic = $image;
             break;
-        } elseif (! empty($image) and file_exists(Tools::_TAD_PLAYER_IMG_DIR . "{$psn}.png")) {
+        } elseif (!empty($image) and file_exists(Tools::_TAD_PLAYER_IMG_DIR . "{$psn}.png")) {
             $pic = Tools::_TAD_PLAYER_IMG_URL . "{$psn}.png";
             break;
         }
@@ -140,7 +140,7 @@ function add_tad_player_cate()
     }
 
     $sql = 'INSERT INTO `' . $xoopsDB->prefix('tad_player_cate') . '` (`of_csn`, `title`, `enable_group`, `sort`) VALUES (?, ?, ?, ?)';
-    Utility::query($sql, 'iisi', [$_POST['pcsn'], $_POST['new_pcsn'], '', 0]) or Utility::web_error($sql, __FILE__, __LINE__);
+    Utility::query($sql, 'issi', [$_POST['pcsn'], $_POST['new_pcsn'], '1', 0]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     //取得最後新增資料的流水編號
     $pcsn = $xoopsDB->getInsertId();
@@ -181,7 +181,7 @@ function tad_player_chk_cate_have_sub($pcsn = 0)
     $result = Utility::query($sql, 'i', [$pcsn]) or redirect_header($_SERVER['PHP_SELF'], 3, _MD_TADPLAYER_DB_SELECT_ERROR1);
 
     while (list($sub_pcsn) = $xoopsDB->fetchRow($result)) {
-        if (! empty($sub_pcsn)) {
+        if (!empty($sub_pcsn)) {
             return true;
         }
     }
@@ -194,7 +194,7 @@ function delete_tad_player($psn = '')
 {
     global $xoopsDB, $isUploader, $tad_player_adm;
 
-    if (! $tad_player_adm and ! $isUploader) {
+    if (!$tad_player_adm and !$isUploader) {
         redirect_header('index.php', 3, _TAD_PERMISSION_DENIED);
     }
 
@@ -235,7 +235,7 @@ function get_tad_player_cate_option($of_csn = 0, $level = 0, $v = '', $show_dot 
     }
     while (list($pcsn, $title) = $xoopsDB->fetchRow($result)) {
         if ($kind) {
-            if (! in_array($pcsn, $ok_cat)) {
+            if (!in_array($pcsn, $ok_cat)) {
                 continue;
             }
         }

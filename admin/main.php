@@ -11,9 +11,9 @@ require_once __DIR__ . '/header.php';
 require_once dirname(__DIR__) . '/function.php';
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$psn = Request::getInt('psn');
-$pcsn = Request::getInt('pcsn');
+$op       = Request::getString('op');
+$psn      = Request::getInt('psn');
+$pcsn     = Request::getInt('pcsn');
 $new_pcsn = Request::getInt('new_pcsn');
 
 switch ($op) {
@@ -106,18 +106,18 @@ function list_tad_player($pcsn = '')
 {
     global $xoopsDB, $xoopsTpl;
 
-    $cate = [];
+    $cate        = [];
     $cate_select = $link_to_cate = '';
     if ($pcsn) {
-        $cate_select = cate_select($pcsn);
-        $cate = Tools::get_tad_player_cate($pcsn);
+        $cate_select  = cate_select($pcsn);
+        $cate         = Tools::get_tad_player_cate($pcsn);
         $link_to_cate = sprintf(_MA_TADPLAYER_LINK_TO_CATE, $cate['title']);
     }
 
     $xoopsTpl->assign('cate_select', $cate_select);
     $xoopsTpl->assign('link_to_cate', $link_to_cate);
 
-    $sql = 'SELECT `psn`, `title`, `location`, `image`, `info`, `width`, `height`, `counter`, `enable_group`, `uid`, `post_date` FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `pcsn` =? ORDER BY `sort`';
+    $sql    = 'SELECT `psn`, `title`, `location`, `image`, `info`, `width`, `height`, `counter`, `enable_group`, `uid`, `post_date` FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `pcsn` =? ORDER BY `sort`';
     $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $i = 0;
@@ -149,16 +149,16 @@ function list_tad_player($pcsn = '')
 
         $post_date = mb_substr($post_date, 0, 10);
 
-        $data[$i]['psn'] = $psn;
-        $data[$i]['pic'] = $pic;
-        $data[$i]['title'] = $title;
-        $data[$i]['pcsn'] = $pcsn;
-        $data[$i]['uid_name'] = $uid_name;
-        $data[$i]['counter'] = $counter;
-        $data[$i]['width'] = $height;
+        $data[$i]['psn']       = $psn;
+        $data[$i]['pic']       = $pic;
+        $data[$i]['title']     = $title;
+        $data[$i]['pcsn']      = $pcsn;
+        $data[$i]['uid_name']  = $uid_name;
+        $data[$i]['counter']   = $counter;
+        $data[$i]['width']     = $height;
         $data[$i]['post_date'] = $post_date;
-        $data[$i]['g_txt'] = $g_txt;
-        $data[$i]['info'] = $info;
+        $data[$i]['g_txt']     = $g_txt;
+        $data[$i]['info']      = $info;
 
         $i++;
     }
@@ -180,32 +180,32 @@ function list_tad_player_cate_tree($def_pcsn = '')
     global $xoopsDB, $xoopsTpl;
 
     $cate_count = [];
-    $sql = 'SELECT COUNT(*), `pcsn` FROM `' . $xoopsDB->prefix('tad_player') . '` GROUP BY `pcsn`';
-    $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
+    $sql        = 'SELECT COUNT(*), `pcsn` FROM `' . $xoopsDB->prefix('tad_player') . '` GROUP BY `pcsn`';
+    $result     = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($count, $pcsn) = $xoopsDB->fetchRow($result)) {
         $cate_count[$pcsn] = $count;
     }
 
     $categoryHelper = new CategoryHelper('tad_player_cate', 'pcsn', 'of_csn', 'title');
-    $path = $categoryHelper->getCategoryPath($def_pcsn);
+    $path           = $categoryHelper->getCategoryPath($def_pcsn, 'tad_player');
     // $path = get_tad_player_cate_path($def_pcsn);
     $path_arr = array_keys($path);
-    $data[] = "{ id:0, pId:0, name:'" . _MA_TADPLAYER_CATE_SELECT . "', url:'main.php', target:'_self', open:true}";
+    $data[]   = "{ id:0, pId:0, name:'" . _MA_TADPLAYER_CATE_SELECT . "', url:'main.php', target:'_self', open:true}";
 
-    $sql = 'SELECT `pcsn`, `of_csn`, `title` FROM `' . $xoopsDB->prefix('tad_player_cate') . '` ORDER BY `sort`';
+    $sql    = 'SELECT `pcsn`, `of_csn`, `title` FROM `' . $xoopsDB->prefix('tad_player_cate') . '` ORDER BY `sort`';
     $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (list($pcsn, $of_csn, $title) = $xoopsDB->fetchRow($result)) {
-        $font_style = $def_pcsn == $pcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
-        $open = in_array($pcsn, $path_arr) ? 'true' : 'false';
+        $font_style      = $def_pcsn == $pcsn ? ", font:{'background-color':'yellow', 'color':'black'}" : '';
+        $open            = in_array($pcsn, $path_arr) ? 'true' : 'false';
         $display_counter = empty($cate_count[$pcsn]) ? '' : " ({$cate_count[$pcsn]})";
-        $data[] = "{ id:{$pcsn}, pId:{$of_csn}, name:'{$title}{$display_counter}', url:'main.php?pcsn={$pcsn}', open: {$open} ,target:'_self' {$font_style}}";
+        $data[]          = "{ id:{$pcsn}, pId:{$of_csn}, name:'{$title}{$display_counter}', url:'main.php?pcsn={$pcsn}', open: {$open} ,target:'_self' {$font_style}}";
     }
 
     $json = implode(",\n", $data);
 
-    $Ztree = new Ztree('cate_tree', $json, 'save_drag.php', 'save_cate_sort.php', 'of_csn', 'pcsn');
+    $Ztree      = new Ztree('cate_tree', $json, 'save_drag.php', 'save_cate_sort.php', 'of_csn', 'pcsn');
     $ztree_code = $Ztree->render();
     $xoopsTpl->assign('ztree_code', $ztree_code);
     $xoopsTpl->assign('cate_count', $cate_count);
@@ -218,7 +218,7 @@ function cate_select($pcsn = 0, $size = 20)
     $cate_select = get_tad_player_cate_option(0, 0, $pcsn);
 
     $PHP_SELF = basename($_SERVER['PHP_SELF']);
-    $select = "
+    $select   = "
     <select name='pcsn' title='select category' class='form-control form-select' size='{$size}' onChange=\"window.location.href='{$PHP_SELF}?pcsn=' + this.value\">
     $cate_select
     </select>";
@@ -230,7 +230,7 @@ function cate_select($pcsn = 0, $size = 20)
 function mk_all_json($the_pcsn = '')
 {
     global $xoopsDB;
-    $sql = 'SELECT `pcsn`, `title` FROM `' . $xoopsDB->prefix('tad_player_cate') . '`';
+    $sql    = 'SELECT `pcsn`, `title` FROM `' . $xoopsDB->prefix('tad_player_cate') . '`';
     $result = Utility::query($sql) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $log = '';
@@ -256,7 +256,7 @@ function batch_move($new_pcsn = '')
 {
     global $xoopsDB;
     $videos = implode(',', $_POST['video']);
-    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `pcsn` = ? WHERE `psn` IN (?)';
+    $sql    = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `pcsn` = ? WHERE `psn` IN (?)';
     Utility::query($sql, 'is', [$new_pcsn, $videos]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return;
@@ -267,7 +267,7 @@ function batch_add_title()
 {
     global $xoopsDB;
     $videos = implode(',', $_POST['video']);
-    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `title` = ? WHERE `psn` IN(' . $videos . ')';
+    $sql    = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `title` = ? WHERE `psn` IN(' . $videos . ')';
     Utility::query($sql, 's', [$_POST['add_title']]) or Utility::web_error($sql, __FILE__, __LINE__);
 
 }
@@ -277,7 +277,7 @@ function batch_add_info()
 {
     global $xoopsDB;
     $videos = implode(',', $_POST['video']);
-    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `info` = ? WHERE `psn` IN (?)';
+    $sql    = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `info` = ? WHERE `psn` IN (?)';
     Utility::query($sql, 'ss', [$_POST['add_info'], $videos]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $sn;
@@ -288,7 +288,7 @@ function update_wh()
 {
     global $xoopsDB;
     $videos = implode(',', $_POST['video']);
-    $sql = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `width` = ?, `height` = ? WHERE `psn` IN(?)';
+    $sql    = 'UPDATE `' . $xoopsDB->prefix('tad_player') . '` SET `width` = ?, `height` = ? WHERE `psn` IN(?)';
     Utility::query($sql, 'iis', [$_POST['width'], $_POST['height'], $videos]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     return $sn;
@@ -311,12 +311,12 @@ function tad_player_cate_form($pcsn = '')
 
     //預設值設定
 
-    $pcsn = (!isset($DBV['pcsn'])) ? $pcsn : $DBV['pcsn'];
-    $of_csn = (!isset($DBV['of_csn'])) ? '' : $DBV['of_csn'];
-    $title = (!isset($DBV['title'])) ? '' : $DBV['title'];
-    $enable_group = (!isset($DBV['enable_group'])) ? [] : explode(',', $DBV['enable_group']);
+    $pcsn                = (!isset($DBV['pcsn'])) ? $pcsn : $DBV['pcsn'];
+    $of_csn              = (!isset($DBV['of_csn'])) ? '' : $DBV['of_csn'];
+    $title               = (!isset($DBV['title'])) ? '' : $DBV['title'];
+    $enable_group        = (!isset($DBV['enable_group'])) ? [] : explode(',', $DBV['enable_group']);
     $enable_upload_group = (!isset($DBV['enable_upload_group'])) ? ['1'] : explode(',', $DBV['enable_upload_group']);
-    $sort = (!isset($DBV['sort'])) ? auto_get_csn_sort() : $DBV['sort'];
+    $sort                = (!isset($DBV['sort'])) ? auto_get_csn_sort() : $DBV['sort'];
 
     $op = (empty($pcsn)) ? 'insert_tad_player_cate' : 'update_tad_player_cate';
 
@@ -342,13 +342,13 @@ function tad_player_cate_form($pcsn = '')
     $xoopsTpl->assign('enable_upload_group', $enable_upload_group);
 
     $categoryHelper = new CategoryHelper('tad_player_cate', 'pcsn', 'of_csn', 'title');
-    $path = $categoryHelper->getCategoryPath($pcsn, false);
+    $path           = $categoryHelper->getCategoryPath($pcsn, 'tad_player', false);
     // $path = get_tad_player_cate_path($pcsn, false);
     $patharr = array_keys($path);
-    $i = 0;
+    $i       = 0;
     foreach ($patharr as $k => $of_csn) {
-        $j = $k + 1;
-        $path_arr[$i]['of_csn'] = $of_csn;
+        $j                       = $k + 1;
+        $path_arr[$i]['of_csn']  = $of_csn;
         $path_arr[$i]['def_csn'] = isset($patharr[$j]) ? $patharr[$j] : '';
         $i++;
     }
@@ -359,7 +359,7 @@ function tad_player_cate_form($pcsn = '')
 function auto_get_csn_sort($pcsn = '')
 {
     global $xoopsDB;
-    $sql = 'SELECT MAX(`sort`) FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `of_csn`=? GROUP BY `of_csn`';
+    $sql    = 'SELECT MAX(`sort`) FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `of_csn`=? GROUP BY `of_csn`';
     $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($max_sort) = $xoopsDB->fetchRow($result);
@@ -388,8 +388,8 @@ function insert_tad_player_cate()
     }
 
     $of_csn = (int) $_POST['of_csn'];
-    $sort = (int) $_POST['sort'];
-    $width = (int) $_POST['width'];
+    $sort   = (int) $_POST['sort'];
+    $width  = (int) $_POST['width'];
     $height = (int) $_POST['height'];
 
     $title = (string) $_POST['title'];
@@ -429,10 +429,10 @@ function update_tad_player_cate($pcsn = '')
     }
 
     $of_csn = (int) $of_csn;
-    $sort = (int) $_POST['sort'];
-    $width = (int) $_POST['width'];
+    $sort   = (int) $_POST['sort'];
+    $width  = (int) $_POST['width'];
     $height = (int) $_POST['height'];
-    $pcsn = (int) $pcsn;
+    $pcsn   = (int) $pcsn;
 
     $title = (string) $_POST['title'];
 
@@ -473,7 +473,7 @@ function mk_thumb($pcsn = '')
 {
     global $xoopsDB;
     set_time_limit(0);
-    $sql = 'SELECT `psn`,`image` FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `pcsn`=? ORDER BY `sort`';
+    $sql    = 'SELECT `psn`,`image` FROM `' . $xoopsDB->prefix('tad_player') . '` WHERE `pcsn`=? ORDER BY `sort`';
     $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     while (false !== ($all = $xoopsDB->fetchArray($result))) {

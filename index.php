@@ -10,8 +10,8 @@ $xoopsOption['template_main'] = 'tad_player_index.tpl';
 require_once XOOPS_ROOT_PATH . '/header.php';
 
 /*-----------執行動作判斷區----------*/
-$op = Request::getString('op');
-$psn = Request::getInt('psn');
+$op   = Request::getString('op');
+$psn  = Request::getInt('psn');
 $pcsn = Request::getInt('pcsn');
 
 switch ($op) {
@@ -60,7 +60,7 @@ function list_tad_player($pcsn = '')
     $SweetAlert->render("delete_tad_player_file_func", "play.php?op=delete_tad_player_file&pcsn={$pcsn}&psn=", 'psn');
     //先找出底下分類
     $sub_cate = list_tad_player_cate($pcsn);
-    $count = empty($sub_cate) ? 0 : count($sub_cate);
+    $count    = empty($sub_cate) ? 0 : count($sub_cate);
 
     //取得所有分類名稱
     $cate = get_tad_player_cate_all();
@@ -72,9 +72,9 @@ function list_tad_player($pcsn = '')
 
     //getPageBar($原sql語法, 每頁顯示幾筆資料, 最多顯示幾個頁數選項);
     $PageBar = Utility::getPageBar($sql, $xoopsModuleConfig['index_show_num'], 10);
-    $bar = $PageBar['bar'];
-    $sql = $PageBar['sql'];
-    $total = $PageBar['total'];
+    $bar     = $PageBar['bar'];
+    $sql     = $PageBar['sql'];
+    $total   = $PageBar['total'];
     if (empty($total)) {
         $bar = '';
     }
@@ -96,7 +96,7 @@ function list_tad_player($pcsn = '')
     }
 
     $data = $no_power = [];
-    $i = 0;
+    $i    = 0;
     while (list($psn, $new_pcsn, $location, $title, $image, $info, $creator, $post_date, $counter, $enable_group, $cate_title, $of_csn) = $xoopsDB->fetchRow($result)) {
         if (!empty($new_pcsn) and !in_array($new_pcsn, $ok_cat)) {
             $no_power[] = $psn;
@@ -105,7 +105,7 @@ function list_tad_player($pcsn = '')
 
         //查看該分類是否允許目前使用者觀看
         $enable_group_arr = explode(',', $enable_group);
-        $same = array_intersect($enable_group_arr, $user_group);
+        $same             = array_intersect($enable_group_arr, $user_group);
         if (!empty($enable_group) and empty($same)) {
             continue;
         }
@@ -136,20 +136,20 @@ function list_tad_player($pcsn = '')
             $post_date = strtotime($post_date);
         }
 
-        $post_date = date('Y-m-d H:i:s', xoops_getUserTimestamp($post_date));
+        $post_date   = date('Y-m-d H:i:s', xoops_getUserTimestamp($post_date));
         $creator_col = (empty($creator)) ? '' : _MD_TADPLAYER_CREATOR . ": $creator";
         if ($xoopsModuleConfig['use_star_rating']) {
             $StarRating->add_rating(XOOPS_URL . '/modules/tad_player/play.php', 'psn', $psn);
         }
 
-        $data[$i]['pic'] = $pic;
-        $data[$i]['url'] = $url;
+        $data[$i]['pic']       = $pic;
+        $data[$i]['url']       = $url;
         $data[$i]['post_date'] = $post_date;
         //$data[$i]['counter']=sprintf(_MD_TADPLAYER_INDEX_COUNTER,$counter);
-        $data[$i]['counter'] = $counter;
-        $data[$i]['info'] = $info;
-        $data[$i]['psn'] = $psn;
-        $data[$i]['img_title'] = $img_title;
+        $data[$i]['counter']     = $counter;
+        $data[$i]['info']        = $info;
+        $data[$i]['psn']         = $psn;
+        $data[$i]['img_title']   = $img_title;
         $data[$i]['creator_col'] = $creator_col;
         $i++;
     }
@@ -184,7 +184,7 @@ function list_tad_player($pcsn = '')
 function count_cate_num($pcsn = '0')
 {
     global $xoopsDB;
-    $sql = 'SELECT COUNT(*) FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `of_csn`=?';
+    $sql    = 'SELECT COUNT(*) FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `of_csn`=?';
     $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     list($count) = $xoopsDB->fetchRow($result);
@@ -206,31 +206,31 @@ function list_tad_player_cate($pcsn = '0')
         $user_group = $xoopsUser->getGroups();
     }
 
-    $sql = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `of_csn`=? ORDER BY `sort`';
+    $sql    = 'SELECT * FROM `' . $xoopsDB->prefix('tad_player_cate') . '` WHERE `of_csn`=? ORDER BY `sort`';
     $result = Utility::query($sql, 'i', [$pcsn]) or Utility::web_error($sql, __FILE__, __LINE__);
 
     $data = [];
-    $i = 0;
+    $i    = 0;
     while (list($pcsn, $of_csn, $title, $enable_group, $sort, $width, $height) = $xoopsDB->fetchRow($result)) {
         //查看該分類是否允許目前使用者觀看
         $enable_group_arr = explode(',', $enable_group);
-        $same = array_intersect($enable_group_arr, $user_group);
+        $same             = array_intersect($enable_group_arr, $user_group);
         if (!empty($enable_group) and empty($same)) {
             continue;
         }
 
         //底下影片數
-        $video = count_video_num($pcsn);
+        $video   = count_video_num($pcsn);
         $counter = $video['num'];
 
         $pcsn_num = count_cate_num($pcsn);
 
         $num = empty($counter) ? '0' : $counter;
 
-        $data[$i]['pcsn'] = $pcsn;
-        $data[$i]['pic'] = empty($video['img']) ? "images/empty_cate_{$xoopsConfig['language']}.png" : $video['img'];
-        $data[$i]['title'] = $title;
-        $data[$i]['num'] = sprintf(_MD_TADPLAYER_CATE_VIDEO_NUM, $num);
+        $data[$i]['pcsn']     = $pcsn;
+        $data[$i]['pic']      = empty($video['img']) ? "images/empty_cate_{$xoopsConfig['language']}.png" : $video['img'];
+        $data[$i]['title']    = $title;
+        $data[$i]['num']      = sprintf(_MD_TADPLAYER_CATE_VIDEO_NUM, $num);
         $data[$i]['pcsn_num'] = sprintf(_MD_TADPLAYER_CATE_NUM, $pcsn_num);
         $i++;
     }

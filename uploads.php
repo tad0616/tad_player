@@ -153,7 +153,7 @@ function insert_tad_player()
     }
 
     $uid          = $xoopsUser->uid();
-    $enable_group = $_POST['enable_group'] ? implode(',', $_POST['enable_group']) : '1';
+    $enable_group = $_POST['enable_group'] ? implode(',', $_POST['enable_group']) : '';
 
     //$now=xoops_getUserTimestamp(time());
 
